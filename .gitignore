@@ -1,0 +1,18 @@
+# OS
+Thumbs.db
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Node
+node_modules/
+
+# Local working buffers
+_drafts.json
+_patch.json
+
+# Local Kilo state (keep skills/commands, drop runtime)
+.kilo/cache/
+.kilo/logs/

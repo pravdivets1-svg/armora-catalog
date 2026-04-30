@@ -1,0 +1,2966 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Каталог дверей ARMORA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font-sans:'Montserrat',sans-serif;
+  --font-display:'Cormorant',Georgia,serif;
+
+  /* === DARK · LIME ACCENT (восстановлено) === */
+  --bg:#0a0a0a;
+  --paper:#0f0f10;
+  --paper-cream:#141416;
+  --paper-gold:#1a1a1d;
+  --paper-sage:#161618;
+
+  --ink:#f4f4f5;
+  --ink-soft:#a1a1aa;
+  --ink-faint:#71717a;
+  --ink-ghost:#52525b;
+
+  --gold:#a3e635;
+  --gold-light:#bef264;
+  --gold-deep:#65a30d;
+  --gold-shine:linear-gradient(135deg,#d57b5c 0%,#b85c3e 50%,#8d4128 100%);
+
+  --teal:#65a30d;
+  --teal-soft:#84cc16;
+  --teal-deep:#3f6212;
+
+  --plate:#0a0a0a;
+  --plate-soft:#18181b;
+
+  --sage:#a3e635;
+  --sage-deep:#65a30d;
+  --sage-bg:rgba(94,132,102,.1);
+  --error:#c93838;
+
+  --bdr:rgba(255,255,255,.06);
+  --bdr-h:rgba(255,255,255,.12);
+  --bdr-strong:rgba(255,255,255,.22);
+  --bdr-gold:rgba(163,230,53,.32);
+
+  --glass-bg:rgba(20,20,22,.55);
+  --glass-bg-strong:rgba(20,20,22,.78);
+  --glass-bdr:rgba(255,255,255,.08);
+  --glass-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0a0a0a;min-height:100%;overflow-x:clip}
+html{scroll-behavior:smooth;scroll-padding-top:96px;-webkit-text-size-adjust:100%}
+body{overscroll-behavior-y:none}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  font-family:var(--font-sans);color:var(--ink);
+  padding:0;line-height:1.5;
+  background:#0a0a0a;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:url('bg.png') center/cover no-repeat;opacity:1}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(180deg,rgba(6,7,10,.20) 0%,rgba(6,7,10,.50) 100%)}
+/* Радиал-подсветку под курсором отдельным лёгким слоем — отключаем во время скролла */
+body::before{will-change:auto}
+.cursor-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(900px circle at var(--mx,50%) var(--my,20%),rgba(196,205,214,.10),transparent 55%);opacity:1;transition:opacity .2s}
+html.is-scrolling .cursor-glow{opacity:0}
+/* Реже-видимые большие секции — пусть браузер их пропускает при отрисовке */
+.faq-section,.adv-bar,.app-footer{content-visibility:auto;contain-intrinsic-size:1px 600px}
+.grid{contain:layout style}
+/* Оптимизация: каждая карточка — отдельный слой композитинга */
+.card{contain:layout style paint;content-visibility:auto;contain-intrinsic-size:1px 420px}
+html.is-scrolling .card,
+html.is-scrolling .filters,
+html.is-scrolling .mainhead,
+html.is-scrolling .toolbar,
+html.is-scrolling .crumbs,
+html.is-scrolling .car-arrow,
+html.is-scrolling .car-counter,
+html.is-scrolling .catbtn,
+html.is-scrolling .chip,
+html.is-scrolling .flt-check,
+html.is-scrolling .flt-grp,
+html.is-scrolling .calc-bg,
+html.is-scrolling .calc-modal,
+html.is-scrolling .tb-mega,
+html.is-scrolling .sort-glass-menu{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+html.is-scrolling .card::before{opacity:0 !important}
+html.is-scrolling *{animation-play-state:paused !important}
+html.is-scrolling .card,
+html.is-scrolling .card-cta,
+html.is-scrolling .slide,
+html.is-scrolling .slide svg,
+html.is-scrolling .card *{transition:none !important}
+/* Реже-видимые большие секции — пусть браузер их пропускает при отрисовке */
+.faq-section,.adv-bar,.grid,.app-footer{content-visibility:auto;contain-intrinsic-size:1px 600px}
+@media(max-width:900px){
+  /* На мобильных backdrop-filter сильно тормозит — оставляем только на ключевых поверхностях */
+  .chip,.flt-check,.opt-tile,.opt-card,.btn-back,.reset-filters,.calc-close,.mainhead-burger{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+}
+.grain-bg{display:none}
+.dots-bg{position:fixed;inset:0;pointer-events:none;z-index:1;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.05) 1px,transparent 0);background-size:32px 32px}
+/* Floating animated blobs (background) */
+/* old blobs disabled */
+@keyframes floatBlob1{0%,100%{transform:none}}
+@keyframes floatBlob2{0%,100%{transform:none}}
+
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes revealUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes revealScale{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(184,92,62,.45)}50%{box-shadow:0 0 0 12px rgba(184,92,62,0)}}
+@keyframes slideDot{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+@keyframes spinSlow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes textShimmer{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  body::before,body::after{animation:none}
+}
+.shell{max-width:clamp(1200px, 92vw, 1760px);margin:0 auto;position:relative;z-index:2;padding:0 clamp(20px, 2.5vw, 48px)}
+.app{background:transparent;border-radius:0;overflow:visible;border:none;box-shadow:none;backdrop-filter:none;animation:revealScale .5s cubic-bezier(.4,0,.2,1) both}
+
+/* === APPLE-STYLE NAVBAR === */
+.topbar{
+  height:44px;padding:0 22px;
+  background:rgba(36,53,55,.72);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  backdrop-filter:saturate(180%) blur(20px);
+  color:#f5f5f7;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:12px;font-weight:400;letter-spacing:-.01em;
+  position:sticky;top:0;z-index:30;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.topbar-left{display:flex;align-items:center;gap:0;flex:1;min-width:0}
+.topbar-right{display:flex;align-items:center;gap:0;flex-shrink:0}
+
+/* Brand mark — like Apple logo position */
+.tb-brand{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:0 14px 0 0;text-decoration:none;color:#f5f5f7;
+  font-size:14px;font-weight:600;letter-spacing:.18em;
+  height:100%;
+}
+.tb-brand-mark{
+  width:22px;height:22px;border-radius:6px;
+  background:linear-gradient(135deg,#ff8a65,#b85c3e);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:14px;font-weight:500;
+  color:#fff;font-style:italic;line-height:1;letter-spacing:-.02em;
+  box-shadow:0 1px 2px rgba(0,0,0,.3);
+}
+
+/* Nav links — Apple style: thin gray, hover = white */
+.tb-nav{display:flex;align-items:center;gap:0;height:100%;flex:1;justify-content:center}
+.tb-link{
+  display:inline-flex;align-items:center;height:100%;
+  padding:0 10px;
+  color:rgba(245,245,247,.8);text-decoration:none;
+  font-size:12px;font-weight:400;letter-spacing:-.01em;
+  transition:color .2s;white-space:nowrap;
+}
+.tb-link:hover{color:#fff}
+.tb-link.active{color:#fff}
+
+/* Right side icons — search, contacts, cart-style */
+.tb-icon{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:44px;height:44px;
+  color:rgba(245,245,247,.85);text-decoration:none;cursor:pointer;
+  background:transparent;border:none;
+  transition:color .2s;
+}
+.tb-icon:hover{color:#fff}
+.tb-icon svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.6;fill:none}
+
+.tb-phone{
+  display:inline-flex;align-items:center;gap:6px;height:100%;
+  padding:0 12px;color:#f5f5f7;text-decoration:none;
+  font-size:12px;font-weight:500;letter-spacing:-.01em;
+  font-variant-numeric:tabular-nums;transition:color .2s;
+}
+.tb-phone:hover{color:#fff}
+.tb-phone svg{width:13px;height:13px;stroke:currentColor;stroke-width:1.8;fill:none;opacity:.7}
+
+.tb-cta{
+  display:inline-flex;align-items:center;gap:6px;
+  margin:0 0 0 8px;padding:0 14px;height:28px;
+  background:linear-gradient(135deg,#d57b5c,#b85c3e);
+  color:#fff;border-radius:980px;text-decoration:none;
+  font-size:12px;font-weight:600;letter-spacing:-.01em;
+  transition:filter .2s,transform .2s;
+  border:none;cursor:pointer;
+}
+.tb-cta:hover{filter:brightness(1.1);transform:translateY(-1px)}
+
+.tb-burger{display:none}
+
+/* SUBMENU (mega-dropdown like Apple) */
+.tb-link-wrap{position:relative;height:100%;display:flex;align-items:center}
+.tb-mega{
+  position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(-8px);
+  background:rgba(36,53,55,.92);
+  -webkit-backdrop-filter:saturate(180%) blur(24px);
+  backdrop-filter:saturate(180%) blur(24px);
+  border-radius:0 0 18px 18px;border:1px solid rgba(255,255,255,.08);
+  border-top:none;
+  padding:18px 24px;min-width:240px;
+  display:none;opacity:0;
+  box-shadow:0 30px 60px -10px rgba(0,0,0,.4);
+}
+.tb-link-wrap:hover .tb-mega{display:block;animation:revealUp .25s both;opacity:1}
+.tb-mega-title{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,245,247,.5);font-weight:500;margin-bottom:10px}
+.tb-mega-list{display:flex;flex-direction:column;gap:1px}
+.tb-mega-item{
+  display:flex;align-items:baseline;justify-content:space-between;gap:18px;
+  padding:8px 10px;border-radius:8px;text-decoration:none;
+  color:rgba(245,245,247,.85);font-size:13px;font-weight:400;
+  transition:all .15s;white-space:nowrap;
+}
+.tb-mega-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.tb-mega-price{font-size:11px;color:rgba(245,245,247,.5);font-variant-numeric:tabular-nums}
+
+@media(max-width:1100px){
+  .tb-nav{display:none}
+  .tb-burger{display:inline-flex}
+  .tb-phone{display:none}
+}
+@media(max-width:600px){
+  .topbar{padding:0 12px}
+  .tb-brand{font-size:13px;letter-spacing:.14em}
+  .tb-cta{padding:0 11px;font-size:11px}
+  .tb-cta-text{display:none}
+  .tb-cta{padding:0;width:28px;justify-content:center}
+}
+
+/* Hidden compatibility: keep old class hooks but invisible */
+.mainhead,.mainhead-brand,.mainhead-logo,.mainhead-info,.mainhead-name,.mainhead-tagline,.mainhead-nav,.mainhead-link,.mainhead-actions,.mainhead-phonebox,.mainhead-phone,.mainhead-hours,.mainhead-cta,.mainhead-burger,.topbar-item,.topbar-soc,.catstrip,.catbtn{display:none!important}
+
+/* === MAIN HEADER (glass, sticky) === */
+.mainhead{
+  padding:16px 36px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  background:var(--glass-bg-strong);
+  position:sticky;top:0;z-index:20;
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--glass-bdr);
+  box-shadow:0 1px 0 rgba(255,255,255,.6),0 4px 20px -4px rgba(36,53,55,.06);
+}
+.mainhead-brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;transition:transform .3s}
+.mainhead-brand:hover{transform:translateX(2px)}
+.mainhead-logo{
+  width:50px;height:50px;border-radius:14px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:28px;font-weight:500;
+  color:#fff;font-style:italic;letter-spacing:-.02em;line-height:1;
+  box-shadow:0 8px 22px -6px rgba(184,92,62,.5),inset 0 1px 0 rgba(255,255,255,.3);
+  position:relative;overflow:hidden;
+}
+.mainhead-logo::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent,rgba(255,255,255,.3),transparent);
+  background-size:200% 200%;animation:textShimmer 4s infinite;
+}
+.mainhead-info{display:flex;flex-direction:column;gap:3px}
+.mainhead-name{font-size:18px;font-weight:800;letter-spacing:.2em;color:var(--ink);line-height:1}
+.mainhead-tagline{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+
+.mainhead-nav{display:flex;align-items:center;gap:4px}
+.mainhead-link{
+  padding:9px 13px;border-radius:9px;font-size:12px;font-weight:600;letter-spacing:.04em;
+  color:var(--ink-soft);text-decoration:none;transition:all .25s;
+  text-transform:uppercase;position:relative;
+}
+.mainhead-link::after{
+  content:'';position:absolute;left:50%;bottom:4px;
+  width:0;height:2px;background:var(--gold);border-radius:2px;
+  transform:translateX(-50%);transition:width .3s;
+}
+.mainhead-link:hover{color:var(--gold-deep)}
+.mainhead-link:hover::after{width:60%}
+.mainhead-link.active{color:var(--gold-deep);background:rgba(184,92,62,.08)}
+.mainhead-link.active::after{width:60%}
+
+.mainhead-actions{display:flex;align-items:center;gap:14px}
+.mainhead-phonebox{text-align:right;display:flex;flex-direction:column;gap:2px}
+.mainhead-phone{
+  font-family:var(--font-display);font-size:22px;font-weight:500;color:var(--ink);
+  text-decoration:none;line-height:1;letter-spacing:-.005em;transition:color .2s;
+}
+.mainhead-phone:hover{color:var(--gold-deep)}
+.mainhead-hours{font-size:10px;color:var(--ink-faint);font-weight:600;letter-spacing:.04em}
+.mainhead-cta{
+  padding:13px 22px;border-radius:12px;border:none;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  color:#fff;
+  font-family:var(--font-sans);font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  cursor:pointer;transition:all .35s cubic-bezier(.4,0,.2,1);text-decoration:none;
+  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  box-shadow:0 6px 20px -4px rgba(184,92,62,.45),inset 0 1px 0 rgba(255,255,255,.25);
+  position:relative;overflow:hidden;
+}
+.mainhead-cta::before{
+  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+  transition:left .6s;
+}
+.mainhead-cta:hover{transform:translateY(-3px);box-shadow:0 14px 32px -6px rgba(184,92,62,.6)}
+.mainhead-cta:hover::before{left:100%}
+.mainhead-cta svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.4;fill:none}
+.mainhead-burger{display:none;background:var(--glass-bg);border:1px solid var(--bdr-h);border-radius:10px;padding:8px;cursor:pointer;backdrop-filter:blur(10px)}
+.mainhead-burger svg{width:18px;height:18px;stroke:var(--ink);stroke-width:2;fill:none}
+
+/* === BREADCRUMBS === */
+.crumbs{
+  padding:14px 36px 0;display:flex;align-items:center;gap:6px;
+  font-size:11px;color:var(--ink-faint);font-weight:600;letter-spacing:.04em;
+}
+.crumbs a{color:var(--ink-faint);text-decoration:none;transition:color .2s}
+.crumbs a:hover{color:var(--gold-deep)}
+.crumbs svg{width:11px;height:11px;stroke:currentColor;stroke-width:2.5;fill:none;opacity:.5}
+.crumbs strong{color:var(--ink);font-weight:700}
+
+/* === ADVANTAGE BAR === */
+.adv-bar{
+  margin:18px 36px 0;padding:18px 24px;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-bdr);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-radius:18px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+  box-shadow:var(--glass-shadow);
+  position:relative;overflow:hidden;
+}
+.adv-bar::before{
+  content:'';position:absolute;top:-50%;left:-30%;width:80%;height:200%;
+  background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.4) 50%,transparent 70%);
+  background-size:200% 100%;animation:shimmer 8s linear infinite;pointer-events:none;
+}
+.adv{display:flex;align-items:center;gap:11px;position:relative;z-index:1}
+.adv-icon{
+  width:38px;height:38px;border-radius:11px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(184,92,62,.15),rgba(184,92,62,.05));
+  border:1px solid rgba(184,92,62,.22);
+  display:flex;align-items:center;justify-content:center;
+}
+.adv-icon svg{width:18px;height:18px;stroke:var(--gold);stroke-width:2.2;fill:none}
+.adv-text{font-size:11px;line-height:1.4;color:var(--ink-soft);font-weight:600}
+.adv-text strong{color:var(--ink);font-weight:800;display:block;font-size:13px;margin-bottom:1px}
+
+/* === CATEGORY STRIP === */
+.catstrip{
+  padding:18px 36px 4px;
+  display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
+}
+.catstrip::-webkit-scrollbar{display:none}
+.catbtn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 16px;border-radius:12px;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-bdr);
+  backdrop-filter:blur(14px);
+  font-family:var(--font-sans);
+  font-size:12px;font-weight:600;color:var(--ink-soft);
+  cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);white-space:nowrap;flex-shrink:0;
+  box-shadow:0 2px 10px -2px rgba(36,53,55,.06);
+}
+.catbtn:hover{transform:translateY(-2px) scale(1.02);color:var(--gold-deep);border-color:rgba(184,92,62,.25);box-shadow:0 8px 20px -4px rgba(36,53,55,.12)}
+.catbtn.on{
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  border-color:transparent;color:#fff;
+  box-shadow:0 8px 22px -4px rgba(184,92,62,.45);
+}
+.catbtn svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.8;fill:none;flex-shrink:0}
+.catbtn-price{font-size:10px;color:var(--ink-faint);font-weight:600;margin-left:4px}
+.catbtn:hover .catbtn-price{color:var(--gold-deep)}
+.catbtn.on .catbtn-price{color:rgba(255,255,255,.8)}
+
+/* Header (catalog hero) */
+.cat-head{padding:32px 36px 24px;position:relative}
+.cat-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:7px 14px;border-radius:24px;
+  background:linear-gradient(135deg,rgba(184,92,62,.12),rgba(184,92,62,.04));
+  border:1px solid rgba(184,92,62,.22);
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold-deep);font-weight:700;margin-bottom:18px;
+  backdrop-filter:blur(10px);
+  animation:revealUp .6s .1s both;
+}
+.cat-eyebrow .pulse-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--gold);
+  animation:pulse 1.8s infinite;
+}
+.cat-title{
+  font-family:var(--font-display);font-size:52px;font-weight:400;
+  letter-spacing:-.018em;line-height:1.04;margin-bottom:14px;
+  animation:revealUp .65s .15s both;
+}
+.cat-title em{
+  font-style:italic;
+  background:linear-gradient(90deg,var(--gold),var(--teal),var(--gold));
+  background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:textShimmer 6s linear infinite;
+}
+.cat-sub{
+  font-size:14.5px;color:var(--ink-soft);max-width:720px;line-height:1.7;
+  animation:revealUp .65s .22s both;
+}
+.cat-sub strong{color:var(--ink);font-weight:700}
+
+/* Manufactured note */
+.mfg-note{
+  display:inline-flex;align-items:center;gap:10px;
+  margin-top:16px;padding:8px 14px 8px 10px;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-bdr);
+  border-radius:24px;
+  backdrop-filter:blur(14px);
+  font-size:12px;color:var(--ink-soft);font-weight:600;
+  animation:revealUp .65s .3s both;
+}
+.mfg-note-ico{
+  width:24px;height:24px;border-radius:50%;
+  background:linear-gradient(135deg,var(--sage),var(--sage-deep));
+  display:flex;align-items:center;justify-content:center;color:#fff;
+}
+.mfg-note-ico svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.6;fill:none}
+.mfg-note strong{color:var(--ink);font-weight:800}
+
+/* Toolbar */
+.toolbar{
+  margin:18px 36px 0;padding:14px 18px;
+  border-radius:16px;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-bdr);
+  backdrop-filter:blur(18px) saturate(180%);
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  box-shadow:var(--glass-shadow);
+}
+.search{flex:1;min-width:220px;position:relative}
+.search input{
+  width:100%;padding:12px 16px 12px 42px;border-radius:12px;
+  border:1px solid var(--bdr-h);background:rgba(255,255,255,.6);
+  font-family:var(--font-sans);font-size:13px;color:var(--ink);outline:none;font-weight:500;
+  transition:all .25s;backdrop-filter:blur(10px);
+}
+.search input::placeholder{color:var(--ink-faint)}
+.search input:focus{border-color:var(--gold);background:rgba(255,255,255,.85);box-shadow:0 0 0 4px rgba(184,92,62,.12)}
+.search svg{position:absolute;top:50%;left:14px;transform:translateY(-50%);width:16px;height:16px;stroke:var(--ink-faint);stroke-width:2;fill:none;pointer-events:none}
+.sort{
+  padding:12px 16px;border-radius:12px;border:1px solid var(--bdr-h);
+  background:rgba(255,255,255,.6);backdrop-filter:blur(10px);
+  font-family:var(--font-sans);font-size:13px;color:var(--ink);font-weight:600;
+  cursor:pointer;outline:none;transition:all .2s;
+}
+.sort:focus,.sort:hover{border-color:var(--gold)}
+.toggle-filters{
+  display:none;
+  padding:12px 16px;border-radius:12px;border:1px solid var(--bdr-h);
+  background:rgba(255,255,255,.6);backdrop-filter:blur(10px);
+  font-family:var(--font-sans);font-size:13px;color:var(--ink);font-weight:600;cursor:pointer;
+  align-items:center;gap:6px;
+}
+.toggle-filters svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none}
+
+/* Layout */
+.layout{display:grid;grid-template-columns:260px 1fr;gap:0;margin-top:16px}
+.filters{
+  padding:8px 24px 24px 36px;
+  position:sticky;top:88px;align-self:start;max-height:calc(100vh - 100px);overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:var(--bdr-strong) transparent;
+}
+.filters::-webkit-scrollbar{width:5px}
+.filters::-webkit-scrollbar-thumb{background:var(--bdr-strong);border-radius:5px}
+.filter-group{
+  margin-bottom:16px;padding:14px 16px;
+  background:var(--glass-bg);border:1px solid var(--glass-bdr);
+  backdrop-filter:blur(14px);border-radius:14px;
+  box-shadow:0 2px 12px -4px rgba(36,53,55,.06);
+}
+.filter-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);font-weight:700;margin-bottom:11px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{
+  padding:6px 11px;border-radius:8px;border:1px solid var(--bdr-h);
+  background:rgba(255,255,255,.5);font-size:11.5px;font-weight:600;color:var(--ink-soft);
+  cursor:pointer;transition:all .22s cubic-bezier(.4,0,.2,1);font-family:var(--font-sans);
+  backdrop-filter:blur(8px);
+}
+.chip:hover{transform:translateY(-1px);border-color:rgba(184,92,62,.4);color:var(--gold-deep);background:rgba(255,255,255,.8)}
+.chip.on{background:linear-gradient(135deg,var(--gold),var(--gold-deep));border-color:transparent;color:#fff;box-shadow:0 4px 12px -2px rgba(184,92,62,.4)}
+
+/* Filter checkbox list (отделка снаружи / стекло — берём варианты из калькулятора) */
+.flt-checks{display:flex;flex-direction:column;gap:4px}
+.flt-check{
+  display:flex;align-items:center;gap:9px;
+  padding:7px 9px;border-radius:8px;border:1px solid transparent;
+  background:transparent;cursor:pointer;transition:background .18s,border-color .18s;
+  font-family:var(--font-sans);text-align:left;width:100%;
+}
+.flt-check:hover{background:rgba(255,255,255,.05);border-color:var(--bdr-h)}
+.flt-check.on{background:rgba(163,230,53,.07);border-color:rgba(163,230,53,.35)}
+.flt-check-box{
+  width:15px;height:15px;border-radius:4px;border:1.5px solid var(--bdr-strong);
+  background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;
+  color:transparent;font-size:10px;font-weight:900;flex-shrink:0;transition:all .18s;
+}
+.flt-check.on .flt-check-box{background:var(--gold);border-color:var(--gold);color:#0a0a0a}
+.flt-check-name{font-size:12px;font-weight:600;color:var(--ink-soft);line-height:1.25;flex:1}
+.flt-check.on .flt-check-name{color:var(--ink)}
+.flt-check-cnt{font-size:10.5px;font-weight:700;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.flt-check.on .flt-check-cnt{color:var(--gold)}
+
+.range{display:flex;flex-direction:column;gap:8px}
+.range-vals{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-faint);font-weight:600;font-variant-numeric:tabular-nums}
+.range input[type=range]{width:100%;accent-color:var(--gold);cursor:pointer}
+.reset-filters{
+  width:100%;margin-top:6px;padding:11px;border-radius:11px;
+  background:var(--glass-bg);border:1px solid var(--bdr-h);backdrop-filter:blur(10px);
+  font-family:var(--font-sans);font-size:12px;font-weight:600;color:var(--ink-faint);cursor:pointer;
+  transition:all .22s;
+}
+.reset-filters:hover{border-color:var(--gold);color:var(--gold-deep);background:rgba(255,255,255,.6)}
+
+/* Grid */
+.results{padding:18px 36px 36px}
+.results-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:12px;color:var(--ink-faint);font-weight:600;padding:0 4px}
+.results-meta strong{color:var(--ink);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:18px}
+
+.card{
+  background:var(--glass-bg-strong);
+  border:1px solid var(--glass-bdr);
+  backdrop-filter:blur(18px) saturate(180%);
+  -webkit-backdrop-filter:blur(18px) saturate(180%);
+  border-radius:20px;
+  overflow:hidden;cursor:pointer;
+  transition:all .4s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  box-shadow:0 4px 16px -4px rgba(36,53,55,.08),inset 0 1px 0 rgba(255,255,255,.6);
+  position:relative;
+  animation:revealUp .5s both;
+  transform-style:preserve-3d;
+}
+.card::before{
+  content:'';position:absolute;inset:0;border-radius:20px;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.4),transparent 40%);
+  opacity:0;transition:opacity .4s;z-index:1;
+}
+.card:hover::before{opacity:1}
+.card:hover{
+  transform:translateY(-8px) scale(1.015);
+  box-shadow:0 24px 48px -16px rgba(36,53,55,.22),0 4px 12px -4px rgba(184,92,62,.12),inset 0 1px 0 rgba(255,255,255,.7);
+  border-color:rgba(184,92,62,.3);
+}
+.card-img{
+  position:relative;aspect-ratio:3/4;
+  background:linear-gradient(160deg,#e8e0d0,#dcd4c0);
+  overflow:hidden;
+}
+.card-img::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
+  transform:skewX(-20deg);transition:left .8s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;z-index:2;
+}
+.card:hover .card-img::after{left:160%}
+.slides{
+  display:flex;width:100%;height:100%;
+  transition:transform .5s cubic-bezier(.4,0,.2,1);
+  will-change:transform;
+}
+.slide{
+  flex:0 0 100%;width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.slide svg{width:78%;height:90%;display:block;filter:drop-shadow(0 14px 28px rgba(36,53,55,.18));transition:transform .45s cubic-bezier(.4,0,.2,1)}
+.card:hover .slide svg{transform:scale(1.04)}
+.slide img{width:100%;height:100%;object-fit:cover;display:block}
+.car-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(250,246,237,.7);border:1px solid rgba(255,255,255,.7);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;opacity:0;transition:all .25s cubic-bezier(.4,0,.2,1);
+  z-index:3;backdrop-filter:blur(12px) saturate(180%);color:var(--ink);
+  box-shadow:0 6px 18px -4px rgba(36,53,55,.18);
+}
+.card:hover .car-arrow{opacity:1}
+.car-arrow:hover{background:#fff;color:var(--gold-deep);transform:translateY(-50%) scale(1.1)}
+.car-arrow.prev{left:10px}.car-arrow.next{right:10px}
+.car-arrow svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.4;fill:none}
+.car-arrow.disabled{opacity:.2!important;cursor:default;pointer-events:none}
+.car-dots{
+  position:absolute;bottom:12px;left:0;right:0;
+  display:flex;justify-content:center;gap:5px;z-index:2;
+}
+.car-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(36,53,55,.3);border:none;cursor:pointer;padding:0;
+  transition:all .25s;
+}
+.car-dot.on{background:var(--gold);width:20px;border-radius:3px}
+.car-counter{
+  position:absolute;top:12px;right:12px;z-index:2;
+  background:rgba(36,53,55,.55);color:#f0f4f3;
+  padding:4px 9px;border-radius:8px;
+  font-size:10px;font-weight:700;letter-spacing:.04em;
+  font-variant-numeric:tabular-nums;backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.15);
+}
+@media(hover:none){.car-arrow{display:none}}
+
+.card-flag{
+  position:absolute;top:12px;left:12px;z-index:3;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;
+  padding:5px 12px;border-radius:24px;
+  font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  box-shadow:0 6px 16px -4px rgba(184,92,62,.5),inset 0 1px 0 rgba(255,255,255,.25);
+  backdrop-filter:blur(8px);
+}
+.card-flag.hit{background:linear-gradient(135deg,var(--gold-light),var(--gold))}
+.card-flag.new{background:linear-gradient(135deg,var(--sage),var(--sage-deep))}
+.card-flag.elite{background:linear-gradient(135deg,var(--teal-soft),var(--teal-deep))}
+
+.card-body{
+  padding:16px 18px 16px;display:flex;flex-direction:column;gap:8px;flex:1;
+  position:relative;z-index:2;
+}
+.card-series{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);font-weight:700}
+.card-name{font-family:var(--font-display);font-size:23px;font-weight:500;letter-spacing:-.01em;line-height:1.1;color:var(--ink)}
+.card-purpose{font-size:11px;color:var(--ink-faint);font-weight:500}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.ctag{
+  font-size:10px;padding:3px 9px;border-radius:24px;font-weight:600;
+  background:rgba(36,53,55,.05);color:var(--ink-soft);border:1px solid var(--bdr);
+  backdrop-filter:blur(8px);
+}
+.card-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-top:12px;border-top:1px solid var(--bdr);gap:8px}
+.card-price{display:flex;flex-direction:column;gap:1px}
+.card-price-from{font-size:9px;color:var(--ink-faint);letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.card-price-val{
+  font-family:var(--font-display);font-size:24px;font-weight:500;
+  color:var(--ink);line-height:1;font-variant-numeric:tabular-nums;
+}
+.card-cta{
+  padding:9px 14px;border-radius:10px;border:none;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;
+  font-family:var(--font-sans);font-size:11px;font-weight:800;letter-spacing:.04em;
+  cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);white-space:nowrap;
+  box-shadow:0 4px 12px -2px rgba(184,92,62,.4),inset 0 1px 0 rgba(255,255,255,.25);
+}
+.card-cta:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 10px 22px -4px rgba(184,92,62,.55)}
+
+.empty{
+  text-align:center;padding:60px 20px;color:var(--ink-faint);
+}
+.empty-title{font-family:var(--font-display);font-size:24px;color:var(--ink);margin-bottom:8px;font-weight:500}
+.empty-sub{font-size:13px;line-height:1.6}
+
+/* Footer */
+.app-footer{
+  padding:22px 36px;border-top:1px solid var(--bdr);
+  background:rgba(245,239,226,.5);backdrop-filter:blur(10px);
+  font-size:11px;color:var(--ink-faint);text-align:center;
+}
+
+/* Mobile */
+@media(max-width:1100px){
+  .mainhead-nav{display:none}
+  .mainhead-burger{display:inline-flex}
+}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .filters{
+    position:fixed;top:0;left:0;right:0;bottom:0;z-index:50;
+    background:var(--paper);max-height:100vh;
+    transform:translateX(-100%);transition:transform .3s;
+    border-right:none;
+  }
+  .filters.open{transform:translateX(0)}
+  .filters-close{
+    position:absolute;top:14px;right:14px;
+    width:36px;height:36px;border-radius:50%;border:1px solid var(--bdr-h);
+    background:var(--paper-cream);font-size:16px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;color:var(--ink);
+  }
+  .toggle-filters{display:inline-flex}
+}
+@media(max-width:600px){
+  body{padding:0}
+  .app{border-radius:0}
+  .topbar{padding:7px 16px;font-size:10.5px;gap:10px}
+  .topbar-left{gap:10px}
+  .topbar-item.hide-sm{display:none}
+  .mainhead{padding:14px 18px;gap:10px}
+  .mainhead-logo{width:46px;height:46px;font-size:24px}
+  .mainhead-name{font-size:15px}
+  .mainhead-tagline{font-size:9px}
+  .mainhead-phonebox{display:none}
+  .mainhead-cta{padding:11px 14px;font-size:11px;letter-spacing:.04em}
+  .mainhead-cta span{display:none}
+  .crumbs{padding:10px 18px 0}
+  .adv-bar{margin:14px 18px 0;padding:14px 16px;grid-template-columns:1fr 1fr;gap:14px}
+  .adv-text{font-size:10.5px}
+  .adv-text strong{font-size:12px}
+  .catstrip{padding:14px 18px 4px}
+  .catbtn{padding:9px 12px;font-size:11px}
+  .catbtn-price{display:none}
+  .cat-head{padding:24px 18px 18px}
+  .cat-title{font-size:32px}
+  .cat-sub{font-size:13.5px}
+  .toolbar{margin:14px 18px 0;padding:12px 14px;gap:8px}
+  .results{padding:18px 18px 28px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .card-name{font-size:18px}
+  .card-price-val{font-size:19px}
+  .card-cta{padding:7px 10px;font-size:10px}
+  .filters{padding:8px 18px 18px}
+}
+
+/* === CALCULATOR MODAL === */
+.calc-bg{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(36,53,55,.55);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:20px;overflow-y:auto;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.calc-bg.show{opacity:1;pointer-events:auto}
+.calc-modal{
+  width:100%;max-width:1080px;margin:auto;
+  background:var(--glass-bg-strong);
+  border:1px solid var(--glass-bdr);
+  backdrop-filter:blur(28px) saturate(180%);
+  border-radius:24px;overflow:hidden;
+  box-shadow:0 30px 100px -20px rgba(36,53,55,.4),inset 0 1px 0 rgba(255,255,255,.6);
+  transform:translateY(40px) scale(.98);transition:transform .35s cubic-bezier(.4,0,.2,1);
+  position:relative;
+}
+.calc-bg.show .calc-modal{transform:translateY(0) scale(1)}
+
+.calc-head{
+  padding:20px 28px;
+  background:rgba(250,246,237,.5);
+  border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  position:sticky;top:0;z-index:5;
+  backdrop-filter:blur(20px);
+}
+.calc-head-l{display:flex;align-items:center;gap:12px}
+.calc-head-back{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--glass-bg);border:1px solid var(--bdr-h);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  color:var(--ink);transition:all .2s;
+}
+.calc-head-back:hover{background:rgba(255,255,255,.8);color:var(--gold-deep)}
+.calc-head-back svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.4;fill:none}
+.calc-title-block{display:flex;flex-direction:column;gap:2px}
+.calc-kicker{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);font-weight:700}
+.calc-title{font-family:var(--font-display);font-size:22px;font-weight:500;color:var(--ink);line-height:1;letter-spacing:-.01em}
+.calc-title em{font-style:italic;color:var(--gold-deep)}
+
+.calc-head-r{display:flex;align-items:center;gap:14px}
+.calc-price-area{text-align:right}
+.calc-price-lbl{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);font-weight:700;margin-bottom:2px}
+.calc-price-val{font-family:var(--font-display);font-size:24px;font-weight:500;color:var(--ink);line-height:1;font-variant-numeric:tabular-nums}
+.calc-close{
+  width:38px;height:38px;border-radius:50%;border:1px solid var(--bdr-h);
+  background:var(--glass-bg);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:var(--ink);transition:all .25s;backdrop-filter:blur(10px);
+}
+.calc-close:hover{background:var(--gold);color:#fff;border-color:var(--gold);transform:rotate(90deg)}
+.calc-close svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.4;fill:none}
+
+.calc-prog{padding:0 28px 14px;background:rgba(250,246,237,.5)}
+.calc-prog-meta{display:flex;justify-content:space-between;margin-bottom:8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+.calc-prog-meta strong{color:var(--gold-deep);font-weight:700}
+.calc-prog-track{height:3px;background:rgba(36,53,55,.08);border-radius:3px;overflow:hidden}
+.calc-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--teal-soft));border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 12px -2px rgba(184,92,62,.4)}
+
+.calc-body{padding:28px;animation:revealUp .35s both}
+.step-eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:12px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);font-weight:700}
+.step-eyebrow::before{content:'';width:24px;height:1px;background:var(--gold)}
+.step-title{font-family:var(--font-display);font-size:34px;font-weight:400;letter-spacing:-.015em;line-height:1.1;margin-bottom:10px;color:var(--ink)}
+.step-title em{font-style:italic;background:linear-gradient(90deg,var(--gold),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+.step-hint{font-size:13.5px;color:var(--ink-soft);line-height:1.7;max-width:600px;margin-bottom:22px}
+.step-hint strong{color:var(--ink);font-weight:700}
+
+.opt-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.opt-card{
+  background:var(--glass-bg);border:1px solid var(--glass-bdr);
+  backdrop-filter:blur(14px);border-radius:14px;padding:16px 16px 14px;cursor:pointer;
+  transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;
+  box-shadow:0 2px 10px -4px rgba(36,53,55,.06);
+}
+.opt-card:hover{transform:translateY(-3px);border-color:rgba(184,92,62,.3);box-shadow:0 12px 28px -10px rgba(36,53,55,.18)}
+.opt-card.sel{
+  background:linear-gradient(135deg,rgba(184,92,62,.12),rgba(184,92,62,.04));
+  border-color:var(--gold);
+  box-shadow:0 0 0 1px var(--gold),0 12px 28px -10px rgba(184,92,62,.3);
+}
+.opt-chk{
+  position:absolute;top:12px;right:12px;
+  width:22px;height:22px;border-radius:50%;
+  border:1.5px solid var(--bdr-h);background:rgba(255,255,255,.6);
+  display:flex;align-items:center;justify-content:center;color:transparent;font-size:11px;
+  transition:all .22s;
+}
+.opt-card.sel .opt-chk{background:var(--gold);border-color:var(--gold);color:#fff}
+.opt-name{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:5px;padding-right:28px;letter-spacing:-.005em}
+.opt-name-big{font-family:var(--font-display);font-size:22px;font-weight:500;color:var(--ink);letter-spacing:-.01em;line-height:1.05;padding-right:28px;margin-bottom:4px}
+.opt-desc{font-size:11.5px;color:var(--ink-soft);line-height:1.55}
+.opt-price-row{display:flex;align-items:baseline;gap:6px;margin-bottom:6px;flex-wrap:wrap}
+.opt-price-from{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);font-weight:700}
+.opt-price-val{font-family:var(--font-display);font-size:22px;font-weight:500;color:var(--ink);letter-spacing:-.01em;line-height:1}
+.opt-add{color:var(--gold-deep);font-size:12px;font-weight:700}
+.opt-free{color:var(--sage-deep);font-size:11.5px;font-weight:700}
+.opt-inc{font-size:10px;color:var(--sage-deep);margin-top:8px;padding-top:8px;border-top:1px dashed var(--bdr);line-height:1.45;font-weight:500}
+
+.opt-extras{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.opt-tile{
+  background:var(--glass-bg);border:1px solid var(--glass-bdr);
+  backdrop-filter:blur(14px);border-radius:14px;padding:16px 12px 12px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;
+  transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;
+}
+.opt-tile:hover{transform:translateY(-3px);border-color:rgba(184,92,62,.3)}
+.opt-tile.sel{
+  background:linear-gradient(135deg,rgba(184,92,62,.12),rgba(184,92,62,.04));
+  border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);
+}
+.opt-tile-chk{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--bdr-h);background:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;color:transparent;font-size:10px;transition:all .22s}
+.opt-tile.sel .opt-tile-chk{background:var(--gold);border-color:var(--gold);color:#fff}
+.opt-tile-icon{width:42px;height:42px;border-radius:11px;background:rgba(184,92,62,.1);border:1px solid rgba(184,92,62,.2);display:flex;align-items:center;justify-content:center}
+.opt-tile-icon svg{width:20px;height:20px;stroke:var(--gold);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.opt-tile-name{font-size:12px;font-weight:600;color:var(--ink);line-height:1.3}
+.opt-tile-price{font-size:10.5px;color:var(--ink-faint);font-weight:700;margin-top:-2px}
+.opt-tile-price.gift{color:var(--gold-deep)}
+.opt-tile-price.inc{color:var(--sage-deep)}
+
+.calc-nav{
+  padding:18px 28px 24px;display:flex;gap:12px;
+  border-top:1px solid var(--bdr);
+  background:rgba(250,246,237,.4);
+}
+.btn-back{
+  padding:13px 22px;border-radius:11px;
+  background:var(--glass-bg);border:1px solid var(--bdr-h);
+  font-family:var(--font-sans);font-size:13px;font-weight:600;color:var(--ink-soft);cursor:pointer;
+  transition:all .25s;backdrop-filter:blur(10px);
+}
+.btn-back:hover{border-color:var(--ink-soft);color:var(--ink);background:rgba(255,255,255,.6)}
+.btn-next{
+  flex:1;padding:14px 26px;border-radius:12px;border:none;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;
+  font-family:var(--font-sans);font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 6px 20px -4px rgba(184,92,62,.45),inset 0 1px 0 rgba(255,255,255,.25);
+}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 14px 32px -6px rgba(184,92,62,.6)}
+
+/* Lead form */
+.lead-wrap{padding:8px 0 0}
+.measure-invite{
+  background:linear-gradient(135deg,rgba(184,92,62,.1),rgba(61,107,110,.06));
+  border:1px solid var(--bdr-gold);border-radius:18px;padding:22px 26px;margin-bottom:18px;
+  backdrop-filter:blur(14px);
+}
+.measure-kicker{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin-bottom:10px}
+.measure-title{font-family:var(--font-display);font-size:28px;font-weight:500;color:var(--ink);margin-bottom:10px;letter-spacing:-.015em;line-height:1.1}
+.measure-title em{font-style:italic;color:var(--gold-deep)}
+.measure-sub{font-size:13px;color:var(--ink-soft);line-height:1.7;margin-bottom:14px}
+.measure-sub strong{color:var(--ink);font-weight:700}
+.measure-benefits{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.measure-benefit{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--ink-soft);line-height:1.5;font-weight:500}
+.measure-benefit svg{width:14px;height:14px;stroke:var(--gold);stroke-width:2.5;fill:none;flex-shrink:0;margin-top:2px}
+.measure-benefit strong{color:var(--ink);font-weight:700}
+
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.linput{
+  width:100%;padding:14px 18px;border-radius:11px;
+  background:rgba(255,255,255,.6);border:1.5px solid var(--bdr-h);backdrop-filter:blur(10px);
+  font-family:var(--font-sans);font-size:14px;font-weight:500;color:var(--ink);outline:none;
+  transition:all .22s;
+}
+.linput::placeholder{color:var(--ink-ghost)}
+.linput:focus{border-color:var(--gold);background:rgba(255,255,255,.85);box-shadow:0 0 0 4px rgba(184,92,62,.12)}
+.linput.err{border-color:var(--error);animation:revealUp .3s}
+.lerr{font-size:12px;color:var(--error);min-height:16px;line-height:1.4;margin:6px 2px 8px;font-weight:500}
+.lsubmit{
+  width:100%;padding:16px;border-radius:12px;border:none;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;
+  font-family:var(--font-sans);font-size:14px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;box-shadow:0 8px 22px -6px rgba(184,92,62,.5);
+}
+.lsubmit:hover{transform:translateY(-2px);box-shadow:0 14px 32px -6px rgba(184,92,62,.6)}
+.lsubmit:disabled{opacity:.6;cursor:wait}
+.lead-proof{display:flex;align-items:center;justify-content:center;gap:8px;font-size:11px;color:var(--ink-faint);margin-top:14px;font-weight:500}
+.lead-proof svg{width:12px;height:12px;stroke:var(--sage-deep);stroke-width:2;fill:none}
+
+.success{text-align:center;padding:18px 0 4px}
+.s-icon{
+  width:80px;height:80px;border-radius:50%;margin:0 auto 18px;
+  background:linear-gradient(135deg,rgba(184,92,62,.18),rgba(184,92,62,.06));
+  border:1.5px solid var(--bdr-gold);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 38px -8px rgba(184,92,62,.35);
+}
+.s-icon svg{width:36px;height:36px;stroke:var(--gold);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.s-title{font-family:var(--font-display);font-size:30px;font-weight:500;color:var(--ink);margin-bottom:10px;letter-spacing:-.015em}
+.s-title em{font-style:italic;color:var(--gold-deep)}
+.s-sub{font-size:13px;color:var(--ink-soft);line-height:1.7;max-width:440px;margin:0 auto}
+.s-sub strong{color:var(--ink);font-weight:700}
+
+@media(max-width:680px){
+  .calc-bg{padding:0;align-items:stretch}
+  .calc-modal{border-radius:0;min-height:100vh}
+  .calc-head{padding:14px 18px}
+  .calc-prog{padding:0 18px 12px}
+  .calc-body{padding:22px 18px}
+  .step-title{font-size:26px}
+  .opt-cards{grid-template-columns:1fr}
+  .opt-name-big{font-size:20px}
+  .opt-extras{grid-template-columns:repeat(2,1fr)}
+  .calc-nav{padding:14px 18px 18px}
+  .measure-benefits{grid-template-columns:1fr}
+  .fields{grid-template-columns:1fr}
+}
+
+/* === LINEAR/VERCEL DARK OVERRIDES === */
+.topbar{height:56px;padding:0 22px;margin:16px 0 0;background:rgba(15,15,16,.7);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:14px;color:var(--ink);display:flex;align-items:center;justify-content:space-between;position:sticky;top:16px;z-index:30;flex-wrap:nowrap;gap:12px;font-size:13px}
+.topbar::after{display:none}
+.topbar-left{display:flex;align-items:center;gap:18px;flex:1;min-width:0;flex-wrap:nowrap;overflow:hidden}
+.topbar-item{font-size:12px;color:var(--ink-faint)}
+.topbar-item svg{color:var(--gold)}
+.topbar-item strong{color:var(--ink)}
+.topbar-right{display:flex;align-items:center;gap:4px}
+.topbar-soc{width:32px;height:32px;border-radius:8px;background:transparent;border:1px solid transparent;color:var(--ink-soft);backdrop-filter:none}
+.topbar-soc:hover{background:rgba(255,255,255,.05);color:var(--ink);transform:none;box-shadow:none}
+.topbar-soc svg{width:14px;height:14px}
+.mainhead{padding:0;background:transparent;backdrop-filter:none;border:none;box-shadow:none;position:static;display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0}
+.mainhead-brand{padding:0;color:inherit}
+.mainhead-brand:hover{transform:none}
+.mainhead-logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#a3e635,#65a30d);font-family:'Manrope','Inter',sans-serif;font-size:18px;font-weight:800;color:#0a0a0a;font-style:normal;letter-spacing:-.04em;line-height:1;box-shadow:0 0 0 1px rgba(163,230,53,.3),0 4px 14px -2px rgba(163,230,53,.4);animation:glow 4s ease-in-out infinite}
+.mainhead-logo::before{display:none}
+.mainhead-name{font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--ink)}
+.mainhead-tagline{font-size:10px;color:var(--ink-faint)}
+.mainhead-nav{display:flex;align-items:center;gap:2px;border-left:1px solid rgba(255,255,255,.06);padding-left:10px;margin-left:6px}
+.mainhead-link{padding:7px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--ink-soft);text-transform:none;letter-spacing:-.01em}
+.mainhead-link::after{display:none}
+.mainhead-link:hover{color:var(--ink);background:rgba(255,255,255,.04)}
+.mainhead-link.active{color:var(--ink);background:rgba(255,255,255,.06)}
+.mainhead-actions{gap:8px}
+.mainhead-phonebox{display:none}
+.mainhead-cta{padding:9px 16px;border-radius:9px;background:#a3e635;color:#0a0a0a;font-size:12px;font-weight:700;letter-spacing:-.01em;text-transform:none;box-shadow:0 0 0 1px rgba(163,230,53,.4),0 4px 14px -2px rgba(163,230,53,.35)}
+.mainhead-cta::before{display:none}
+.mainhead-cta:hover{background:#bef264;transform:translateY(-1px);box-shadow:0 0 0 1px rgba(163,230,53,.6),0 8px 22px -3px rgba(163,230,53,.5)}
+.mainhead-cta svg{width:13px;height:13px}
+.mainhead-burger{background:transparent;border:1px solid var(--bdr-h);color:var(--ink);backdrop-filter:none}
+.mainhead-burger svg{stroke:var(--ink)}
+@keyframes glow{0%,100%{box-shadow:0 0 0 1px rgba(163,230,53,.3),0 4px 14px -2px rgba(163,230,53,.4)}50%{box-shadow:0 0 0 1px rgba(163,230,53,.5),0 6px 22px -2px rgba(163,230,53,.7)}}
+.crumbs{padding:24px 0 0;color:var(--ink-faint)}
+.crumbs a{color:var(--ink-faint)}
+.crumbs a:hover{color:var(--gold)}
+.crumbs strong{color:var(--ink)}
+.adv-bar{margin:20px 0 0;padding:18px;border-radius:16px;background:rgba(20,20,22,.45);border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(20px);box-shadow:none}
+.adv-bar::before{display:none}
+.adv-icon{background:rgba(163,230,53,.08);border:1px solid rgba(163,230,53,.2)}
+.adv-icon svg{stroke:var(--gold)}
+.adv-text{color:var(--ink-soft)}
+.adv-text strong{color:var(--ink)}
+.catstrip{display:none}
+.cat-head{padding:80px 0 36px;border-bottom:none}
+.cat-eyebrow{background:rgba(163,230,53,.08);border:1px solid rgba(163,230,53,.22);color:var(--gold);backdrop-filter:none}
+.cat-eyebrow .pulse-dot{background:var(--gold)}
+.cat-title{font-family:'Manrope',sans-serif;font-size:88px;font-weight:800;letter-spacing:-.04em;line-height:.95;color:var(--ink);margin:24px 0 22px;max-width:920px}
+.cat-title em{font-style:normal;background:linear-gradient(135deg,#bef264,#a3e635 50%,#65a30d);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:textShimmer 6s linear infinite}
+.cat-sub{font-size:17px;color:var(--ink-soft);max-width:680px;line-height:1.6}
+.cat-sub strong{color:var(--ink)}
+.mfg-note{background:rgba(20,20,22,.6);border:1px solid var(--bdr-h);color:var(--ink-soft);backdrop-filter:none}
+.mfg-note-ico{background:linear-gradient(135deg,var(--gold),var(--gold-deep));width:24px;height:24px;color:#0a0a0a}
+.mfg-note-ico svg{stroke:#0a0a0a}
+.mfg-note strong{color:var(--ink)}
+.toolbar{margin:24px 0 0;padding:8px;background:rgba(20,20,22,.5);border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(20px);box-shadow:none}
+.search input{background:rgba(0,0,0,.3);border:1px solid var(--bdr-h);color:var(--ink);padding:11px 16px 11px 40px;border-radius:10px;backdrop-filter:none}
+.search input::placeholder{color:var(--ink-faint)}
+.search input:focus{border-color:var(--gold);background:rgba(0,0,0,.5);box-shadow:0 0 0 3px rgba(163,230,53,.15)}
+.search svg{stroke:var(--ink-faint)}
+.sort,.toggle-filters{background:rgba(0,0,0,.3);border:1px solid var(--bdr-h);color:var(--ink);padding:11px 14px;border-radius:10px;backdrop-filter:none}
+.sort:hover,.sort:focus{border-color:var(--gold)}
+.layout{margin-top:16px}
+.filters{padding:0 24px 24px 0;top:88px}
+.filter-group{background:rgba(20,20,22,.5);border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(20px);box-shadow:none;border-radius:14px}
+.filter-label{color:var(--ink-faint)}
+.chip{background:rgba(255,255,255,.04);border:1px solid var(--bdr-h);color:var(--ink-soft);border-radius:8px;backdrop-filter:none}
+.chip:hover{background:rgba(255,255,255,.08);border-color:var(--bdr-strong);color:var(--ink);transform:none}
+.chip.on{background:var(--gold);border-color:var(--gold);color:#0a0a0a;box-shadow:0 0 0 1px rgba(163,230,53,.4)}
+.reset-filters{background:rgba(0,0,0,.3);border:1px solid var(--bdr-h);color:var(--ink-soft);backdrop-filter:none}
+.reset-filters:hover{border-color:var(--gold);color:var(--gold);background:rgba(0,0,0,.4)}
+.results{padding:0}
+.results-meta{color:var(--ink-faint)}
+.results-meta strong{color:var(--ink)}
+.grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.card{background:rgba(20,20,22,.85);border:1px solid rgba(255,255,255,.07);border-radius:18px;box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 4px 18px -4px rgba(0,0,0,.5)}
+.card::before{background:radial-gradient(500px circle at var(--cx,50%) var(--cy,50%),rgba(163,230,53,.12),transparent 40%);border-radius:18px;opacity:0}
+.card:hover::before{opacity:1}
+.card:hover{transform:translateY(-4px);border-color:rgba(163,230,53,.3);box-shadow:0 1px 0 rgba(163,230,53,.15) inset,0 20px 40px -10px rgba(0,0,0,.7),0 0 0 1px rgba(163,230,53,.18)}
+.card-img{background:linear-gradient(160deg,#1a1a1d,#0f0f10);border-bottom:1px solid var(--bdr)}
+.card-img::after{display:none}
+.card-flag{background:var(--gold);color:#0a0a0a;font-weight:700;box-shadow:0 0 0 1px rgba(163,230,53,.5),0 4px 12px -2px rgba(163,230,53,.4)}
+.card-flag.hit{background:linear-gradient(135deg,#bef264,#a3e635);color:#0a0a0a}
+.card-flag.new{background:#06b6d4;color:#0a0a0a}
+.card-flag.elite{background:#a78bfa;color:#0a0a0a}
+.card-series{color:var(--gold);font-weight:600}
+.card-name{font-family:'Manrope',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.card-purpose{color:var(--ink-faint)}
+.ctag{background:rgba(255,255,255,.04);border:1px solid var(--bdr-h);color:var(--ink-soft);border-radius:6px}
+.card-bottom{border-top:1px solid var(--bdr)}
+.card-price-from{color:var(--ink-faint)}
+.card-price-val{font-family:'Manrope',sans-serif;font-weight:700;letter-spacing:-.02em;color:var(--ink);font-size:20px}
+.card-cta{background:var(--gold);color:#0a0a0a;border-radius:9px;box-shadow:0 0 0 1px rgba(163,230,53,.4)}
+.card-cta:hover{background:#bef264;transform:translateY(-1px);box-shadow:0 0 0 1px rgba(163,230,53,.6),0 6px 16px -2px rgba(163,230,53,.4)}
+.car-arrow{background:rgba(20,20,22,.85);border:1px solid var(--bdr-h);color:var(--ink);backdrop-filter:blur(10px)}
+.car-arrow:hover{background:var(--gold);color:#0a0a0a;border-color:var(--gold)}
+.car-dot{background:rgba(255,255,255,.2)}
+.car-dot.on{background:var(--gold)}
+.car-counter{background:rgba(0,0,0,.6);color:var(--ink);border:1px solid var(--bdr)}
+.empty-title{color:var(--ink)}
+.empty-sub{color:var(--ink-faint)}
+.app-footer{background:transparent;border-top:1px solid var(--bdr);color:var(--ink-faint);margin-top:40px;padding:24px 0;backdrop-filter:none}
+.calc-bg{background:rgba(0,0,0,.78);backdrop-filter:blur(24px) saturate(160%)}
+.calc-modal{background:rgba(15,15,16,.94);border:1px solid var(--bdr-h);backdrop-filter:blur(28px);box-shadow:0 30px 100px -20px rgba(0,0,0,.9)}
+.calc-head{background:rgba(15,15,16,.92);border-bottom:1px solid var(--bdr);backdrop-filter:blur(20px)}
+.calc-head-back{background:rgba(255,255,255,.04);border:1px solid var(--bdr-h);color:var(--ink)}
+.calc-head-back:hover{background:rgba(163,230,53,.1);color:var(--gold);border-color:var(--gold)}
+.calc-kicker{color:var(--gold)}
+.calc-title{font-family:'Manrope',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:20px;color:var(--ink)}
+.calc-title em{color:var(--gold);font-style:normal;font-weight:600}
+.calc-price-lbl{color:var(--ink-faint)}
+.calc-price-val{font-family:'Manrope',sans-serif;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.calc-close{background:rgba(255,255,255,.04);border:1px solid var(--bdr-h);color:var(--ink);backdrop-filter:none}
+.calc-close:hover{background:var(--gold);color:#0a0a0a;border-color:var(--gold)}
+.calc-prog{background:rgba(15,15,16,.92)}
+.calc-prog-meta{color:var(--ink-faint)}
+.calc-prog-meta strong{color:var(--gold)}
+.calc-prog-track{background:rgba(255,255,255,.06)}
+.calc-prog-fill{background:linear-gradient(90deg,var(--gold-deep),var(--gold),var(--gold-light));box-shadow:0 0 12px rgba(163,230,53,.5)}
+.step-eyebrow{color:var(--gold)}
+.step-eyebrow::before{background:var(--gold)}
+.step-title{font-family:'Manrope',sans-serif;font-weight:800;letter-spacing:-.03em;font-size:38px;color:var(--ink);line-height:1.05}
+.step-title em{color:var(--gold);font-style:normal;background:none;-webkit-background-clip:initial;background-clip:initial}
+.step-hint{color:var(--ink-soft)}
+.step-hint strong{color:var(--ink)}
+.opt-card{background:rgba(255,255,255,.03);border:1px solid var(--bdr-h);backdrop-filter:none}
+.opt-card:hover{border-color:var(--bdr-strong);background:rgba(255,255,255,.05);transform:translateY(-2px);box-shadow:0 8px 24px -8px rgba(0,0,0,.6)}
+.opt-card.sel{background:rgba(163,230,53,.06);border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 0 32px -8px rgba(163,230,53,.3)}
+.opt-chk{background:rgba(255,255,255,.04);border-color:var(--bdr-h)}
+.opt-card.sel .opt-chk{background:var(--gold);border-color:var(--gold);color:#0a0a0a}
+.opt-name{color:var(--ink)}
+.opt-name-big{font-family:'Manrope',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:20px;color:var(--ink)}
+.opt-desc{color:var(--ink-soft)}
+.opt-price-from{color:var(--ink-faint)}
+.opt-price-val{font-family:'Manrope',sans-serif;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.opt-add{color:var(--gold)}
+.opt-free{color:var(--gold)}
+.opt-inc{color:var(--gold-deep);border-top-color:var(--bdr-h)}
+.opt-tile{background:rgba(255,255,255,.03);border:1px solid var(--bdr-h);backdrop-filter:none}
+.opt-tile:hover{border-color:var(--bdr-strong);background:rgba(255,255,255,.05)}
+.opt-tile.sel{background:rgba(163,230,53,.06);border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.opt-tile-chk{background:rgba(255,255,255,.04);border-color:var(--bdr-h)}
+.opt-tile.sel .opt-tile-chk{background:var(--gold);border-color:var(--gold);color:#0a0a0a}
+.opt-tile-icon{background:rgba(163,230,53,.08);border:1px solid rgba(163,230,53,.2)}
+.opt-tile-icon svg{stroke:var(--gold)}
+.opt-tile-name{color:var(--ink)}
+.opt-tile-price{color:var(--ink-faint)}
+.opt-tile-price.gift{color:var(--gold)}
+.calc-nav{background:rgba(15,15,16,.92);border-top:1px solid var(--bdr)}
+.btn-back{background:rgba(255,255,255,.04);border:1px solid var(--bdr-h);color:var(--ink-soft);backdrop-filter:none}
+.btn-back:hover{border-color:var(--bdr-strong);color:var(--ink);background:rgba(255,255,255,.08)}
+.btn-next{background:var(--gold);color:#0a0a0a;box-shadow:0 0 0 1px rgba(163,230,53,.4),0 6px 20px -4px rgba(163,230,53,.4)}
+.btn-next:hover{background:#bef264;box-shadow:0 0 0 1px rgba(163,230,53,.6),0 12px 32px -6px rgba(163,230,53,.5)}
+.measure-invite{background:rgba(163,230,53,.05);border:1px solid var(--bdr-gold);backdrop-filter:none}
+.measure-kicker{color:var(--gold)}
+.measure-title{font-family:'Manrope',sans-serif;font-weight:700;letter-spacing:-.02em;color:var(--ink);font-size:28px}
+.measure-title em{color:var(--gold);font-style:normal}
+.measure-sub{color:var(--ink-soft)}
+.measure-sub strong{color:var(--ink)}
+.measure-benefit{color:var(--ink-soft)}
+.measure-benefit strong{color:var(--ink)}
+.measure-benefit svg{stroke:var(--gold)}
+.linput{background:rgba(0,0,0,.4);border:1px solid var(--bdr-h);color:var(--ink);backdrop-filter:none}
+.linput::placeholder{color:var(--ink-faint)}
+.linput:focus{border-color:var(--gold);background:rgba(0,0,0,.6);box-shadow:0 0 0 3px rgba(163,230,53,.2)}
+.lsubmit{background:var(--gold);color:#0a0a0a;box-shadow:0 0 0 1px rgba(163,230,53,.4)}
+.lsubmit:hover{background:#bef264;box-shadow:0 0 0 1px rgba(163,230,53,.6),0 12px 32px -6px rgba(163,230,53,.4)}
+.lead-proof{color:var(--ink-faint)}
+.lead-proof svg{stroke:var(--gold)}
+.s-icon{background:rgba(163,230,53,.08);border-color:var(--bdr-gold)}
+.s-icon svg{stroke:var(--gold)}
+.s-title{font-family:'Manrope',sans-serif;font-weight:700;color:var(--ink)}
+.s-title em{color:var(--gold);font-style:normal}
+.s-sub{color:var(--ink-soft)}
+.s-sub strong{color:var(--ink)}
+@media(max-width:900px){.cat-title{font-size:60px}.step-title{font-size:30px}.shell{padding:0 12px}}
+@media(max-width:600px){.cat-title{font-size:44px}.cat-sub{font-size:15px}.grid{grid-template-columns:1fr;gap:12px}.adv-bar{grid-template-columns:1fr 1fr;gap:12px}}
+
+/* === КАЛЬКУЛЯТОР: убираем салатовый акцент, используем серебристый --accent (как на сайте) === */
+.calc-head-back:hover{background:rgba(255,255,255,.08) !important;color:#fff !important;border-color:rgba(255,255,255,.3) !important}
+.calc-kicker,.step-eyebrow,.measure-kicker{color:rgba(255,255,255,.6) !important}
+.step-eyebrow::before{background:rgba(255,255,255,.4) !important}
+.calc-title em,.step-title em,.measure-title em,.s-title em{color:#fff !important;background:none !important;-webkit-background-clip:initial !important;background-clip:initial !important}
+.calc-prog-meta strong{color:#fff !important}
+.calc-prog-fill{background:linear-gradient(90deg,rgba(255,255,255,.4),rgba(255,255,255,.85)) !important;box-shadow:0 0 12px rgba(255,255,255,.18) !important}
+.calc-close:hover{background:rgba(255,255,255,.18) !important;color:#fff !important;border-color:rgba(255,255,255,.4) !important}
+
+.opt-card.sel{background:rgba(255,255,255,.06) !important;border-color:rgba(255,255,255,.55) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 0 1px rgba(255,255,255,.35),0 18px 40px -14px rgba(0,0,0,.7) !important}
+.opt-card.sel .opt-chk,.opt-tile.sel .opt-tile-chk{background:#fff !important;border-color:#fff !important;color:#0e1116 !important}
+.opt-tile.sel{background:rgba(255,255,255,.06) !important;border-color:rgba(255,255,255,.55) !important;box-shadow:0 0 0 1px rgba(255,255,255,.35) !important}
+.opt-tile-icon{background:rgba(255,255,255,.06) !important;border:1px solid rgba(255,255,255,.18) !important}
+.opt-tile-icon svg{stroke:#fff !important}
+.opt-add{color:#fff !important}
+.opt-free,.opt-tile-price.inc{color:#a3e635 !important;font-weight:700 !important}
+.opt-tile-price.gift{color:#a3e635 !important}
+.opt-inc{color:#a3e635 !important;font-weight:600 !important;border-top-color:rgba(163,230,53,.25) !important}
+
+.btn-next{background:linear-gradient(180deg,#e8edf2,#c4cdd6) !important;color:#0e1116 !important;border:1px solid rgba(255,255,255,.55) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 8px 22px -8px rgba(0,0,0,.55) !important}
+.btn-next:hover{background:linear-gradient(180deg,#f4f7fa,#d6dde4) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 14px 32px -10px rgba(0,0,0,.6) !important}
+
+.measure-invite{background:rgba(255,255,255,.04) !important;border:1px solid rgba(255,255,255,.14) !important}
+.measure-benefit svg,.lead-proof svg,.s-icon svg,.adv-icon svg{stroke:#fff !important}
+.s-icon{background:rgba(255,255,255,.06) !important;border:1px solid rgba(255,255,255,.18) !important}
+.linput:focus{border-color:rgba(255,255,255,.6) !important;background:rgba(0,0,0,.55) !important;box-shadow:0 0 0 3px rgba(255,255,255,.15) !important}
+.lsubmit{background:linear-gradient(180deg,#e8edf2,#c4cdd6) !important;color:#0e1116 !important;border:1px solid rgba(255,255,255,.55) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 8px 22px -8px rgba(0,0,0,.55) !important}
+.lsubmit:hover{background:linear-gradient(180deg,#f4f7fa,#d6dde4) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 14px 32px -10px rgba(0,0,0,.6) !important}
+
+/* sumchip / extras chips в шапке калькулятора */
+.calc-sumchip{color:rgba(255,255,255,.85) !important}
+
+/* ============================================================
+   === LIQUID GLASS · Apple HIG / iOS 26 + ALL FEATURES ===
+   ============================================================ */
+:root{
+  --lg-blur: 28px;
+  --lg-blur-strong: 40px;
+  --lg-sat: 180%;
+  --lg-border: rgba(255,255,255,.18);
+  --lg-highlight: rgba(255,255,255,.55);
+  --lg-shadow: 0 12px 40px -12px rgba(0,0,0,.55), 0 2px 8px -2px rgba(0,0,0,.35);
+  --lg-shadow-lg: 0 30px 80px -20px rgba(0,0,0,.7), 0 6px 18px -6px rgba(0,0,0,.45);
+  --accent: #c4cdd6;
+  --accent-hi: #e3e8ed;
+  --accent-deep: #8b95a1;
+  --accent-rgb: 196,205,214;
+  --accent-hi-rgb: 227,232,237;
+  --accent-on: #0e1116;
+}
+
+html,body{background:#06070a}
+.grain-bg{opacity:.35}
+.dots-bg{opacity:.5}
+
+.topbar,.toolbar,.filter-group,.card,.mfg-note,.cat-eyebrow,.adv-bar,.calc-modal,.calc-head,.calc-prog,.calc-nav,.opt-card,.opt-tile,.measure-invite,.car-arrow,.tb-mega,.app-footer,.faq-item,.order-ticker,.hero-badge{
+  background: linear-gradient(180deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.04) 100%) !important;
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-sat)) !important;
+  backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-sat)) !important;
+  border: 1px solid var(--lg-border) !important;
+  box-shadow: inset 0 1px 0 var(--lg-highlight), inset 0 -1px 0 rgba(255,255,255,.06), var(--lg-shadow) !important;
+  position: relative;
+}
+.topbar::before,.toolbar::before,.filter-group::before,.card::before,.adv-bar::before,.calc-modal::before,.opt-card::before,.opt-tile::before,.measure-invite::before,.app-footer::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,0) 38%, rgba(255,255,255,0) 62%, rgba(255,255,255,.05) 100%);
+  pointer-events:none;opacity:.85;z-index:1;
+}
+.card > *,.topbar > *,.toolbar > *,.filter-group > *,.adv-bar > *,.calc-modal > *,.opt-card > *,.opt-tile > *,.measure-invite > *,.app-footer > *{position:relative;z-index:2}
+
+.topbar{border-radius:18px !important;height:58px !important;padding:0 14px 0 18px !important}
+.toolbar{border-radius:18px !important;padding:8px !important}
+.filter-group{border-radius:18px !important}
+.card{border-radius:22px !important}
+.adv-bar{border-radius:20px !important}
+.calc-modal{border-radius:28px !important}
+.opt-card,.opt-tile{border-radius:16px !important}
+.mfg-note,.cat-eyebrow{border-radius:999px !important}
+.car-arrow{border-radius:50% !important}
+
+.card{transition: transform .45s cubic-bezier(.2,.7,.2,1), border-color .3s, box-shadow .4s !important}
+.card:hover{
+  transform: translateY(-6px) !important;
+  border-color: rgba(var(--accent-rgb),.45) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 0 0 1px rgba(var(--accent-rgb),.15), 0 30px 60px -16px rgba(0,0,0,.7), 0 0 60px -10px rgba(var(--accent-rgb),.2) !important;
+}
+
+.card-img{
+  background: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.02)) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+  backdrop-filter: blur(18px) saturate(160%) !important;
+  border-bottom: 1px solid rgba(255,255,255,.10) !important;
+}
+.card-img::after{display:none !important}
+
+.search input,.sort,.toggle-filters,.linput{
+  background: rgba(255,255,255,.06) !important;border: 1px solid rgba(255,255,255,.14) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(160%) !important;backdrop-filter: blur(14px) saturate(160%) !important;
+  color: var(--ink) !important;border-radius: 12px !important;transition: all .25s !important;
+}
+.search input::placeholder,.linput::placeholder{color: rgba(255,255,255,.45) !important}
+.search input:focus,.linput:focus,.sort:focus{
+  background: rgba(255,255,255,.10) !important;border-color: rgba(var(--accent-rgb),.6) !important;
+  box-shadow: 0 0 0 4px rgba(var(--accent-rgb),.15) !important;outline: none !important;
+}
+.sort option{background:#15171c !important;color:#fff !important;font-weight:500 !important}
+.sort{color:#fff !important;font-weight:600 !important}
+
+/* === CUSTOM GLASS DROPDOWN для сортировки === */
+.toolbar{overflow:visible !important}
+.sort-glass{position:relative;min-width:200px}
+.sort-glass-btn{
+  width:100%;height:42px;padding:0 14px;
+  background: rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);
+  border-radius:12px;color:#fff;font-weight:600;font-size:13px;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  transition:all .2s;letter-spacing:-.005em;
+}
+.sort-glass-btn:hover{background:rgba(255,255,255,.10)}
+.sort-glass.open .sort-glass-btn{background:rgba(255,255,255,.10);border-color:rgba(var(--accent-rgb),.5);box-shadow:0 0 0 4px rgba(var(--accent-rgb),.12)}
+.sort-glass-btn svg{width:14px;height:14px;transition:transform .25s;flex-shrink:0;opacity:.7}
+.sort-glass.open .sort-glass-btn svg{transform:rotate(180deg)}
+/* Меню портируется в body и позиционируется fixed — обходит stacking context */
+.sort-glass-menu{
+  position:fixed;
+  list-style:none;margin:0;padding:6px;z-index:99999;
+  min-width:200px;
+  background:linear-gradient(180deg,rgba(50,55,65,.55),rgba(35,40,50,.55)) !important;
+  -webkit-backdrop-filter:blur(40px) saturate(200%);backdrop-filter:blur(40px) saturate(200%);
+  border:1px solid rgba(255,255,255,.22);border-radius:14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 18px 50px -12px rgba(0,0,0,.55);
+  opacity:0;transform:translateY(-6px) scale(.98);pointer-events:none;
+  transition:opacity .2s, transform .2s cubic-bezier(.2,.7,.2,1);
+}
+.sort-glass-menu.open{opacity:1;transform:none;pointer-events:auto}
+.sort-glass-menu li{
+  padding:10px 12px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:500;
+  color:rgba(255,255,255,.92);transition:all .15s;list-style:none;
+}
+.sort-glass-menu li:hover{background:rgba(255,255,255,.14);color:#fff}
+.sort-glass-menu li.on{background:linear-gradient(135deg,rgba(var(--accent-hi-rgb),.30),rgba(var(--accent-rgb),.16));color:#fff;font-weight:700}
+.sort-glass-menu li.on::after{content:'✓';float:right;color:var(--accent-hi);font-weight:700}
+@media(max-width:600px){.sort-glass{min-width:0;flex:1}}
+
+.chip{
+  background: rgba(255,255,255,.06) !important;border: 1px solid rgba(255,255,255,.14) !important;
+  color: rgba(255,255,255,.78) !important;border-radius: 999px !important;
+  -webkit-backdrop-filter: blur(10px) !important;backdrop-filter: blur(10px) !important;transition: all .2s !important;
+}
+.chip:hover{background: rgba(255,255,255,.12) !important;color:#fff !important;transform:none !important}
+.chip.on{
+  background: linear-gradient(135deg, var(--accent-hi), var(--accent)) !important;
+  border-color: rgba(var(--accent-hi-rgb),.7) !important;color: var(--accent-on) !important;
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb),.4), 0 6px 18px -6px rgba(var(--accent-rgb),.4) !important;
+}
+
+.mainhead-cta,.card-cta,.btn-next,.lsubmit,.tb-cta{
+  background: linear-gradient(180deg, var(--accent-hi), var(--accent)) !important;
+  color: var(--accent-on) !important;border: 1px solid rgba(var(--accent-hi-rgb),.7) !important;border-radius: 12px !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), 0 8px 22px -8px rgba(var(--accent-rgb),.5) !important;
+  transition: all .25s cubic-bezier(.2,.7,.2,1) !important;
+}
+.mainhead-cta:hover,.card-cta:hover,.btn-next:hover,.lsubmit:hover,.tb-cta:hover{
+  transform: translateY(-2px) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 14px 32px -10px rgba(var(--accent-rgb),.6) !important;
+  filter: brightness(1.04) !important;
+}
+.btn-back,.reset-filters,.calc-head-back,.calc-close{
+  background: rgba(255,255,255,.06) !important;border: 1px solid rgba(255,255,255,.14) !important;
+  color: var(--ink) !important;border-radius: 12px !important;
+  -webkit-backdrop-filter: blur(14px) !important;backdrop-filter: blur(14px) !important;
+}
+.btn-back:hover,.reset-filters:hover{background: rgba(255,255,255,.12) !important;color:#fff !important}
+.calc-close:hover{background: var(--accent) !important;color:var(--accent-on) !important;border-color: var(--accent) !important}
+
+.opt-card.sel,.opt-tile.sel{
+  background: linear-gradient(180deg, rgba(var(--accent-hi-rgb),.16), rgba(var(--accent-rgb),.05)) !important;
+  border-color: rgba(var(--accent-hi-rgb),.6) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 0 0 1px rgba(var(--accent-rgb),.4), var(--lg-shadow) !important;
+}
+.opt-card.sel .opt-chk,.opt-tile.sel .opt-tile-chk{background: var(--accent) !important;border-color: var(--accent) !important;color:var(--accent-on) !important}
+
+/* === FIX: чекбоксы опций должны быть в правом верхнем углу === */
+.opt-chk{
+  position:absolute !important;top:12px !important;right:12px !important;
+  width:22px !important;height:22px !important;border-radius:50% !important;
+  display:flex !important;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.08) !important;border:1.5px solid rgba(255,255,255,.25) !important;
+  color:transparent;font-size:12px;font-weight:700;z-index:3 !important;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  flex-shrink:0;
+}
+.opt-tile-chk{
+  position:absolute !important;top:8px !important;right:8px !important;
+  width:18px !important;height:18px !important;border-radius:50% !important;
+  display:flex !important;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.08) !important;border:1.5px solid rgba(255,255,255,.25) !important;
+  color:transparent;font-size:10px;font-weight:700;z-index:3 !important;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  flex-shrink:0;
+}
+.opt-card{padding:18px 18px 16px !important}
+.opt-name,.opt-name-big{padding-right:32px !important}
+.opt-tile{padding:16px 12px 12px !important}
+.opt-tile-name{padding:0 !important}
+
+/* === STEP NAV: top-only steps with clickable dots === */
+.calc-steps-nav{display:flex;align-items:center;gap:6px;padding:14px 28px 0;flex-wrap:wrap}
+.calc-step-btn{
+  flex:1;min-width:50px;height:6px;border-radius:6px;border:none;cursor:pointer;
+  background:rgba(255,255,255,.08);transition:all .2s;padding:0;position:relative;
+}
+.calc-step-btn.done{background:rgba(var(--accent-rgb),.5)}
+.calc-step-btn.cur{background:linear-gradient(90deg,var(--accent-hi),var(--accent));box-shadow:0 0 12px rgba(var(--accent-rgb),.4)}
+.calc-step-btn:hover{background:rgba(255,255,255,.18)}
+.calc-step-btn.done:hover{background:rgba(var(--accent-rgb),.7)}
+.calc-step-btn[aria-label]{position:relative}
+.calc-step-btn::after{
+  content:attr(data-label);position:absolute;bottom:calc(100% + 6px);left:50%;
+  transform:translateX(-50%);background:rgba(20,22,28,.95);color:#fff;
+  padding:4px 8px;border-radius:6px;font-size:11px;white-space:nowrap;
+  pointer-events:none;opacity:0;transition:opacity .2s;border:1px solid rgba(255,255,255,.15);
+}
+.calc-step-btn:hover::after{opacity:1}
+@media(max-width:600px){.calc-steps-nav{padding:10px 18px 0;gap:4px}}
+
+/* === Sticky preview chip in calc === */
+.calc-summary{
+  display:flex;flex-wrap:wrap;gap:6px;padding:10px 28px 0;font-size:11px;
+}
+.calc-sumchip{
+  display:inline-flex;align-items:center;gap:6px;padding:5px 10px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);
+  border-radius:999px;color:rgba(255,255,255,.78);font-weight:500;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+}
+.calc-sumchip strong{color:#fff;font-weight:700}
+.calc-sumchip .x{color:rgba(255,255,255,.4);margin-left:2px;cursor:pointer;font-size:13px;line-height:1}
+@media(max-width:600px){.calc-summary{padding:8px 18px 0;gap:4px}.calc-sumchip{font-size:10.5px;padding:4px 8px}}
+
+/* делаем сетку опций просторнее на мобильных */
+.opt-cards{grid-template-columns:repeat(auto-fill,minmax(220px,1fr)) !important;gap:10px !important}
+.opt-extras{grid-template-columns:repeat(auto-fill,minmax(150px,1fr)) !important;gap:10px !important}
+
+/* кнопки в навигации калькулятора в одну строку, нормально на мобильных */
+.calc-nav{flex-wrap:wrap !important;gap:8px !important}
+.btn-next{min-width:140px}
+
+/* tooltip-подсказка над опцией */
+.opt-card,.opt-tile{transition:transform .25s cubic-bezier(.2,.7,.2,1), border-color .25s, box-shadow .25s !important}
+.opt-card:hover,.opt-tile:hover{transform:translateY(-2px)}
+
+.calc-bg{background: rgba(6,7,10,.55) !important;-webkit-backdrop-filter: blur(20px) saturate(160%) !important;backdrop-filter: blur(20px) saturate(160%) !important}
+.calc-modal{
+  background: linear-gradient(180deg, rgba(20,22,28,.78), rgba(12,14,18,.86)) !important;
+  -webkit-backdrop-filter: blur(var(--lg-blur-strong)) saturate(var(--lg-sat)) !important;
+  backdrop-filter: blur(var(--lg-blur-strong)) saturate(var(--lg-sat)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18), var(--lg-shadow-lg) !important;
+}
+.calc-head,.calc-prog,.calc-nav{background: rgba(255,255,255,.03) !important;border-color: rgba(255,255,255,.08) !important;box-shadow: none !important}
+.calc-head::before,.calc-prog::before,.calc-nav::before{display:none !important}
+
+/* FLAGS — coloured */
+.card-flag{background: linear-gradient(135deg,#e3e8ed,#c4cdd6) !important;color:#0e1116 !important;border:1px solid rgba(255,255,255,.4) !important;-webkit-backdrop-filter:blur(8px) !important;backdrop-filter:blur(8px) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 4px 12px -3px rgba(0,0,0,.4) !important}
+.card-flag.hit{background: linear-gradient(135deg,#ff8a5c,#e85a2a) !important;color:#fff !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 6px 16px -4px rgba(232,90,42,.5) !important}
+.card-flag.new{background: linear-gradient(135deg,#5ec8d8,#2d8fa8) !important;color:#fff !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 6px 16px -4px rgba(45,143,168,.5) !important}
+.card-flag.elite{background: linear-gradient(135deg,#c9a96e,#8a7142) !important;color:#1a1410 !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 6px 16px -4px rgba(138,113,66,.55) !important}
+
+.car-counter{display:none !important}
+.car-arrow{background: rgba(20,22,28,.42) !important;border:1px solid rgba(255,255,255,.18) !important;color:#fff !important;-webkit-backdrop-filter: blur(10px) saturate(160%) !important;backdrop-filter: blur(10px) saturate(160%) !important;opacity:.55 !important;width:28px !important;height:28px !important;box-shadow:0 4px 10px -2px rgba(0,0,0,.35) !important}
+.card:hover .car-arrow:not(.disabled){opacity:.9 !important}
+.car-arrow.disabled{opacity:.18 !important}
+.car-arrow:hover{background: rgba(20,22,28,.7) !important;color:#fff !important;border-color: rgba(255,255,255,.32) !important;transform:translateY(-50%) scale(1.08) !important}
+.car-arrow svg{width:11px !important;height:11px !important;stroke-width:2.2 !important}
+.car-dot{background: rgba(255,255,255,.3) !important}
+.car-dot.on{background: var(--accent) !important}
+
+/* HEADLINE */
+.cat-head{padding: clamp(40px, 6.5vw, 76px) 0 30px !important}
+.cat-title{
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-weight: 800 !important;letter-spacing: -.05em !important;line-height: .96 !important;
+  font-size: clamp(40px, 7.5vw, 92px) !important;margin: 18px 0 18px !important;
+  background: linear-gradient(135deg, #ffffff 0%, #c4cdd6 45%, #8b95a1 100%) !important;
+  -webkit-background-clip: text !important;background-clip: text !important;color: transparent !important;-webkit-text-fill-color: transparent !important;
+}
+.cat-title em{
+  font-style: normal !important;
+  background: linear-gradient(135deg, #e3e8ed 0%, #8b95a1 100%) !important;
+  -webkit-background-clip: text !important;background-clip: text !important;color: transparent !important;-webkit-text-fill-color: transparent !important;
+}
+
+/* === HERO TITLE ANIMATION (clip reveal + shine ONLY on letters) === */
+@keyframes heroReveal{
+  0%  {opacity:0;transform:translateY(20px) scale(.99);filter:blur(6px);clip-path:inset(0 100% 0 0)}
+  60% {opacity:1;filter:blur(0)}
+  100%{opacity:1;transform:none;filter:blur(0);clip-path:inset(0 0 0 0)}
+}
+.cat-title.hero-anim{
+  position:relative;
+  animation:heroReveal 1.0s cubic-bezier(.2,.7,.2,1) .15s both;
+}
+/* Шиммер только по тексту: используем background-clip:text + анимируем background-position */
+.cat-title.hero-anim em{
+  background:
+    linear-gradient(115deg, transparent 0%, transparent 35%, rgba(255,255,255,.95) 50%, transparent 65%, transparent 100%) 200% 0/200% 100% no-repeat,
+    linear-gradient(135deg, #e3e8ed 0%, #8b95a1 100%) !important;
+  -webkit-background-clip:text !important;background-clip:text !important;
+  color:transparent !important;-webkit-text-fill-color:transparent !important;
+  animation:shineEm 1.6s ease-out 1.2s both;
+}
+@keyframes shineEm{
+  0%   {background-position:200% 0, 0 0}
+  50%  {background-position:-100% 0, 0 0}
+  100% {background-position:-100% 0, 0 0}
+}
+/* Шиммер по основному тексту (не em) — отдельная вспышка слева направо, только по глифам */
+.cat-title.hero-anim{
+  background:
+    linear-gradient(115deg, transparent 0%, transparent 35%, rgba(255,255,255,.95) 50%, transparent 65%, transparent 100%) 200% 0/200% 100% no-repeat,
+    linear-gradient(135deg, #ffffff 0%, #c4cdd6 45%, #8b95a1 100%) !important;
+  -webkit-background-clip:text !important;background-clip:text !important;
+  color:transparent !important;-webkit-text-fill-color:transparent !important;
+}
+.cat-title.hero-anim{
+  animation:heroReveal 1.0s cubic-bezier(.2,.7,.2,1) .15s both, shineMain 1.6s ease-out 1.2s both;
+}
+@keyframes shineMain{
+  0%   {background-position:200% 0, 0 0}
+  50%  {background-position:-100% 0, 0 0}
+  100% {background-position:-100% 0, 0 0}
+}
+
+/* === GOTO-SITE кнопка — тёмное стекло, белый контур === */
+.goto-site{
+  position:fixed !important;top:18px !important;right:18px !important;z-index:9999 !important;
+  display:inline-flex !important;align-items:center !important;gap:8px !important;
+  padding:9px 15px !important;border-radius:999px !important;text-decoration:none !important;
+  background:rgba(0,0,0,.55) !important;
+  border:1px solid rgba(255,255,255,.28) !important;
+  -webkit-backdrop-filter:blur(22px) saturate(160%) !important;backdrop-filter:blur(22px) saturate(160%) !important;
+  color:#fff !important;
+  font-family:'Manrope',system-ui,sans-serif !important;
+  font-size:12px !important;font-weight:600 !important;letter-spacing:-.005em !important;
+  text-transform:none !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 8px 22px -8px rgba(0,0,0,.7) !important;
+  filter:none !important;
+  transition:transform .25s, background .25s, color .25s, box-shadow .25s, border-color .25s;
+}
+.goto-site::before,.goto-site::after{display:none !important;content:none !important}
+.goto-site span{color:#fff !important;-webkit-text-fill-color:#fff !important;background:none !important}
+.goto-site:hover{
+  background:rgba(0,0,0,.7) !important;
+  border-color:rgba(255,255,255,.5) !important;
+  color:#fff !important;
+  transform:translateY(-2px) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 14px 30px -10px rgba(0,0,0,.8) !important;
+}
+.goto-site svg{
+  width:12px !important;height:12px !important;flex-shrink:0;
+  opacity:.85 !important;
+  stroke:#fff !important;color:#fff !important;fill:none !important;
+  transition:transform .25s, opacity .25s;
+}
+.goto-site:hover svg{transform:translate(2px,-2px);opacity:1 !important}
+@media(max-width:600px){.goto-site{top:12px !important;right:12px !important;padding:9px 12px !important;font-size:11px !important}.goto-site svg{width:11px !important;height:11px !important}}
+
+.hero-badges{opacity:0;transform:translateY(12px);animation:heroFadeUp .6s cubic-bezier(.2,.7,.2,1) 1.0s forwards}
+.cat-sub{opacity:0;transform:translateY(12px);animation:heroFadeUp .6s cubic-bezier(.2,.7,.2,1) .85s forwards}
+@keyframes heroFadeUp{to{opacity:1;transform:none}}
+
+@media(prefers-reduced-motion:reduce){
+  .cat-title.hero-anim,.cat-title.hero-anim em,.hero-badges,.cat-sub,.goto-site{animation:none !important;opacity:1 !important;transform:none !important;filter:none !important;clip-path:none !important}
+}
+.cat-sub{font-size: clamp(14px, 1.4vw, 18px) !important;color: rgba(255,255,255,.92) !important;font-weight:500 !important;text-shadow:0 1px 20px rgba(0,0,0,.5)}
+.cat-sub strong{color:#fff !important;font-weight:700 !important}
+
+/* === READABILITY: усиленная читаемость серых текстов === */
+.card-purpose{color:rgba(255,255,255,.78) !important;font-weight:500 !important}
+.card-series{color:var(--accent-hi) !important;font-weight:700 !important}
+.ctag{color:rgba(255,255,255,.85) !important;font-weight:600 !important;background:rgba(255,255,255,.08) !important;border-color:rgba(255,255,255,.18) !important}
+.card-price-from{color:rgba(255,255,255,.7) !important;font-weight:700 !important}
+.results-meta{color:rgba(255,255,255,.78) !important;font-weight:500 !important}
+.results-meta strong{color:#fff !important}
+.filter-label{color:rgba(255,255,255,.85) !important;font-weight:700 !important}
+.opt-desc{color:rgba(255,255,255,.78) !important;font-weight:500 !important}
+.opt-name{color:#fff !important;font-weight:600 !important}
+.opt-price-from{color:rgba(255,255,255,.7) !important;font-weight:700 !important}
+.step-hint{color:rgba(255,255,255,.85) !important;font-weight:500 !important}
+.step-hint strong{color:#fff !important}
+.measure-sub{color:rgba(255,255,255,.85) !important;font-weight:500 !important}
+.measure-benefit{color:rgba(255,255,255,.85) !important;font-weight:500 !important}
+.calc-prog-meta{color:rgba(255,255,255,.78) !important;font-weight:600 !important}
+.calc-price-lbl{color:rgba(255,255,255,.7) !important;font-weight:700 !important}
+.app-footer{color:rgba(255,255,255,.7) !important;font-weight:500 !important}
+.faq-a{color:rgba(255,255,255,.85) !important;font-weight:500 !important}
+.faq-a strong{color:#fff !important}
+.crumbs,.crumbs a{color:rgba(255,255,255,.7) !important;font-weight:500 !important}
+.crumbs strong{color:#fff !important}
+.adv-text{color:rgba(255,255,255,.85) !important;font-weight:500 !important}
+.adv-text strong{color:#fff !important}
+.opt-tile-name{color:#fff !important;font-weight:600 !important}
+.opt-tile-price{color:rgba(255,255,255,.78) !important;font-weight:700 !important}
+.lead-proof{color:rgba(255,255,255,.78) !important;font-weight:500 !important}
+.s-sub{color:rgba(255,255,255,.85) !important;font-weight:500 !important}
+.s-sub strong{color:#fff !important}
+.empty-sub{color:rgba(255,255,255,.78) !important;font-weight:500 !important}
+.calc-sumchip{color:rgba(255,255,255,.85) !important;font-weight:600 !important}
+.hero-badge{color:rgba(255,255,255,.95) !important;font-weight:600 !important}
+
+/* DENSITY */
+.shell{padding: 0 20px !important}
+.toolbar{margin: 20px 0 0 !important;gap: 10px !important}
+.layout{margin-top: 14px !important;grid-template-columns: 240px 1fr !important}
+.filters{padding: 0 20px 20px 0 !important}
+.filter-group{margin-bottom: 6px !important;padding: 8px 10px !important;border-radius:10px !important}
+.filter-label{margin-bottom: 5px !important;font-size:9px !important;letter-spacing:.14em !important}
+.filters .chips{gap:3px !important}
+.filters .chip{padding:3px 8px !important;font-size:10.5px !important;border-radius:6px !important}
+.filters .range{gap:4px !important}
+.filters .range-vals{font-size:11px !important;color:#fff !important;font-weight:700 !important}
+.filters .range-vals span{color:#fff !important}
+.filters .range input[type=range]{height:3px !important}
+.filters .flt-checks{gap:2px !important}
+.filters .flt-check{padding:5px 7px !important;border-radius:7px !important}
+.filters .flt-check-name{font-size:11px !important}
+.filters .flt-check-cnt{font-size:10px !important}
+.filters .flt-check-box{width:13px !important;height:13px !important;border-radius:3px !important;font-size:9px !important}
+.reset-filters{margin-top:4px !important;padding:7px !important;font-size:11px !important;border-radius:8px !important}
+.results{padding: 0 !important}
+.results-meta{margin-bottom: 13px !important}
+.grid{gap: 15px !important;grid-template-columns: repeat(auto-fill, minmax(252px, 1fr)) !important}
+.card-body{padding: 13px 15px 14px !important;gap: 7px !important}
+.card-bottom{padding-top: 10px !important}
+.app-footer{margin-top: 26px !important;padding: 15px 20px !important;border-radius:16px !important}
+@media(max-width:600px){.shell{padding: 0 12px !important}.grid{gap: 10px !important}.toolbar{padding: 6px !important}}
+.range input[type=range]{accent-color: var(--accent) !important}
+
+/* === STICKY FILTERS — фильтры закреплены при скролле === */
+html,body{overflow:visible !important}
+.shell,.app,.layout,.results,main.results{overflow:visible !important}
+.layout{align-items:start !important}
+.filters{
+  position:-webkit-sticky !important;
+  position:sticky !important;
+  top:90px !important;              /* отступ под прилипшую topbar (~58px + 16px зазор + запас) */
+  align-self:start !important;
+  max-height:calc(100vh - 110px) !important;
+  overflow-y:auto !important;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.15) transparent;
+  z-index:5;
+}
+.filters::-webkit-scrollbar{width:6px}
+.filters::-webkit-scrollbar-track{background:transparent}
+.filters::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:6px}
+.filters::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.22)}
+.filters-close{display:none !important}
+@media(max-width:900px){
+  .filters{position:fixed !important;top:0 !important;max-height:100vh !important}
+  .filters-close{display:flex !important}
+}
+@media(max-width:900px){
+  .filters{
+    background: linear-gradient(180deg, rgba(20,22,28,.85), rgba(12,14,18,.92)) !important;
+    -webkit-backdrop-filter: blur(var(--lg-blur-strong)) saturate(var(--lg-sat)) !important;
+    backdrop-filter: blur(var(--lg-blur-strong)) saturate(var(--lg-sat)) !important;
+  }
+}
+
+/* ===== HERO BADGES — Liquid Glass, airy ===== */
+.hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+.hero-badge{
+  display:inline-flex !important;align-items:center;gap:9px;
+  padding:9px 16px 9px 12px !important;
+  border-radius:999px !important;
+  font-size:12px;letter-spacing:.01em;font-weight:500;
+  color:rgba(255,255,255,.82) !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03)) !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(160%) !important;
+  backdrop-filter:blur(18px) saturate(160%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    inset 0 -1px 0 rgba(255,255,255,.04),
+    0 4px 14px -6px rgba(0,0,0,.5) !important;
+  transition:transform .25s cubic-bezier(.2,.7,.2,1),border-color .25s,background .25s;
+}
+.hero-badge:hover{
+  transform:translateY(-1px);
+  border-color:rgba(255,255,255,.22) !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.05)) !important;
+  color:#fff !important;
+}
+.hero-badge svg{
+  width:14px;height:14px;
+  stroke:rgba(255,255,255,.6) !important;
+  stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;
+  flex-shrink:0;
+}
+.hero-badge.green svg,.hero-badge.warm svg{stroke:rgba(255,255,255,.6) !important}
+.hero-badge strong{color:#fff !important;font-weight:600 !important;margin-left:2px;letter-spacing:-.005em}
+@media(prefers-reduced-motion:reduce){.hero-badge{transition:none !important}}
+
+/* ===== ORDER TICKER ===== */
+.order-ticker{
+  margin:14px 0 0 !important;padding:9px 14px !important;border-radius:14px !important;
+  display:none !important;align-items:center;gap:12px;overflow:hidden;
+  font-size:12.5px;color:rgba(255,255,255,.78);
+}
+.order-ticker .live-dot{width:8px;height:8px;border-radius:50%;background:#5ec88f;flex-shrink:0;box-shadow:0 0 0 0 rgba(94,200,143,.5);animation:livepulse 1.6s infinite}
+@keyframes livepulse{0%{box-shadow:0 0 0 0 rgba(94,200,143,.5)}70%{box-shadow:0 0 0 12px rgba(94,200,143,0)}100%{box-shadow:0 0 0 0 rgba(94,200,143,0)}}
+.order-ticker .lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-hi);font-weight:700;flex-shrink:0}
+.order-ticker .row{flex:1;min-width:0;height:18px;position:relative;overflow:hidden}
+.order-ticker .row > span{position:absolute;inset:0;display:flex;align-items:center;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;animation:tickin .5s both}
+@keyframes tickin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.order-ticker strong{color:#fff;font-weight:600;margin:0 3px}
+
+/* ===== CARD ACTIONS ===== */
+.card-actions{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:6px;z-index:5}
+.card-act{
+  width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.25);
+  background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;
+  transition:all .2s;padding:0;
+}
+@media(hover:hover){.card-act{opacity:0;transform:translateX(8px)}}
+.card:hover .card-act{opacity:1;transform:none}
+.card-act:hover{background:rgba(255,255,255,.18);transform:scale(1.08) !important}
+.card-act svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.card-act.on{background:var(--accent);color:var(--accent-on);border-color:var(--accent)}
+.card-act.wish.on svg{fill:currentColor}
+
+/* ===== FLOATING CHAT ===== */
+.float-chat{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:90}
+.float-chat a,.float-chat button{
+  width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  text-decoration:none;color:#fff;cursor:pointer;position:relative;
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.25);
+  box-shadow:0 8px 24px -6px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.4);
+  transition:transform .25s,box-shadow .25s;
+}
+.float-chat a:hover,.float-chat button:hover{transform:translateY(-3px) scale(1.05)}
+.float-chat svg{width:24px;height:24px;fill:currentColor}
+.float-chat .wa{background:linear-gradient(135deg,#25d366,#128c7e)}
+.float-chat .tg{background:linear-gradient(135deg,#34aadc,#0088cc)}
+.float-chat .wish-fab,.float-chat .cmp-fab{background:linear-gradient(135deg,#fff,#c4cdd6);color:#0e1116}
+.float-fab-cnt{position:absolute;top:-4px;right:-4px;background:#e85a2a;color:#fff;border-radius:10px;font-size:10px;padding:1px 6px;font-weight:700;display:none;line-height:1.4}
+.float-fab-cnt.cmp{background:#5ec8d8;color:#0e1116}
+@media(max-width:600px){.float-chat{right:12px;bottom:12px;gap:8px}.float-chat a,.float-chat button{width:48px;height:48px}}
+
+/* ===== DRAWERS ===== */
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:min(440px,92vw);z-index:100001;
+  background:linear-gradient(180deg,rgba(20,22,28,.94),rgba(12,14,18,.97));
+  -webkit-backdrop-filter:blur(40px) saturate(180%);backdrop-filter:blur(40px) saturate(180%);
+  border-left:1px solid rgba(255,255,255,.12);box-shadow:-30px 0 80px -20px rgba(0,0,0,.7);
+  transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.2,1);
+  display:flex;flex-direction:column;
+}
+.drawer.open{transform:none}
+.drawer-head{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)}
+.drawer-title{font-family:'Manrope',sans-serif;font-weight:700;font-size:18px;color:#fff;letter-spacing:-.01em}
+.drawer-close{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1}
+.drawer-body{flex:1;overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+.drawer-empty{text-align:center;color:rgba(255,255,255,.55);padding:40px 20px;font-size:13px;line-height:1.6}
+.drawer-empty small{display:block;margin-top:6px;font-size:11px;opacity:.7}
+.drawer-item{display:flex;gap:12px;padding:10px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);align-items:center}
+.drawer-item-img{width:54px;height:72px;border-radius:8px;background:rgba(255,255,255,.04);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.drawer-item-img svg{width:80%;height:90%}
+.drawer-item-info{flex:1;min-width:0}
+.drawer-item-name{font-weight:600;color:#fff;font-size:14px;letter-spacing:-.01em}
+.drawer-item-price{font-size:12px;color:var(--accent-hi);font-weight:700;margin-top:2px}
+.drawer-item-rm{padding:6px 9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#fff;border-radius:8px;cursor:pointer;font-size:14px;line-height:1}
+.cmp-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px;color:rgba(255,255,255,.85)}
+.cmp-table th{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:700;text-align:left;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.1);position:relative}
+.cmp-table td{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:top}
+.cmp-table td:first-child{color:rgba(255,255,255,.55);width:30%;font-size:11px}
+.cmp-rm{background:transparent;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-size:14px;float:right}
+
+/* ===== FAQ ===== */
+.faq-section{margin:36px 0 0;padding:24px 0 16px}
+.faq-section h2{font-family:'Manrope',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.04em;color:#fff;margin-bottom:22px;line-height:1.05}
+.faq-section h2 em{font-style:normal;background:linear-gradient(135deg,#e3e8ed,#8b95a1);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.faq-list{display:flex;flex-direction:column;gap:8px}
+.faq-item{border-radius:14px !important;overflow:hidden}
+.faq-q{padding:16px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;font-weight:600;font-size:15px;color:#fff;letter-spacing:-.005em}
+.faq-q::after{content:'+';font-size:24px;font-weight:300;color:rgba(255,255,255,.6);transition:transform .25s;line-height:1}
+.faq-item.open .faq-q::after{content:'−'}
+.faq-a{padding:0 20px 16px;font-size:13.5px;line-height:1.65;color:rgba(255,255,255,.72);display:none}
+.faq-item.open .faq-a{display:block;animation:revealUp .3s both}
+
+/* ===== PDF/Share buttons ===== */
+.pdf-btn,.share-btn{
+  padding:12px 16px;border-radius:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  color:#fff;font-weight:600;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;
+}
+.pdf-btn:hover,.share-btn:hover{background:rgba(255,255,255,.10)}
+.pdf-btn svg,.share-btn svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none}
+
+/* ===== SOUND TOAST ===== */
+.snd-toast{
+  position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);
+  padding:10px 18px;border-radius:999px;background:rgba(20,22,28,.95);border:1px solid rgba(255,255,255,.18);
+  color:#fff;font-size:13px;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+  z-index:300;opacity:0;transition:all .3s;pointer-events:none;display:flex;align-items:center;gap:8px;
+}
+.snd-toast.show{opacity:1;transform:translateX(-50%)}
+.snd-toast .live-dot{width:8px;height:8px;border-radius:50%;background:#5ec88f;animation:livepulse 1s infinite}
+
+/* Заголовки — Cormorant */
+.card-name,.calc-title,.calc-price-val,.empty-title{font-family:var(--font-display) !important;font-weight:500 !important;letter-spacing:-.005em !important}
+.cat-title{font-family:var(--font-display) !important;font-weight:500 !important;letter-spacing:-.01em !important}
+
+</style>
+</head>
+<body>
+<div class="cursor-glow" aria-hidden="true"></div>
+<div class="grain-bg"></div>
+<div class="dots-bg"></div>
+<div class="shell">
+<div class="app">
+
+  <!-- APPLE-STYLE NAVBAR -->
+  <div class="cat-head">
+    <h1 class="cat-title hero-anim">Двери, которые мы <em>уже установили</em></h1>
+    <p class="cat-sub">Каждая дверь в каталоге — <strong>реальная работа нашего завода</strong>. Это не картинки из интернета: эти двери уже стоят в квартирах и домах наших клиентов. Выбирайте готовую конфигурацию — и переходите к точному расчёту. Любую модель адаптируем под ваш проём.</p>
+    <div class="hero-badges">
+      <div class="hero-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Гарантия <strong>10 лет</strong></div>
+      <div class="hero-badge green"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Замер <strong>за 24 часа</strong></div>
+      <div class="hero-badge warm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>Установка <strong>за 1 день</strong></div>
+      <div class="hero-badge"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>Производство в <strong>Клину</strong></div>
+    </div>
+    <div class="mfg-note" style="display:none">
+      <span class="mfg-note-ico"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+      <span><strong>Сделано на заводе ARMORA</strong> · г. Клин · собственное производство с 2018</span>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="searchInput" type="search" placeholder="Поиск по названию или серии…" autocomplete="off">
+    </div>
+    <button class="toggle-filters" onclick="toggleFiltersMobile()">
+      <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+      Фильтры
+    </button>
+    <div class="sort-glass" id="sortGlass">
+      <button class="sort-glass-btn" type="button" onclick="toggleSortMenu(event)" aria-haspopup="listbox" aria-expanded="false">
+        <span id="sortLabel">Популярные</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <ul class="sort-glass-menu" role="listbox">
+        <li role="option" data-val="popular" class="on" onclick="pickSort('popular','Популярные')">Популярные</li>
+        <li role="option" data-val="cheap" onclick="pickSort('cheap','Сначала дешёвые')">Сначала дешёвые</li>
+        <li role="option" data-val="expensive" onclick="pickSort('expensive','Сначала дорогие')">Сначала дорогие</li>
+        <li role="option" data-val="new" onclick="pickSort('new','Новинки')">Новинки</li>
+      </ul>
+    </div>
+    <select class="sort" id="sortSel" onchange="render()" style="display:none">
+      <option value="popular">Популярные</option>
+      <option value="cheap">Сначала дешёвые</option>
+      <option value="expensive">Сначала дорогие</option>
+      <option value="new">Новинки</option>
+    </select>
+  </div>
+
+  <!-- LIVE ORDERS TICKER -->
+  <div class="order-ticker" style="display:none">
+    <div class="live-dot"></div>
+    <div class="lbl">В работе сейчас</div>
+    <div class="row" id="tickerRow"><span>Загрузка…</span></div>
+  </div>
+
+  <div class="layout">
+    <aside class="filters" id="filters">
+      <button class="filters-close" onclick="toggleFiltersMobile()" aria-label="Закрыть" style="display:none">×</button>
+
+      <div class="filter-group">
+        <div class="filter-label">Цена, ₽</div>
+        <div class="range">
+          <div class="range-vals"><span id="priceMinLbl">12 900</span><span id="priceMaxLbl">120 000</span></div>
+          <input type="range" id="priceMax" min="20000" max="200000" step="5000" value="200000">
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-label">Назначение</div>
+        <div class="chips" id="chipsPurpose"></div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-label">Серия</div>
+        <div class="chips" id="chipsSeries"></div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-label">Внешняя отделка</div>
+        <div class="flt-checks" id="checksFinish"></div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-label">Стекло / вставка</div>
+        <div class="flt-checks" id="checksGlass"></div>
+      </div>
+
+      <button class="reset-filters" onclick="resetFilters()">Сбросить фильтры</button>
+    </aside>
+
+    <main class="results">
+      <div class="results-meta">
+        <div>Найдено: <strong id="countNum">0</strong> моделей</div>
+        <div>Цена при клике — ориентир, точная — после замера</div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </main>
+  </div>
+
+  <div class="app-footer">© 2026 ARMORA · Каталог · Цена индивидуальна и определяется на бесплатном замере</div>
+</div>
+</div>
+
+<!-- TOP-RIGHT: Перейти на сайт -->
+<a id="gotoSite" class="goto-site" href="https://armora.ru" target="_blank" rel="noopener" title="Перейти на сайт ARMORA">
+  <span>Перейти на сайт</span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+</a>
+
+<!-- FLOATING CHAT -->
+<div class="float-chat">
+  <a class="wa" href="https://wa.me/79991234567?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%B4%D0%B2%D0%B5%D1%80%D1%8C%20ARMORA" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+  <a class="tg" href="https://t.me/armora_doors" target="_blank" rel="noopener" aria-label="Telegram">
+    <svg viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+  </a>
+  <button class="wish-fab" onclick="openDrawer('wish')" aria-label="Избранное">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    <span class="float-fab-cnt" id="wishCnt">0</span>
+  </button>
+  <button class="cmp-fab" onclick="openDrawer('cmp')" aria-label="Сравнение">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
+    <span class="float-fab-cnt cmp" id="cmpCnt">0</span>
+  </button>
+</div>
+
+<!-- DRAWERS -->
+<div class="drawer" id="wishDrawer">
+  <div class="drawer-head"><div class="drawer-title">Избранное</div><button class="drawer-close" onclick="closeDrawer()">×</button></div>
+  <div class="drawer-body" id="wishBody"></div>
+</div>
+<div class="drawer" id="cmpDrawer">
+  <div class="drawer-head"><div class="drawer-title">Сравнение моделей</div><button class="drawer-close" onclick="closeDrawer()">×</button></div>
+  <div class="drawer-body" id="cmpBody"></div>
+</div>
+
+<!-- SOUND TOAST -->
+<div class="snd-toast" id="sndToast"><div class="live-dot"></div><span>Воспроизведение демо…</span></div>
+
+<!-- ============ CALCULATOR MODAL ============ -->
+<div class="calc-bg" id="calcBg" onclick="if(event.target===this)closeCalc()" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="calc-modal">
+    <div class="calc-head">
+      <div class="calc-head-l">
+        <button class="calc-head-back" onclick="closeCalc()" aria-label="Назад в каталог">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="calc-title-block">
+          <div class="calc-kicker">Расчёт двери</div>
+          <div class="calc-title" id="calcDoorName">—</div>
+        </div>
+      </div>
+      <div class="calc-head-r">
+        <div class="calc-price-area">
+          <div class="calc-price-lbl">Ориентир</div>
+          <div class="calc-price-val" id="calcPriceVal">—</div>
+        </div>
+        <button class="calc-close" onclick="closeCalc()" aria-label="Закрыть">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="calc-body" id="calcBody"></div>
+    <div class="calc-prog">
+      <div class="calc-prog-meta">
+        <span>Шаг <strong id="calcStepNum">1</strong> из <span id="calcStepTotal">8</span></span>
+        <span id="calcPct">12%</span>
+      </div>
+      <div class="calc-prog-track"><div class="calc-prog-fill" id="calcProgFill" style="width:12%"></div></div>
+    </div>
+    <div class="calc-nav" id="calcNav"></div>
+  </div>
+</div>
+
+<script>
+/* ====== ДАННЫЕ КАТАЛОГА ====== */
+/* Чтобы заменить картинки на реальные фото — поменяй "img":svgRender(...) на "img":'<img src="...">'  */
+
+const FINISHES={
+  'graphite':{label:'Графит',body:'#2a2724',accent:'#3d3a30'},
+  'venge':{label:'Венге',body:'#3a2a1e',accent:'#52382a'},
+  'oak':{label:'Дуб золотой',body:'#a47a2c',accent:'#c89c4d'},
+  'white':{label:'Белый',body:'#f4ede0',accent:'#d9cfb4'},
+  'walnut':{label:'Орех',body:'#5a3e2a',accent:'#7a5a3e'},
+  'concrete':{label:'Бетон',body:'#7a7468',accent:'#9a9384'},
+  'cream':{label:'Слоновая кость',body:'#e8dfc8',accent:'#d9cfb4'},
+  'black':{label:'Чёрный матовый',body:'#15140f',accent:'#3d3a30'}
+};
+
+function svgDoor(o,view){
+  const f=FINISHES[o.finish]||FINISHES.graphite;
+  view=view||'front';
+  const handle=o.handle==='long'
+    ? `<rect x="74" y="55" width="3" height="22" rx="1" fill="#c89c4d"/>`
+    : `<rect x="74" y="62" width="3" height="8" rx="1" fill="#c89c4d"/><circle cx="75.5" cy="66" r="2.2" fill="#c89c4d"/>`;
+  let inset='';
+  if(o.glass==='rect') inset=`<rect x="14" y="20" width="42" height="46" rx="2" fill="#cfd8d9" stroke="${f.accent}" stroke-width=".8" opacity=".55"/><line x1="35" y1="20" x2="35" y2="66" stroke="${f.accent}" stroke-width=".4" opacity=".4"/>`;
+  else if(o.glass==='arch') inset=`<path d="M 14 32 Q 14 20 35 20 Q 56 20 56 32 L 56 66 L 14 66 Z" fill="#cfd8d9" stroke="${f.accent}" stroke-width=".8" opacity=".55"/>`;
+  else if(o.glass==='mirror') inset=`<rect x="14" y="20" width="42" height="56" rx="2" fill="url(#mir-${o.id}-${view})" stroke="${f.accent}" stroke-width=".8"/>`;
+  else if(o.glass==='forge') inset=`<rect x="14" y="20" width="42" height="46" rx="2" fill="#cfd8d9" opacity=".5"/><path d="M20 30 Q35 22 50 30 M20 45 Q35 37 50 45 M20 58 Q35 50 50 58" stroke="${f.accent}" stroke-width="1" fill="none"/>`;
+  else if(o.glass==='vitrage') inset=`<rect x="14" y="20" width="42" height="46" rx="2" fill="#cfd8d9" opacity=".4"/><path d="M14 43 L56 43 M35 20 L35 66" stroke="${f.accent}" stroke-width=".6"/><circle cx="24" cy="32" r="4" fill="${f.accent}" opacity=".4"/><circle cx="46" cy="54" r="4" fill="${f.accent}" opacity=".4"/>`;
+  else if(o.glass==='panel') inset=`<rect x="14" y="20" width="42" height="22" rx="2" fill="${f.accent}" opacity=".4"/><rect x="14" y="46" width="42" height="22" rx="2" fill="${f.accent}" opacity=".4"/>`;
+
+  // Different views — same door from different angles/details
+  let extras='',label='';
+  if(view==='inside'){
+    // Inside view — без вставок, с дополнительной фактурой и замком
+    inset='';
+    extras=`<rect x="14" y="20" width="72" height="100" rx="1" fill="none" stroke="${f.accent}" stroke-width=".4" opacity=".4"/>
+      <rect x="20" y="26" width="60" height="42" rx="1" fill="none" stroke="${f.accent}" stroke-width=".4" opacity=".4"/>
+      <rect x="20" y="74" width="60" height="42" rx="1" fill="none" stroke="${f.accent}" stroke-width=".4" opacity=".4"/>
+      <rect x="22" y="58" width="14" height="4" rx="1" fill="${f.accent}" opacity=".7"/>`;
+    label=`<text x="50" y="128" text-anchor="middle" font-family="Manrope" font-size="4.5" fill="#7a7466" letter-spacing=".3">ВНУТРИ</text>`;
+  } else if(view==='detail'){
+    // Detail / closeup of lock & handle area
+    extras=`<rect x="0" y="0" width="100" height="130" fill="${f.body}"/>
+      <rect x="20" y="40" width="60" height="50" rx="2" fill="${f.accent}" opacity=".22"/>
+      <rect x="55" y="55" width="6" height="22" rx="1" fill="#c89c4d"/>
+      <circle cx="58" cy="44" r="3" fill="#0a0a08"/>
+      <rect x="40" y="62" width="14" height="6" rx="1" fill="#0a0a08" opacity=".6"/>
+      <rect x="40" y="70" width="14" height="2" rx="1" fill="#c89c4d" opacity=".7"/>
+      <text x="50" y="120" text-anchor="middle" font-family="Manrope" font-size="4.5" fill="#fbf7ec" opacity=".7" letter-spacing=".3">ФУРНИТУРА</text>`;
+    return `<svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">${extras}</svg>`;
+  }
+
+  return `<svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id="mir-${o.id}-${view}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#d8e0e2"/><stop offset="50%" stop-color="#aab2b5"/><stop offset="100%" stop-color="#d8e0e2"/>
+      </linearGradient>
+      <linearGradient id="bg-${o.id}-${view}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="${f.body}"/><stop offset="100%" stop-color="${f.accent}"/>
+      </linearGradient>
+    </defs>
+    <rect x="6" y="10" width="88" height="115" rx="2" fill="#1a1814"/>
+    <rect x="8" y="12" width="84" height="111" rx="1.5" fill="url(#bg-${o.id}-${view})"/>
+    <rect x="11" y="15" width="78" height="105" rx="1" fill="none" stroke="${f.accent}" stroke-width=".5" opacity=".5"/>
+    ${inset}
+    ${extras}
+    ${view==='front'?handle:''}
+    ${view==='front'?`<circle cx="75.5" cy="40" r="1.5" fill="#0a0a08"/>`:''}
+    ${label}
+  </svg>`;
+}
+
+const DOORS=[
+  {id:1, name:'Брест', series:'Эконом', purpose:'дача', price:12900, finish:'graphite', glass:'none', handle:'short', flag:null, popular:5, tags:['Металл 1,2 мм','1 замок']},
+  {id:2, name:'Витязь', series:'Стандарт', purpose:'квартира', price:24900, finish:'venge', glass:'none', handle:'short', flag:null, popular:35, tags:['Металл 1,5 мм','2 контура']},
+  {id:3, name:'Каскад', series:'Стандарт', purpose:'квартира', price:27500, finish:'oak', glass:'none', handle:'long', flag:null, popular:28, tags:['Ламинат','Guardian']},
+  {id:4, name:'Аврора', series:'Комфорт', purpose:'квартира', price:34900, finish:'white', glass:'rect', handle:'long', flag:'Хит', popular:88, tags:['ПВХ','Двойной контур']},
+  {id:5, name:'Сенатор', series:'Комфорт', purpose:'квартира', price:38500, finish:'walnut', glass:'none', handle:'long', flag:null, popular:62, tags:['Guardian','Armadillo']},
+  {id:6, name:'Гранит', series:'Комфорт', purpose:'тамбур', price:36900, finish:'concrete', glass:'panel', handle:'long', flag:null, popular:30, tags:['Guardian','Двойной контур']},
+  {id:7, name:'Барселона', series:'Комфорт', purpose:'квартира', price:41900, finish:'venge', glass:'mirror', handle:'long', flag:'Хит', popular:95, tags:['Зеркало','Armadillo']},
+  {id:8, name:'Прага', series:'Премиум', purpose:'квартира', price:54900, finish:'walnut', glass:'rect', handle:'long', flag:'Рекомендуем', popular:120, tags:['МДФ','Ночная задвижка']},
+  {id:9, name:'Милан', series:'Премиум', purpose:'квартира', price:58900, finish:'oak', glass:'arch', handle:'long', flag:null, popular:82, tags:['МДФ','Арка']},
+  {id:10, name:'Версаль', series:'Премиум', purpose:'квартира', price:64500, finish:'white', glass:'rect', handle:'long', flag:'Хит', popular:110, tags:['ПВХ белый','Стекло']},
+  {id:11, name:'Монблан', series:'Премиум', purpose:'дом', price:69900, finish:'graphite', glass:'forge', handle:'long', flag:null, popular:48, tags:['Ковка','Терморазрыв']},
+  {id:12, name:'Лофт', series:'Премиум', purpose:'квартира', price:62000, finish:'black', glass:'panel', handle:'long', flag:'Новинка', popular:55, tags:['Чёрный мат','Минимализм']},
+  {id:13, name:'Тоскана', series:'Премиум', purpose:'дом', price:71500, finish:'cream', glass:'arch', handle:'long', flag:null, popular:38, tags:['Слоновая кость','Арка']},
+  {id:14, name:'Императрица', series:'Элит', purpose:'квартира', price:89900, finish:'walnut', glass:'vitrage', handle:'long', flag:'Элит', popular:42, tags:['Витраж','Скрытые петли']},
+  {id:15, name:'Александрия', series:'Элит', purpose:'дом', price:98500, finish:'oak', glass:'forge', handle:'long', flag:'Элит', popular:36, tags:['Кованое стекло','Терморазрыв']},
+  {id:16, name:'Палаццо', series:'Элит', purpose:'дом', price:115000, finish:'venge', glass:'arch', handle:'long', flag:'Элит', popular:28, tags:['Фанера','3 контура']},
+  {id:17, name:'Резиденция', series:'Элит', purpose:'дом', price:128000, finish:'black', glass:'mirror', handle:'long', flag:'Элит', popular:22, tags:['Биометрия','Скрытые петли']},
+  {id:18, name:'Шато', series:'Элит', purpose:'дом', price:142000, finish:'cream', glass:'vitrage', handle:'long', flag:'Элит', popular:18, tags:['Витраж ручной','Mottura']},
+  {id:19, name:'Крепость', series:'Стандарт', purpose:'тамбур', price:32000, finish:'graphite', glass:'none', handle:'short', flag:null, popular:50, tags:['Двойная','Тамбур']},
+  {id:20, name:'Орион', series:'Комфорт', purpose:'офис', price:42500, finish:'concrete', glass:'rect', handle:'long', flag:null, popular:34, tags:['Стекло','Доводчик']}
+];
+
+/* === РЕАЛЬНЫЕ ФОТО (id 1-10) === */
+const PHOTOS={
+  1:'img/door01.png',
+  2:'img/door02.jpg',
+  3:'img/door03.jpg',
+  4:'img/door04.jpg',
+  5:'img/door05.jpg',
+  6:'img/door06.jpg',
+  7:'img/door07.png',
+  8:'img/door08.jpg',
+  9:'img/door09.jpg',
+  10:'img/door10.jpg'
+};
+
+DOORS.forEach(d=>{
+  if(PHOTOS[d.id]){
+    d.images=[PHOTOS[d.id]];
+    return;
+  }
+  // По умолчанию — 3 SVG-вида (фасад / интерьер / детали).
+  // Чтобы заменить на реальные фото — присвой d.images = ['url1.jpg','url2.jpg', ...]
+  // Поддерживаются и SVG-строки, и URL картинок.
+  if(!d.images){
+    d.images=[
+      svgDoor(d,'front'),
+      svgDoor(d,'inside'),
+      svgDoor(d,'detail')
+    ];
+  }
+});
+
+function slideHtml(src){
+  // SVG-строка начинается с '<svg', URL — с http/data/относительный путь
+  if(typeof src==='string' && src.trim().startsWith('<svg')) return `<div class="slide">${src}</div>`;
+  return `<div class="slide"><img src="${src}" alt="" loading="lazy" decoding="async" fetchpriority="low"></div>`;
+}
+
+/* ====== ФИЛЬТРЫ ====== */
+
+const FILTERS={
+  purpose:new Set(),
+  series:new Set(),
+  finish:new Set(),
+  glass:new Set(), // ключи из GLASS_OPTS: none/mirror/rect/arch/forge/vitrage
+  search:'',
+  priceMax:200000
+};
+
+const PURPOSES=['квартира','дом','тамбур','офис','дача'];
+const SERIES_LIST=['Эконом','Стандарт','Комфорт','Премиум','Элит'];
+
+/* Внешняя отделка — берём список из шага «ext» калькулятора (CALC_STEPS).
+   Привязка к моделям — по тегам двери (d.tags) или по серии для Эконома. */
+const FINISH_OPTS=[
+  {k:'powder',  l:'Порошковое покрытие', tags:['порошок','порошковое']},
+  {k:'vinyl',   l:'Винилискожа',         tags:['винилискожа','винил']},
+  {k:'laminate',l:'Ламинат',             tags:['ламинат']},
+  {k:'pvc',     l:'ПВХ',                 tags:['пвх']},
+  {k:'mdf',     l:'МДФ',                 tags:['мдф']},
+  {k:'plywood', l:'Влагостойкая фанера', tags:['фанера']}
+];
+/* Серия → отделка по умолчанию (если в тегах ничего не нашли) */
+const SERIES_DEFAULT_FINISH={
+  'Эконом':['vinyl'],
+  'Стандарт':['laminate'],
+  'Комфорт':['pvc'],
+  'Премиум':['mdf'],
+  'Элит':['plywood','mdf']
+};
+function doorFinishKeys(d){
+  const hay=((d.tags||[]).join(' ')+' '+(d.name||'')).toLowerCase();
+  const found=FINISH_OPTS.filter(o=>o.tags.some(t=>hay.includes(t))).map(o=>o.k);
+  return found.length?found:(SERIES_DEFAULT_FINISH[d.series]||[]);
+}
+
+/* Стекло / вставка — варианты из шага «glass» калькулятора */
+const GLASS_OPTS=[
+  {k:'none',    l:'Без вставки',  match:['none']},
+  {k:'mirror',  l:'Зеркало',      match:['mirror']},
+  {k:'rect',    l:'Стеклопакет',  match:['rect','panel']},
+  {k:'arch',    l:'Арка',         match:['arch']},
+  {k:'forge',   l:'Ковка',        match:['forge']},
+  {k:'vitrage', l:'Витраж',       match:['vitrage']}
+];
+function glassMatchesDoor(optKey, doorGlass){
+  const o=GLASS_OPTS.find(x=>x.k===optKey); if(!o) return false;
+  return o.match.includes(doorGlass);
+}
+
+function renderChips(){
+  document.getElementById('chipsPurpose').innerHTML=PURPOSES.map(p=>`<button class="chip${FILTERS.purpose.has(p)?' on':''}" onclick="toggleFilter('purpose','${p}')">${p}</button>`).join('');
+  document.getElementById('chipsSeries').innerHTML=SERIES_LIST.map(s=>`<button class="chip${FILTERS.series.has(s)?' on':''}" onclick="toggleFilter('series','${s}')">${s}</button>`).join('');
+
+  // Внешняя отделка — чекбоксы, варианты из калькулятора
+  const fEl=document.getElementById('checksFinish');
+  if(fEl){
+    fEl.innerHTML=FINISH_OPTS.map(o=>{
+      const cnt=DOORS.filter(d=>doorFinishKeys(d).includes(o.k)).length;
+      const on=FILTERS.finish.has(o.k);
+      return `<button class="flt-check${on?' on':''}" onclick="toggleFilter('finish','${o.k}')" aria-pressed="${on}">
+        <span class="flt-check-box">${on?'✓':''}</span>
+        <span class="flt-check-name">${o.l}</span>
+        <span class="flt-check-cnt">${cnt}</span>
+      </button>`;
+    }).join('');
+  }
+
+  // Стекло — чекбоксы
+  const gEl=document.getElementById('checksGlass');
+  if(gEl){
+    gEl.innerHTML=GLASS_OPTS.map(g=>{
+      const cnt=DOORS.filter(d=>g.match.includes(d.glass)).length;
+      const on=FILTERS.glass.has(g.k);
+      return `<button class="flt-check${on?' on':''}" onclick="toggleGlass('${g.k}')" aria-pressed="${on}">
+        <span class="flt-check-box">${on?'✓':''}</span>
+        <span class="flt-check-name">${g.l}</span>
+        <span class="flt-check-cnt">${cnt}</span>
+      </button>`;
+    }).join('');
+  }
+}
+
+function toggleFilter(key,val){
+  const s=FILTERS[key];
+  if(s.has(val))s.delete(val);else s.add(val);
+  renderChips();render();
+}
+function toggleGlass(k){
+  if(FILTERS.glass.has(k))FILTERS.glass.delete(k); else FILTERS.glass.add(k);
+  renderChips();render();
+}
+function resetFilters(){
+  FILTERS.purpose.clear();FILTERS.series.clear();FILTERS.finish.clear();
+  FILTERS.glass.clear();FILTERS.search='';FILTERS.priceMax=200000;
+  document.getElementById('searchInput').value='';
+  document.getElementById('priceMax').value=200000;
+  document.getElementById('priceMaxLbl').textContent='120 000+';
+  renderChips();render();
+}
+
+document.getElementById('searchInput').addEventListener('input',e=>{FILTERS.search=e.target.value.trim().toLowerCase();render();});
+document.getElementById('priceMax').addEventListener('input',e=>{
+  FILTERS.priceMax=+e.target.value;
+  document.getElementById('priceMaxLbl').textContent=FILTERS.priceMax>=200000?'200 000+':FILTERS.priceMax.toLocaleString('ru-RU');
+  render();
+});
+
+/* ====== РЕНДЕР ====== */
+
+function applyFilters(list){
+  return list.filter(d=>{
+    if(FILTERS.purpose.size && !FILTERS.purpose.has(d.purpose))return false;
+    if(FILTERS.series.size && !FILTERS.series.has(d.series))return false;
+    if(FILTERS.finish.size){
+      const fkeys=doorFinishKeys(d);
+      const ok=[...FILTERS.finish].some(k=>fkeys.includes(k));
+      if(!ok) return false;
+    }
+    if(FILTERS.glass.size){
+      const ok=[...FILTERS.glass].some(k=>glassMatchesDoor(k,d.glass));
+      if(!ok) return false;
+    }
+    if(d.price>FILTERS.priceMax && FILTERS.priceMax<200000)return false;
+    if(FILTERS.search){
+      const hay=(d.name+' '+d.series+' '+d.purpose+' '+(d.tags||[]).join(' ')).toLowerCase();
+      if(!hay.includes(FILTERS.search))return false;
+    }
+    return true;
+  });
+}
+
+function applySort(list){
+  const s=document.getElementById('sortSel').value;
+  const c=[...list];
+  if(s==='cheap')c.sort((a,b)=>a.price-b.price);
+  else if(s==='expensive')c.sort((a,b)=>b.price-a.price);
+  else if(s==='new')c.sort((a,b)=>(b.flag==='Новинка'?1:0)-(a.flag==='Новинка'?1:0)||b.popular-a.popular);
+  else c.sort((a,b)=>b.popular-a.popular);
+  return c;
+}
+
+function flagClass(f){
+  if(!f)return '';
+  if(f==='Хит'||f==='Рекомендуем')return ' hit';
+  if(f==='Новинка')return ' new';
+  if(f==='Элит')return ' elite';
+  return '';
+}
+
+function cardHtml(d,idx){
+  const imgs=d.images||[];
+  const multi=imgs.length>1;
+  const dotsHtml=multi?`<div class="car-dots">${imgs.map((_,i)=>`<button class="car-dot${i===0?' on':''}" data-go="${i}" aria-label="Слайд ${i+1}"></button>`).join('')}</div>`:'';
+  const counterHtml=multi?`<div class="car-counter"><span class="cur">1</span>/${imgs.length}</div>`:'';
+  const arrowsHtml=multi?`
+    <button class="car-arrow prev disabled" data-dir="-1" aria-label="Предыдущее"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <button class="car-arrow next" data-dir="1" aria-label="Следующее"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>`:'';
+
+  return `<article class="card reveal" data-id="${d.id}" style="animation-delay:${(idx||0)*40}ms" onclick="openCalc(${d.id})">
+    <div class="card-img" data-carousel data-len="${imgs.length}" data-idx="0">
+      ${d.flag?`<div class="card-flag${flagClass(d.flag)}">${d.flag}</div>`:''}
+      <div class="card-actions">
+        <button class="card-act wish" data-id="${d.id}" onclick="event.stopPropagation();toggleWish(${d.id},this)" aria-label="В избранное"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <button class="card-act cmp" data-id="${d.id}" onclick="event.stopPropagation();toggleCmp(${d.id},this)" aria-label="Сравнить"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg></button>
+      </div>
+      ${counterHtml}
+      <div class="slides">${imgs.map(slideHtml).join('')}</div>
+      ${arrowsHtml}
+      ${dotsHtml}
+    </div>
+    <div class="card-body">
+      <div class="card-series">Серия · ${d.series}</div>
+      <div class="card-name">${d.name}</div>
+      <div class="card-purpose">Для: ${d.purpose} · ${FINISHES[d.finish].label}</div>
+      <div class="card-tags">${(d.tags||[]).slice(0,2).map(t=>`<span class="ctag">${t}</span>`).join('')}</div>
+      <div class="card-bottom">
+        <div class="card-price">
+          <span class="card-price-from">от</span>
+          <span class="card-price-val">${d.price.toLocaleString('ru-RU')} ₽</span>
+        </div>
+        <button class="card-cta" onclick="event.stopPropagation();openCalc(${d.id})">Рассчитать →</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+/* Subtle 3D tilt on hover — отключено (тяжело при backdrop-filter на .card).
+   Hover-эффект остаётся через CSS :hover (translateY + glow). */
+function bindCardTilt(){return}
+
+/* Stagger reveal on scroll */
+function bindReveal(){
+  if(!('IntersectionObserver' in window))return;
+  const els=document.querySelectorAll('.reveal');
+  const io=new IntersectionObserver(es=>{
+    es.forEach(en=>{
+      if(en.isIntersecting){en.target.style.opacity='1';en.target.style.transform='';io.unobserve(en.target);}
+    });
+  },{threshold:.08,rootMargin:'0px 0px -50px 0px'});
+  els.forEach(el=>{el.style.opacity='0';io.observe(el);});
+}
+
+function bindCarousels(){
+  document.querySelectorAll('[data-carousel]').forEach(car=>{
+    const len=+car.dataset.len;
+    if(len<=1)return;
+    const slides=car.querySelector('.slides');
+    const dots=car.querySelectorAll('.car-dot');
+    const counter=car.querySelector('.car-counter .cur');
+    const prev=car.querySelector('.car-arrow.prev');
+    const next=car.querySelector('.car-arrow.next');
+
+    const go=i=>{
+      i=Math.max(0,Math.min(len-1,i));
+      car.dataset.idx=i;
+      slides.style.transform=`translateX(-${i*100}%)`;
+      dots.forEach((d,j)=>d.classList.toggle('on',j===i));
+      if(counter)counter.textContent=i+1;
+      prev.classList.toggle('disabled',i===0);
+      next.classList.toggle('disabled',i===len-1);
+    };
+
+    prev.addEventListener('click',e=>{e.stopPropagation();go(+car.dataset.idx-1);});
+    next.addEventListener('click',e=>{e.stopPropagation();go(+car.dataset.idx+1);});
+    dots.forEach(d=>d.addEventListener('click',e=>{e.stopPropagation();go(+d.dataset.go);}));
+
+    // Touch swipe
+    let sx=0,sy=0,dx=0,active=false;
+    car.addEventListener('touchstart',e=>{const t=e.touches[0];sx=t.clientX;sy=t.clientY;dx=0;active=true;},{passive:true});
+    car.addEventListener('touchmove',e=>{if(!active)return;const t=e.touches[0];dx=t.clientX-sx;if(Math.abs(dx)>Math.abs(t.clientY-sy))e.cancelable&&e.preventDefault?null:null;},{passive:true});
+    car.addEventListener('touchend',e=>{
+      if(!active)return;active=false;
+      if(Math.abs(dx)>40){e.stopPropagation();go(+car.dataset.idx+(dx<0?1:-1));}
+    });
+
+    // (wheel-перелистывание отключено — мешало скроллу страницы)
+  });
+}
+
+function render(){
+  const list=applySort(applyFilters(DOORS));
+  document.getElementById('countNum').textContent=list.length;
+  const g=document.getElementById('grid');
+  if(!list.length){
+    g.innerHTML=`<div class="empty" style="grid-column:1/-1">
+      <div class="empty-title">Ничего не найдено</div>
+      <div class="empty-sub">Попробуйте сбросить фильтры или изменить параметры поиска</div>
+    </div>`;return;
+  }
+  g.innerHTML=list.map((d,i)=>cardHtml(d,i)).join('');
+  bindCarousels();
+  bindCardTilt();
+  bindReveal();
+}
+
+function openCalc(id){
+  const d=DOORS.find(x=>x.id===id);
+  if(!d)return;
+  CALC.door=d;
+  CALC.cur=0;
+  // Reset selections, then preset based on door
+  CALC.sel={base:null,ext:null,int:null,glass:null,seal:null,lock:null,handle:null,extras:[],install:[]};
+  presetFromDoor(d);
+  document.getElementById('calcDoorName').innerHTML=`${d.name} <em style="opacity:.5;font-size:.85em">· ${d.series}</em>`;
+  const bg=document.getElementById('calcBg');
+  bg.classList.add('show');bg.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  renderCalc();
+}
+function closeCalc(){
+  const bg=document.getElementById('calcBg');
+  bg.classList.remove('show');bg.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && document.getElementById('calcBg').classList.contains('show'))closeCalc();
+});
+
+function toggleFiltersMobile(){document.getElementById('filters').classList.toggle('open');}
+
+// Category strip ↔ purpose filter sync
+document.querySelectorAll('.catbtn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.catbtn').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    const cat=b.dataset.cat;
+    FILTERS.purpose.clear();
+    if(cat!=='all')FILTERS.purpose.add(cat);
+    renderChips();render();
+    const r=document.querySelector('.results');
+    if(r)window.scrollTo({top:r.offsetTop-80,behavior:'smooth'});
+  });
+});
+
+// Apple-style mega-menu items → filter
+document.querySelectorAll('.tb-mega-item').forEach(it=>{
+  it.addEventListener('click',e=>{
+    e.preventDefault();
+    const cat=it.dataset.cat,ser=it.dataset.series;
+    if(cat){FILTERS.purpose.clear();FILTERS.purpose.add(cat);}
+    if(ser){FILTERS.series.clear();FILTERS.series.add(ser);}
+    renderChips();render();
+    document.querySelector('.results')?.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+/* Лёгкий глобальный mousemove только для фонового радиал-градиента (--mx/--my).
+   Throttle до ~30 fps + отключение во время скролла + skip если ничего не двинулось. */
+(function(){
+  let raf=0,lastX=0,lastY=0,scrolling=false,prevX=-1,prevY=-1,lastTs=0;
+  const root=document.documentElement;
+  const FPS_INTERVAL=33; // ~30fps
+  document.addEventListener('mousemove',e=>{
+    lastX=e.clientX;lastY=e.clientY;
+    if(scrolling||raf)return;
+    const now=performance.now();
+    if(now-lastTs<FPS_INTERVAL)return;
+    raf=requestAnimationFrame(()=>{
+      raf=0;lastTs=performance.now();
+      if(lastX===prevX&&lastY===prevY)return;
+      prevX=lastX;prevY=lastY;
+      root.style.setProperty('--mx',lastX+'px');
+      root.style.setProperty('--my',lastY+'px');
+    });
+  },{passive:true});
+  // не обновляем фон во время прокрутки
+  window.addEventListener('scroll',()=>{
+    scrolling=true;
+    clearTimeout(window.__bgScrT);
+    window.__bgScrT=setTimeout(()=>scrolling=false,180);
+  },{passive:true});
+
+  // Точечная подсветка под курсором над .card — тоже throttled
+  let cardRaf=0,cardEl=null,cardX=0,cardY=0;
+  document.addEventListener('pointermove',e=>{
+    if(scrolling||cardRaf)return;
+    const card=e.target.closest && e.target.closest('.card');
+    if(!card)return;
+    cardEl=card;cardX=e.clientX;cardY=e.clientY;
+    cardRaf=requestAnimationFrame(()=>{
+      cardRaf=0;
+      const r=cardEl.getBoundingClientRect();
+      cardEl.style.setProperty('--cx',(cardX-r.left)+'px');
+      cardEl.style.setProperty('--cy',(cardY-r.top)+'px');
+    });
+  },{passive:true});
+})();
+
+renderChips();render();
+
+/* ============================================================
+   CALCULATOR LOGIC
+   ============================================================ */
+
+const CALC_STEPS=[
+  {key:'base',type:'radio',title:'Серия <em>двери</em>',hint:'Серия определяет конструкцию: толщину металла, класс замков, количество контуров. Уже выбрана под модель из каталога — но можно сменить.',
+   options:[
+    {name:'Эконом',price:12900,desc:'Для дач, гаражей, нежилых помещений.',inc:'Порошковое покрытие · Винилискожа'},
+    {name:'Стандарт',price:24900,desc:'Базовый вариант для квартиры.',inc:'Порошковое покрытие · Ламинат · 2 контура'},
+    {name:'Комфорт',price:34900,desc:'Повышенная тепло- и шумоизоляция.',inc:'ПВХ · 2 контура · Guardian · Armadillo'},
+    {name:'Премиум',price:54900,desc:'Оптимальный выбор для московских квартир.',inc:'МДФ · 2 контура · Guardian · Armadillo · Ночная задвижка'},
+    {name:'Элит',price:89900,desc:'Индивидуальное производство.',inc:'Фанера · МДФ · 3 контура · 2 замка · Терморазрыв'}
+  ]},
+  {key:'ext',type:'radio',title:'Отделка <em>снаружи</em>',hint:'Эту сторону видят соседи. Варианты дешевле включённого в серию — бесплатны.',
+   options:[
+    {name:'Порошковое полимерное покрытие',price:4500,desc:'Матовое износостойкое покрытие. 20+ цветов.'},
+    {name:'Винилискожа',price:2500,desc:'Мягкая фактура, скрывает мелкие царапины.'},
+    {name:'Ламинат',price:4500,desc:'Имитация дерева. Не выцветает на солнце.'},
+    {name:'ПВХ',price:6500,desc:'Влагостойкий материал.'},
+    {name:'МДФ',price:9500,desc:'Благородный вид. Покраска в любой оттенок.'},
+    {name:'Влагостойкая фанера',price:17000,desc:'Прочная основа, не боится перепадов температуры.'},
+    {name:'3D панель',price:27000,desc:'Объёмный фрезерованный рисунок. Премиальный фасад.'}
+  ]},
+  {key:'int',type:'radio',title:'Отделка <em>внутри</em>',hint:'Сторона, которую видите вы каждый день.',
+   options:[
+    {name:'Порошковое полимерное покрытие',price:8000,desc:'Матовая окраска металла. Лофт.'},
+    {name:'Винилискожа',price:2500,desc:'Тёплая на ощупь. Классика уюта.'},
+    {name:'Ламинат',price:4500,desc:'Имитация дерева. Легко моется.'},
+    {name:'ПВХ',price:6500,desc:'Практичный, влагостойкий.'},
+    {name:'МДФ',price:9500,desc:'Благородный вид.'},
+    {name:'Влагостойкая фанера',price:17000,desc:'Максимальная прочность.'}
+  ]},
+  {key:'glass',type:'radio',title:'Вставка / <em>стеклопакет</em>',hint:'Декоративный элемент в полотне. Если не нужен — оставьте «Без вставки».',
+   options:[
+    {name:'Без вставки',price:0,desc:'Глухое полотно. Максимальная теплоизоляция.'},
+    {name:'Зеркало',price:5500,desc:'Зеркало в дверь. Удобно перед выходом.'},
+    {name:'Стеклопакет прямой',price:5500,desc:'Закалённое стекло 6 мм.'},
+    {name:'Стеклопакет арка',price:7500,desc:'Арочный проём, изящнее.'},
+    {name:'Зеркальная тонировка',price:8500,desc:'Снаружи — зеркало, изнутри прозрачное.'},
+    {name:'Стеклопакет с ковкой',price:12000,desc:'Кованая решётка внутри стекла.'},
+    {name:'Художественный витраж',price:25000,desc:'Цветное стекло ручной работы.'}
+  ]},
+  {key:'seal',type:'radio',title:'Контуры <em>уплотнения</em>',hint:'Каждый контур — это тишина и тепло.',
+   options:[
+    {name:'Одинарный контур',price:0,desc:'Стандарт для новостроек с тамбуром.'},
+    {name:'Двойной контур',price:2500,desc:'Заметно снижает шум и сквозняки.'},
+    {name:'Тройной контур',price:12000,desc:'Максимальная шумо- и теплоизоляция.'}
+  ]},
+  {key:'lock',type:'radio',title:'Замок и <em>защита</em>',hint:'От стандартного цилиндра до биометрии.',
+   options:[
+    {name:'1 замок стандарт',price:0,desc:'Цилиндровый 3-го класса защиты.'},
+    {name:'2 замка Guardian',price:3500,desc:'Цилиндровый + сувальдный.'},
+    {name:'2 замка Kale',price:6500,desc:'Турецкое качество.'},
+    {name:'Замок Cisa',price:13000,desc:'Итальянский сертифицированный.'},
+    {name:'Замок Mottura',price:19500,desc:'Премиум итальянский.'},
+    {name:'Биометрический',price:25000,desc:'Отпечаток пальца, PIN, ключ.'}
+  ]},
+  {key:'handle',type:'radio',title:'Ручка и <em>фурнитура</em>',hint:'Деталь, к которой прикасаетесь тысячи раз в год.',
+   options:[
+    {name:'MSM',price:0,desc:'Матовый хром, надёжный базовый вариант.'},
+    {name:'Apex',price:3000,desc:'Лаконичный дизайн.'},
+    {name:'Armadillo',price:4500,desc:'Широкая линейка стилей.'},
+    {name:'Guardian Premium',price:6500,desc:'Хром, золото, антик. Усиленное крепление.'},
+    {name:'Бугельная',price:16500,desc:'Массивная ручка-скоба во всю высоту полотна.'}
+  ]},
+  {key:'extras',type:'multi',title:'Дополнительные <em>опции</em>',hint:'Любое количество. Видеоглазок — в подарок при заказе после замера.',
+   options:[
+    {name:'Видеоглазок',price:6500,desc:'180°, запись на смартфон.',isGift:true},
+    {name:'Доводчик',price:5500,desc:'Закрывается сама — плавно и тихо.'},
+    {name:'Терморазрыв',price:10500,desc:'Устраняет иней и конденсат.'},
+    {name:'Порог из нержавейки',price:5500,desc:'Нет сквозняков снизу.'},
+    {name:'Броненакладка',price:5500,desc:'Защита замка от высверливания.'},
+    {name:'Ночная задвижка',price:3200,desc:'Дополнительный запор изнутри.'},
+    {name:'Шумоизоляция',price:5500,desc:'Вибропласт STP + утеплитель.'},
+    {name:'Скрытые петли',price:23000,desc:'Дверь как единая плита.'}
+  ]}
+];
+
+const CALC_ICONS={
+  'Видеоглазок':`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>`,
+  'Доводчик':`<svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 16-5.7"/><polyline points="19 2 19 7 14 7"/><circle cx="12" cy="12" r="2"/></svg>`,
+  'Терморазрыв':`<svg viewBox="0 0 24 24"><path d="M12 2v10m0 0c-2.5 0-4 1.5-4 3.5S9.5 19 12 19s4-1.5 4-3.5S14.5 12 12 12z"/></svg>`,
+  'Порог из нержавейки':`<svg viewBox="0 0 24 24"><rect x="2" y="17" width="20" height="4" rx="1"/><path d="M5 17V7m14 10V7"/></svg>`,
+  'Броненакладка':`<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="11" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1.5"/></svg>`,
+  'Ночная задвижка':`<svg viewBox="0 0 24 24"><rect x="3" y="10" width="13" height="8" rx="1.5"/><path d="M16 14h5"/><circle cx="9.5" cy="14" r="1.5"/></svg>`,
+  'Шумоизоляция':`<svg viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`,
+  'Скрытые петли':`<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="9" r="1.5"/><circle cx="8" cy="15" r="1.5"/></svg>`
+};
+
+const CALC={
+  door:null,
+  cur:0,
+  sel:{base:null,ext:null,int:null,glass:null,seal:null,lock:null,handle:null,extras:[],install:[]},
+  leadInfo:null
+};
+
+/* Map catalog door → calculator preset */
+function presetFromDoor(d){
+  const baseStep=CALC_STEPS[0];
+  CALC.sel.base=baseStep.options.find(o=>o.name===d.series)||baseStep.options[1];
+
+  // Glass mapping
+  const glassMap={none:'Без вставки',rect:'Стеклопакет прямой',arch:'Стеклопакет арка',mirror:'Зеркало',forge:'Стеклопакет с ковкой',vitrage:'Художественный витраж',panel:'Без вставки'};
+  const glassName=glassMap[d.glass]||'Без вставки';
+  const glassStep=CALC_STEPS.find(s=>s.key==='glass');
+  CALC.sel.glass=glassStep.options.find(o=>o.name===glassName)||glassStep.options[0];
+
+  // Default ext/int/seal/lock/handle to first option of step
+  ['ext','int','seal','lock','handle'].forEach(k=>{
+    const s=CALC_STEPS.find(x=>x.key===k);
+    CALC.sel[k]=s.options[0];
+  });
+}
+
+function calcTotal(){
+  let t=CALC.sel.base?CALC.sel.base.price:0;
+  ['ext','int','glass','seal','lock','handle'].forEach(k=>{if(CALC.sel[k])t+=CALC.sel[k].price;});
+  CALC.sel.extras.forEach(e=>{if(CALC.leadInfo&&e.isGift)return;t+=e.price;});
+  return t;
+}
+const fmtRu=n=>n.toLocaleString('ru-RU')+' ₽';
+
+function renderCalc(){
+  const total=CALC.sel.base?calcTotal():0;
+  document.getElementById('calcPriceVal').textContent=total>0?fmtRu(total):'—';
+  const totalSteps=CALC_STEPS.length;
+  document.getElementById('calcStepNum').textContent=CALC.cur+1;
+  document.getElementById('calcStepTotal').textContent=totalSteps;
+  const pct=Math.round(((CALC.cur+1)/totalSteps)*100);
+  document.getElementById('calcPct').textContent=pct+'%';
+  document.getElementById('calcProgFill').style.width=pct+'%';
+
+  // === step nav (точки шагов сверху) ===
+  let stepsNav=document.getElementById('calcStepsNav');
+  if(!stepsNav){
+    stepsNav=document.createElement('div');
+    stepsNav.id='calcStepsNav';stepsNav.className='calc-steps-nav';
+    document.querySelector('.calc-head').after(stepsNav);
+  }
+  const stepLabels={base:'Серия',ext:'Снаружи',int:'Внутри',glass:'Стекло',seal:'Уплотнение',lock:'Замок',handle:'Ручка',extras:'Опции'};
+  stepsNav.innerHTML=CALC_STEPS.map((st,i)=>{
+    const cls=i<CALC.cur?'done':(i===CALC.cur?'cur':'');
+    return `<button class="calc-step-btn ${cls}" data-label="${stepLabels[st.key]||st.key}" aria-label="Шаг ${i+1}" onclick="goCalcStep(${i})"></button>`;
+  }).join('');
+
+  // === sticky summary (выбранные параметры) ===
+  let sum=document.getElementById('calcSummary');
+  if(!sum){
+    sum=document.createElement('div');sum.id='calcSummary';sum.className='calc-summary';
+    stepsNav.after(sum);
+  }
+  const sumChips=[];
+  ['base','ext','int','glass','seal','lock','handle'].forEach(k=>{
+    const v=CALC.sel[k];if(!v)return;
+    const lbl=stepLabels[k];
+    const stIdx=CALC_STEPS.findIndex(s=>s.key===k);
+    sumChips.push(`<span class="calc-sumchip" onclick="goCalcStep(${stIdx})"><span style="color:rgba(255,255,255,.5)">${lbl}:</span><strong>${v.name.length>22?v.name.slice(0,20)+'…':v.name}</strong></span>`);
+  });
+  CALC.sel.extras.forEach((e,i)=>{
+    sumChips.push(`<span class="calc-sumchip" style="color:#fff">+ ${e.name}<span class="x" onclick="event.stopPropagation();removeExtra('${e.name.replace(/'/g,'\\\'')}')">×</span></span>`);
+  });
+  sum.innerHTML=sumChips.join('');
+
+  const isLast=CALC.cur===totalSteps-1;
+  if(isLast && CALC.cur===CALC_STEPS.length-1 && false){
+    // reserved
+  }
+
+  const s=CALC_STEPS[CALC.cur];
+  let bodyHtml=`<div class="step-eyebrow">Шаг ${String(CALC.cur+1).padStart(2,'0')} / ${String(totalSteps).padStart(2,'0')}</div>
+    <h2 class="step-title">${s.title}</h2>
+    <p class="step-hint">${s.hint}</p>`;
+
+  if(s.type==='multi'){
+    bodyHtml+=`<div class="opt-extras">`;
+    s.options.forEach((o,i)=>{
+      const sel=CALC.sel.extras.some(x=>x.name===o.name);
+      const ic=CALC_ICONS[o.name]||`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>`;
+      const ph=o.isGift?'<div class="opt-tile-price gift">🎁 в подарок</div>':`<div class="opt-tile-price">+${o.price.toLocaleString('ru-RU')} ₽</div>`;
+      bodyHtml+=`<div class="opt-tile${sel?' sel':''}" onclick="toggleExtra(${i})" role="checkbox" aria-checked="${sel}">
+        <div class="opt-tile-chk">${sel?'✓':''}</div>
+        <div class="opt-tile-icon">${ic}</div>
+        <div class="opt-tile-name">${o.name}</div>
+        ${ph}
+      </div>`;
+    });
+    bodyHtml+=`</div>`;
+  } else {
+    bodyHtml+=`<div class="opt-cards">`;
+    s.options.forEach((o,i)=>{
+      const sel=CALC.sel[s.key]&&CALC.sel[s.key].name===o.name;
+      const big=s.key==='base';
+      let priceHtml;
+      if(big){
+        priceHtml=`<div class="opt-price-row"><span class="opt-price-from">от</span><span class="opt-price-val">${fmtRu(o.price)}</span></div>`;
+      } else if(o.price===0){
+        priceHtml=`<div class="opt-price-row"><span class="opt-free">включено</span></div>`;
+      } else {
+        priceHtml=`<div class="opt-price-row"><span class="opt-add">+${o.price.toLocaleString('ru-RU')} ₽</span></div>`;
+      }
+      bodyHtml+=`<div class="opt-card${sel?' sel':''}" onclick="selOption('${s.key}',${i})" role="radio" aria-checked="${sel}">
+        <div class="opt-chk">${sel?'✓':''}</div>
+        ${priceHtml}
+        <div class="${big?'opt-name-big':'opt-name'}">${o.name}</div>
+        <div class="opt-desc">${o.desc}</div>
+        ${big&&o.inc?`<div class="opt-inc">${o.inc}</div>`:''}
+      </div>`;
+    });
+    bodyHtml+=`</div>`;
+  }
+
+  // На последнем шаге (extras=8-й, т.е. last) добавляем форму захвата
+  if(isLast){
+    bodyHtml+=`<div class="lead-wrap">
+      <div class="measure-invite">
+        <div class="measure-kicker">Конфигурация собрана</div>
+        <div class="measure-title">Пришлём <em>эксперта</em> на бесплатный замер</div>
+        <div class="measure-sub">Серия «<strong>${CALC.sel.base.name}</strong>» — ориентировочно <strong>${fmtRu(total)}</strong>. Точная цена — после замера: эксперт оценит проём, покажет образцы и зафиксирует стоимость в договоре.</div>
+        <div class="measure-benefits">
+          <div class="measure-benefit"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Замер бесплатно</strong> · без обязательств</span></div>
+          <div class="measure-benefit"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Образцы с собой</strong> · отделка вживую</span></div>
+          <div class="measure-benefit"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Точная смета</strong> · в договоре</span></div>
+          <div class="measure-benefit"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Удобное время</strong> · даже в выходные</span></div>
+        </div>
+      </div>
+      <form id="leadForm" onsubmit="event.preventDefault();submitLead()" novalidate>
+        <div class="fields">
+          <input class="linput" id="ln" placeholder="Ваше имя" type="text" autocomplete="name" required>
+          <input class="linput" id="lp" placeholder="+7 (___) ___-__-__" type="tel" autocomplete="tel" required>
+        </div>
+        <div class="lerr" id="lerr" role="alert"></div>
+        <button type="submit" class="lsubmit">Записаться на бесплатный замер</button>
+      </form>
+      <div class="lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Никакого спама. Звонок только для согласования замера.</div>
+    </div>`;
+  }
+
+  document.getElementById('calcBody').innerHTML=bodyHtml;
+
+  // Nav
+  let navHtml='';
+  if(CALC.cur>0)navHtml+=`<button class="btn-back" onclick="calcPrev()">← Назад</button>`;
+  if(!isLast)navHtml+=`<button class="btn-next" onclick="calcNext()">Продолжить →</button>`;
+  document.getElementById('calcNav').innerHTML=navHtml;
+
+  if(isLast)setTimeout(()=>{const p=document.getElementById('lp');if(p)attachPhoneMask(p);},80);
+}
+
+function selOption(key,idx){
+  const s=CALC_STEPS.find(x=>x.key===key);
+  CALC.sel[key]=s.options[idx];
+  renderCalc();
+}
+function toggleExtra(idx){
+  const o=CALC_STEPS.find(s=>s.key==='extras').options[idx];
+  const i=CALC.sel.extras.findIndex(x=>x.name===o.name);
+  if(i>=0)CALC.sel.extras.splice(i,1);else CALC.sel.extras.push(o);
+  renderCalc();
+}
+function calcNext(){if(CALC.cur<CALC_STEPS.length-1){CALC.cur++;renderCalc();}}
+function calcPrev(){if(CALC.cur>0){CALC.cur--;renderCalc();}}
+function goCalcStep(i){if(i>=0&&i<CALC_STEPS.length){CALC.cur=i;renderCalc();}}
+function removeExtra(name){
+  const i=CALC.sel.extras.findIndex(x=>x.name===name);
+  if(i>=0){CALC.sel.extras.splice(i,1);renderCalc();}
+}
+
+function formatPhone(v){
+  const d=v.replace(/\D/g,'');let x=d;
+  if(x.length&&(x[0]==='8'||x[0]==='9')){if(x[0]==='8')x='7'+x.slice(1);else if(x[0]==='9')x='7'+x;}
+  x=x.slice(0,11);let r='+7';
+  if(x.length>1)r+=' ('+x.slice(1,4);
+  if(x.length>=5)r+=') '+x.slice(4,7);
+  if(x.length>=8)r+='-'+x.slice(7,9);
+  if(x.length>=10)r+='-'+x.slice(9,11);
+  return r;
+}
+function attachPhoneMask(i){
+  i.addEventListener('input',e=>{e.target.value=formatPhone(e.target.value);});
+  i.addEventListener('focus',e=>{if(!e.target.value)e.target.value='+7 ';});
+  i.addEventListener('blur',e=>{if(e.target.value==='+7 '||e.target.value==='+7')e.target.value='';});
+}
+
+function submitLead(){
+  const n=document.getElementById('ln'),p=document.getElementById('lp'),errBox=document.getElementById('lerr');
+  const btn=document.querySelector('.lsubmit');
+  const name=n.value.trim(),phone=p.value.trim();
+  let errs=[];
+  if(!name){n.classList.add('err');setTimeout(()=>n.classList.remove('err'),450);errs.push('имя');}
+  if(phone.replace(/\D/g,'').length<11){p.classList.add('err');setTimeout(()=>p.classList.remove('err'),450);errs.push('корректный телефон');}
+  if(errs.length){errBox.textContent='Заполните: '+errs.join(', ');return;}
+  errBox.textContent='';btn.disabled=true;btn.textContent='Отправляем...';
+  const total=calcTotal();
+  CALC.leadInfo={name,phone,total,door:CALC.door?.name};
+  console.log('[ARMORA LEAD]',{name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel});
+    setTimeout(()=>{
+      document.getElementById('calcBody').innerHTML=`<div class="success">
+      <div class="s-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="s-title">Заявка принята, <em>${name.replace(/[<>]/g,'')}</em>!</div>
+      <div class="s-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong>, чтобы согласовать удобное время бесплатного замера. Эксперт приедет с образцами и рассчитает точную цену на месте.</div>
+    </div>`;
+      document.getElementById('calcNav').innerHTML=`<button class="btn-next" onclick="closeCalc()">Вернуться в каталог</button>`;
+    },600);
+}
+
+renderChips();render();
+
+/* ============================================================
+   FEATURES: wishlist, compare, ticker, FAQ, sound, URL-state, PDF
+   ============================================================ */
+const LS={get:(k,d)=>{try{return JSON.parse(localStorage.getItem('armora_'+k))||d}catch(e){return d}},set:(k,v)=>localStorage.setItem('armora_'+k,JSON.stringify(v))};
+let WISH=new Set(LS.get('wish',[]));
+let CMP=new Set(LS.get('cmp',[]));
+const CMP_MAX=3;
+
+function syncFabBadges(){
+  const w=document.getElementById('wishCnt'),c=document.getElementById('cmpCnt');
+  if(w){w.style.display=WISH.size?'block':'none';w.textContent=WISH.size;}
+  if(c){c.style.display=CMP.size?'block':'none';c.textContent=CMP.size;}
+  document.querySelectorAll('.card-act.wish').forEach(b=>b.classList.toggle('on',WISH.has(+b.dataset.id)));
+  document.querySelectorAll('.card-act.cmp').forEach(b=>b.classList.toggle('on',CMP.has(+b.dataset.id)));
+}
+function toggleWish(id,btn){
+  if(WISH.has(id))WISH.delete(id);else WISH.add(id);
+  LS.set('wish',[...WISH]);syncFabBadges();renderWishDrawer();
+}
+function toggleCmp(id,btn){
+  if(CMP.has(id))CMP.delete(id);
+  else if(CMP.size>=CMP_MAX){toast('Максимум '+CMP_MAX+' модели для сравнения');return;}
+  else CMP.add(id);
+  LS.set('cmp',[...CMP]);syncFabBadges();renderCmpDrawer();
+}
+function openDrawer(t){
+  closeDrawer();
+  // прячем кнопку «Перейти на сайт» когда открыт drawer
+  const gs=document.getElementById('gotoSite');if(gs)gs.style.display='none';
+  if(t==='wish'){renderWishDrawer();document.getElementById('wishDrawer').classList.add('open');}
+  else if(t==='cmp'){renderCmpDrawer();document.getElementById('cmpDrawer').classList.add('open');}
+}
+function closeDrawer(){
+  document.querySelectorAll('.drawer').forEach(d=>d.classList.remove('open'));
+  const gs=document.getElementById('gotoSite');if(gs)gs.style.display='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+
+function drawerCard(d,t){
+  const img=d.images&&d.images[0]?d.images[0]:'';
+  const imgHtml=img.trim().startsWith('<svg')?img:`<img src="${img}" alt="" style="width:100%;height:100%;object-fit:cover">`;
+  return `<div class="drawer-item"><div class="drawer-item-img">${imgHtml}</div><div class="drawer-item-info"><div class="drawer-item-name">${d.name}</div><div class="drawer-item-price">от ${d.price.toLocaleString('ru-RU')} ₽ · ${d.series}</div></div><button class="drawer-item-rm" onclick="rmFromDrawer('${t}',${d.id})" aria-label="Удалить">×</button></div>`;
+}
+function renderWishDrawer(){
+  const list=[...WISH].map(id=>DOORS.find(x=>x.id===id)).filter(Boolean);
+  const body=document.getElementById('wishBody');if(!body)return;
+  if(!list.length){body.innerHTML='<div class="drawer-empty">Здесь будут сохранённые модели<small>Нажмите на ❤ в карточке</small></div>';return;}
+  body.innerHTML=list.map(d=>drawerCard(d,'wish')).join('')+'<button class="pdf-btn" onclick="shareWishlist()" style="margin-top:14px"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Поделиться подборкой</button>';
+}
+function renderCmpDrawer(){
+  const list=[...CMP].map(id=>DOORS.find(x=>x.id===id)).filter(Boolean);
+  const body=document.getElementById('cmpBody');if(!body)return;
+  if(!list.length){body.innerHTML='<div class="drawer-empty">Сравните до 3 моделей<small>Нажмите на ☰ в карточке</small></div>';return;}
+  const rows=[
+    ['Серия',d=>d.series],
+    ['Назначение',d=>d.purpose],
+    ['Отделка',d=>FINISHES[d.finish]?.label||'-'],
+    ['Стекло',d=>{const m={none:'без вставки',rect:'прямое',arch:'арка',mirror:'зеркало',forge:'ковка',vitrage:'витраж',panel:'панель'};return m[d.glass]||'-';}],
+    ['Цена от',d=>d.price.toLocaleString('ru-RU')+' ₽'],
+    ['Особенности',d=>(d.tags||[]).join(', ')]
+  ];
+  let html='<table class="cmp-table"><tr><th></th>';
+  list.forEach(d=>{html+='<th>'+d.name+'<button class="cmp-rm" onclick="rmFromDrawer(\'cmp\','+d.id+')">×</button></th>';});
+  html+='</tr>';
+  rows.forEach(r=>{html+='<tr><td>'+r[0]+'</td>';list.forEach(d=>{html+='<td>'+r[1](d)+'</td>';});html+='</tr>';});
+  html+='</table>';
+  body.innerHTML=html;
+}
+function rmFromDrawer(t,id){
+  if(t==='wish')WISH.delete(id);else CMP.delete(id);
+  LS.set(t,t==='wish'?[...WISH]:[...CMP]);syncFabBadges();
+  if(t==='wish')renderWishDrawer();else renderCmpDrawer();
+}
+function shareWishlist(){
+  const ids=[...WISH].join(',');
+  const url=location.origin+location.pathname+'?wish='+ids;
+  if(navigator.share){navigator.share({title:'Моя подборка ARMORA',url});}
+  else{navigator.clipboard?.writeText(url);toast('Ссылка скопирована');}
+}
+
+let toastTimer;
+function toast(msg){
+  const t=document.getElementById('sndToast');if(!t)return;
+  t.querySelector('span').textContent=msg;
+  t.classList.add('show');clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+function playDoorSound(){/* removed */}
+
+const TICKS=[
+  '<strong>Игорь</strong> в Дмитрове · модель <strong>Прага</strong> · 67 400 ₽',
+  '<strong>Анна</strong> в Химках · <strong>Барселона</strong> · 41 900 ₽',
+  '<strong>Сергей</strong> в Клину · <strong>Версаль</strong> · 64 500 ₽',
+  '<strong>Мария</strong> в Солнечногорске · <strong>Аврора</strong> · 34 900 ₽',
+  '<strong>Дмитрий</strong> в Зеленограде · <strong>Прага</strong> · 54 900 ₽',
+  '<strong>Ольга</strong> в Красногорске · <strong>Сенатор</strong> · 38 500 ₽',
+  '<strong>Андрей</strong> в Истре · <strong>Монблан</strong> · 69 900 ₽',
+  '<strong>Екатерина</strong> в Одинцово · <strong>Лофт</strong> · 62 000 ₽',
+  '<strong>Павел</strong> в Мытищах · <strong>Каскад</strong> · 27 500 ₽',
+  '<strong>Алексей</strong> в Балашихе · <strong>Витязь</strong> · 24 900 ₽'
+];
+let tickIdx=0;
+function tickStep(){
+  const row=document.getElementById('tickerRow');if(!row)return;
+  row.innerHTML='<span>'+TICKS[tickIdx%TICKS.length]+' · <span style="opacity:.5">'+Math.floor(Math.random()*40+5)+' мин назад</span></span>';
+  tickIdx++;
+}
+tickStep();setInterval(tickStep,4500);
+
+function saveCalcToURL(){
+  if(!CALC.door)return;
+  const p=new URLSearchParams();
+  p.set('door',CALC.door.id);
+  ['base','ext','int','glass','seal','lock','handle'].forEach(k=>{if(CALC.sel[k])p.set(k,CALC.sel[k].name);});
+  if(CALC.sel.extras.length)p.set('extras',CALC.sel.extras.map(e=>e.name).join('|'));
+  history.replaceState(null,'','?'+p.toString());
+}
+function restoreFromURL(){
+  const p=new URLSearchParams(location.search);
+  const wish=p.get('wish');
+  if(wish){wish.split(',').filter(Boolean).forEach(id=>WISH.add(+id));LS.set('wish',[...WISH]);}
+  const did=+p.get('door');
+  if(did&&DOORS.find(d=>d.id===did)){
+    setTimeout(()=>{
+      openCalc(did);
+      ['base','ext','int','glass','seal','lock','handle'].forEach(k=>{
+        const name=p.get(k);if(!name)return;
+        const step=CALC_STEPS.find(s=>s.key===k);if(!step)return;
+        const opt=step.options.find(o=>o.name===name);if(opt)CALC.sel[k]=opt;
+      });
+      const ex=p.get('extras');
+      if(ex){const exStep=CALC_STEPS.find(s=>s.key==='extras');CALC.sel.extras=ex.split('|').map(n=>exStep.options.find(o=>o.name===n)).filter(Boolean);}
+      renderCalc();
+    },300);
+  }
+}
+
+const _origRenderCalc=renderCalc;
+renderCalc=function(){
+  _origRenderCalc.apply(this,arguments);
+  saveCalcToURL();
+  const nav=document.getElementById('calcNav');
+  if(nav&&CALC.door&&!nav.querySelector('.pdf-btn')&&!nav.querySelector('.success')){
+    const pdfBtn=document.createElement('button');
+    pdfBtn.className='pdf-btn';pdfBtn.style.flex='0 0 auto';
+    pdfBtn.innerHTML='<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Смета';
+    pdfBtn.onclick=downloadEstimate;
+    nav.insertBefore(pdfBtn,nav.firstChild);
+    const shareBtn=document.createElement('button');
+    shareBtn.className='share-btn';shareBtn.style.flex='0 0 auto';
+    shareBtn.innerHTML='<svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Ссылка';
+    shareBtn.onclick=()=>{navigator.clipboard?.writeText(location.href);toast('Ссылка скопирована');};
+    nav.insertBefore(shareBtn,nav.firstChild);
+  }
+};
+
+function downloadEstimate(){
+  if(!CALC.door)return;
+  const total=calcTotal();
+  const lines=[
+    'ARMORA · Расчёт стоимости',
+    '═══════════════════════════════',
+    'Модель: '+CALC.door.name+' · '+CALC.door.series,
+    'Дата: '+new Date().toLocaleDateString('ru-RU'),
+    '───────────────────────────────',
+    'СПЕЦИФИКАЦИЯ:',''
+  ];
+  const labels={base:'Серия',ext:'Отделка снаружи',int:'Отделка внутри',glass:'Вставка',seal:'Уплотнение',lock:'Замок',handle:'Фурнитура'};
+  Object.keys(labels).forEach(k=>{
+    const v=CALC.sel[k];if(!v)return;
+    lines.push((labels[k]+':').padEnd(22,' ')+' '+v.name+'  '+(v.price?'+'+v.price.toLocaleString('ru-RU')+' ₽':'включено'));
+  });
+  if(CALC.sel.extras.length){
+    lines.push('','ДОП. ОПЦИИ:');
+    CALC.sel.extras.forEach(e=>lines.push('  · '+e.name+'  +'+e.price.toLocaleString('ru-RU')+' ₽'));
+  }
+  lines.push('═══════════════════════════════','ИТОГО (ориентир): '+total.toLocaleString('ru-RU')+' ₽','','Точная цена — после бесплатного замера.','Гарантия 10 лет · Производство в Клину');
+  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='ARMORA_smeta_'+CALC.door.name+'_'+Date.now()+'.txt';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1500);
+  toast('Смета скачана');
+}
+
+const _origRender=render;
+render=function(){_origRender.apply(this,arguments);syncFabBadges();};
+
+restoreFromURL();
+syncFabBadges();
+
+/* === Custom glass dropdown sort === */
+function _sortMenu(){return document.querySelector('.sort-glass-menu');}
+function closeSortMenu(){
+  const sg=document.getElementById('sortGlass');
+  const m=_sortMenu();
+  sg&&sg.classList.remove('open');
+  m&&m.classList.remove('open');
+}
+function toggleSortMenu(e){
+  e&&e.stopPropagation();
+  const sg=document.getElementById('sortGlass');
+  const menu=_sortMenu();
+  const btn=sg.querySelector('.sort-glass-btn');
+  const willOpen=!sg.classList.contains('open');
+  if(willOpen){
+    if(menu.parentElement!==document.body)document.body.appendChild(menu);
+    const r=btn.getBoundingClientRect();
+    menu.style.top=(r.bottom+6)+'px';
+    menu.style.left=r.left+'px';
+    menu.style.width=r.width+'px';
+    sg.classList.add('open');menu.classList.add('open');
+  } else {
+    closeSortMenu();
+  }
+}
+function pickSort(val,label){
+  document.getElementById('sortSel').value=val;
+  document.getElementById('sortLabel').textContent=label;
+  document.querySelectorAll('.sort-glass-menu li').forEach(li=>li.classList.toggle('on',li.dataset.val===val));
+  closeSortMenu();
+  render();
+}
+document.addEventListener('click',e=>{
+  const sg=document.getElementById('sortGlass');if(!sg)return;
+  const menu=_sortMenu();
+  if(!sg.contains(e.target) && (!menu || !menu.contains(e.target))){
+    closeSortMenu();
+  }
+});
+window.addEventListener('scroll',()=>{
+  const sg=document.getElementById('sortGlass');
+  if(sg && sg.classList.contains('open'))closeSortMenu();
+},{passive:true});
+
+/* === Плавность скролла: глушим тяжёлые эффекты во время прокрутки === */
+(function(){
+  const root=document.documentElement;
+  let t=0, scrolling=false, rafId=0;
+  const onScroll=()=>{
+    if(!scrolling){scrolling=true;root.classList.add('is-scrolling');}
+    clearTimeout(t);
+    t=setTimeout(()=>{
+      scrolling=false;
+      root.classList.remove('is-scrolling');
+    },180);
+  };
+  window.addEventListener('scroll',()=>{
+    if(rafId)return;
+    rafId=requestAnimationFrame(()=>{rafId=0;onScroll();});
+  },{passive:true});
+  // wheel — самое раннее событие, помогает мгновенно отключить эффекты
+  window.addEventListener('wheel',onScroll,{passive:true});
+  window.addEventListener('touchmove',onScroll,{passive:true});
+})();
+</script>
+</body>
+</html>

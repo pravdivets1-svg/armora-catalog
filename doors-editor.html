@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Armora · Редактор каталога дверей</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{
+    --bg:#0e0f12; --panel:#16181d; --panel2:#1b1e25; --bdr:#2a2e38;
+    --ink:#eaeaea; --ink-soft:#bfc4cc; --ink-faint:#7c8290;
+    --gold:#a3e635; --acc:#06b6d4; --warn:#f97316; --err:#ef4444;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;height:100%}
+  body{display:flex;flex-direction:column}
+  header{flex:0 0 auto;background:rgba(14,15,18,.95);border-bottom:1px solid var(--bdr);padding:12px 16px}
+  header .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  h1{font-size:18px;margin:0 12px 0 0;font-weight:700}
+  .btn{background:var(--panel2);border:1px solid var(--bdr);color:var(--ink);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;transition:all .15s}
+  .btn:hover{border-color:var(--gold);color:var(--gold)}
+  .btn.primary{background:var(--gold);color:#0a0a0a;border-color:var(--gold);font-weight:600}
+  .btn.primary:hover{background:#bef264;color:#0a0a0a}
+  .btn.danger:hover{border-color:var(--err);color:var(--err)}
+  .hint{color:var(--ink-faint);font-size:12px;margin-left:auto}
+  .stats{display:flex;gap:14px;font-size:12px;color:var(--ink-soft)}
+  .stats b{color:var(--gold)}
+  main{flex:1 1 auto;padding:0;overflow:auto}
+  table{border-collapse:separate;border-spacing:0;width:100%;min-width:1800px;font-size:13px}
+  thead th{position:sticky;top:0;background:var(--panel);border:1px solid var(--bdr);padding:10px 6px;text-align:left;font-weight:600;color:var(--ink-soft);white-space:nowrap;font-size:12px;letter-spacing:.02em;text-transform:uppercase;z-index:6;box-shadow:0 2px 0 var(--bdr)}
+  tbody td{border:1px solid var(--bdr);padding:0;background:var(--panel2);vertical-align:middle}
+  tbody tr:hover td{background:#1f232b}
+  tbody td.pin{position:sticky;left:0;background:var(--panel);z-index:5;text-align:center;font-weight:700;color:var(--ink-faint);width:42px}
+  tbody tr:hover td.pin{background:#23272f}
+  td.calc{padding:6px 10px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  td.calc .price{color:var(--gold);font-weight:700;font-size:14px}
+  td.calc .series{display:block;color:var(--ink-faint);font-size:11px;margin-top:2px}
+  td.calc.invalid .price{color:var(--err)}
+  td.calc.invalid .series{color:var(--err)}
+  td input,td select{
+    width:100%;background:transparent;border:none;color:var(--ink);
+    padding:8px 8px;font:inherit;outline:none;
+  }
+  td input:focus,td select:focus{background:#0e0f12;box-shadow:inset 0 0 0 2px var(--gold)}
+  td input::placeholder{color:#4a505c}
+  td select option{background:#16181d;color:var(--ink)}
+  td.checkbox{text-align:center}
+  td.checkbox input{width:16px;height:16px;cursor:pointer;accent-color:var(--gold)}
+  td.actions{text-align:center;width:60px}
+  td.actions button{background:transparent;border:1px solid var(--bdr);color:var(--ink-faint);width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:14px;line-height:1}
+  td.actions button:hover{border-color:var(--err);color:var(--err)}
+  td.photos input{font-size:11px;color:var(--ink-soft);font-family:monospace}
+  td.extras{position:relative}
+  td.extras .extras-btn{width:100%;text-align:left;background:transparent;border:none;color:var(--ink);padding:8px;cursor:pointer;font:inherit}
+  td.extras .extras-btn:hover{background:#0e0f12}
+  td.extras .extras-btn .empty{color:#4a505c}
+  .multi{position:absolute;z-index:20;background:var(--panel);border:1px solid var(--gold);border-radius:8px;padding:6px;top:100%;left:0;min-width:220px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+  .multi label{display:flex;align-items:center;gap:8px;padding:5px 8px;cursor:pointer;border-radius:4px;font-size:13px}
+  .multi label:hover{background:var(--panel2)}
+  .multi input{width:14px;height:14px;accent-color:var(--gold)}
+  .err-cell{box-shadow:inset 0 0 0 2px var(--err) !important}
+  footer{padding:12px 16px;border-top:1px solid var(--bdr);color:var(--ink-faint);font-size:12px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:6px}
+  .legend span{display:inline-flex;align-items:center;gap:4px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:2px}
+</style>
+</head>
+<body>
+<header>
+  <div class="row">
+    <h1>Armora · Каталог</h1>
+    <button class="btn primary" onclick="addRow()">+ Добавить дверь</button>
+    <button class="btn" onclick="addPreset()">+ 10 городов</button>
+    <button class="btn" onclick="loadArmoraJSON()">⤵ Загрузить ARMORA (54 двери)</button>
+    <button class="btn" onclick="exportCSV()">⬇ Скачать CSV</button>
+    <button class="btn" onclick="exportJSON()">⬇ Скачать JSON</button>
+    <button class="btn" onclick="copyJSON()">⧉ Скопировать JSON</button>
+    <button class="btn" onclick="linkAutosave()" id="autosaveBtn" title="Связать с файлом для автосохранения">💾 Автосохранение в файл…</button>
+    <button class="btn" onclick="applyToCatalog()" title="Записать DOORS/PHOTOS в catalog.html">🔄 Применить к каталогу…</button>
+    <button class="btn danger" onclick="clearAll()">Очистить всё</button>
+    <div class="stats">
+      <span>Дверей: <b id="cnt">0</b></span>
+      <span>Ошибок: <b id="errs">0</b></span>
+      <span>Сохранено локально</span>
+    </div>
+  </div>
+</header>
+
+<main>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Название</th>
+      <th>Назначение</th>
+      <th>Металл, мм</th>
+      <th>Снаружи (ext)</th>
+      <th>Внутри (int)</th>
+      <th>Стеклопакет</th>
+      <th>Уплотнение</th>
+      <th>Замок</th>
+      <th>Ручка</th>
+      <th>Доп. опции</th>
+      <th>Нестанд. размер</th>
+      <th>Двустворч.</th>
+      <th>Флаг</th>
+      <th>Популярн.</th>
+      <th>Фото (URL через ;)</th>
+      <th>Цена / Серия</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="tb"></tbody>
+</table>
+</main>
+
+<footer>
+  Цена и серия рассчитываются автоматически. Данные хранятся в localStorage браузера.<br>
+  Готовый каталог формируется кнопкой <b>Скачать JSON</b> — этот файл подцепится к catalog.html.
+  <div class="legend">
+    <span><i style="background:var(--gold)"></i> цена/серия валидны</span>
+    <span><i style="background:var(--err)"></i> ошибка в значении опции</span>
+  </div>
+</footer>
+
+<script>
+/* ============ ДАННЫЕ КАЛЬКУЛЯТОРА (синхронизировано с catalog.html) ============ */
+const PRICES={
+  ext:{
+    'Порошковое полимерное покрытие':4500,
+    'Винилискожа':2500,
+    'Ламинат':4500,
+    'ПВХ':6500,
+    'МДФ':9500,
+    'Влагостойкая фанера':17000,
+    '3D панель':27000
+  },
+  int:{
+    'Порошковое полимерное покрытие':8000,
+    'Винилискожа':2500,
+    'Ламинат':4500,
+    'ПВХ':6500,
+    'МДФ':9500,
+    'Влагостойкая фанера':17000
+  },
+  glass:{
+    'Без вставки':0,
+    'Зеркало':5500,
+    'Стеклопакет прямой':5500,
+    'Стеклопакет арка':7500,
+    'Зеркальная тонировка':8500,
+    'Стеклопакет с ковкой':12000,
+    'Художественный витраж':25000
+  },
+  seal:{
+    'Одинарный контур':0,
+    'Двойной контур':2500,
+    'Тройной контур':12000
+  },
+  lock:{
+    '1 замок стандарт':0,
+    '2 замка Guardian':3500,
+    '2 замка Kale':6500,
+    'Замок Cisa':13000,
+    'Замок Mottura':19500,
+    'Биометрический':25000
+  },
+  handle:{
+    'MSM':0,
+    'Apex':3000,
+    'Armadillo':4500,
+    'Guardian Premium':6500,
+    'Бугельная':16500
+  },
+  extras:{
+    'Видеоглазок':6500,
+    'Доводчик':5500,
+    'Терморазрыв':10500,
+    'Порог из нержавейки':5500,
+    'Броненакладка':5500,
+    'Ночная задвижка':3200,
+    'Шумоизоляция':5500,
+    'Скрытые петли':23000
+  }
+};
+const METAL_BASE={'1.2':12900,'1.5':19900,'1.8':24900,'2.0':29900};
+const PURPOSE=['квартира','дом','тамбур','офис'];
+/* Цвет отделки убран из UI — поле finish_color остаётся в данных, но в таблице не показывается */
+const FLAGS=['','Хит','Новинка','Рекомендуем'];
+
+/* ============ ПРЕСЕТ ГОРОДОВ ============ */
+const CITY_PRESETS=[
+  // Европа
+  'Прага','Вена','Рим','Милан','Турин','Верона','Сиена','Пиза','Парма','Лукка',
+  'Лион','Ницца','Канны','Бордо','Реймс','Тулуза','Авиньон','Версаль','Шамони',
+  'Мадрид','Толедо','Гранада','Севилья','Малага','Валенсия','Барселона','Жирона',
+  'Порту','Лиссабон','Эвора','Синтра','Брюгге','Гент','Антверпен','Амстердам',
+  'Утрехт','Дельфт','Берлин','Мюнхен','Бонн','Кёльн','Дрезден','Лейпциг',
+  'Цюрих','Берн','Базель','Люцерн','Женева','Зальцбург','Грац','Линц',
+  'Будапешт','Сегед','Печ','Краков','Гданьск','Варшава','Познань','Вроцлав',
+  'Брно','София','Пловдив','Бухарест','Сибиу','Брашов','Сплит','Загреб',
+  'Дубровник','Пула','Котор','Будва','Тиват','Афины','Родос','Корфу','Санторини',
+  'Стокгольм','Мальмё','Гётеборг','Берген','Осло','Тромсё','Орхус','Копенгаген',
+  'Хельсинки','Турку','Таллин','Рига','Вильнюс','Дублин','Корк','Эдинбург','Йорк',
+  // Азия
+  'Киото','Осака','Нара','Кобэ','Никко','Саппоро','Сеул','Пусан','Тайбэй',
+  'Шанхай','Сучжоу','Ханчжоу','Гонконг','Сингапур','Бангкок','Чиангмай',
+  'Бали','Джакарта','Манила','Себу','Ханой','Дананг','Сайгон','Луангпрабанг',
+  'Дели','Агра','Джайпур','Гоа','Мумбаи','Коломбо','Дубай','Доха','Маскат',
+  'Стамбул','Анталия','Измир','Бодрум','Каппадокия','Бейрут','Иерусалим',
+  // Америка
+  'Гавана','Канкун','Тулум','Картахена','Лима','Куско','Кито','Богота',
+  'Рио','Сальвадор','Бразилиа','Буэнос-Айрес','Мендоса','Сантьяго','Монтевидео',
+  // Африка / прочее
+  'Каир','Луксор','Александрия','Касабланка','Марракеш','Фес','Танжер',
+  'Кейптаун','Найроби','Занзибар','Тунис','Карфаген'
+];
+
+/* ============ АЛГОРИТМ ЦЕНЫ И СЕРИИ ============ */
+function compute(row){
+  const errs=[];
+  let price=0;
+  const base=METAL_BASE[row.metal];
+  if(base==null){errs.push('metal');} else price+=base;
+
+  ['ext','int','glass','seal','lock','handle'].forEach(k=>{
+    if(!row[k]){errs.push(k);return}
+    const p=PRICES[k][row[k]];
+    if(p==null){errs.push(k);return}
+    price+=p;
+  });
+  (row.extras||[]).forEach(e=>{
+    const p=PRICES.extras[e];
+    if(p==null){errs.push('extras:'+e);return}
+    price+=p;
+  });
+
+  if(row.oversize) price*=1.20;
+  if(row.double)   price*=1.40;
+  price=Math.round(price);
+
+  let series='Эконом';
+  if(price>=20000) series='Стандарт';
+  if(price>=30000) series='Комфорт';
+  if(price>=45000) series='Премиум';
+  if(price>=65000) series='Элит';
+
+  return {price,series,errs};
+}
+
+/* ============ СОСТОЯНИЕ ============ */
+const STORE_KEY='armora_doors_v1';
+let DATA=[];
+DATA=load();
+
+function load(){
+  try{
+    const raw=localStorage.getItem(STORE_KEY);
+    if(raw){
+      const arr=JSON.parse(raw);
+      if(Array.isArray(arr)&&arr.length)return arr;
+    }
+  }catch(e){}
+  return [emptyRow()];
+}
+function save(){localStorage.setItem(STORE_KEY,JSON.stringify(DATA))}
+
+function emptyRow(name=''){
+  return {
+    id:nextId(),name,purpose:'квартира',metal:'1.5',
+    ext:'',int:'',glass:'Без вставки',seal:'Одинарный контур',
+    lock:'1 замок стандарт',handle:'MSM',extras:[],
+    oversize:false,double:false,
+    finish_color:'graphite',flag:'',popular:0,photos:''
+  };
+}
+function nextId(){
+  let max=0;
+  if(Array.isArray(DATA))DATA.forEach(r=>{if(r&&r.id>max)max=r.id});
+  return max+1;
+}
+
+/* ============ ВИДЖЕТЫ ============ */
+function selectCell(row,key,opts,placeholder){
+  const sel=document.createElement('select');
+  if(placeholder!==undefined){
+    const o=document.createElement('option');o.value='';o.textContent=placeholder;sel.appendChild(o);
+  }
+  opts.forEach(v=>{
+    const o=document.createElement('option');o.value=v;o.textContent=v||'(пусто)';
+    if(row[key]===v)o.selected=true;sel.appendChild(o);
+  });
+  sel.onchange=()=>{row[key]=sel.value;save();renderRow(row);updateStats()};
+  return sel;
+}
+function inputCell(row,key,type='text',placeholder=''){
+  const inp=document.createElement('input');
+  inp.type=type;inp.value=row[key]??'';inp.placeholder=placeholder;
+  inp.oninput=()=>{
+    row[key]=type==='number'?(+inp.value||0):inp.value;
+    save();renderRow(row);updateStats();
+  };
+  return inp;
+}
+function checkboxCell(row,key){
+  const inp=document.createElement('input');inp.type='checkbox';inp.checked=!!row[key];
+  inp.onchange=()=>{row[key]=inp.checked;save();renderRow(row);updateStats()};
+  return inp;
+}
+function extrasCell(row){
+  const wrap=document.createElement('div');wrap.style.position='relative';
+  const btn=document.createElement('button');btn.className='extras-btn';btn.type='button';
+  const draw=()=>{
+    const arr=row.extras||[];
+    btn.innerHTML=arr.length
+      ? arr.map(x=>`<span style="display:inline-block;background:#2a2e38;color:#bef264;border-radius:4px;padding:1px 6px;font-size:11px;margin:1px 2px">${x}</span>`).join('')
+      : '<span class="empty">— выбрать —</span>';
+  };
+  draw();
+  btn.onclick=e=>{
+    e.stopPropagation();
+    document.querySelectorAll('.multi').forEach(m=>m.remove());
+    const m=document.createElement('div');m.className='multi';
+    Object.keys(PRICES.extras).forEach(name=>{
+      const lbl=document.createElement('label');
+      const cb=document.createElement('input');cb.type='checkbox';
+      cb.checked=(row.extras||[]).includes(name);
+      cb.onchange=()=>{
+        if(!row.extras)row.extras=[];
+        if(cb.checked&&!row.extras.includes(name))row.extras.push(name);
+        if(!cb.checked)row.extras=row.extras.filter(x=>x!==name);
+        save();draw();renderRow(row);updateStats();
+      };
+      lbl.appendChild(cb);
+      lbl.appendChild(document.createTextNode(' '+name+' (+'+PRICES.extras[name].toLocaleString('ru-RU')+' ₽)'));
+      m.appendChild(lbl);
+    });
+    wrap.appendChild(m);
+    setTimeout(()=>document.addEventListener('click',function h(ev){
+      if(!m.contains(ev.target)){m.remove();document.removeEventListener('click',h)}
+    }),0);
+  };
+  wrap.appendChild(btn);
+  return wrap;
+}
+
+/* ============ РЕНДЕР ============ */
+function renderAll(){
+  const tb=document.getElementById('tb');tb.innerHTML='';
+  DATA.forEach(r=>tb.appendChild(makeRow(r)));
+  updateStats();
+}
+function makeRow(row){
+  const tr=document.createElement('tr');tr.dataset.id=row.id;
+  tr.appendChild(td('pin',document.createTextNode(DATA.indexOf(row)+1)));
+  tr.appendChild(td('',inputCell(row,'name','text','Название')));
+  tr.appendChild(td('',selectCell(row,'purpose',PURPOSE)));
+  tr.appendChild(td('',selectCell(row,'metal',Object.keys(METAL_BASE))));
+  tr.appendChild(td('',selectCell(row,'ext',Object.keys(PRICES.ext),'— выбрать —')));
+  tr.appendChild(td('',selectCell(row,'int',Object.keys(PRICES.int),'— выбрать —')));
+  tr.appendChild(td('',selectCell(row,'glass',Object.keys(PRICES.glass))));
+  tr.appendChild(td('',selectCell(row,'seal',Object.keys(PRICES.seal))));
+  tr.appendChild(td('',selectCell(row,'lock',Object.keys(PRICES.lock))));
+  tr.appendChild(td('',selectCell(row,'handle',Object.keys(PRICES.handle))));
+  tr.appendChild(td('extras',extrasCell(row)));
+  tr.appendChild(td('checkbox',checkboxCell(row,'oversize')));
+  tr.appendChild(td('checkbox',checkboxCell(row,'double')));
+  tr.appendChild(td('',selectCell(row,'flag',FLAGS)));
+  tr.appendChild(td('',inputCell(row,'popular','number','0')));
+  tr.appendChild(td('photos',inputCell(row,'photos','text','https://...; https://...')));
+  const calcTd=document.createElement('td');calcTd.className='calc';calcTd.dataset.calc='1';
+  tr.appendChild(calcTd);
+  const act=document.createElement('td');act.className='actions';
+  const del=document.createElement('button');del.textContent='✕';del.title='Удалить';
+  del.onclick=()=>{DATA=DATA.filter(x=>x!==row);save();renderAll()};
+  act.appendChild(del);
+  tr.appendChild(act);
+  drawCalc(tr,row);
+  return tr;
+}
+function td(cls,child){const t=document.createElement('td');if(cls)t.className=cls;if(child)t.appendChild(child);return t}
+function renderRow(row){
+  const tr=document.querySelector(`tr[data-id="${row.id}"]`);
+  if(!tr)return;
+  drawCalc(tr,row);
+}
+function drawCalc(tr,row){
+  const r=compute(row);
+  const td=tr.querySelector('td.calc');
+  td.classList.toggle('invalid',r.errs.length>0);
+  td.innerHTML=`<div class="price">${r.price.toLocaleString('ru-RU')} ₽</div><div class="series">${r.series}${r.errs.length?' · ⚠ '+r.errs.join(','):''}</div>`;
+  // подсветка ошибочных селектов
+  ['ext','int','glass','seal','lock','handle','metal'].forEach((k,i)=>{
+    const cell=tr.children[3+i] || tr.children[3+i-1];
+  });
+}
+
+/* ============ СТАТИСТИКА ============ */
+function updateStats(){
+  document.getElementById('cnt').textContent=DATA.length;
+  let errs=0;DATA.forEach(r=>{if(compute(r).errs.length)errs++});
+  document.getElementById('errs').textContent=errs;
+}
+
+/* ============ ДЕЙСТВИЯ ============ */
+function addRow(name){
+  DATA.push(emptyRow(name||''));save();renderAll();
+  setTimeout(()=>{
+    const last=document.querySelector('#tb tr:last-child input');
+    last?.focus();
+  },0);
+}
+function addPreset(){
+  const used=new Set(DATA.map(r=>r.name));
+  const free=CITY_PRESETS.filter(c=>!used.has(c));
+  // перемешать
+  for(let i=free.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[free[i],free[j]]=[free[j],free[i]];}
+  free.slice(0,10).forEach(c=>DATA.push(emptyRow(c)));
+  save();renderAll();
+}
+function clearAll(){
+  if(!confirm('Удалить все двери?'))return;
+  DATA=[];save();renderAll();
+}
+
+/* ============ ВСТРОЕННЫЕ ARMORA-ДВЕРИ (54) ============ */
+const ARMORA_DATA=[{"id":1,"name":"Прага","purpose":"дом","metal":"1.8","ext":"МДФ","int":"МДФ","glass":"Без вставки","seal":"Двойной контур","lock":"2 замка Kale","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"graphite","flag":"","popular":65,"photos":"https://radika1.link/2026/04/26/019d9238-c415-74b8-877c-892e7f891b3e13cfbe8765c31f61.png"},{"id":2,"name":"Вена","purpose":"тамбур","metal":"1.5","ext":"ПВХ","int":"Ламинат","glass":"Художественный витраж","seal":"Двойной контур","lock":"2 замка Guardian","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"cream","flag":"","popular":121,"photos":"https://s1.radikal.cloud/2026/04/26/019d9233-69a7-7dbb-b00b-98dbed7781bb52d6e4e1e19dc81e.png"},{"id":3,"name":"Рим","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"graphite","flag":"Рекомендуем","popular":79,"photos":"https://radika1.link/2026/04/26/019d9243-43b0-7730-9061-ea70e88bd633a87ee1c4e348cbcb.png"},{"id":4,"name":"Милан","purpose":"дом","metal":"1.5","ext":"ПВХ","int":"Ламинат","glass":"Стеклопакет прямой","seal":"Двойной контур","lock":"2 замка Guardian","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"walnut","flag":"","popular":116,"photos":"https://s2.radikal.cloud/2026/04/26/cnLMAPnPpP0Cw3UIFIWIykTDsIPLV-OWZF-wwyouua04K5P-zgiQvAnPVykAe_a4wVdNPqiwSjchAztf3pK6kUTbe73e06f35f22357f.jpg"},{"id":5,"name":"Турин","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"graphite","flag":"Рекомендуем","popular":96,"photos":"https://s3.radikal.cloud/2026/04/26/d3TjPtPCv0iNagFkeJch9qRqCThcijkpj0zESMuCnsUQcv29kxWq-HUBnXTbSyRnG5-Gqdra7v7SEE7jlPn5fSqbfd1354007c9f8d39.jpg"},{"id":6,"name":"Верона","purpose":"офис","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"walnut","flag":"Рекомендуем","popular":65,"photos":"https://s1.radikal.cloud/2026/04/26/e4194e23-ef1c-4644-9daa-8aeaab3371daef0b5a6e32831cf1.png"},{"id":7,"name":"Сиена","purpose":"офис","metal":"1.5","ext":"Ламинат","int":"Ламинат","glass":"Зеркало","seal":"Двойной контур","lock":"2 замка Guardian","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"venge","flag":"Новинка","popular":113,"photos":"https://radika1.link/2026/04/26/IMG_5765-11776fdb932d4a86f.jpeg"},{"id":8,"name":"Пиза","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Стеклопакет прямой","seal":"Тройной контур","lock":"Замок Cisa","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"venge","flag":"Хит","popular":124,"photos":"https://s2.radikal.cloud/2026/04/26/IMG_5784e2dde65540a9ab9f.jpg"},{"id":9,"name":"Парма","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Художественный витраж","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"venge","flag":"Хит","popular":22,"photos":"https://radika1.link/2026/04/26/IMG_58549f4747fc41d13fe4.jpg"},{"id":10,"name":"Лукка","purpose":"тамбур","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Художественный витраж","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"graphite","flag":"","popular":46,"photos":"https://s1.radikal.cloud/2026/04/26/IMG_5930f66fe87b7582a438.jpg"},{"id":11,"name":"Лион","purpose":"офис","metal":"1.5","ext":"ПВХ","int":"Ламинат","glass":"Без вставки","seal":"Двойной контур","lock":"2 замка Guardian","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"walnut","flag":"","popular":71,"photos":"https://radika1.link/2026/04/26/IMG_593572168dbdd7d17466.png"},{"id":12,"name":"Ницца","purpose":"дом","metal":"1.8","ext":"МДФ","int":"МДФ","glass":"Без вставки","seal":"Двойной контур","lock":"2 замка Kale","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"venge","flag":"","popular":118,"photos":"https://s3.radikal.cloud/2026/04/26/IMG_5957e7a2be7857fe6dab.jpg"},{"id":13,"name":"Канны","purpose":"офис","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"venge","flag":"Рекомендуем","popular":62,"photos":"https://s2.radikal.cloud/2026/04/26/IMG_6485e8af4064820ab5b5.jpg"},{"id":14,"name":"Бордо","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"white","flag":"Рекомендуем","popular":112,"photos":"https://s1.radikal.cloud/2026/04/26/IMG_64869b2e71c209d1e8c7.jpg"},{"id":15,"name":"Реймс","purpose":"дом","metal":"1.5","ext":"ПВХ","int":"Ламинат","glass":"Стеклопакет прямой","seal":"Двойной контур","lock":"2 замка Guardian","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"white","flag":"Рекомендуем","popular":31,"photos":"https://s3.radikal.cloud/2026/04/26/IMG_64872e2069876dd8f68f.jpg"},{"id":16,"name":"Тулуза","purpose":"квартира","metal":"1.8","ext":"МДФ","int":"МДФ","glass":"Стеклопакет прямой","seal":"Двойной контур","lock":"2 замка Kale","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"walnut","flag":"","popular":54,"photos":"https://radika1.link/2026/04/26/IMG_6488b3829e05382c937e.jpg"},{"id":17,"name":"Авиньон","purpose":"тамбур","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"oak","flag":"","popular":36,"photos":"https://radika1.link/2026/04/26/IMG_6489989b87134fd1a890.jpg"},{"id":18,"name":"Версаль","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Художественный витраж","seal":"Тройной контур","lock":"Замок Cisa","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"white","flag":"Рекомендуем","popular":82,"photos":"https://s3.radikal.cloud/2026/04/26/IMG_64906166dbc0d42561a7.jpg"},{"id":19,"name":"Шамони","purpose":"тамбур","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Стеклопакет прямой","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"graphite","flag":"Рекомендуем","popular":137,"photos":"https://s2.radikal.cloud/2026/04/26/IMG_64914f6f2d6bbcb41c0d.jpg"},{"id":20,"name":"Мадрид","purpose":"офис","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Стеклопакет арка","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"cream","flag":"","popular":50,"photos":"https://s3.radikal.cloud/2026/04/26/IMG_6492-2f7a4200c2944aa07.jpg"},{"id":21,"name":"Толедо","purpose":"тамбур","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Художественный витраж","seal":"Тройной контур","lock":"Замок Cisa","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"cream","flag":"Хит","popular":92,"photos":"https://radika1.link/2026/04/26/IMG_7278b2ad929d3bc45764.jpg"},{"id":22,"name":"Гранада","purpose":"тамбур","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Стеклопакет прямой","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"white","flag":"","popular":119,"photos":"https://s2.radikal.cloud/2026/04/26/IMG_730266900c8b26b1f897.jpg"},{"id":23,"name":"Севилья","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Стеклопакет с ковкой","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"black","flag":"Рекомендуем","popular":88,"photos":"https://radika1.link/2026/04/26/IMG_7305c8c6c930883d9a75.png"},{"id":24,"name":"Малага","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Зеркало","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"graphite","flag":"","popular":8,"photos":"https://radika1.link/2026/04/26/IMG_7308-25b6330ff495f2f10.jpg"},{"id":25,"name":"Валенсия","purpose":"тамбур","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Стеклопакет арка","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"white","flag":"","popular":60,"photos":"https://s3.radikal.cloud/2026/04/26/IMG_7306ea1caedcb7b96ba9.png"},{"id":26,"name":"Барселона","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"graphite","flag":"Хит","popular":80,"photos":"https://radika1.link/2026/04/26/IMG_73372df11a1432a200b5.jpg"},{"id":27,"name":"Жирона","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"black","flag":"","popular":42,"photos":"https://s1.radikal.cloud/2026/04/26/IMG_7339e1cb5f27b1d0f130.jpeg"},{"id":28,"name":"Порту","purpose":"офис","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Зеркало","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"black","flag":"Новинка","popular":42,"photos":"https://s3.radikal.cloud/2026/04/26/IMG_7344955372066ae84786.jpeg"},{"id":29,"name":"Лиссабон","purpose":"тамбур","metal":"1.5","ext":"ПВХ","int":"Ламинат","glass":"Без вставки","seal":"Двойной контур","lock":"2 замка Guardian","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"venge","flag":"","popular":91,"photos":"https://s2.radikal.cloud/2026/04/26/IMG_73651c8476dffc656e41.png"},{"id":30,"name":"Эвора","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"oak","flag":"","popular":75,"photos":"https://radika1.link/2026/04/26/IMG_73890ae148d77a42daad.png"},{"id":31,"name":"Синтра","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Стеклопакет прямой","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"concrete","flag":"","popular":123,"photos":"https://s2.radikal.cloud/2026/04/26/IMG_7391e44f652f5beb3611.png"},{"id":32,"name":"Брюгге","purpose":"квартира","metal":"1.5","ext":"ПВХ","int":"Ламинат","glass":"Зеркало","seal":"Двойной контур","lock":"2 замка Guardian","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"walnut","flag":"Новинка","popular":12,"photos":"https://radika1.link/2026/04/26/IMG_7398140e371cfb8bca4d.png"},{"id":33,"name":"Гент","purpose":"офис","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Стеклопакет арка","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"venge","flag":"","popular":21,"photos":"https://s3.radikal.cloud/2026/04/26/IMG_7400fe2b69253c4d090c.png"},{"id":34,"name":"Антверпен","purpose":"квартира","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Художественный витраж","seal":"Тройной контур","lock":"Замок Cisa","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"walnut","flag":"Рекомендуем","popular":135,"photos":"https://radika1.link/2026/04/26/IMG_7402aff4a5881899d4cc.png"},{"id":35,"name":"Амстердам","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Стеклопакет прямой","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"graphite","flag":"Рекомендуем","popular":120,"photos":"https://s3.radikal.cloud/2026/04/26/IMG_74983a704f2e3ae50a81.png"},{"id":36,"name":"Утрехт","purpose":"тамбур","metal":"1.5","ext":"Ламинат","int":"Ламинат","glass":"Художественный витраж","seal":"Двойной контур","lock":"2 замка Guardian","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"concrete","flag":"Рекомендуем","popular":107,"photos":"https://s1.radikal.cloud/2026/04/26/IMG_7530c890921b1d9f62b8.jpg"},{"id":37,"name":"Дельфт","purpose":"тамбур","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Стеклопакет с ковкой","seal":"Тройной контур","lock":"Замок Cisa","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"white","flag":"Новинка","popular":37,"photos":"https://radika1.link/2026/04/26/j8cDWprdNNz3HnguWMuvrEUIo1_vzcqL-sp13OueEPGV-ZwZvMbvB5XxsmjmMeS5LK9lwbGkClEM7VbnBHMkKC4Pe2411a487bcd3be4.jpg"},{"id":38,"name":"Берлин","purpose":"офис","metal":"1.5","ext":"ПВХ","int":"Ламинат","glass":"Без вставки","seal":"Двойной контур","lock":"2 замка Guardian","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"white","flag":"Хит","popular":36,"photos":"https://s2.radikal.cloud/2026/04/26/photo_2026-03-06_11-16-130f7eb3e097b65fe7.jpg"},{"id":39,"name":"Мюнхен","purpose":"тамбур","metal":"1.5","ext":"Ламинат","int":"Ламинат","glass":"Художественный витраж","seal":"Двойной контур","lock":"2 замка Guardian","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"cream","flag":"","popular":19,"photos":"https://s1.radikal.cloud/2026/04/26/lfs3J8IqzwF7BJ8gyxqMAULMOkFdn06UygKHffg1Q4z7RBN0j_LwvjvtpEIl2AqMmc5H5f4MyQwRbTo6r44n_v_C81206747391915ed.jpg"},{"id":40,"name":"Бонн","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Зеркало","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"oak","flag":"","popular":44,"photos":"https://radika1.link/2026/04/26/photo_2026-03-06_11-16-1740632e4ff0d55f28.jpg"},{"id":41,"name":"Кёльн","purpose":"дом","metal":"1.8","ext":"МДФ","int":"МДФ","glass":"Стеклопакет с ковкой","seal":"Двойной контур","lock":"2 замка Kale","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"black","flag":"","popular":46,"photos":"https://s3.radikal.cloud/2026/04/26/photo_2026-03-06_11-20-25000f88a017f70d60.jpg"},{"id":42,"name":"Дрезден","purpose":"квартира","metal":"1.8","ext":"МДФ","int":"МДФ","glass":"Стеклопакет с ковкой","seal":"Двойной контур","lock":"2 замка Kale","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"black","flag":"","popular":63,"photos":"https://s2.radikal.cloud/2026/04/26/photo_2026-03-24_10-45-1309e0bd2f24b12171.jpg"},{"id":43,"name":"Лейпциг","purpose":"офис","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"graphite","flag":"Хит","popular":39,"photos":"https://s3.radikal.cloud/2026/04/26/photo_2026-03-24_10-45-31a0bc1c07c45600c2.jpg"},{"id":44,"name":"Цюрих","purpose":"квартира","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"concrete","flag":"Хит","popular":104,"photos":"https://s2.radikal.cloud/2026/04/26/photo_2026-03-24_10-45-3534be24a338859395.jpg"},{"id":45,"name":"Берн","purpose":"тамбур","metal":"1.5","ext":"ПВХ","int":"Ламинат","glass":"Художественный витраж","seal":"Двойной контур","lock":"2 замка Guardian","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"white","flag":"Новинка","popular":101,"photos":"https://radika1.link/2026/04/26/photo_2026-03-24_10-45-387ad216540cce0e62.jpg"},{"id":46,"name":"Базель","purpose":"дом","metal":"1.5","ext":"ПВХ","int":"Ламинат","glass":"Зеркало","seal":"Двойной контур","lock":"2 замка Guardian","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"graphite","flag":"Хит","popular":56,"photos":"https://s3.radikal.cloud/2026/04/26/photo_2026-04-13_21-18-5468e90c0567ea697c.jpg"},{"id":47,"name":"Люцерн","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Стеклопакет прямой","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"walnut","flag":"","popular":92,"photos":"https://radika1.link/2026/04/26/photo_2026-04-13_21-19-040e923d2a430b0f8f.jpg"},{"id":48,"name":"Женева","purpose":"тамбур","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Стеклопакет прямой","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"oak","flag":"","popular":15,"photos":"https://s1.radikal.cloud/2026/04/26/photo_2026-04-13_21-19-16d85c2c40554d02df.jpg"},{"id":49,"name":"Зальцбург","purpose":"тамбур","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"cream","flag":"","popular":22,"photos":"https://radika1.link/2026/04/26/photo_2026-04-13_21-19-212c3a9205acb91dbf.jpg"},{"id":50,"name":"Грац","purpose":"дом","metal":"1.5","ext":"ПВХ","int":"Ламинат","glass":"Зеркало","seal":"Двойной контур","lock":"2 замка Guardian","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"white","flag":"","popular":9,"photos":"https://radika1.link/2026/04/26/photo_2026-04-13_21-19-39c4471170c1c0c1c1.jpg"},{"id":51,"name":"Линц","purpose":"дом","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Зеркало","seal":"Тройной контур","lock":"Замок Cisa","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"oak","flag":"Хит","popular":78,"photos":"https://s3.radikal.cloud/2026/04/26/photo_2026-04-13_21-19-59a59b652786607797.jpg"},{"id":52,"name":"Будапешт","purpose":"тамбур","metal":"2.0","ext":"Влагостойкая фанера","int":"МДФ","glass":"Без вставки","seal":"Тройной контур","lock":"Замок Cisa","handle":"Apex","extras":[],"oversize":false,"double":false,"finish_color":"oak","flag":"Хит","popular":69,"photos":"https://radika1.link/2026/04/26/photo_2026-04-13_21-20-147a099755cc4eca15.jpg"},{"id":53,"name":"Сегед","purpose":"дом","metal":"1.8","ext":"МДФ","int":"МДФ","glass":"Стеклопакет арка","seal":"Двойной контур","lock":"2 замка Kale","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"black","flag":"Новинка","popular":116,"photos":"https://s2.radikal.cloud/2026/04/26/photo_2026-04-13_21-20-237e0994297dba9601.jpg"},{"id":54,"name":"Печ","purpose":"дом","metal":"1.8","ext":"МДФ","int":"МДФ","glass":"Художественный витраж","seal":"Двойной контур","lock":"2 замка Kale","handle":"MSM","extras":[],"oversize":false,"double":false,"finish_color":"white","flag":"Новинка","popular":46,"photos":"https://s3.radikal.cloud/2026/04/26/snapedit_17695184894915cfc0e77067fcc70.jpeg"}];
+
+function loadArmoraJSON(){
+  if(DATA.length>1 && !confirm('Заменить текущий каталог 54 дверями ARMORA?'))return;
+  DATA = ARMORA_DATA.map(r=>Object.assign(emptyRow(),r));
+  save();renderAll();
+  alert('Загружено '+DATA.length+' дверей. Все поля редактируются — настрой и нажми «Скачать JSON».');
+}
+
+/* ============ ЭКСПОРТ ============ */
+function csvEscape(s){
+  s=String(s??'');
+  if(/[,;"\n]/.test(s))return '"'+s.replace(/"/g,'""')+'"';
+  return s;
+}
+function exportCSV(){
+  const cols=['id','name','purpose','metal','ext','int','glass','seal','lock','handle','extras','oversize','double','flag','popular','photos'];
+  const head=cols.join(',');
+  const rows=DATA.map(r=>cols.map(c=>{
+    const v=r[c];
+    if(Array.isArray(v))return csvEscape(v.join(';'));
+    if(typeof v==='boolean')return v?'true':'';
+    return csvEscape(v);
+  }).join(','));
+  download('doors.csv',[head,...rows].join('\r\n'),'text/csv');
+}
+function exportJSON(){
+  const out=DATA.map(r=>{
+    const c=compute(r);
+    return {...r, _price:c.price, _series:c.series, _errs:c.errs};
+  });
+  download('doors.json',JSON.stringify(out,null,2),'application/json');
+}
+function copyJSON(){
+  const out=DATA.map(r=>{const c=compute(r);return {...r,_price:c.price,_series:c.series}});
+  navigator.clipboard.writeText(JSON.stringify(out,null,2))
+    .then(()=>alert('JSON скопирован в буфер обмена ('+DATA.length+' дверей)'));
+}
+function download(name,content,type){
+  const blob=new Blob([content],{type:type+';charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=name;a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+
+/* ============ АВТОСОХРАНЕНИЕ В ФАЙЛ (File System Access API) ============ */
+let __fileHandle=null;
+let __saveTimer=0;
+let __saveBusy=false;
+
+const FS_SUPPORTED='showSaveFilePicker' in window;
+
+function buildExportJSON(){
+  return JSON.stringify(DATA.map(r=>{
+    const c=compute(r);
+    return {...r, _price:c.price, _series:c.series};
+  }), null, 2);
+}
+
+async function linkAutosave(){
+  if(!FS_SUPPORTED){
+    alert('Браузер не поддерживает File System Access API.\nИспользуй кнопку «Скачать JSON» вручную или открой страницу в Chrome/Edge.');
+    return;
+  }
+  try{
+    __fileHandle = await window.showSaveFilePicker({
+      suggestedName:'doors.json',
+      types:[{description:'JSON каталога ARMORA',accept:{'application/json':['.json']}}]
+    });
+    document.getElementById('autosaveBtn').textContent='💾 ✓ '+__fileHandle.name;
+    document.getElementById('autosaveBtn').classList.add('primary');
+    await writeAutosave();
+    toastSave('Автосохранение в '+__fileHandle.name+' включено');
+  }catch(e){
+    if(e && e.name!=='AbortError') alert('Не удалось привязать файл: '+e.message);
+  }
+}
+
+async function writeAutosave(){
+  if(!__fileHandle || __saveBusy) return;
+  __saveBusy=true;
+  try{
+    const w=await __fileHandle.createWritable();
+    await w.write(buildExportJSON());
+    await w.close();
+  }catch(e){
+    console.warn('autosave fail',e);
+  }finally{
+    __saveBusy=false;
+  }
+}
+
+function scheduleAutosave(){
+  if(!__fileHandle) return;
+  clearTimeout(__saveTimer);
+  __saveTimer=setTimeout(writeAutosave, 600);
+}
+
+function toastSave(msg){
+  let el=document.getElementById('save-toast');
+  if(!el){
+    el=document.createElement('div');el.id='save-toast';
+    el.style.cssText='position:fixed;bottom:20px;right:20px;background:#0f0f10;color:#bef264;padding:10px 16px;border-radius:8px;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:opacity .3s';
+    document.body.appendChild(el);
+  }
+  el.textContent=msg;el.style.opacity='1';
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>{el.style.opacity='0'},2000);
+}
+
+/* Перехватываем save() — после localStorage пишем и в файл, если привязан */
+const __origSave = save;
+save = function(){
+  __origSave.apply(this, arguments);
+  scheduleAutosave();
+};
+
+/* ============ ПРИМЕНИТЬ К КАТАЛОГУ (генерирует patch для catalog.html) ============ */
+async function applyToCatalog(){
+  if(!FS_SUPPORTED){
+    alert('Нужен Chrome/Edge с File System Access API.');return;
+  }
+  if(!confirm('Записать текущие двери в catalog.html?\n\nБудут заменены массивы DOORS и PHOTOS.\nПеред этим сделай резервную копию.'))return;
+  try{
+    const handle = await window.showOpenFilePicker({
+      types:[{description:'catalog.html',accept:{'text/html':['.html']}}]
+    });
+    const fh = handle[0];
+    const file = await fh.getFile();
+    let html = await file.text();
+
+    // Сборка нового DOORS
+    const doors = DATA.map(r=>{
+      const c=compute(r);
+      const finishMap={graphite:'graphite',venge:'venge',oak:'oak',white:'white',walnut:'walnut',concrete:'concrete',cream:'cream',black:'black'};
+      const glassRev={'Без вставки':'none','Стеклопакет прямой':'rect','Стеклопакет арка':'arch','Зеркало':'mirror','Стеклопакет с ковкой':'forge','Художественный витраж':'vitrage','Зеркальная тонировка':'mirror','Стеклопакет с ковкой':'forge'};
+      const handleRev={'MSM':'short','Apex':'long','Armadillo':'long','Guardian Premium':'long','Бугельная':'long'};
+      const tags=[];
+      if(c.price>=65000) tags.push('Скрытые петли');
+      if(r.glass==='Зеркало') tags.push('Зеркало');
+      if(r.glass==='Художественный витраж') tags.push('Витраж');
+      if((r.extras||[]).includes('Терморазрыв')) tags.push('Терморазрыв');
+      if(!tags.length) tags.push('Двойной контур',r.lock||'Guardian');
+      const flagJs = r.flag ? `'${r.flag}'` : 'null';
+      const tagsJs = tags.slice(0,2).map(t=>`'${t.replace(/'/g,"\\'")}'`).join(',');
+      return `  {id:${r.id}, name:'${r.name.replace(/'/g,"\\'")}', series:'${c.series==='Эконом'?'Эконом':c.series}', purpose:'${r.purpose}', price:${c.price}, finish:'${finishMap[r.finish_color]||'graphite'}', glass:'${glassRev[r.glass]||'none'}', handle:'${handleRev[r.handle]||'long'}', flag:${flagJs}, popular:${r.popular||0}, tags:[${tagsJs}]}`;
+    });
+    const doorsBlock = 'const DOORS=[\n' + doors.join(',\n') + '\n];';
+
+    const photoRows = DATA.map(r=>{
+      const arr = (r.photos||'').split(';').map(s=>s.trim()).filter(Boolean);
+      const arrJs = arr.map(u=>`'${u.replace(/'/g,"\\'")}'`).join(',');
+      return `  ${r.id}:[${arrJs}]`;
+    });
+    const photosBlock = 'const PHOTOS={\n' + photoRows.join(',\n') + '\n};';
+
+    html = html.replace(/const DOORS=\[[\s\S]*?\];/, doorsBlock);
+    html = html.replace(/const PHOTOS=\{[\s\S]*?\};/, photosBlock);
+
+    const w = await fh.createWritable();
+    await w.write(html);
+    await w.close();
+    alert('Готово. Записано '+DATA.length+' дверей в '+fh.name);
+  }catch(e){
+    if(e && e.name!=='AbortError') alert('Ошибка: '+e.message);
+  }
+}
+
+/* ============ INIT ============ */
+// Если редактор пустой (ни одной заполненной двери) — подгружаем 54 ARMORA автоматически
+if(!DATA || DATA.length===0 || (DATA.length===1 && !DATA[0].name)){
+  DATA = ARMORA_DATA.map(r=>Object.assign(emptyRow(),r));
+  save();
+}
+renderAll();
+</script>
+</body>
+</html>

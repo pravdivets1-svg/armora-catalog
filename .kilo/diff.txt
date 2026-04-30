@@ -1,0 +1,157 @@
+﻿=> <title>Каталог входных дверей ARMORA — премиальные стальные двери на заказ</title>
+=> <meta name="description" content="Каталог входных дверей ARMORA: премиальные стальные двери ручной сборки. Конфигуратор, расчёт стоимости, замер и установка. Доставка по России.">
+=> <meta name="robots" content="index,follow,max-image-preview:large">
+=> <meta name="theme-color" content="#06070a">
+=> <link rel="canonical" href="https://armora.ru/catalog">
+=> <link rel="icon" href="/favicon.ico" sizes="any">
+=> <!-- Open Graph -->
+=> <meta property="og:type" content="website">
+=> <meta property="og:title" content="Каталог входных дверей ARMORA">
+=> <meta property="og:description" content="Премиальные стальные двери ARMORA. Конфигуратор, расчёт цены, замер и установка.">
+=> <meta property="og:image" content="https://armora.ru/img/og-catalog.jpg">
+=> <meta property="og:url" content="https://armora.ru/catalog">
+=> <meta property="og:locale" content="ru_RU">
+=> <meta name="twitter:card" content="summary_large_image">
+=> <link rel="preload" as="image" href="bg.png">
+=> <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+=>   --ink-faint:#8a8a92;
+=> h2.card-name{margin:0;padding:0}
+=> .card{cursor:pointer}
+=> .card:focus-visible{outline:2px solid var(--accent,#9bff5e);outline-offset:3px;border-radius:18px}
+=> <noscript>
+=>   <div style="padding:24px;background:#111;color:#fff;text-align:center;font-family:sans-serif">
+=>     Для корректной работы каталога ARMORA включите JavaScript. Связь: 
+=>     <a href="https://wa.me/79991234567" style="color:#9bff5e">WhatsApp</a> ·
+=>     <a href="https://t.me/armora_doors" style="color:#9bff5e">Telegram</a> ·
+=>     <a href="https://armora.ru" style="color:#9bff5e">armora.ru</a>
+=> </noscript>
+=> <script type="application/ld+json">
+=> {
+=>   "@context": "https://schema.org",
+=>   "@type": "CollectionPage",
+=>   "name": "Каталог входных дверей ARMORA",
+=>   "description": "Премиальные стальные входные двери ARMORA. Конфигуратор, расчёт цены, замер и установка.",
+=>   "url": "https://armora.ru/catalog",
+=>   "publisher": {
+=>     "@type": "Organization",
+=>     "name": "ARMORA",
+=>     "url": "https://armora.ru"
+=>       <label for="searchInput" class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Поиск по каталогу</label>
+=>       <input id="searchInput" type="search" placeholder="Поиск по названию или серии…" autocomplete="off" aria-label="Поиск по названию или серии">
+=>           <input type="range" id="priceMax" min="20000" max="200000" step="5000" value="200000" aria-label="Максимальная цена в рублях" aria-describedby="priceMaxLbl">
+=> <a id="gotoSite" class="goto-site" href="https://armora.ru" target="_blank" rel="noopener noreferrer" title="Перейти на сайт ARMORA">
+=>   <a class="wa" href="https://wa.me/79991234567?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%B4%D0%B2%D0%B5%D1%80%D1%8C%20ARMORA" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+=>   <a class="tg" href="https://t.me/armora_doors" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+=>   </div>
+=> function slideHtml(src, alt){
+=>   const safeAlt = (alt||'Входная дверь ARMORA').replace(/"/g,'&quot;');
+=>   if(typeof src==='string' && src.trim().startsWith('<svg')) return `<div class="slide" role="img" aria-label="${safeAlt}">${src}</div>`;
+=>   return `<div class="slide"><img src="${src}" alt="${safeAlt}" width="600" height="800" loading="lazy" decoding="async" fetchpriority="low"></div>`;
+=>   return `<article class="card reveal" data-id="${d.id}" tabindex="0" role="button" aria-label="Открыть калькулятор: ${d.name}" style="animation-delay:${(idx||0)*40}ms" onclick="openCalc(${d.id})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCalc(${d.id})}">
+=>       <div class="slides">${imgs.map((s,i)=>slideHtml(s, `${d.name} · серия ${d.series}${imgs.length>1?` (фото ${i+1})`:''}`)).join('')}</div>
+=>       <h2 class="card-name">${d.name}</h2>
+=>   if(e.key!=='Escape')return;
+=>   // Приоритет: открытый drawer закрываем первым, затем калькулятор
+=>   const drawerOpen=document.querySelector('.drawer.open');
+=>   if(drawerOpen){ if(typeof closeDrawer==='function') closeDrawer(); return; }
+=>   if(document.getElementById('calcBg').classList.contains('show')) closeCalc();
+=> /* initial render moved to end of init block to avoid double rendering */
+=>   if(!i || i.dataset.maskBound) return;
+=>   i.dataset.maskBound = '1';
+=>   if(window.__ARMORA_DEV__) console.log('[ARMORA LEAD]',{name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel});
+=>       const body=document.getElementById('calcBody');
+=>       body.innerHTML='';
+=>       const wrap=document.createElement('div');
+=>       wrap.className='success';
+=>       wrap.innerHTML=`<div class="s-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+=>       <div class="s-title">Заявка принята, <em></em>!</div>
+=>       <div class="s-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong>, чтобы согласовать удобное время бесплатного замера. Эксперт приедет с образцами и рассчитает точную цену на месте.</div>`;
+=>       wrap.querySelector('.s-title em').textContent = name;
+=>       body.appendChild(wrap);
+=> const LS={get:(k,d)=>{try{return JSON.parse(localStorage.getItem('armora_'+k))||d}catch(e){return d}},set:(k,v)=>{try{localStorage.setItem('armora_'+k,JSON.stringify(v))}catch(e){/* private mode / quota */}}};
+=> document.addEventListener('keydown',e=>{if(e.key==='Escape'){/* объединено в общий обработчик выше */}});
+=>   const img=(d.images&&d.images[0])||'';
+=>   const safeAlt=`${d.name} · серия ${d.series}`.replace(/"/g,'&quot;');
+=>   const imgHtml=img.trim().startsWith('<svg')?img:`<img src="${img}" alt="${safeAlt}" width="54" height="72" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover">`;
+=>   return `<div class="drawer-item"><div class="drawer-item-img">${imgHtml}</div><div class="drawer-item-info"><h3 class="drawer-item-name">${d.name}</h3><div class="drawer-item-price">от ${d.price.toLocaleString('ru-RU')} ₽ · ${d.series}</div></div><button class="drawer-item-rm" onclick="rmFromDrawer('${t}',${d.id})" aria-label="Удалить">×</button></div>`;
+=> let __saveCalcT=0;
+=>   clearTimeout(__saveCalcT);
+=>   __saveCalcT=setTimeout(()=>{
+=>     const p=new URLSearchParams();
+=>     p.set('door',CALC.door.id);
+=>     ['base','ext','int','glass','seal','lock','handle'].forEach(k=>{if(CALC.sel[k])p.set(k,CALC.sel[k].name);});
+=>     if(CALC.sel.extras.length)p.set('extras',CALC.sel.extras.map(e=>e.name).join('|'));
+=>     try{ history.replaceState(null,'','?'+p.toString()); }catch(e){}
+=>   },300);
+=> if(!renderCalc.__armoraWrapped){
+=>   const _origRenderCalc=renderCalc;
+=>   renderCalc=function(){
+=>     _origRenderCalc.apply(this,arguments);
+=>     saveCalcToURL();
+=>     const nav=document.getElementById('calcNav');
+=>     if(nav&&CALC.door&&!nav.querySelector('.pdf-btn')&&!nav.querySelector('.success')){
+=>       const pdfBtn=document.createElement('button');
+=>       pdfBtn.className='pdf-btn';pdfBtn.style.flex='0 0 auto';
+=>       pdfBtn.innerHTML='<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Смета';
+=>       pdfBtn.onclick=downloadEstimate;
+=>       nav.insertBefore(pdfBtn,nav.firstChild);
+=>       const shareBtn=document.createElement('button');
+=>       shareBtn.className='share-btn';shareBtn.style.flex='0 0 auto';
+=>       shareBtn.innerHTML='<svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Ссылка';
+=>       shareBtn.onclick=()=>{navigator.clipboard?.writeText(location.href);toast('Ссылка скопирована');};
+=>       nav.insertBefore(shareBtn,nav.firstChild);
+=>     }
+=>   renderCalc.__armoraWrapped=true;
+=> }
+=> }
+=>   };
+=> </script>
+<= <title>Каталог дверей ARMORA</title>
+<= <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<=   --ink-faint:#71717a;
+<=       <input id="searchInput" type="search" placeholder="Поиск по названию или серии…" autocomplete="off">
+<=           <input type="range" id="priceMax" min="20000" max="200000" step="5000" value="200000">
+<= <a id="gotoSite" class="goto-site" href="https://armora.ru" target="_blank" rel="noopener" title="Перейти на сайт ARMORA">
+<=   <a class="wa" href="https://wa.me/79991234567?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%B4%D0%B2%D0%B5%D1%80%D1%8C%20ARMORA" target="_blank" rel="noopener" aria-label="WhatsApp">
+<=   <a class="tg" href="https://t.me/armora_doors" target="_blank" rel="noopener" aria-label="Telegram">
+<= function slideHtml(src){
+<=   if(typeof src==='string' && src.trim().startsWith('<svg')) return `<div class="slide">${src}</div>`;
+<=   return `<div class="slide"><img src="${src}" alt="" loading="lazy" decoding="async" fetchpriority="low"></div>`;
+<=   return `<article class="card reveal" data-id="${d.id}" style="animation-delay:${(idx||0)*40}ms" onclick="openCalc(${d.id})">
+<=       <div class="slides">${imgs.map(slideHtml).join('')}</div>
+<=       <div class="card-name">${d.name}</div>
+<=   if(e.key==='Escape' && document.getElementById('calcBg').classList.contains('show'))closeCalc();
+<=   console.log('[ARMORA LEAD]',{name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel});
+<=       document.getElementById('calcBody').innerHTML=`<div class="success">
+<=       <div class="s-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+<=       <div class="s-title">Заявка принята, <em>${name.replace(/[<>]/g,'')}</em>!</div>
+<=       <div class="s-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong>, чтобы согласовать удобное время бесплатного замера. Эксперт приедет с образцами и рассчитает точную цену на месте.</div>
+<=     </div>`;
+<= renderChips();render();
+<= const LS={get:(k,d)=>{try{return JSON.parse(localStorage.getItem('armora_'+k))||d}catch(e){return d}},set:(k,v)=>localStorage.setItem('armora_'+k,JSON.stringify(v))};
+<= document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+<=   const img=d.images&&d.images[0]?d.images[0]:'';
+<=   const imgHtml=img.trim().startsWith('<svg')?img:`<img src="${img}" alt="" style="width:100%;height:100%;object-fit:cover">`;
+<=   return `<div class="drawer-item"><div class="drawer-item-img">${imgHtml}</div><div class="drawer-item-info"><div class="drawer-item-name">${d.name}</div><div class="drawer-item-price">от ${d.price.toLocaleString('ru-RU')} ₽ · ${d.series}</div></div><button class="drawer-item-rm" onclick="rmFromDrawer('${t}',${d.id})" aria-label="Удалить">×</button></div>`;
+<=   const p=new URLSearchParams();
+<=   p.set('door',CALC.door.id);
+<=   ['base','ext','int','glass','seal','lock','handle'].forEach(k=>{if(CALC.sel[k])p.set(k,CALC.sel[k].name);});
+<=   if(CALC.sel.extras.length)p.set('extras',CALC.sel.extras.map(e=>e.name).join('|'));
+<=   history.replaceState(null,'','?'+p.toString());
+<= const _origRenderCalc=renderCalc;
+<= renderCalc=function(){
+<=   _origRenderCalc.apply(this,arguments);
+<=   saveCalcToURL();
+<=   const nav=document.getElementById('calcNav');
+<=   if(nav&&CALC.door&&!nav.querySelector('.pdf-btn')&&!nav.querySelector('.success')){
+<=     const pdfBtn=document.createElement('button');
+<=     pdfBtn.className='pdf-btn';pdfBtn.style.flex='0 0 auto';
+<=     pdfBtn.innerHTML='<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Смета';
+<=     pdfBtn.onclick=downloadEstimate;
+<=     nav.insertBefore(pdfBtn,nav.firstChild);
+<=     const shareBtn=document.createElement('button');
+<=     shareBtn.className='share-btn';shareBtn.style.flex='0 0 auto';
+<=     shareBtn.innerHTML='<svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Ссылка';
+<=     shareBtn.onclick=()=>{navigator.clipboard?.writeText(location.href);toast('Ссылка скопирована');};
+<=     nav.insertBefore(shareBtn,nav.firstChild);
+<= };
