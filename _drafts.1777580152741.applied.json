@@ -1,0 +1,58 @@
+{
+  "5": {
+    "purpose": "дом",
+    "metal": "1.5",
+    "ext": "Порошковое полимерное покрытие",
+    "int": "МДФ",
+    "glass": "Стеклопакет прямой",
+    "seal": "Двойной контур",
+    "lock": "2 замка Guardian",
+    "handle": "Бугельная",
+    "extras": ["Терморазрыв"],
+    "oversize": false,
+    "double": false,
+    "flag": "Хит"
+  },
+  "54": {
+    "purpose": "дом",
+    "metal": "1.8",
+    "ext": "Влагостойкая фанера",
+    "int": "МДФ",
+    "glass": "Стеклопакет с ковкой",
+    "seal": "Двойной контур",
+    "lock": "2 замка Guardian",
+    "handle": "Armadillo",
+    "extras": ["Терморазрыв"],
+    "oversize": false,
+    "double": false,
+    "flag": "Элит"
+  },
+  "53": {
+    "purpose": "дом",
+    "metal": "1.5",
+    "ext": "Порошковое полимерное покрытие",
+    "int": "МДФ",
+    "glass": "Стеклопакет прямой",
+    "seal": "Двойной контур",
+    "lock": "2 замка Guardian",
+    "handle": "Armadillo",
+    "extras": ["Терморазрыв"],
+    "oversize": false,
+    "double": false,
+    "flag": "Хит"
+  },
+  "52": {
+    "purpose": "квартира",
+    "metal": "1.5",
+    "ext": "МДФ",
+    "int": "МДФ",
+    "glass": "Без вставки",
+    "seal": "Двойной контур",
+    "lock": "Биометрический",
+    "handle": "Armadillo",
+    "extras": ["Ночная задвижка", "Шумоизоляция"],
+    "oversize": false,
+    "double": false,
+    "flag": "Рекомендуем"
+  }
+}

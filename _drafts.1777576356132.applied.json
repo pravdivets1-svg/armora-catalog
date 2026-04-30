@@ -1,0 +1,72 @@
+{
+  "46": {
+    "purpose": "квартира",
+    "metal": "1.8",
+    "ext": "МДФ",
+    "int": "МДФ",
+    "glass": "Без вставки",
+    "seal": "Двойной контур",
+    "lock": "Биометрический",
+    "handle": "Armadillo",
+    "extras": ["Шумоизоляция", "Ночная задвижка"],
+    "oversize": false,
+    "double": false,
+    "flag": "Новинка"
+  },
+  "45": {
+    "purpose": "дом",
+    "metal": "1.8",
+    "ext": "Влагостойкая фанера",
+    "int": "МДФ",
+    "glass": "Стеклопакет с ковкой",
+    "seal": "Тройной контур",
+    "lock": "2 замка Guardian",
+    "handle": "Armadillo",
+    "extras": ["Терморазрыв"],
+    "oversize": false,
+    "double": false,
+    "flag": "Элит"
+  },
+  "44": {
+    "purpose": "дом",
+    "metal": "1.8",
+    "ext": "Порошковое полимерное покрытие",
+    "int": "МДФ",
+    "glass": "Стеклопакет прямой",
+    "seal": "Двойной контур",
+    "lock": "2 замка Guardian",
+    "handle": "Armadillo",
+    "extras": ["Терморазрыв"],
+    "oversize": true,
+    "double": false,
+    "flag": "Новинка"
+  },
+  "43": {
+    "purpose": "дом",
+    "metal": "1.8",
+    "ext": "Порошковое полимерное покрытие",
+    "int": "МДФ",
+    "glass": "Стеклопакет прямой",
+    "seal": "Двойной контур",
+    "lock": "2 замка Guardian",
+    "handle": "Бугельная",
+    "extras": ["Терморазрыв"],
+    "oversize": false,
+    "double": false,
+    "flag": "Новинка"
+  },
+  "42": {
+    "purpose": "дом",
+    "metal": "1.5",
+    "ext": "Порошковое полимерное покрытие",
+    "int": "МДФ",
+    "glass": "Стеклопакет прямой",
+    "seal": "Тройной контур",
+    "lock": "2 замка Guardian",
+    "handle": "Armadillo",
+    "extras": ["Терморазрыв"],
+    "oversize": false,
+    "double": false,
+    "flag": "Рекомендуем"
+  }
+}
