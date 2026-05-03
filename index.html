@@ -4767,8 +4767,8 @@ h2.card-name{margin:0;padding:0}
   }
   [data-v="5"].calc-modal{
     border-radius: 0 !important;
-    min-height: 100dvh !important;
-    max-height: 100dvh !important;
+    min-height: 100vh !important;
+    max-height: 100vh !important;
     max-width: 100% !important;
     width: 100% !important;
     margin: 0 !important;
@@ -4833,13 +4833,13 @@ h2.card-name{margin:0;padding:0}
 .v5-foot-cta:active{ transform:translateY(0) scale(.98) !important; box-shadow:0 4px 12px -2px rgba(15,23,42,.2) !important; }
 
 /* M2: .svc-card:hover только на hover-устройствах (не зависает на iOS при тапе) */
-@media not all and (hover:hover){
+@media (hover:none){
   .svc-card:hover{ transform:none !important; box-shadow:none !important; background:rgba(255,255,255,.04) !important; border-color:rgba(255,255,255,.1) !important; }
   .svc-card:hover::before{ opacity:0 !important; }
 }
 
-/* L1: восстанавливаем overflow-x:clip после override overflow:visible на строке 1746 */
-html,body{ overflow-x:clip !important; }
+/* L1: восстанавливаем overflow-x:hidden после override overflow:visible на строке 1746 */
+html,body{ overflow-x:hidden !important; }
 
 /* ===== END UX/UI AUDIT FIXES ===== */
 
