@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /survey.html
+Disallow: /doors-editor.html
+Disallow: /_drafts*
+
+Sitemap: https://xn--80aqkmd2c.xn--80ajbahbg.xn--p1ai/sitemap.xml
