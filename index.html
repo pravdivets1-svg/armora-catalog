@@ -4838,8 +4838,10 @@ h2.card-name{margin:0;padding:0}
   .svc-card:hover::before{ opacity:0 !important; }
 }
 
-/* L1: только body — html должен оставаться scroll-контейнером, иначе sticky ломается */
-body{ overflow-x:hidden !important; }
+/* L1: только html — html становится scroll-контейнером (overflow-y:visible→auto по спеке),
+   body остаётся НЕ-контейнером → position:sticky фильтра работает;
+   clip на строке 72 заменяется hidden — совместимо с iOS Safari < 15.4 */
+html{ overflow-x:hidden !important; }
 
 /* ===== END UX/UI AUDIT FIXES ===== */
 
