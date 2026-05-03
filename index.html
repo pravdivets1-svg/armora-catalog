@@ -5350,6 +5350,123 @@ html,body{ overflow-x:hidden !important; }
 
 /* ===== END POPUP FIX ===== */
 
+/* ===== STEPPER LAYOUT — шаг за шагом ===== */
+
+/* Slightly darker background token */
+[data-v="5"] { --v5-bg: #e5e4df !important; }
+
+/* Progress bar under sticky header */
+.v5-step-pbar {
+  height: 3px;
+  background: rgba(0,0,0,.09);
+  border-radius: 999px;
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+.v5-step-pbar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #a47864 0%, #c49282 100%);
+  border-radius: 999px;
+  transition: width .6s cubic-bezier(0.32,0.72,0,1);
+}
+
+/* Step header block */
+.v5-step-hd { margin-bottom: 22px; }
+.v5-step-eye {
+  font-size: 10px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #a47864;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.v5-step-eye::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(0,0,0,.10) 0%, transparent 100%);
+}
+.v5-step-h2 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 26px;
+  color: #0c0c0c;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  letter-spacing: -.01em;
+}
+.v5-step-sub {
+  font-size: 13.5px;
+  color: #484854;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+/* Footer — back + next nav */
+.v5-foot-nav {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 0;
+}
+[data-v="5"] .v5-foot {
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+.v5-foot-back {
+  background: rgba(0,0,0,.06) !important;
+  border: 1px solid rgba(0,0,0,.09) !important;
+  border-radius: 999px !important;
+  padding: 14px 22px !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+  color: #484854 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: all .35s cubic-bezier(0.32,0.72,0,1) !important;
+}
+.v5-foot-back:hover {
+  background: rgba(0,0,0,.11) !important;
+  color: #0c0c0c !important;
+}
+.v5-foot-back:active { transform: scale(.97) !important; }
+
+@media(max-width:480px){
+  .v5-foot-nav { gap: 8px; }
+  .v5-foot-back { padding: 12px 16px !important; font-size: 12.5px !important; }
+  [data-v="5"] .v5-foot-cta { padding: 12px 18px !important; font-size: 13px !important; }
+}
+
+/* Popup text — черный шрифт на светлом фоне (глобально) */
+.v5-pop, .v5-pop *,
+.v5-lead-pop, .v5-lead-pop * {
+  -webkit-text-fill-color: initial !important;
+}
+.v5-pop-title,
+.v5-pop-desc,
+.v5-pop-price-v,
+.v5-lead-sum-v,
+.v5-success-title { color: #0c0c0c !important; -webkit-text-fill-color: #0c0c0c !important; }
+.v5-pop-desc,
+.v5-pop-price-l,
+.v5-lead-sum-l,
+.v5-pop-btn:not(.primary),
+.v5-success-sub  { color: #484854 !important; -webkit-text-fill-color: #484854 !important; }
+.v5-pop-kicker   { color: #a47864 !important; -webkit-text-fill-color: #a47864 !important; }
+.v5-lead-input   {
+  color: #0c0c0c !important;
+  -webkit-text-fill-color: #0c0c0c !important;
+  background: #fff !important;
+}
+.v5-lead-input::placeholder { color: #96969e !important; -webkit-text-fill-color: #96969e !important; opacity:1!important; }
+
+/* ===== END STEPPER LAYOUT ===== */
+
 </style>
 </head>
 <body>
@@ -6538,175 +6655,108 @@ window.__renderCalcV5 = function(total, prevTotal){
   if(!modal) return;
   const body = document.getElementById('calcBody');
 
-  // build full body (sticky must be inside scroll container, not outside)
-  const completedCount = V5_SECTIONS.filter(v5SectionComplete).length;
-  const totalSections = V5_SECTIONS.length;
-  const allDone = completedCount === totalSections;
+  const cur = CALC.cur;
+  const totalSteps = CALC_STEPS.length;
+  const step = CALC_STEPS[cur];
+  const isFirst = cur === 0;
+  const isLast  = cur === totalSteps - 1;
+  const pct = Math.round(((cur + 1) / totalSteps) * 100);
 
-  let progressDots = V5_SECTIONS.map((sec,i)=>{
-    const done = v5SectionComplete(sec);
-    const cur = V5.open === sec.id;
-    return `<i class="${cur?'cur':done?'done':''}"></i>`;
-  }).join('');
-
+  // ── sticky header ──────────────────────────────────────────
   let html = `
   <div class="v5-sticky" id="v5Sticky">
     <button class="v5-back" onclick="closeCalc()" aria-label="Закрыть">
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
     <div class="v5-title-block">
-      <div class="v5-kicker">
-        <span>Шаг ${Math.min(completedCount+1,totalSections)} из ${totalSections}</span>
-        <span class="v5-progress-mini">${progressDots}</span>
-      </div>
-      <div class="v5-title">${CALC.door?.name || 'Расчёт двери'}</div>
+      <div class="v5-kicker"><span>Шаг ${cur+1} из ${totalSteps}</span></div>
+      <div class="v5-title">${CALC.door?.name||'Расчёт двери'}</div>
     </div>
     <div class="v5-price-area">
-      <div class="v5-price-lbl">Ориентир</div>
+      <div class="v5-price-lbl">Итого</div>
       <div class="v5-price" id="v5Price">${total>0?fmtRu(total):'—'}</div>
     </div>
-    <button class="v5-cta" onclick="v5OpenLead()"><span>${allDone?'Оставить заявку':'Заявка'}</span></button>
+    <button class="v5-cta" onclick="v5OpenLead()"><span>Заявка</span></button>
   </div>
 
   <div class="v5-content">
-    <div class="v5-intro">${allDone?'Готово — отправляйте <em>заявку</em>':'Соберите свою <em>'+(CALC.door?.name||'дверь')+'</em>'}</div>
-    <div class="v5-intro-sub">${allDone?'Все параметры выбраны. Нажмите «Оставить заявку», менеджер перезвонит за 15 минут и согласует бесплатный замер.':'Тапните по секции — выбирайте опции. После выбора секция сворачивается и открывается следующая. В любую можно вернуться.'}</div>`;
+    <div class="v5-step-pbar"><div class="v5-step-pbar-fill" style="width:${pct}%"></div></div>
+    <div class="v5-step-hd">
+      <div class="v5-step-eye">Шаг ${String(cur+1).padStart(2,'0')} / ${String(totalSteps).padStart(2,'0')}</div>
+      <h2 class="v5-step-h2">${step.title}</h2>
+      <p class="v5-step-sub">${step.hint}</p>
+    </div>
+    <div class="v5-opts">`;
 
-  V5_SECTIONS.forEach((sec,si)=>{
-    const isOpen = V5.open === sec.id;
-    const complete = v5SectionComplete(sec);
-    const summary = complete ? v5SectionSummary(sec) : '<span class="pending">Не выбрано — нажмите чтобы открыть</span>';
-    const add = v5SumPrice(sec.steps);
-    html += `<div class="v5-acc${isOpen?' open':''}${complete?' complete':''}" data-sec="${sec.id}">
-      <button class="v5-acc-head" onclick="v5Toggle('${sec.id}')" type="button">
-        <span class="v5-acc-num"><span>${sec.num}</span></span>
-        <span class="v5-acc-titles">
-          <span class="v5-acc-title">${sec.title}</span>
-          <span class="v5-acc-summary">${summary}</span>
-        </span>
-        <span class="v5-acc-add">${add>0?'+'+fmtRu(add):''}</span>
-        <span class="v5-chev"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
-      </button>
-      <div class="v5-acc-body"><div class="v5-acc-inner"><div class="v5-acc-content">`;
-    sec.steps.forEach(k=>{
-      const step = CALC_STEPS.find(s=>s.key===k);
-      if(!step) return;
-      const groupTitle = (step.title||'').replace(/<[^>]+>/g,'').trim();
-      html += `<div class="v5-acc-group">
-        <div class="v5-acc-group-title">${groupTitle}</div>
-        <div class="v5-opts">`;
-      step.options.forEach((o,i)=>{
-        const isMulti = step.type==='multi';
-        const multiList = step.key==='install_extras' ? (CALC.sel.install_extras||[]) : CALC.sel.extras;
-        const sel = isMulti ? multiList.some(x=>x.name===o.name) : (CALC.sel[step.key]&&CALC.sel[step.key].name===o.name);
-        const isRec = step.key==='base' && o.name==='Премиум';
-        let priceHtml;
-        if(o.price===0 && !isMulti){ priceHtml = `<span class="v5-opt-price zero">включено</span>`; }
-        else if(o.isGift){ priceHtml = `<span class="v5-opt-price gift">в подарок</span>`; }
-        else if(o.price<0){ priceHtml = `<span class="v5-opt-price zero" style="background:rgba(164,120,100,.14);color:var(--v5-mocha)">−${Math.abs(o.price).toLocaleString('ru-RU')} ₽</span>`; }
-        else { priceHtml = `<span class="v5-opt-price">+${o.price.toLocaleString('ru-RU')} ₽</span>`; }
-        const chk = `<span class="v5-opt-chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>`;
-        const action = isMulti
-          ? `v5ToggleExtra('${step.key}','${o.name.replace(/'/g,"\\'")}',this)`
-          : `v5Select('${step.key}','${o.name.replace(/'/g,"\\'")}',this,'${sec.id}')`;
-        html += `<button type="button" class="v5-opt${sel?' sel':''}" onclick="${action}" data-name="${o.name.replace(/"/g,'&quot;')}">
-          ${isRec?'<span class="v5-opt-rec">Рекомендуем</span>':''}
-          <div class="v5-opt-top">
-            <span class="v5-opt-name">${o.name}</span>
-            <span class="v5-opt-info" onclick="event.stopPropagation();v5OpenPop('${step.key}','${o.name.replace(/'/g,"\\'")}')" title="Подробнее">i</span>
-          </div>
-          <div class="v5-opt-desc">${o.desc||''}</div>
-          <div class="v5-opt-foot">${priceHtml}${chk}</div>
-        </button>`;
-      });
-      html += `</div></div>`;
-    });
-    html += `</div></div></div></div>`;
+  step.options.forEach(o=>{
+    const isMulti = step.type==='multi';
+    const multiList = step.key==='install_extras'?(CALC.sel.install_extras||[]):CALC.sel.extras;
+    const sel = isMulti ? multiList.some(x=>x.name===o.name) : (CALC.sel[step.key]&&CALC.sel[step.key].name===o.name);
+    const isRec = step.key==='base' && o.name==='Премиум';
+    let priceHtml;
+    if(o.price===0 && !isMulti){ priceHtml=`<span class="v5-opt-price zero">включено</span>`; }
+    else if(o.isGift){ priceHtml=`<span class="v5-opt-price gift">в подарок</span>`; }
+    else if(o.price<0){ priceHtml=`<span class="v5-opt-price zero" style="background:rgba(164,120,100,.14);color:#a47864">−${Math.abs(o.price).toLocaleString('ru-RU')} ₽</span>`; }
+    else { priceHtml=`<span class="v5-opt-price">+${o.price.toLocaleString('ru-RU')} ₽</span>`; }
+    const chk=`<span class="v5-opt-chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>`;
+    const kEsc=step.key.replace(/'/g,"\\'");
+    const nEsc=o.name.replace(/'/g,"\\'").replace(/\\/g,'\\\\');
+    const nAttr=o.name.replace(/"/g,'&quot;');
+    const action=isMulti?`v5ToggleExtra('${kEsc}','${nEsc}',this)`:`v5Select('${kEsc}','${nEsc}',this)`;
+    html+=`<button type="button" class="v5-opt${sel?' sel':''}" onclick="${action}" data-name="${nAttr}">
+      ${isRec?'<span class="v5-opt-rec">Рекомендуем</span>':''}
+      <div class="v5-opt-top">
+        <span class="v5-opt-name">${o.name}</span>
+        <span class="v5-opt-info" onclick="event.stopPropagation();v5OpenPop('${kEsc}','${nEsc}')" title="Подробнее">i</span>
+      </div>
+      <div class="v5-opt-desc">${o.desc||''}</div>
+      <div class="v5-opt-foot">${priceHtml}${chk}</div>
+    </button>`;
   });
 
-  html += `</div>
-    <div class="v5-foot">
-      <div class="v5-foot-info">
-        <div class="v5-foot-info-l">${allDone?'К оплате ориентировочно':'Промежуточный итог'}</div>
-        <div class="v5-foot-info-v" id="v5FootPrice">${total>0?fmtRu(total):'—'}</div>
-      </div>
-      <button class="v5-foot-cta${allDone?' pulse':''}" onclick="v5OpenLead()">${allDone?'Оставить заявку →':'Заказать свою дверь →'}</button>
-    </div>`;
+  html+=`</div></div>
+
+  <div class="v5-foot">
+    <div class="v5-foot-info">
+      <div class="v5-foot-info-l">Промежуточный итог</div>
+      <div class="v5-foot-info-v" id="v5FootPrice">${total>0?fmtRu(total):'—'}</div>
+    </div>
+    <div class="v5-foot-nav">
+      ${!isFirst?'<button class="v5-foot-back" onclick="calcPrev()">← Назад</button>':''}
+      ${!isLast
+        ?`<button class="v5-foot-cta" onclick="calcNext()">Продолжить →</button>`
+        :`<button class="v5-foot-cta pulse" onclick="v5OpenLead()">Оставить заявку →</button>`
+      }
+    </div>
+  </div>`;
 
   body.innerHTML = html;
 
   // price flash + count-up
   if(total>0 && prevTotal>0 && total!==prevTotal){
-    const priceEl2 = document.getElementById('v5Price');
-    if(priceEl2){
-      priceEl2.classList.add('flash');
-      v5CountUp(priceEl2, prevTotal, total);
-      setTimeout(()=>priceEl2.classList.remove('flash'), 700);
-    }
+    const priceEl2=document.getElementById('v5Price');
+    if(priceEl2){ priceEl2.classList.add('flash'); v5CountUp(priceEl2,prevTotal,total); setTimeout(()=>priceEl2.classList.remove('flash'),700); }
     const fp=document.getElementById('v5FootPrice');
-    if(fp){ fp.classList.add('flash'); v5CountUp(fp, prevTotal, total); setTimeout(()=>fp.classList.remove('flash'), 700); }
+    if(fp){ fp.classList.add('flash'); v5CountUp(fp,prevTotal,total); setTimeout(()=>fp.classList.remove('flash'),700); }
   }
-
-  // sticky scroll-shadow on the body's scroll
+  // sticky scroll-shadow
   if(!body.__v5ScrollBound){
-    body.__v5ScrollBound = true;
-    body.addEventListener('scroll', ()=>{
-      const s = body.querySelector('.v5-sticky');
-      if(s) s.classList.toggle('scrolled', body.scrollTop > 6);
-    }, {passive:true});
+    body.__v5ScrollBound=true;
+    body.addEventListener('scroll',()=>{
+      const s=body.querySelector('.v5-sticky');
+      if(s) s.classList.toggle('scrolled',body.scrollTop>6);
+    },{passive:true});
   }
+  // scroll to top of step on each render
+  body.scrollTo({top:0,behavior:'smooth'});
 };
 
-function v5Toggle(id){
-  V5.open = (V5.open===id ? null : id);
-  renderCalc();
-  // smooth scroll opened section into view
-  setTimeout(()=>{
-    const body=document.getElementById('calcBody');
-    const el=body?.querySelector(`.v5-acc[data-sec="${id}"]`);
-    if(el && body) body.scrollTo({top: el.offsetTop - 80, behavior:'smooth'});
-  }, 80);
-}
-function v5Select(key, name, btn, secId){
-  const step = CALC_STEPS.find(s=>s.key===key);
-  const o = step.options.find(x=>x.name===name);
+function v5Toggle(id){ /* legacy no-op in stepper mode */ }
+function v5Select(key, name){
+  const step=CALC_STEPS.find(s=>s.key===key);
+  const o=step?.options.find(x=>x.name===name);
   if(!o) return;
-  CALC.sel[key] = o;
-  if(btn){ btn.classList.add('flash'); }
-  // Smart auto-advance: if section is now complete, jump to next incomplete one
-  if(secId){
-    const sec = V5_SECTIONS.find(s=>s.id===secId);
-    if(sec && v5SectionComplete(sec)){
-      const idx = V5_SECTIONS.findIndex(s=>s.id===secId);
-      const next = V5_SECTIONS.slice(idx+1).find(s=>!v5SectionComplete(s));
-      if(next){
-        // delay to let user see the flash animation
-        setTimeout(()=>{
-          V5.open = next.id;
-          renderCalc();
-          requestAnimationFrame(()=>{
-            const body=document.getElementById('calcBody');
-            const el=body?.querySelector(`.v5-acc[data-sec="${next.id}"]`);
-            if(el && body) body.scrollTo({top: el.offsetTop - 80, behavior:'smooth'});
-          });
-        }, 500);
-        renderCalc();
-        return;
-      } else {
-        // all complete — close and scroll to footer
-        setTimeout(()=>{
-          V5.open = null;
-          renderCalc();
-          requestAnimationFrame(()=>{
-            const body=document.getElementById('calcBody');
-            if(body) body.scrollTo({top: body.scrollHeight, behavior:'smooth'});
-          });
-        }, 500);
-        renderCalc();
-        return;
-      }
-    }
-  }
+  CALC.sel[key]=o;
   renderCalc();
 }
 function v5ToggleExtra(key, name, btn){
