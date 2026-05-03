@@ -4754,6 +4754,49 @@ h2.card-name{margin:0;padding:0}
 }
 /* ===== END MOBILE AUDIT FIXES ===== */
 
+/* ===== FIX: layout / cards / calc — 2026-05-03 ===== */
+
+/* FIX-1: layout на мобиле — строка 1485 форсирует 240px колонку без медиазапроса;
+   переопределяем с !important после неё → одна колонка на ≤900px */
+@media(max-width:900px){
+  .layout{ grid-template-columns:1fr !important; }
+}
+
+/* FIX-2: calc-bg на мобиле — align-items:center обрезает высокий модал сверху;
+   переключаем на flex-start и убираем padding чтобы v5-modal занял полный экран */
+@media(max-width:720px){
+  .calc-bg{
+    align-items: flex-start !important;
+    padding: 0 !important;
+  }
+  [data-v="5"].calc-modal{
+    border-radius: 0 !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  [data-v="5"] .calc-body{
+    flex: 1 1 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+/* FIX-3: карточки — на мобиле ≤600px одна широкая колонка по центру */
+@media(max-width:600px){
+  .results{ padding: 16px 14px 32px !important; }
+  .grid{
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  .card-img{ aspect-ratio: 3/2 !important; }
+}
+
+/* ===== END FIX 2026-05-03 ===== */
+
 </style>
 </head>
 <body>
