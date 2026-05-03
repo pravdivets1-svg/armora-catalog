@@ -8,11 +8,28 @@ Thumbs.db
 
 # Node
 node_modules/
+package-lock.json
 
 # Local working buffers
-_drafts.json
+_drafts*.json
 _patch.json
+*.applied.json
+survey.html
 
-# Local Kilo state (keep skills/commands, drop runtime)
-.kilo/cache/
-.kilo/logs/
+# Local Kilo state
+.kilo/
+
+# Build / source files (we deploy only static)
+download-photos.js
+sync-catalog.js
+package.json
+doors-editor.html
+PROJECT.md
+FILLING-WORKFLOW.md
+
+# Backups
+*.backup.html
+*.before-*.html
+_after.html
+
+catalog.html

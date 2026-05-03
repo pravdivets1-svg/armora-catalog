@@ -16,7 +16,7 @@
     "finish_color": "graphite",
     "flag": "",
     "popular": 65,
-    "photos": "https://radika1.link/2026/04/26/019d9238-c415-74b8-877c-892e7f891b3e13cfbe8765c31f61.png"
+    "photos": "img/doors/1-1.webp"
   },
   {
     "id": 2,
@@ -37,7 +37,7 @@
     "finish_color": "cream",
     "flag": "Хит",
     "popular": 121,
-    "photos": "https://s1.radikal.cloud/2026/04/26/019d9233-69a7-7dbb-b00b-98dbed7781bb52d6e4e1e19dc81e.png"
+    "photos": "img/doors/2-1.webp"
   },
   {
     "id": 3,
@@ -58,7 +58,7 @@
     "finish_color": "graphite",
     "flag": "Рекомендуем",
     "popular": 79,
-    "photos": "https://radika1.link/2026/04/26/019d9243-43b0-7730-9061-ea70e88bd633a87ee1c4e348cbcb.png"
+    "photos": "img/doors/3-1.webp"
   },
   {
     "id": 4,
@@ -80,7 +80,7 @@
     "finish_color": "walnut",
     "flag": "",
     "popular": 116,
-    "photos": "https://s2.radikal.cloud/2026/04/26/cnLMAPnPpP0Cw3UIFIWIykTDsIPLV-OWZF-wwyouua04K5P-zgiQvAnPVykAe_a4wVdNPqiwSjchAztf3pK6kUTbe73e06f35f22357f.jpg"
+    "photos": "img/doors/4-1.webp"
   },
   {
     "id": 5,
@@ -101,7 +101,7 @@
     "finish_color": "graphite",
     "flag": "Хит",
     "popular": 96,
-    "photos": "https://s3.radikal.cloud/2026/04/26/d3TjPtPCv0iNagFkeJch9qRqCThcijkpj0zESMuCnsUQcv29kxWq-HUBnXTbSyRnG5-Gqdra7v7SEE7jlPn5fSqbfd1354007c9f8d39.jpg"
+    "photos": "img/doors/5-1.webp"
   },
   {
     "id": 6,
@@ -123,7 +123,7 @@
     "finish_color": "walnut",
     "flag": "Хит",
     "popular": 65,
-    "photos": "https://s1.radikal.cloud/2026/04/26/e4194e23-ef1c-4644-9daa-8aeaab3371daef0b5a6e32831cf1.png"
+    "photos": "img/doors/6-1.webp"
   },
   {
     "id": 7,
@@ -145,7 +145,7 @@
     "finish_color": "venge",
     "flag": "",
     "popular": 113,
-    "photos": "https://radika1.link/2026/04/26/IMG_5765-11776fdb932d4a86f.jpeg"
+    "photos": "img/doors/7-1.webp"
   },
   {
     "id": 8,
@@ -168,7 +168,7 @@
     "finish_color": "venge",
     "flag": "Хит",
     "popular": 124,
-    "photos": "https://s2.radikal.cloud/2026/04/26/IMG_5784e2dde65540a9ab9f.jpg"
+    "photos": "img/doors/8-1.webp"
   },
   {
     "id": 9,
@@ -190,7 +190,7 @@
     "finish_color": "venge",
     "flag": "",
     "popular": 22,
-    "photos": "https://radika1.link/2026/04/26/IMG_58549f4747fc41d13fe4.jpg"
+    "photos": "img/doors/9-1.webp"
   },
   {
     "id": 10,
@@ -212,7 +212,7 @@
     "finish_color": "graphite",
     "flag": "Новинка",
     "popular": 46,
-    "photos": "https://s1.radikal.cloud/2026/04/26/IMG_5930f66fe87b7582a438.jpg"
+    "photos": "img/doors/10-1.webp"
   },
   {
     "id": 11,
@@ -234,7 +234,7 @@
     "finish_color": "walnut",
     "flag": "Хит",
     "popular": 71,
-    "photos": "https://radika1.link/2026/04/26/IMG_593572168dbdd7d17466.png"
+    "photos": "img/doors/11-1.webp"
   },
   {
     "id": 12,
@@ -256,7 +256,7 @@
     "finish_color": "venge",
     "flag": "",
     "popular": 118,
-    "photos": "https://s3.radikal.cloud/2026/04/26/IMG_5957e7a2be7857fe6dab.jpg"
+    "photos": "img/doors/12-1.webp"
   },
   {
     "id": 13,
@@ -280,7 +280,7 @@
     "finish_color": "venge",
     "flag": "Хит",
     "popular": 62,
-    "photos": "https://s2.radikal.cloud/2026/04/26/IMG_6485e8af4064820ab5b5.jpg"
+    "photos": "img/doors/13-1.webp"
   },
   {
     "id": 14,
@@ -301,7 +301,7 @@
     "finish_color": "white",
     "flag": "",
     "popular": 112,
-    "photos": "https://s1.radikal.cloud/2026/04/26/IMG_64869b2e71c209d1e8c7.jpg"
+    "photos": "img/doors/14-1.webp"
   },
   {
     "id": 15,
@@ -323,7 +323,7 @@
     "finish_color": "white",
     "flag": "",
     "popular": 31,
-    "photos": "https://s3.radikal.cloud/2026/04/26/IMG_64872e2069876dd8f68f.jpg"
+    "photos": "img/doors/15-1.webp"
   },
   {
     "id": 16,
@@ -345,7 +345,7 @@
     "finish_color": "walnut",
     "flag": "Хит",
     "popular": 54,
-    "photos": "https://radika1.link/2026/04/26/IMG_6488b3829e05382c937e.jpg"
+    "photos": "img/doors/16-1.webp"
   },
   {
     "id": 17,
@@ -367,7 +367,7 @@
     "finish_color": "oak",
     "flag": "Хит",
     "popular": 36,
-    "photos": "https://radika1.link/2026/04/26/IMG_6489989b87134fd1a890.jpg"
+    "photos": "img/doors/17-1.webp"
   },
   {
     "id": 18,
@@ -389,7 +389,7 @@
     "finish_color": "white",
     "flag": "Хит",
     "popular": 82,
-    "photos": "https://s3.radikal.cloud/2026/04/26/IMG_64906166dbc0d42561a7.jpg"
+    "photos": "img/doors/18-1.webp"
   },
   {
     "id": 19,
@@ -410,7 +410,7 @@
     "finish_color": "graphite",
     "flag": "",
     "popular": 137,
-    "photos": "https://s2.radikal.cloud/2026/04/26/IMG_64914f6f2d6bbcb41c0d.jpg"
+    "photos": "img/doors/19-1.webp"
   },
   {
     "id": 20,
@@ -432,7 +432,7 @@
     "finish_color": "cream",
     "flag": "Хит",
     "popular": 50,
-    "photos": "https://s3.radikal.cloud/2026/04/26/IMG_6492-2f7a4200c2944aa07.jpg"
+    "photos": "img/doors/20-1.webp"
   },
   {
     "id": 21,
@@ -454,7 +454,7 @@
     "finish_color": "cream",
     "flag": "Новинка",
     "popular": 92,
-    "photos": "https://radika1.link/2026/04/26/IMG_7278b2ad929d3bc45764.jpg"
+    "photos": "img/doors/21-1.webp"
   },
   {
     "id": 22,
@@ -476,7 +476,7 @@
     "finish_color": "white",
     "flag": "Новинка",
     "popular": 119,
-    "photos": "https://s2.radikal.cloud/2026/04/26/IMG_730266900c8b26b1f897.jpg"
+    "photos": "img/doors/22-1.webp"
   },
   {
     "id": 23,
@@ -497,7 +497,7 @@
     "finish_color": "black",
     "flag": "Хит",
     "popular": 88,
-    "photos": "https://radika1.link/2026/04/26/IMG_7305c8c6c930883d9a75.png"
+    "photos": "img/doors/23-1.webp"
   },
   {
     "id": 24,
@@ -519,7 +519,7 @@
     "finish_color": "graphite",
     "flag": "Хит",
     "popular": 8,
-    "photos": "https://radika1.link/2026/04/26/IMG_7308-25b6330ff495f2f10.jpg"
+    "photos": "img/doors/24-1.webp"
   },
   {
     "id": 25,
@@ -541,7 +541,7 @@
     "finish_color": "white",
     "flag": "Элит",
     "popular": 60,
-    "photos": "https://s3.radikal.cloud/2026/04/26/IMG_7306ea1caedcb7b96ba9.png"
+    "photos": "img/doors/25-1.webp"
   },
   {
     "id": 26,
@@ -562,7 +562,7 @@
     "finish_color": "graphite",
     "flag": "",
     "popular": 80,
-    "photos": "https://radika1.link/2026/04/26/IMG_73372df11a1432a200b5.jpg"
+    "photos": "img/doors/26-1.webp"
   },
   {
     "id": 27,
@@ -584,7 +584,7 @@
     "finish_color": "black",
     "flag": "Хит",
     "popular": 42,
-    "photos": "https://s1.radikal.cloud/2026/04/26/IMG_7339e1cb5f27b1d0f130.jpeg"
+    "photos": "img/doors/27-1.webp"
   },
   {
     "id": 28,
@@ -605,7 +605,7 @@
     "finish_color": "black",
     "flag": "Новинка",
     "popular": 42,
-    "photos": "https://s3.radikal.cloud/2026/04/26/IMG_7344955372066ae84786.jpeg"
+    "photos": "img/doors/28-1.webp"
   },
   {
     "id": 29,
@@ -627,7 +627,7 @@
     "finish_color": "venge",
     "flag": "Элит",
     "popular": 91,
-    "photos": "https://s2.radikal.cloud/2026/04/26/IMG_73651c8476dffc656e41.png"
+    "photos": "img/doors/29-1.webp"
   },
   {
     "id": 30,
@@ -649,7 +649,7 @@
     "finish_color": "oak",
     "flag": "Новинка",
     "popular": 75,
-    "photos": "https://radika1.link/2026/04/26/IMG_73890ae148d77a42daad.png"
+    "photos": "img/doors/30-1.webp"
   },
   {
     "id": 31,
@@ -671,7 +671,7 @@
     "finish_color": "concrete",
     "flag": "Хит",
     "popular": 123,
-    "photos": "https://s2.radikal.cloud/2026/04/26/IMG_7391e44f652f5beb3611.png"
+    "photos": "img/doors/31-1.webp"
   },
   {
     "id": 32,
@@ -694,7 +694,7 @@
     "finish_color": "walnut",
     "flag": "Хит",
     "popular": 12,
-    "photos": "https://radika1.link/2026/04/26/IMG_7398140e371cfb8bca4d.png"
+    "photos": "img/doors/32-1.webp"
   },
   {
     "id": 33,
@@ -715,7 +715,7 @@
     "finish_color": "venge",
     "flag": "Новинка",
     "popular": 21,
-    "photos": "https://s3.radikal.cloud/2026/04/26/IMG_7400fe2b69253c4d090c.png"
+    "photos": "img/doors/33-1.webp"
   },
   {
     "id": 34,
@@ -737,7 +737,7 @@
     "finish_color": "walnut",
     "flag": "Хит",
     "popular": 135,
-    "photos": "https://radika1.link/2026/04/26/IMG_7402aff4a5881899d4cc.png"
+    "photos": "img/doors/34-1.webp"
   },
   {
     "id": 35,
@@ -758,7 +758,7 @@
     "finish_color": "graphite",
     "flag": "Новинка",
     "popular": 120,
-    "photos": "https://s3.radikal.cloud/2026/04/26/IMG_74983a704f2e3ae50a81.png"
+    "photos": "img/doors/35-1.webp"
   },
   {
     "id": 36,
@@ -781,7 +781,7 @@
     "finish_color": "concrete",
     "flag": "Элит",
     "popular": 107,
-    "photos": "https://s1.radikal.cloud/2026/04/26/IMG_7530c890921b1d9f62b8.jpg"
+    "photos": "img/doors/36-1.webp"
   },
   {
     "id": 37,
@@ -803,7 +803,7 @@
     "finish_color": "white",
     "flag": "Элит",
     "popular": 37,
-    "photos": "https://radika1.link/2026/04/26/j8cDWprdNNz3HnguWMuvrEUIo1_vzcqL-sp13OueEPGV-ZwZvMbvB5XxsmjmMeS5LK9lwbGkClEM7VbnBHMkKC4Pe2411a487bcd3be4.jpg"
+    "photos": "img/doors/37-1.webp"
   },
   {
     "id": 38,
@@ -824,7 +824,7 @@
     "finish_color": "white",
     "flag": "Рекомендуем",
     "popular": 36,
-    "photos": "https://s2.radikal.cloud/2026/04/26/photo_2026-03-06_11-16-130f7eb3e097b65fe7.jpg"
+    "photos": "img/doors/38-1.webp"
   },
   {
     "id": 39,
@@ -845,7 +845,7 @@
     "finish_color": "cream",
     "flag": "Рекомендуем",
     "popular": 19,
-    "photos": "https://s1.radikal.cloud/2026/04/26/lfs3J8IqzwF7BJ8gyxqMAULMOkFdn06UygKHffg1Q4z7RBN0j_LwvjvtpEIl2AqMmc5H5f4MyQwRbTo6r44n_v_C81206747391915ed.jpg"
+    "photos": "img/doors/39-1.webp"
   },
   {
     "id": 40,
@@ -866,7 +866,7 @@
     "finish_color": "oak",
     "flag": "Новинка",
     "popular": 44,
-    "photos": "https://radika1.link/2026/04/26/photo_2026-03-06_11-16-1740632e4ff0d55f28.jpg"
+    "photos": "img/doors/40-1.webp"
   },
   {
     "id": 41,
@@ -888,7 +888,7 @@
     "finish_color": "black",
     "flag": "Элит",
     "popular": 46,
-    "photos": "https://s3.radikal.cloud/2026/04/26/photo_2026-03-06_11-20-25000f88a017f70d60.jpg"
+    "photos": "img/doors/41-1.webp"
   },
   {
     "id": 42,
@@ -909,7 +909,7 @@
     "finish_color": "black",
     "flag": "Рекомендуем",
     "popular": 63,
-    "photos": "https://s2.radikal.cloud/2026/04/26/photo_2026-03-24_10-45-1309e0bd2f24b12171.jpg"
+    "photos": "img/doors/42-1.webp"
   },
   {
     "id": 43,
@@ -930,7 +930,7 @@
     "finish_color": "graphite",
     "flag": "Новинка",
     "popular": 39,
-    "photos": "https://s3.radikal.cloud/2026/04/26/photo_2026-03-24_10-45-31a0bc1c07c45600c2.jpg"
+    "photos": "img/doors/43-1.webp"
   },
   {
     "id": 44,
@@ -951,7 +951,7 @@
     "finish_color": "concrete",
     "flag": "Новинка",
     "popular": 104,
-    "photos": "https://s2.radikal.cloud/2026/04/26/photo_2026-03-24_10-45-3534be24a338859395.jpg"
+    "photos": "img/doors/44-1.webp"
   },
   {
     "id": 45,
@@ -972,7 +972,7 @@
     "finish_color": "white",
     "flag": "Элит",
     "popular": 101,
-    "photos": "https://radika1.link/2026/04/26/photo_2026-03-24_10-45-387ad216540cce0e62.jpg"
+    "photos": "img/doors/45-1.webp"
   },
   {
     "id": 46,
@@ -994,7 +994,7 @@
     "finish_color": "graphite",
     "flag": "Новинка",
     "popular": 56,
-    "photos": "https://s3.radikal.cloud/2026/04/26/photo_2026-04-13_21-18-5468e90c0567ea697c.jpg"
+    "photos": "img/doors/46-1.webp"
   },
   {
     "id": 47,
@@ -1016,7 +1016,7 @@
     "finish_color": "walnut",
     "flag": "Рекомендуем",
     "popular": 92,
-    "photos": "https://radika1.link/2026/04/26/photo_2026-04-13_21-19-040e923d2a430b0f8f.jpg"
+    "photos": "img/doors/47-1.webp"
   },
   {
     "id": 48,
@@ -1037,7 +1037,7 @@
     "finish_color": "oak",
     "flag": "Хит",
     "popular": 15,
-    "photos": "https://s1.radikal.cloud/2026/04/26/photo_2026-04-13_21-19-16d85c2c40554d02df.jpg"
+    "photos": "img/doors/48-1.webp"
   },
   {
     "id": 49,
@@ -1060,7 +1060,7 @@
     "finish_color": "cream",
     "flag": "Элит",
     "popular": 22,
-    "photos": "https://radika1.link/2026/04/26/photo_2026-04-13_21-19-212c3a9205acb91dbf.jpg"
+    "photos": "img/doors/49-1.webp"
   },
   {
     "id": 50,
@@ -1082,7 +1082,7 @@
     "finish_color": "white",
     "flag": "Элит",
     "popular": 9,
-    "photos": "https://radika1.link/2026/04/26/photo_2026-04-13_21-19-39c4471170c1c0c1c1.jpg"
+    "photos": "img/doors/50-1.webp"
   },
   {
     "id": 51,
@@ -1103,7 +1103,7 @@
     "finish_color": "oak",
     "flag": "Новинка",
     "popular": 78,
-    "photos": "https://s3.radikal.cloud/2026/04/26/photo_2026-04-13_21-19-59a59b652786607797.jpg"
+    "photos": "img/doors/51-1.webp"
   },
   {
     "id": 52,
@@ -1125,7 +1125,7 @@
     "finish_color": "oak",
     "flag": "Рекомендуем",
     "popular": 69,
-    "photos": "https://radika1.link/2026/04/26/photo_2026-04-13_21-20-147a099755cc4eca15.jpg"
+    "photos": "img/doors/52-1.webp"
   },
   {
     "id": 53,
@@ -1146,7 +1146,7 @@
     "finish_color": "black",
     "flag": "Хит",
     "popular": 116,
-    "photos": "https://s2.radikal.cloud/2026/04/26/photo_2026-04-13_21-20-237e0994297dba9601.jpg"
+    "photos": "img/doors/53-1.webp"
   },
   {
     "id": 54,
@@ -1167,6 +1167,6 @@
     "finish_color": "white",
     "flag": "Элит",
     "popular": 46,
-    "photos": "https://s3.radikal.cloud/2026/04/26/snapedit_17695184894915cfc0e77067fcc70.jpeg"
+    "photos": "img/doors/54-1.webp"
   }
 ]
