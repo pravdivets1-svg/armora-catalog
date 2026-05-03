@@ -4843,6 +4843,10 @@ h2.card-name{margin:0;padding:0}
    clip на строке 72 заменяется hidden — совместимо с iOS Safari < 15.4 */
 html{ overflow-x:hidden !important; }
 
+/* L2: скрываем полосу прокрутки (Tilda уже показывает свою) */
+html{ scrollbar-width:none !important; -ms-overflow-style:none !important; }
+html::-webkit-scrollbar{ display:none !important; }
+
 /* ===== END UX/UI AUDIT FIXES ===== */
 
 /* ========================================================
