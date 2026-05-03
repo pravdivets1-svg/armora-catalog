@@ -4644,6 +4644,82 @@ h2.card-name{margin:0;padding:0}
   .cat-sub{ font-size: 12.5px !important; }
 }
 
+/* === MOBILE POLISH PASS 2 — 2026-05-03 (читаемость формы + центр. карточки) === */
+
+/* Форма заявки: тёмный текст на светлом фоне (на iPhone из-за глобальных оверрайдов
+   .linput выводился светлым на светлом — фиксим локально с высокой специфичностью). */
+.v5-lead-pop, .v5-lead-pop *{ -webkit-text-fill-color: initial; }
+.v5-lead-input,
+.v5-lead-pop .v5-lead-input{
+  background: #ffffff !important;
+  color: #15171a !important;
+  -webkit-text-fill-color: #15171a !important;
+  border: 1.5px solid #d8dadf !important;
+  caret-color: #15171a !important;
+}
+.v5-lead-input::placeholder,
+.v5-lead-pop .v5-lead-input::placeholder{
+  color: #8a8f97 !important;
+  -webkit-text-fill-color: #8a8f97 !important;
+  opacity: 1 !important;
+}
+.v5-lead-input:focus,
+.v5-lead-pop .v5-lead-input:focus{
+  background: #ffffff !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 0 0 4px rgba(30,41,59,.10) !important;
+}
+/* iOS autofill — желтый фон ломает читаемость */
+.v5-lead-input:-webkit-autofill,
+.v5-lead-input:-webkit-autofill:hover,
+.v5-lead-input:-webkit-autofill:focus{
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #15171a !important;
+  caret-color: #15171a !important;
+}
+
+/* Старая форма внутри калькулятора (.linput) — на случай если рендерится */
+.calc-bg .linput,
+.calc-modal .linput{
+  background: #ffffff !important;
+  color: #15171a !important;
+  -webkit-text-fill-color: #15171a !important;
+  border: 1.5px solid #d8dadf !important;
+  backdrop-filter: none !important;
+}
+.calc-bg .linput::placeholder,
+.calc-modal .linput::placeholder{
+  color: #8a8f97 !important;
+  -webkit-text-fill-color: #8a8f97 !important;
+  opacity: 1 !important;
+}
+.calc-bg .linput:focus,
+.calc-modal .linput:focus{
+  background: #ffffff !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 0 0 4px rgba(30,41,59,.10) !important;
+}
+
+/* iPhone: широкие карточки в один столбец, по центру страницы */
+@media(max-width: 600px){
+  .results{ padding: 18px 16px 28px !important; }
+  .grid{
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    max-width: 460px !important;
+    margin: 0 auto !important;
+  }
+  .results-meta{ max-width: 460px; margin-left: auto; margin-right: auto; }
+  .card-img{ aspect-ratio: 4/3 !important; } /* шире — лучше видно дверь */
+  .card-name{ font-size: 19px !important; }
+  .card-price-val{ font-size: 22px !important; }
+  .card-cta{ padding: 10px 14px !important; font-size: 12px !important; }
+}
+/* Совсем узкие — без max-width (растягиваем под экран) */
+@media(max-width: 460px){
+  .grid{ max-width: 100% !important; }
+}
+
 </style>
 </head>
 <body>
@@ -5733,7 +5809,7 @@ function renderCalc(){
     bodyHtml+=`<div class="lead-wrap">
       <div class="measure-invite">
         <div class="measure-kicker">Конфигурация собрана</div>
-        <div class="measure-title">Пришлём <em>эксперта</em> на бесплатный замер</div>
+        <div class="measure-title">Закажите <em>свою</em> дверь</div>
         <div class="measure-sub">Серия «<strong>${CALC.sel.base.name}</strong>» — ориентировочно <strong>${fmtRu(total)}</strong>. Точная цена — после замера: эксперт оценит проём, покажет образцы и зафиксирует стоимость в договоре.</div>
         <div class="measure-benefits">
           <div class="measure-benefit"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span><strong>Замер бесплатно</strong> · без обязательств</span></div>
@@ -5748,7 +5824,7 @@ function renderCalc(){
           <input class="linput" id="lp" placeholder="+7 (___) ___-__-__" type="tel" autocomplete="tel" required>
         </div>
         <div class="lerr" id="lerr" role="alert"></div>
-        <button type="submit" class="lsubmit">Записаться на бесплатный замер</button>
+        <button type="submit" class="lsubmit">Заказать свою дверь</button>
       </form>
       <div class="lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Никакого спама. Звонок только для согласования замера.</div>
     </div>`;
@@ -5924,7 +6000,7 @@ window.__renderCalcV5 = function(total, prevTotal){
         <div class="v5-foot-info-l">${allDone?'К оплате ориентировочно':'Промежуточный итог'}</div>
         <div class="v5-foot-info-v" id="v5FootPrice">${total>0?fmtRu(total):'—'}</div>
       </div>
-      <button class="v5-foot-cta${allDone?' pulse':''}" onclick="v5OpenLead()">${allDone?'Оставить заявку →':'Бесплатный замер →'}</button>
+      <button class="v5-foot-cta${allDone?' pulse':''}" onclick="v5OpenLead()">${allDone?'Оставить заявку →':'Заказать свою дверь →'}</button>
     </div>`;
 
   body.innerHTML = html;
@@ -6086,8 +6162,8 @@ function v5OpenLead(){
   bg.innerHTML = `<div class="v5-lead-pop">
     <button class="v5-pop-close" onclick="v5CloseLead()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <div class="v5-pop-kicker">Конфигурация собрана</div>
-    <div class="v5-pop-title">Бесплатный замер</div>
-    <div class="v5-pop-desc">Эксперт ARMORA приедет с образцами, оценит проём и зафиксирует точную цену в договоре. Без обязательств.</div>
+    <div class="v5-pop-title">Заказать свою дверь</div>
+    <div class="v5-pop-desc">Менеджер перезвонит за 15 минут, согласует время бесплатного замера и зафиксирует точную цену в договоре. Без обязательств.</div>
     <div class="v5-lead-summary">
       <div>
         <div class="v5-lead-sum-l">${CALC.door?.name || 'Дверь'} · ${CALC.sel.base?.name || ''}</div>
@@ -6101,7 +6177,7 @@ function v5OpenLead(){
         <input class="v5-lead-input" id="v5Phone" placeholder="+7 (___) ___-__-__" type="tel" autocomplete="tel" required>
       </div>
       <div class="v5-lead-err" id="v5Err"></div>
-      <button type="submit" class="v5-lead-submit" id="v5Submit">Записаться на замер</button>
+      <button type="submit" class="v5-lead-submit" id="v5Submit">Заказать свою дверь</button>
       <div class="v5-lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Без спама. Звонок только для согласования времени.</div>
     </form>
   </div>`;
