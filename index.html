@@ -4843,6 +4843,403 @@ html,body{ overflow-x:hidden !important; }
 
 /* ===== END UX/UI AUDIT FIXES ===== */
 
+/* ========================================================
+   CALC V5 REDESIGN — Soft Structuralism 2026-05-03
+   Vibe: clean silver-white, monochromatic, heavy whitespace
+   Double-Bezel: layered box-shadow rings on cards/tiles
+   Motion: spring cubic-bezier(0.32,0.72,0,1) throughout
+   ======================================================== */
+
+/* — New design tokens — */
+[data-v="5"] {
+  --v5-bg:          #f0f0ed;
+  --v5-surface:     #ffffff;
+  --v5-surface-2:   #f8f8f6;
+  --v5-ink:         #0c0c0c;
+  --v5-ink-soft:    #484854;
+  --v5-ink-mute:    #96969e;
+  --v5-bdr:         rgba(0,0,0,.07);
+  --v5-bdr-strong:  rgba(0,0,0,.14);
+  --v5-accent:      #0c0c0c;
+  --v5-accent-2:    #252525;
+  --v5-accent-tint: #f0f0ee;
+  --v5-mocha:       #a47864;
+  --v5-mocha-tint:  #f5eeea;
+  --v5-success:     #16a34a;
+}
+
+/* — Modal wrapper — */
+[data-v="5"].calc-modal {
+  background: var(--v5-bg) !important;
+  border-radius: 28px !important;
+  border: 1px solid rgba(0,0,0,.06) !important;
+  box-shadow: 0 0 0 4px rgba(0,0,0,.025),
+              0 48px 120px -24px rgba(0,0,0,.20),
+              inset 0 1px 0 rgba(255,255,255,.9) !important;
+}
+
+/* — Sticky header — */
+[data-v="5"] .v5-sticky {
+  background: rgba(240,240,237,.88) !important;
+  backdrop-filter: blur(22px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(0,0,0,.07) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.85) !important;
+}
+[data-v="5"] .v5-cta {
+  background: var(--v5-ink) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 6px 22px -6px rgba(0,0,0,.32) !important;
+  transition: all .45s cubic-bezier(0.32,0.72,0,1) !important;
+}
+[data-v="5"] .v5-cta:hover {
+  background: #252525 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 10px 30px -6px rgba(0,0,0,.38) !important;
+}
+[data-v="5"] .v5-prog-track {
+  background: rgba(0,0,0,.08) !important;
+  border-radius: 999px !important;
+}
+[data-v="5"] .v5-prog-fill {
+  background: linear-gradient(90deg, var(--v5-mocha) 0%, #c49282 100%) !important;
+  border-radius: 999px !important;
+}
+[data-v="5"] .v5-sticky-close {
+  background: rgba(0,0,0,.06) !important;
+  border: 1px solid rgba(0,0,0,.09) !important;
+  transition: all .45s cubic-bezier(0.32,0.72,0,1) !important;
+}
+[data-v="5"] .v5-sticky-close:hover {
+  background: var(--v5-ink) !important;
+  color: #fff !important;
+  transform: rotate(90deg) !important;
+}
+
+/* — Accordion sections: outer shell + inner core Double-Bezel — */
+[data-v="5"] .v5-acc {
+  background: rgba(0,0,0,.025) !important;
+  border: 1px solid rgba(0,0,0,.07) !important;
+  border-radius: 22px !important;
+  padding: 3px !important;
+  margin-bottom: 10px !important;
+  box-shadow: none !important;
+  transition: box-shadow .5s cubic-bezier(0.32,0.72,0,1),
+              border-color .3s cubic-bezier(0.32,0.72,0,1) !important;
+  animation: v5r-slide-up .6s cubic-bezier(0.32,0.72,0,1) both !important;
+}
+[data-v="5"] .v5-acc:nth-child(1) { animation-delay: .04s !important; }
+[data-v="5"] .v5-acc:nth-child(2) { animation-delay: .10s !important; }
+[data-v="5"] .v5-acc:nth-child(3) { animation-delay: .16s !important; }
+[data-v="5"] .v5-acc:nth-child(4) { animation-delay: .22s !important; }
+[data-v="5"] .v5-acc:nth-child(5) { animation-delay: .28s !important; }
+@keyframes v5r-slide-up {
+  from { opacity:0; transform:translateY(18px); filter:blur(3px); }
+  to   { opacity:1; transform:translateY(0);    filter:blur(0);   }
+}
+[data-v="5"] .v5-acc:hover {
+  box-shadow: 0 10px 44px -14px rgba(0,0,0,.13) !important;
+  border-color: rgba(0,0,0,.11) !important;
+}
+[data-v="5"] .v5-acc.open {
+  background: #ffffff !important;
+  border-color: rgba(0,0,0,.10) !important;
+  box-shadow: 0 18px 60px -18px rgba(0,0,0,.16),
+              inset 0 1px 0 rgba(255,255,255,.95) !important;
+}
+
+/* Inner core — head */
+[data-v="5"] .v5-acc-head {
+  background: #ffffff !important;
+  border-radius: 19px !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9) !important;
+  transition: background .3s cubic-bezier(0.32,0.72,0,1) !important;
+  padding: 18px 20px !important;
+}
+[data-v="5"] .v5-acc-head:hover { background: #fafaf9 !important; }
+[data-v="5"] .v5-acc.open .v5-acc-head { border-radius: 19px 19px 0 0 !important; }
+
+/* Inner core — content */
+[data-v="5"] .v5-acc-content {
+  background: #ffffff !important;
+  border-top: 1px solid rgba(0,0,0,.06) !important;
+  border-radius: 0 0 19px 19px !important;
+  padding: 20px !important;
+}
+[data-v="5"] .v5-acc-body {
+  transition: grid-template-rows .45s cubic-bezier(0.32,0.72,0,1) !important;
+}
+
+/* Step number badge */
+[data-v="5"] .v5-acc-num {
+  background: rgba(0,0,0,.06) !important;
+  color: var(--v5-ink-soft) !important;
+  box-shadow: none !important;
+  transition: all .5s cubic-bezier(0.34,1.3,.64,1) !important;
+}
+[data-v="5"] .v5-acc.complete .v5-acc-num {
+  background: var(--v5-mocha) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 22px -4px rgba(164,120,100,.38) !important;
+}
+[data-v="5"] .v5-acc.open .v5-acc-num {
+  background: var(--v5-ink) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 24px -4px rgba(0,0,0,.35) !important;
+  transform: scale(1.06) !important;
+}
+[data-v="5"] .v5-acc.open.complete .v5-acc-num {
+  background: var(--v5-ink) !important;
+}
+
+/* Chevron button */
+[data-v="5"] .v5-chev {
+  background: rgba(0,0,0,.055) !important;
+  color: var(--v5-ink-mute) !important;
+  border: 0 !important;
+  transition: all .45s cubic-bezier(0.32,0.72,0,1) !important;
+}
+[data-v="5"] .v5-acc.open .v5-chev {
+  background: var(--v5-ink) !important;
+  color: #fff !important;
+  transform: rotate(180deg) !important;
+}
+
+/* Group label */
+[data-v="5"] .v5-acc-group-title {
+  color: var(--v5-ink) !important;
+  font-size: 10px !important;
+  letter-spacing: .24em !important;
+}
+[data-v="5"] .v5-acc-group-title::before {
+  background: var(--v5-mocha) !important;
+}
+[data-v="5"] .v5-acc-group-title::after {
+  background: linear-gradient(to right, rgba(0,0,0,.08) 0%, transparent 100%) !important;
+}
+
+/* Add price label in header */
+[data-v="5"] .v5-acc-add { color: var(--v5-mocha) !important; }
+
+/* — Option tiles: Double-Bezel via layered box-shadow rings — */
+[data-v="5"] .v5-opt {
+  background: #ffffff !important;
+  border: 1px solid rgba(0,0,0,.07) !important;
+  border-radius: 18px !important;
+  padding: 15px 15px 13px !important;
+  min-height: 122px !important;
+  box-shadow: 0 0 0 3px rgba(0,0,0,.03),
+              0 4px 18px -6px rgba(0,0,0,.08) !important;
+  transition: all .5s cubic-bezier(0.32,0.72,0,1) !important;
+}
+[data-v="5"] .v5-opt::before {
+  background: linear-gradient(135deg, transparent 0%, rgba(0,0,0,.025) 100%) !important;
+  opacity: 0 !important;
+  transition: opacity .4s !important;
+  border-radius: 18px !important;
+}
+[data-v="5"] .v5-opt:hover {
+  border-color: rgba(0,0,0,.13) !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(0,0,0,.05),
+              0 14px 44px -10px rgba(0,0,0,.14) !important;
+  transform: translateY(-2px) !important;
+}
+[data-v="5"] .v5-opt:hover::before { opacity: 1 !important; }
+
+[data-v="5"] .v5-opt.sel {
+  border-color: var(--v5-ink) !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px var(--v5-ink),
+              0 16px 48px -12px rgba(0,0,0,.22) !important;
+  transform: translateY(-2px) !important;
+}
+[data-v="5"] .v5-opt.sel::before { opacity: 0 !important; }
+[data-v="5"] .v5-opt.sel .v5-opt-name,
+[data-v="5"] .v5-opt.sel .v5-opt-price { color: var(--v5-ink) !important; }
+
+/* Flash animation override */
+@keyframes v5r-flash {
+  0%   { box-shadow: 0 0 0 3px var(--v5-mocha), 0 12px 40px -8px rgba(164,120,100,.45); transform: translateY(-4px) scale(1.02); }
+  100% { box-shadow: 0 0 0 3px var(--v5-ink), 0 16px 48px -12px rgba(0,0,0,.22); transform: translateY(-2px) scale(1); }
+}
+[data-v="5"] .v5-opt.sel.flash { animation: v5r-flash .7s cubic-bezier(0.32,0.72,0,1) !important; }
+[data-v="5"] .v5-opt.sel.flash .v5-opt-name,
+[data-v="5"] .v5-opt.sel.flash .v5-opt-price { color: var(--v5-ink) !important; }
+
+/* Rec badge */
+[data-v="5"] .v5-opt-rec {
+  background: linear-gradient(135deg, var(--v5-ink) 0%, #2a2a2a 100%) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,.25) !important;
+}
+
+/* Info button */
+[data-v="5"] .v5-opt-info {
+  background: rgba(0,0,0,.055) !important;
+  border: 1px solid rgba(0,0,0,.08) !important;
+  color: var(--v5-ink-mute) !important;
+  transition: all .4s cubic-bezier(0.34,1.3,.64,1) !important;
+}
+[data-v="5"] .v5-opt-info:hover {
+  background: var(--v5-ink) !important;
+  color: #fff !important;
+  border-color: var(--v5-ink) !important;
+  transform: scale(1.12) rotate(8deg) !important;
+}
+
+/* Checkmark circle */
+[data-v="5"] .v5-opt-chk {
+  border: 1.5px solid rgba(0,0,0,.16) !important;
+  background: rgba(0,0,0,.04) !important;
+  transition: all .45s cubic-bezier(0.34,1.3,.64,1) !important;
+}
+[data-v="5"] .v5-opt.sel .v5-opt-chk {
+  background: var(--v5-ink) !important;
+  border-color: var(--v5-ink) !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,.28) !important;
+  transform: scale(1.1) rotate(360deg) !important;
+}
+
+/* — Sticky footer — */
+[data-v="5"] .v5-foot {
+  background: linear-gradient(to top, var(--v5-bg) 60%, rgba(240,240,237,.5) 88%, transparent) !important;
+  border-top: 1px solid rgba(0,0,0,.07) !important;
+}
+
+/* Footer CTA — pill with button-in-button feeling via inner shadow */
+[data-v="5"] .v5-foot-cta {
+  background: var(--v5-ink) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 10px 32px -6px rgba(0,0,0,.32),
+              inset 0 1px 0 rgba(255,255,255,.08) !important;
+  transition: all .5s cubic-bezier(0.32,0.72,0,1) !important;
+  padding: 15px 28px !important;
+  font-size: 14px !important;
+}
+[data-v="5"] .v5-foot-cta::before { display: none !important; }
+[data-v="5"] .v5-foot-cta:hover {
+  background: #1c1c1c !important;
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 18px 50px -8px rgba(0,0,0,.38),
+              inset 0 1px 0 rgba(255,255,255,.1) !important;
+}
+[data-v="5"] .v5-foot-cta:active {
+  transform: translateY(0) scale(.98) !important;
+  box-shadow: 0 4px 14px -4px rgba(0,0,0,.22) !important;
+}
+[data-v="5"] .v5-foot-cta.pulse {
+  background: var(--v5-mocha) !important;
+  box-shadow: 0 12px 36px -6px rgba(164,120,100,.5) !important;
+  animation: v5r-pulse 2s cubic-bezier(0.32,0.72,0,1) infinite !important;
+}
+@keyframes v5r-pulse {
+  0%,100% { box-shadow: 0 12px 36px -6px rgba(164,120,100,.5), 0 0 0 0 rgba(164,120,100,.4); }
+  50%      { box-shadow: 0 14px 40px -6px rgba(164,120,100,.6), 0 0 0 16px rgba(164,120,100,0); }
+}
+[data-v="5"] .v5-foot-info-v.flash {
+  color: var(--v5-mocha) !important;
+  transform: scale(1.03) !important;
+}
+
+/* — Popup backdrop — */
+[data-v="5"] .v5-pop-bg {
+  background: rgba(8,8,8,.68) !important;
+  backdrop-filter: blur(22px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(130%) !important;
+}
+
+/* Popup card: Double-Bezel via rings */
+[data-v="5"] .v5-pop {
+  background: #ffffff !important;
+  border: 1px solid rgba(0,0,0,.07) !important;
+  border-radius: 26px !important;
+  padding: 28px 28px 24px !important;
+  box-shadow: 0 0 0 4px rgba(0,0,0,.03),
+              0 40px 100px -20px rgba(0,0,0,.38),
+              inset 0 1px 0 rgba(255,255,255,.9) !important;
+  transition: transform .4s cubic-bezier(0.32,0.72,0,1),
+              opacity .3s !important;
+}
+[data-v="5"] .v5-pop-close {
+  background: rgba(0,0,0,.06) !important;
+  border: 1px solid rgba(0,0,0,.08) !important;
+  border-radius: 50% !important;
+  transition: all .4s cubic-bezier(0.32,0.72,0,1) !important;
+}
+[data-v="5"] .v5-pop-close:hover {
+  background: var(--v5-ink) !important;
+  color: #fff !important;
+  border-color: var(--v5-ink) !important;
+  transform: rotate(90deg) scale(1.06) !important;
+}
+[data-v="5"] .v5-pop-price {
+  background: rgba(0,0,0,.03) !important;
+  border: 1px solid rgba(0,0,0,.07) !important;
+  border-radius: 14px !important;
+}
+[data-v="5"] .v5-pop-btn {
+  border: 1px solid rgba(0,0,0,.10) !important;
+  background: rgba(0,0,0,.04) !important;
+  border-radius: 999px !important;
+  transition: all .4s cubic-bezier(0.32,0.72,0,1) !important;
+}
+[data-v="5"] .v5-pop-btn:hover {
+  background: rgba(0,0,0,.08) !important;
+  border-color: rgba(0,0,0,.16) !important;
+}
+[data-v="5"] .v5-pop-btn.primary {
+  background: var(--v5-ink) !important;
+  border-color: var(--v5-ink) !important;
+  box-shadow: 0 6px 20px -4px rgba(0,0,0,.3) !important;
+}
+[data-v="5"] .v5-pop-btn.primary:hover {
+  background: #1c1c1c !important;
+  border-color: #1c1c1c !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 10px 28px -6px rgba(0,0,0,.36) !important;
+}
+
+/* Lead popup card */
+[data-v="5"] .v5-lead-pop {
+  background: #ffffff !important;
+  border: 1px solid rgba(0,0,0,.07) !important;
+  border-radius: 26px !important;
+  padding: 32px 32px 28px !important;
+  box-shadow: 0 0 0 4px rgba(0,0,0,.03),
+              0 40px 100px -20px rgba(0,0,0,.38),
+              inset 0 1px 0 rgba(255,255,255,.9) !important;
+}
+[data-v="5"] .v5-lead-summary {
+  background: rgba(0,0,0,.03) !important;
+  border: 1px solid rgba(0,0,0,.07) !important;
+  border-radius: 16px !important;
+}
+[data-v="5"] .v5-lead-submit {
+  background: var(--v5-ink) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 8px 24px -6px rgba(0,0,0,.30) !important;
+  transition: all .5s cubic-bezier(0.32,0.72,0,1) !important;
+}
+[data-v="5"] .v5-lead-submit:hover:not(:disabled) {
+  background: #1c1c1c !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 14px 36px -6px rgba(0,0,0,.38) !important;
+}
+[data-v="5"] .v5-lead-input:focus {
+  border-color: var(--v5-ink) !important;
+  box-shadow: 0 0 0 4px rgba(0,0,0,.08) !important;
+}
+
+/* Success icon */
+[data-v="5"] .v5-success-icon { background: var(--v5-success) !important; }
+
+/* — prefers-reduced-motion — */
+@media(prefers-reduced-motion: reduce){
+  [data-v="5"] .v5-acc { animation: none !important; }
+}
+
+/* ===== END CALC V5 REDESIGN ===== */
+
 </style>
 </head>
 <body>
