@@ -4838,8 +4838,8 @@ h2.card-name{margin:0;padding:0}
   .svc-card:hover::before{ opacity:0 !important; }
 }
 
-/* L1: восстанавливаем overflow-x:hidden после override overflow:visible на строке 1746 */
-html,body{ overflow-x:hidden !important; }
+/* L1: только body — html должен оставаться scroll-контейнером, иначе sticky ломается */
+body{ overflow-x:hidden !important; }
 
 /* ===== END UX/UI AUDIT FIXES ===== */
 
