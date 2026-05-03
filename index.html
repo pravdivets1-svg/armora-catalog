@@ -4720,6 +4720,40 @@ h2.card-name{margin:0;padding:0}
   .grid{ max-width: 100% !important; }
 }
 
+/* ===== MOBILE AUDIT FIXES 2026-05-03 ===== */
+/* C1: v5-opt-info tap target 24px → 40px */
+.v5-opt-info{
+  width:40px !important;
+  height:40px !important;
+  min-width:40px !important;
+  min-height:40px !important;
+}
+/* C2: v5-pop-close tap target 30px → 40px */
+.v5-pop-close{
+  width:40px !important;
+  height:40px !important;
+  min-width:40px !important;
+  min-height:40px !important;
+}
+/* H1: v5-foot не переполняется на ≤420px */
+@media(max-width:420px){
+  .v5-foot-info{ min-width:0 !important; flex:1 1 0 !important; }
+  .v5-foot-cta{ width:100% !important; text-align:center !important; }
+}
+/* H2: toolbar search не переносится на 375px */
+@media(max-width:480px){
+  .search{ min-width:0 !important; flex:2 1 0 !important; }
+}
+/* M1: goto-site скрыт на мобиле (не нужен в iframe Tilda) */
+@media(max-width:600px){
+  .goto-site{ display:none !important; }
+}
+/* M2: вторая строка results-meta скрывается на узких экранах */
+@media(max-width:500px){
+  .results-meta>div:last-child{ display:none !important; }
+}
+/* ===== END MOBILE AUDIT FIXES ===== */
+
 </style>
 </head>
 <body>
