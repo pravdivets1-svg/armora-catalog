@@ -4744,10 +4744,6 @@ h2.card-name{margin:0;padding:0}
 @media(max-width:480px){
   .search{ min-width:0 !important; flex:2 1 0 !important; }
 }
-/* M1: goto-site скрыт на мобиле (не нужен в iframe Tilda) */
-@media(max-width:600px){
-  .goto-site{ display:none !important; }
-}
 /* M2: вторая строка results-meta скрывается на узких экранах */
 @media(max-width:500px){
   .results-meta>div:last-child{ display:none !important; }
@@ -4796,6 +4792,56 @@ h2.card-name{margin:0;padding:0}
 }
 
 /* ===== END FIX 2026-05-03 ===== */
+
+/* ===== UX/UI AUDIT FIXES 2026-05-03 ===== */
+
+/* C1: .card-act тап-таргет 32px → 44px на тач-устройствах */
+@media(max-width:900px){
+  .card-act{ width:44px !important; height:44px !important; }
+}
+
+/* C2: .card-cta минимальная высота 44px */
+@media(max-width:900px){
+  .card-cta{ min-height:44px !important; padding:10px 16px !important; display:inline-flex !important; align-items:center !important; justify-content:center !important; }
+}
+
+/* C3: .v5-pop-bg — скролл внутри оверлея + align-items:flex-start чтобы высокий попап не обрезался сверху */
+.v5-pop-bg{ overflow-y:auto !important; align-items:flex-start !important; }
+@media(min-height:700px){
+  .v5-pop-bg{ align-items:center !important; }
+}
+
+/* H1: .v5-pop-close — минимум 40×40 глобально (не только ≤720px) */
+.v5-pop-close{ width:40px !important; height:40px !important; top:12px !important; right:12px !important; }
+
+/* H2: ценовые лейблы 9px → 11px */
+.card-price-from,
+.calc-price-lbl,
+.opt-price-from{ font-size:11px !important; }
+
+/* H3: видимый focus-visible для клавиатурной навигации */
+.search input:focus-visible,
+.sort:focus-visible,
+.toggle-filters:focus-visible,
+.card-cta:focus-visible{
+  outline:2px solid var(--gold) !important;
+  outline-offset:2px !important;
+}
+
+/* M1: :active состояния для тактильной обратной связи */
+.card-cta:active{ transform:scale(.97) !important; }
+.v5-foot-cta:active{ transform:translateY(0) scale(.98) !important; box-shadow:0 4px 12px -2px rgba(15,23,42,.2) !important; }
+
+/* M2: .svc-card:hover только на hover-устройствах (не зависает на iOS при тапе) */
+@media not all and (hover:hover){
+  .svc-card:hover{ transform:none !important; box-shadow:none !important; background:rgba(255,255,255,.04) !important; border-color:rgba(255,255,255,.1) !important; }
+  .svc-card:hover::before{ opacity:0 !important; }
+}
+
+/* L1: восстанавливаем overflow-x:clip после override overflow:visible на строке 1746 */
+html,body{ overflow-x:clip !important; }
+
+/* ===== END UX/UI AUDIT FIXES ===== */
 
 </style>
 </head>
