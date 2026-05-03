@@ -4596,6 +4596,19 @@ h2.card-name{margin:0;padding:0}
   .v5-opt{ padding: 14px; }
   .v5-pop, .v5-lead-pop{ padding: 24px 20px 20px; }
   .v5-pop-title{ font-size: 24px; }
+  /* C1: enlarge info button to 40x40 tap target */
+  .v5-opt-info{ width: 40px; height: 40px; font-size: 14px; margin: -8px -8px -8px 0; }
+  /* C2: enlarge popup close to 40x40 */
+  .v5-pop-close{ width: 40px; height: 40px; top: 12px; right: 12px; }
+  .v5-pop-close svg{ width: 16px; height: 16px; }
+}
+/* H1: footer wrap fix on small phones */
+@media(max-width: 480px){
+  .v5-foot{ padding: 12px 14px 16px; gap: 10px; }
+  .v5-foot-info{ min-width: 0; flex: 1 1 auto; }
+  .v5-foot-info-v{ font-size: 20px; }
+  .v5-foot-info-l{ font-size: 10px; letter-spacing: .14em; }
+  .v5-foot-cta{ padding: 14px 18px; font-size: 13px; flex-shrink: 0; }
 }
 
 @media(prefers-reduced-motion: reduce){
@@ -4603,6 +4616,32 @@ h2.card-name{margin:0;padding:0}
     transition: none !important;
     animation: none !important;
   }
+}
+
+/* === MOBILE POLISH PASS 2026-05-03 === */
+/* H2: prevent toolbar wrap on small phones — search shrinks instead of pushing sort to next row */
+@media(max-width: 600px){
+  .toolbar{ flex-wrap: nowrap !important; gap: 8px !important; }
+  .search{ min-width: 0 !important; flex: 1 1 0 !important; }
+  .search input{ padding: 11px 12px 11px 36px !important; font-size: 12.5px !important; }
+  .search svg{ left: 11px !important; width: 14px !important; height: 14px !important; }
+  .toggle-filters{ padding: 11px 12px !important; font-size: 12px !important; flex-shrink: 0 !important; }
+  .sort-glass-btn{ padding: 11px 12px !important; font-size: 12px !important; }
+}
+/* M1: hide goto-site pill on phones — user is already on the site inside the iframe/page */
+@media(max-width: 600px){
+  .goto-site{ display: none !important; }
+}
+/* M2: stack results-meta vertically on narrow phones to avoid clipping */
+@media(max-width: 500px){
+  .results-meta{ flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; }
+  .results-meta > div:last-child{ font-size: 11px !important; opacity: .85 !important; }
+}
+/* Ensure card CTA stays at minimum legible size and full tap height via the card itself */
+@media(max-width: 380px){
+  .grid{ gap: 10px !important; }
+  .cat-title{ font-size: 28px !important; }
+  .cat-sub{ font-size: 12.5px !important; }
 }
 
 </style>
