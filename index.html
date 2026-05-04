@@ -5635,6 +5635,7 @@ body { overscroll-behavior-y: contain; }
     overscroll-behavior: contain;
   }
   .filters-foot {
+    display: flex !important;   /* BUG FIX: глобальный display:none не перекрывался — footer был скрыт */
     flex-shrink: 0;
     padding: 14px 20px;
     border-top: 1px solid rgba(255,255,255,.10);
@@ -5676,7 +5677,8 @@ body { overscroll-behavior-y: contain; }
     padding-bottom: max(24px, env(safe-area-inset-bottom)) !important;
   }
   .v5-foot {
-    padding-bottom: max(18px, env(safe-area-inset-bottom)) !important;
+    padding-bottom: max(32px, env(safe-area-inset-bottom)) !important;
+    padding-top: 14px !important;
   }
 }
 
