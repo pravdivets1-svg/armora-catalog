@@ -69,7 +69,7 @@
   --glass-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#0a0a0a;min-height:100%;overflow-x:clip}
+html,body{background:#0a0a0a;min-height:100%;overflow-x:hidden}
 html{scroll-behavior:smooth;scroll-padding-top:96px;-webkit-text-size-adjust:100%}
 body{overscroll-behavior-y:none}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
@@ -5483,6 +5483,32 @@ body{ min-height:100% !important; }
 .v5-lead-input::placeholder { color: #96969e !important; -webkit-text-fill-color: #96969e !important; opacity:1!important; }
 
 /* ===== END STEPPER LAYOUT ===== */
+
+/* ===== iOS / MOBILE PERFORMANCE: disable all backdrop-filter =====
+   iOS Safari kills the tab before render when many blur filters activate simultaneously.
+   Sticky topbar & fixed overlays keep their glass look via solid semi-transparent bg instead. */
+@media (max-width: 1024px) {
+  *, *::before, *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  /* Compensate key surfaces with solid bg so they don't go fully transparent */
+  .topbar {
+    background: rgba(10,10,12,.96) !important;
+  }
+  .calc-bg {
+    background: rgba(0,0,0,.88) !important;
+  }
+  .calc-modal, [data-v="5"].calc-modal {
+    background: rgba(15,15,16,.98) !important;
+  }
+  .filters {
+    background: rgba(12,14,18,.97) !important;
+  }
+  .mainhead-menu {
+    background: rgba(8,9,12,.97) !important;
+  }
+}
 
 </style>
 </head>
