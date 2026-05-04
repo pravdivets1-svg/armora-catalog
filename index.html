@@ -4786,12 +4786,39 @@ h2.card-name{margin:0;padding:0}
   }
   /* Портретное фото — дверь видна полностью, занимает большую часть карточки */
   .card-img{ aspect-ratio: 3/4 !important; }
-  /* Компактный body — убираем лишние элементы, оставляем только имя + цена + CTA */
-  .card-body{ padding: 10px 14px 12px !important; gap: 4px !important; }
+  /* Компактный body — имя + опции + цена + CTA */
+  .card-body{ padding: 10px 14px 12px !important; gap: 3px !important; }
   .card-purpose{ display: none !important; }
-  .card-tags{ display: none !important; }
   .card-series{ font-size: 9px !important; }
   .card-name{ font-size: 17px !important; }
+  /* Теги — компактный список включённых опций */
+  .card-tags{
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    margin-top: 4px !important;
+  }
+  .ctag{
+    font-size: 10.5px !important;
+    padding: 0 0 0 14px !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    color: rgba(255,255,255,.52) !important;
+    position: relative !important;
+    white-space: normal !important;
+    line-height: 1.4 !important;
+  }
+  .ctag::before{
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: rgba(94,200,143,.75);
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .ctag:nth-child(n+4){ display: none !important; }
   .card-bottom{ padding-top: 8px !important; margin-top: 6px !important; }
   .card-price-val{ font-size: 18px !important; }
   .card-cta{ padding: 8px 12px !important; font-size: 11px !important; }
