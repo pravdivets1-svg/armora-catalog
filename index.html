@@ -5512,6 +5512,122 @@ body{ min-height:100% !important; }
 
 /* ===== END STEPPER LAYOUT ===== */
 
+/* ===== MISC FIXES 2026-05-04 ===== */
+
+/* Desktop: страница растягивается на 100% высоты iframe/viewport */
+html, body { min-height: 100% !important; }
+.app { min-height: 100vh; }
+
+/* Mobile overscroll — страница не "уезжает" при скролле */
+body { overscroll-behavior-y: contain; }
+
+/* Toolbar: wish/compare кнопки */
+.tb-fab {
+  position: relative;
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background .2s, border-color .2s;
+}
+.tb-fab:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.24); }
+.tb-fab svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 2; }
+.tb-fab .float-fab-cnt {
+  position: absolute; top: -4px; right: -4px;
+  background: #5ec88f; color: #0a0a0a;
+  border-radius: 10px; font-size: 10px; padding: 1px 5px; font-weight: 700; line-height: 1.4;
+}
+.tb-fab .float-fab-cnt.cmp { background: #5ec8d8; }
+.wish-fab.on svg { fill: #e35454; stroke: #e35454; }
+.cmp-fab.on { border-color: var(--teal-soft); }
+
+/* Mobile: calculator popup — полный экран */
+@media(max-width: 720px){
+  .calc-bg {
+    padding: 0 !important;
+    align-items: flex-start !important;
+  }
+  .calc-modal, [data-v="5"].calc-modal {
+    border-radius: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    position: absolute !important;
+    inset: 0 !important;
+  }
+  [data-v="5"] .v5-body, [data-v="5"] .calc-body {
+    flex: 1 1 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+/* Mobile: filter panel — flex-column с фиксированным header + footer */
+@media(max-width: 900px){
+  .filters {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+  .filters-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255,255,255,.10);
+    flex-shrink: 0;
+    background: rgba(12,14,18,.98);
+  }
+  .filters-title {
+    font-family: var(--font-sans);
+    font-size: 16px; font-weight: 700;
+    color: #fff; letter-spacing: -.01em;
+  }
+  .filters-close {
+    position: static !important;
+    width: 36px !important; height: 36px !important;
+    border-radius: 50% !important;
+    border: 1px solid rgba(255,255,255,.18) !important;
+    background: rgba(255,255,255,.07) !important;
+    color: #fff !important; font-size: 18px !important;
+    cursor: pointer !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+  }
+  .filters-scroll {
+    flex: 1 1 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 20px 20px;
+    overscroll-behavior: contain;
+  }
+  .filters-foot {
+    flex-shrink: 0;
+    padding: 14px 20px;
+    border-top: 1px solid rgba(255,255,255,.10);
+    background: rgba(12,14,18,.98);
+  }
+  .filters-apply {
+    width: 100%;
+    padding: 15px;
+    background: var(--gold, #e4e8ee);
+    color: #0a0a0a;
+    border: none; border-radius: 12px;
+    font-family: var(--font-sans);
+    font-size: 15px; font-weight: 700;
+    cursor: pointer; letter-spacing: -.01em;
+    transition: background .2s;
+  }
+  .filters-apply:active { background: #fff; }
+}
+
 /* ===== iOS / MOBILE PERFORMANCE: disable all backdrop-filter =====
    iOS Safari kills the tab before render when many blur filters activate simultaneously.
    Sticky topbar & fixed overlays keep their glass look via solid semi-transparent bg instead. */
@@ -5631,42 +5747,59 @@ body{ min-height:100% !important; }
       <option value="expensive">Сначала дорогие</option>
       <option value="new">Новинки</option>
     </select>
+    <button class="tb-fab wish-fab" onclick="openDrawer('wish')" aria-label="Избранное">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="float-fab-cnt" id="wishCnt" style="display:none">0</span>
+    </button>
+    <button class="tb-fab cmp-fab" onclick="openDrawer('cmp')" aria-label="Сравнение">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
+      <span class="float-fab-cnt cmp" id="cmpCnt" style="display:none">0</span>
+    </button>
   </div>
 
 
   <div class="layout">
     <aside class="filters" id="filters">
-      <button class="filters-close" onclick="toggleFiltersMobile()" aria-label="Закрыть" style="display:none">×</button>
+      <div class="filters-head">
+        <span class="filters-title">Фильтры</span>
+        <button class="filters-close" onclick="toggleFiltersMobile()" aria-label="Закрыть">×</button>
+      </div>
 
-      <div class="filter-group">
-        <div class="filter-label">Цена, ₽</div>
-        <div class="range">
-          <div class="range-vals"><span id="priceMinLbl">12 900</span><span id="priceMaxLbl">120 000</span></div>
-          <input type="range" id="priceMax" min="20000" max="200000" step="5000" value="200000" aria-label="Максимальная цена в рублях" aria-describedby="priceMaxLbl">
+      <div class="filters-scroll">
+        <div class="filter-group">
+          <div class="filter-label">Цена, ₽</div>
+          <div class="range">
+            <div class="range-vals"><span id="priceMinLbl">12 900</span><span id="priceMaxLbl">120 000</span></div>
+            <input type="range" id="priceMax" min="20000" max="200000" step="5000" value="200000" aria-label="Максимальная цена в рублях" aria-describedby="priceMaxLbl">
+          </div>
         </div>
+
+        <div class="filter-group">
+          <div class="filter-label">Назначение</div>
+          <div class="chips" id="chipsPurpose"></div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-label">Серия</div>
+          <div class="chips" id="chipsSeries"></div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-label">Внешняя отделка</div>
+          <div class="flt-checks" id="checksFinish"></div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-label">Стекло / вставка</div>
+          <div class="flt-checks" id="checksGlass"></div>
+        </div>
+
+        <button class="reset-filters" onclick="resetFilters()">Сбросить фильтры</button>
       </div>
 
-      <div class="filter-group">
-        <div class="filter-label">Назначение</div>
-        <div class="chips" id="chipsPurpose"></div>
+      <div class="filters-foot">
+        <button class="filters-apply" onclick="toggleFiltersMobile()">Применить фильтры</button>
       </div>
-
-      <div class="filter-group">
-        <div class="filter-label">Серия</div>
-        <div class="chips" id="chipsSeries"></div>
-      </div>
-
-      <div class="filter-group">
-        <div class="filter-label">Внешняя отделка</div>
-        <div class="flt-checks" id="checksFinish"></div>
-      </div>
-
-      <div class="filter-group">
-        <div class="filter-label">Стекло / вставка</div>
-        <div class="flt-checks" id="checksGlass"></div>
-      </div>
-
-      <button class="reset-filters" onclick="resetFilters()">Сбросить фильтры</button>
     </aside>
 
     <main class="results">
@@ -5733,26 +5866,7 @@ body{ min-height:100% !important; }
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
 </a>
 
-<!-- FLOATING CHAT -->
-<div class="float-chat">
-  <a class="wa" href="https://max.ru/+79269533525" target="_blank" rel="noopener noreferrer" aria-label="Max">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.5 17h-2.2V9.8L12 14.4 8.7 9.8V17H6.5V7h2.3l3.2 4.6L15.2 7h2.3v10z"/></svg>
-  </a>
-  <a class="tg" href="https://t.me/ArmoraMSK" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-    <svg viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
-  </a>
-  <a class="vk" href="https://vk.com/armoradveri" target="_blank" rel="noopener noreferrer" aria-label="VK">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.162 18.994c.609 0 .858-.406.851-.915-.031-1.917.714-2.949 2.059-1.604 1.488 1.488 1.796 2.519 3.603 2.519h3.2c.808 0 1.126-.26 1.126-.668 0-.863-1.421-2.386-2.625-3.504-1.686-1.565-1.765-1.602-.313-3.486 1.801-2.339 4.157-5.336 2.073-5.336h-3.981c-.772 0-.828.435-1.103 1.083-.995 2.347-2.886 5.387-3.604 4.922-.751-.485-.407-2.406-.35-5.261.015-.754.011-1.271-1.141-1.539-.629-.145-1.241-.205-1.809-.205-2.273 0-3.841.953-2.95 1.119 1.571.293 1.42 3.692 1.054 5.16-.638 2.556-3.036-2.024-4.035-4.305-.241-.548-.315-.974-1.175-.974h-3.255c-.492 0-.787.16-.787.516 0 .602 2.96 6.72 5.786 9.77 2.756 2.975 5.48 2.708 7.376 2.708z"/></svg>
-  </a>
-  <button class="wish-fab" onclick="openDrawer('wish')" aria-label="Избранное">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    <span class="float-fab-cnt" id="wishCnt">0</span>
-  </button>
-  <button class="cmp-fab" onclick="openDrawer('cmp')" aria-label="Сравнение">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg>
-    <span class="float-fab-cnt cmp" id="cmpCnt">0</span>
-  </button>
-</div>
+<!-- FLOATING WISH/CMP hidden — moved to toolbar -->
 
 <!-- DRAWERS -->
 <div class="drawer" id="wishDrawer">
@@ -6952,7 +7066,32 @@ function v5CloseLead(){
    Чтобы Formspree / свой webhook:
      window.LEAD_ENDPOINT = 'https://formspree.io/f/xxx';
 */
+async function sendToTildaForm(name, phone){
+  /* Открываем popup-блок Tilda #rec2234382791 из iframe */
+  try{
+    if(window.parent && window.parent !== window){
+      /* Метод 1: Tilda JS API */
+      if(typeof window.parent.t_popup_open === 'function') window.parent.t_popup_open('2234382791');
+      else if(typeof window.parent.openPopup === 'function') window.parent.openPopup('2234382791');
+      else {
+        /* Метод 2: postMessage → Tilda слушает */
+        window.parent.postMessage({type:'openTildaPopup',blockId:'rec2234382791',name,phone},'*');
+      }
+    }
+  }catch(e){}
+  /* Метод 3: прямой POST к Tilda Forms API */
+  try{
+    const fd=new FormData();
+    fd.append('formid','bf203n');
+    fd.append('name',name);
+    fd.append('phone',phone);
+    await fetch('https://forms.tildaforms.com/v1/submit',{method:'POST',body:fd,mode:'no-cors'});
+  }catch(e){}
+}
+
 async function sendLeadToBackend(payload){
+  /* Также отправляем в Tilda форму */
+  sendToTildaForm(payload.name||'', payload.phone||'').catch(()=>{});
   try{
     const optsList = [];
     ['base','ext','int','glass','seal','lock','handle','install_pkg'].forEach(k=>{
