@@ -6411,8 +6411,9 @@ function cardHtml(d,idx){
   const lockTag    = (d.tags||[]).find(t => t.startsWith('Замок')) || '';
   const panelTag   = (d.tags||[]).find(t => t.startsWith('Панель:')) || '';
   const glassTag   = (d.tags||[]).find(t => t.startsWith('Стеклопакет')) || '';
-  const steelMm    = steelTag.replace('Сталь ','');
-  const lockShort  = lockTag.replace('Замок: ','');
+  const steelMm      = steelTag.replace('Сталь ','');
+  const contourShort = contourTag;
+  const lockShort    = lockTag.replace('Замок: ','');
   const panelShort = panelTag.replace('Панель: Порошковое полимерное покрытие','Порошок')
                               .replace('Панель: Влагостойкая фанера','Фанера')
                               .replace('Панель: ','');
