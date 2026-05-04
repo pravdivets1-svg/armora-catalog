@@ -6382,13 +6382,16 @@ function cardHtml(d,idx){
     <button class="car-arrow next" data-dir="1" aria-label="Следующее"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>`:'';
 
   // Extract key specs from tags
-  const steelTag  = (d.tags||[]).find(t => t.startsWith('Сталь')) || '';
+  const steelTag   = (d.tags||[]).find(t => t.startsWith('Сталь')) || '';
   const contourTag = (d.tags||[]).find(t => t.includes('контур')) || '';
-  const lockTag   = (d.tags||[]).find(t => t.startsWith('Замок')) || '';
-  const steelMm   = steelTag.replace('Сталь ',''); // "1.8 мм"
-  const contourShort = contourTag.replace(' контур',''); // "Двойной"→"Двойной"
-  const lockShort = lockTag.replace('Замок: ',''); // "2× Guardian"
+  const lockTag    = (d.tags||[]).find(t => t.startsWith('Замок')) || '';
+  const steelMm    = steelTag.replace('Сталь ','');
+  const contourShort = contourTag;
+  const lockShort  = lockTag.replace('Замок: ','');
   const purposeText = d.purpose==='дом'?'Частный дом':d.purpose==='квартира'?'Квартира':d.purpose==='тамбур'?'Тамбур':'Офис';
+  // Не дублировать в tags то, что уже показано в specs
+  const specSet = new Set([steelTag, contourTag, lockTag].filter(Boolean));
+  const remainTags = (d.tags||[]).filter(t => !specSet.has(t));
 
   return `<article class="card reveal" data-id="${d.id}">
     <div class="card-img" data-carousel data-len="${imgs.length}" data-idx="0">
@@ -6414,7 +6417,7 @@ function cardHtml(d,idx){
         <span class="card-purpose-icon">${d.purpose==='квартира'?'🏢':'🏠'}</span>
         <span class="card-purpose">${purposeText}</span>
       </div>
-      <div class="card-tags">${(d.tags||[]).map(t=>`<span class="ctag">${t}</span>`).join('')}</div>
+      <div class="card-tags">${remainTags.map(t=>`<span class="ctag">${t}</span>`).join('')}</div>
       <div class="card-bottom">
         <div class="card-price">
           <span class="card-price-from">от</span>
