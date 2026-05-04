@@ -5569,8 +5569,14 @@ body { overscroll-behavior-y: contain; }
   }
 }
 
+/* Filter head/foot — скрыты на десктопе, видны только на мобиле */
+.filters-head { display: none; }
+.filters-foot { display: none; }
+.filters-scroll { display: contents; } /* прозрачная обёртка на десктопе */
+
 /* Mobile: filter panel — flex-column с фиксированным header + footer */
 @media(max-width: 900px){
+  .filters-scroll { display: block; } /* восстанавливаем нормальный блок на мобиле */
   .filters {
     display: flex !important;
     flex-direction: column !important;
