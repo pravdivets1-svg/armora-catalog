@@ -4194,27 +4194,31 @@ h2.card-name{margin:0;padding:0}
   transition: color .2s;
 }
 .v5-opt-info{
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  background: transparent;
-  border: 1.2px solid rgba(0,0,0,.18);
-  color: rgba(0,0,0,.28);
-  display: inline-flex; align-items: center; justify-content: center;
+  /* Dog-ear corner flap */
+  position: absolute;
+  top: 0; right: 0;
+  width: 44px; height: 44px;
+  border-radius: 0 16px 0 100%;
+  background: rgba(0,0,0,.065);
+  border: none;
+  border-left: 1px solid rgba(0,0,0,.09);
+  border-bottom: 1px solid rgba(0,0,0,.09);
+  box-shadow: -2px 2px 6px rgba(0,0,0,.06);
+  display: flex; align-items: flex-start; justify-content: flex-end;
+  padding: 9px 9px 0 0;
   cursor: pointer;
-  transition: all .3s cubic-bezier(.34,1.3,.64,1);
+  z-index: 3;
+  transition: background .25s, box-shadow .25s, border-color .25s;
   flex-shrink: 0;
-  z-index: 2;
-  position: relative;
 }
-.v5-opt-info svg{ width: 16px; height: 16px; transition: inherit; }
+.v5-opt-info svg{ width: 13px; height: 13px; stroke: rgba(0,0,0,.3); transition: stroke .25s; }
 .v5-opt-info:hover{
-  background: linear-gradient(135deg, var(--v5-mocha), #7a4f38);
-  border-color: transparent;
-  color: #fff;
-  transform: scale(1.12);
-  box-shadow: 0 3px 12px -3px rgba(164,120,100,.55);
+  background: rgba(164,120,100,.18);
+  border-left-color: rgba(164,120,100,.2);
+  border-bottom-color: rgba(164,120,100,.2);
+  box-shadow: -2px 2px 8px rgba(164,120,100,.12);
 }
-.v5-opt-info:hover svg{ stroke: #fff; }
+.v5-opt-info:hover svg{ stroke: rgba(164,120,100,.75); }
 .v5-opt-desc{
   font-size: 12.5px;
   color: var(--v5-ink-soft);
@@ -4652,7 +4656,7 @@ h2.card-name{margin:0;padding:0}
   .v5-pop, .v5-lead-pop{ padding: 24px 20px 20px; }
   .v5-pop-title{ font-size: 24px; }
   /* C1: enlarge info button to 40x40 tap target */
-  .v5-opt-info{ width: 40px; height: 40px; font-size: 14px; margin: -8px -8px -8px 0; }
+  /* v5-opt-info: dog-ear absolute-positioned, no margin needed */
   /* C2: enlarge popup close to 40x40 */
   .v5-pop-close{ width: 40px; height: 40px; top: 12px; right: 12px; }
   .v5-pop-close svg{ width: 16px; height: 16px; }
@@ -4775,13 +4779,7 @@ h2.card-name{margin:0;padding:0}
 }
 
 /* ===== MOBILE AUDIT FIXES 2026-05-03 ===== */
-/* C1: v5-opt-info tap target 24px → 40px */
-.v5-opt-info{
-  width:40px !important;
-  height:40px !important;
-  min-width:40px !important;
-  min-height:40px !important;
-}
+/* C1: v5-opt-info — dog-ear flap, tap area достаточная (44×44) */
 /* C2: v5-pop-close tap target 30px → 40px */
 .v5-pop-close{
   width:40px !important;
@@ -5178,20 +5176,31 @@ body{ min-height:100% !important; }
   box-shadow: 0 4px 16px rgba(0,0,0,.25) !important;
 }
 
-/* Info button */
+/* Info button — dog-ear corner flap */
 [data-v="5"] .v5-opt-info {
-  background: transparent !important;
-  border: 1.2px solid rgba(0,0,0,.16) !important;
-  color: rgba(0,0,0,.25) !important;
-  transition: all .3s cubic-bezier(0.34,1.3,.64,1) !important;
-  box-shadow: none !important;
+  position: absolute !important;
+  top: 0 !important; right: 0 !important;
+  width: 44px !important; height: 44px !important;
+  min-width: 0 !important; min-height: 0 !important;
+  border-radius: 0 16px 0 100% !important;
+  background: rgba(0,0,0,.065) !important;
+  border: none !important;
+  border-left: 1px solid rgba(0,0,0,.09) !important;
+  border-bottom: 1px solid rgba(0,0,0,.09) !important;
+  box-shadow: -2px 2px 6px rgba(0,0,0,.06) !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: flex-end !important;
+  padding: 9px 9px 0 0 !important;
+  transform: none !important;
+  transition: background .25s, box-shadow .25s, border-color .25s !important;
 }
 [data-v="5"] .v5-opt-info:hover {
-  background: linear-gradient(135deg, var(--v5-mocha), #7a4f38) !important;
-  color: #fff !important;
-  border-color: transparent !important;
-  transform: scale(1.12) !important;
-  box-shadow: 0 3px 12px -3px rgba(164,120,100,.55) !important;
+  background: rgba(164,120,100,.18) !important;
+  border-left-color: rgba(164,120,100,.2) !important;
+  border-bottom-color: rgba(164,120,100,.2) !important;
+  box-shadow: -2px 2px 8px rgba(164,120,100,.12) !important;
+  transform: none !important;
 }
 
 /* Checkmark circle */
