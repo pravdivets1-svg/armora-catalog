@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Каталог входных дверей ARMORA — премиальные стальные двери на заказ</title>
 <meta name="description" content="Каталог входных дверей ARMORA: премиальные стальные двери ручной сборки. Конфигуратор, расчёт стоимости, замер и установка. Доставка по России.">
 <meta name="robots" content="index,follow,max-image-preview:large">
@@ -5632,6 +5632,27 @@ body { overscroll-behavior-y: contain; }
     transition: background .2s;
   }
   .filters-apply:active { background: #fff; }
+}
+
+/* ===== FIX: sort label truncation — prevents "Популярные" от выезда за пределы кнопки ===== */
+#sortLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+@media(max-width: 400px){
+  #sortLabel { max-width: 72px; }
+}
+
+/* ===== FIX: safe-area-inset-bottom — кнопка "Продолжить" не перекрывается панелью Safari ===== */
+@media(max-width: 900px){
+  .calc-nav {
+    padding-bottom: max(24px, env(safe-area-inset-bottom)) !important;
+  }
+  .v5-foot {
+    padding-bottom: max(18px, env(safe-area-inset-bottom)) !important;
+  }
 }
 
 /* ===== iOS / MOBILE PERFORMANCE: disable all backdrop-filter =====
