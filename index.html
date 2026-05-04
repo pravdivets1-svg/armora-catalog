@@ -574,6 +574,24 @@ html.is-scrolling .slide svg{transition:none !important}
 .card-series{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);font-weight:700}
 .card-name{font-family:var(--font-display);font-size:23px;font-weight:500;letter-spacing:-.01em;line-height:1.1;color:var(--ink)}
 .card-purpose{font-size:11px;color:var(--ink-faint);font-weight:500}
+.card-purpose-row{display:flex;align-items:center;gap:5px;margin-top:2px}
+.card-purpose-row .card-purpose{margin:0}
+
+/* Specs strip — сталь / контур / замок */
+.card-specs{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;margin-bottom:2px}
+.cspec{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10.5px;font-weight:600;letter-spacing:.01em;
+  padding:3px 8px 3px 6px;border-radius:6px;
+  color:var(--ink-soft);background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  white-space:nowrap;
+}
+.cspec svg{width:12px;height:12px;flex-shrink:0;opacity:.7}
+.cspec-steel{color:#d4c49a;border-color:rgba(212,196,154,.3);background:rgba(212,196,154,.08)}
+.cspec-contour{color:#7ecfa8;border-color:rgba(126,207,168,.3);background:rgba(126,207,168,.08)}
+.cspec-lock{color:#a8b8d8;border-color:rgba(168,184,216,.3);background:rgba(168,184,216,.08)}
+
 .card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
 .ctag{
   font-size:11px;padding:5px 10px;border-radius:7px;font-weight:600;
@@ -1328,11 +1346,16 @@ html,body{background:#06070a}
 .calc-head,.calc-prog,.calc-nav{background: rgba(255,255,255,.03) !important;border-color: rgba(255,255,255,.08) !important;box-shadow: none !important}
 .calc-head::before,.calc-prog::before,.calc-nav::before{display:none !important}
 
-/* FLAGS — coloured */
-.card-flag{background: linear-gradient(135deg,#e4e8ee,#9aa3b2) !important;color:#0e1116 !important;border:1px solid rgba(255,255,255,.4) !important;-webkit-backdrop-filter:blur(8px) !important;backdrop-filter:blur(8px) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 4px 12px -3px rgba(0,0,0,.4) !important}
-.card-flag.hit{background: linear-gradient(135deg,#ffffff,#c4cdd6) !important;color:#0e1116 !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 6px 16px -4px rgba(228,232,238,.45) !important}
-.card-flag.new{background: rgba(94,200,143,.16) !important;color:#5ec88f !important;border:1px solid rgba(94,200,143,.55) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 12px -4px rgba(94,200,143,.35) !important}
-.card-flag.elite{background: rgba(20,22,28,.78) !important;color:#e4e8ee !important;border:1px solid rgba(228,232,238,.45) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 14px -4px rgba(0,0,0,.6) !important}
+/* FLAGS — vibrant & saturated */
+.card-flag{background:linear-gradient(135deg,#c8ab6e,#a07c3e) !important;color:#fff !important;border:none !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;box-shadow:0 4px 14px -3px rgba(160,124,62,.55),inset 0 1px 0 rgba(255,255,255,.25) !important;font-weight:700 !important}
+/* Хит — яркий оранжево-красный */
+.card-flag.hit{background:linear-gradient(135deg,#ff6b35,#e63946) !important;color:#fff !important;box-shadow:0 4px 16px -3px rgba(230,57,70,.6),inset 0 1px 0 rgba(255,255,255,.25) !important}
+/* Новинка — насыщенный изумрудный */
+.card-flag.new{background:linear-gradient(135deg,#2ec96c,#1a9e52) !important;color:#fff !important;border:none !important;box-shadow:0 4px 16px -3px rgba(30,158,82,.55),inset 0 1px 0 rgba(255,255,255,.22) !important}
+/* Элит — тёмно-синий с золотым текстом */
+.card-flag.elite{background:linear-gradient(135deg,#1b2444,#0f1628) !important;color:#e4c87a !important;border:1px solid rgba(228,200,122,.5) !important;box-shadow:0 4px 16px -3px rgba(0,0,0,.55),inset 0 1px 0 rgba(228,200,122,.2) !important}
+/* Рекомендуем — насыщенный фиолетовый */
+.card-flag.rec{background:linear-gradient(135deg,#7c3aed,#5b21b6) !important;color:#fff !important;box-shadow:0 4px 16px -3px rgba(124,58,237,.55),inset 0 1px 0 rgba(255,255,255,.22) !important}
 
 .car-counter{display:none !important}
 .car-arrow{background:rgba(20,22,28,.6) !important;border:1px solid rgba(255,255,255,.22) !important;color:#fff !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;opacity:.85 !important;width:36px !important;height:36px !important;box-shadow:0 6px 18px -4px rgba(0,0,0,.4) !important}
@@ -1446,6 +1469,10 @@ html,body{background:#06070a}
 /* === READABILITY: усиленная читаемость серых текстов === */
 .card-purpose{color:rgba(255,255,255,.78) !important;font-weight:500 !important}
 .card-series{color:var(--accent-hi) !important;font-weight:700 !important}
+.cspec{background:rgba(255,255,255,.07) !important;border-color:rgba(255,255,255,.14) !important}
+.cspec-steel{color:#e2d09e !important;border-color:rgba(226,208,158,.3) !important;background:rgba(226,208,158,.09) !important}
+.cspec-contour{color:#7ecfa8 !important;border-color:rgba(126,207,168,.3) !important;background:rgba(126,207,168,.09) !important}
+.cspec-lock{color:#a8bcd8 !important;border-color:rgba(168,188,216,.3) !important;background:rgba(168,188,216,.09) !important}
 .ctag{color:#fff !important;font-weight:600 !important;background:rgba(255,255,255,.12) !important;border:1px solid rgba(255,255,255,.28) !important;border-radius:7px !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;font-size:11px !important;padding:5px 10px !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.06) !important}
 .card-price-from{color:rgba(255,255,255,.7) !important;font-weight:700 !important}
 .results-meta{color:rgba(255,255,255,.78) !important;font-weight:500 !important}
@@ -4793,7 +4820,10 @@ h2.card-name{margin:0;padding:0}
   .card-img{ aspect-ratio: 3/4 !important; }
   /* Компактный body — имя + опции + цена + CTA */
   .card-body{ padding: 10px 14px 12px !important; gap: 3px !important; }
-  .card-purpose{ display: none !important; }
+  .card-purpose-row{ display: none !important; }
+  .card-specs{ margin-top: 4px !important; margin-bottom: 1px !important; gap: 3px !important; }
+  .cspec{ font-size: 9.5px !important; padding: 2px 6px 2px 5px !important; gap: 3px !important; }
+  .cspec svg{ width: 10px !important; height: 10px !important; }
   .card-series{ font-size: 9px !important; }
   .card-name{ font-size: 17px !important; }
   /* Теги — компактный список включённых опций */
@@ -6335,7 +6365,8 @@ function applySort(list){
 
 function flagClass(f){
   if(!f)return '';
-  if(f==='Хит'||f==='Рекомендуем')return ' hit';
+  if(f==='Хит')return ' hit';
+  if(f==='Рекомендуем')return ' rec';
   if(f==='Новинка')return ' new';
   if(f==='Элит')return ' elite';
   return '';
@@ -6349,6 +6380,15 @@ function cardHtml(d,idx){
   const arrowsHtml=multi?`
     <button class="car-arrow prev disabled" data-dir="-1" aria-label="Предыдущее"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
     <button class="car-arrow next" data-dir="1" aria-label="Следующее"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>`:'';
+
+  // Extract key specs from tags
+  const steelTag  = (d.tags||[]).find(t => t.startsWith('Сталь')) || '';
+  const contourTag = (d.tags||[]).find(t => t.includes('контур')) || '';
+  const lockTag   = (d.tags||[]).find(t => t.startsWith('Замок')) || '';
+  const steelMm   = steelTag.replace('Сталь ',''); // "1.8 мм"
+  const contourShort = contourTag.replace(' контур',''); // "Двойной"→"Двойной"
+  const lockShort = lockTag.replace('Замок: ',''); // "2× Guardian"
+  const purposeText = d.purpose==='дом'?'Частный дом':d.purpose==='квартира'?'Квартира':d.purpose==='тамбур'?'Тамбур':'Офис';
 
   return `<article class="card reveal" data-id="${d.id}">
     <div class="card-img" data-carousel data-len="${imgs.length}" data-idx="0">
@@ -6365,7 +6405,15 @@ function cardHtml(d,idx){
     <div class="card-body">
       <div class="card-series">Серия · ${d.series}</div>
       <h2 class="card-name">${d.name}</h2>
-      <div class="card-purpose">Для ${d.purpose}</div>
+      <div class="card-specs">
+        ${steelMm?`<span class="cspec cspec-steel"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="12" height="6" rx="1"/><line x1="5" y1="5" x2="5" y2="11"/><line x1="11" y1="5" x2="11" y2="11"/></svg>Сталь ${steelMm}</span>`:''}
+        ${contourTag?`<span class="cspec cspec-contour"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2L14 5v4c0 3-2.5 4.8-6 5C2.5 13.8 2 10 2 9V5z"/></svg>${contourShort} контур</span>`:''}
+        ${lockShort?`<span class="cspec cspec-lock"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="7" width="8" height="7" rx="1"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/><circle cx="8" cy="11" r="1" fill="currentColor"/></svg>${lockShort}</span>`:''}
+      </div>
+      <div class="card-purpose-row">
+        <span class="card-purpose-icon">${d.purpose==='квартира'?'🏢':'🏠'}</span>
+        <span class="card-purpose">${purposeText}</span>
+      </div>
       <div class="card-tags">${(d.tags||[]).map(t=>`<span class="ctag">${t}</span>`).join('')}</div>
       <div class="card-bottom">
         <div class="card-price">
