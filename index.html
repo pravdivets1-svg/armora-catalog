@@ -3836,12 +3836,17 @@ h2.card-name{margin:0;padding:0}
 .v5-title-block{ min-width: 0; }
 .v5-kicker{
   font-size: 10px;
-  letter-spacing: .24em;
+  letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--v5-mocha);
-  font-weight: 800;
-  margin-bottom: 3px;
-  display: flex; align-items: center; gap: 8px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(164,120,100,.1);
+  border: 1px solid rgba(164,120,100,.18);
+  border-radius: 999px;
+  padding: 4px 12px;
+  width: fit-content;
 }
 .v5-progress-mini{
   display: inline-flex; gap: 4px; align-items: center;
@@ -4165,12 +4170,14 @@ h2.card-name{margin:0;padding:0}
 }
 .v5-opt:hover::before{ opacity: 1; }
 .v5-opt.sel{
-  border-color: var(--v5-accent);
-  background: linear-gradient(135deg, var(--v5-accent-tint) 0%, var(--v5-mocha-tint) 100%);
-  box-shadow: 0 0 0 4px rgba(30,41,59,.1), 0 8px 20px -4px rgba(15,23,42,.14);
+  border-color: var(--v5-mocha);
+  background: linear-gradient(135deg, rgba(164,120,100,.1) 0%, rgba(180,136,108,.05) 100%);
+  box-shadow: 0 0 0 3px rgba(164,120,100,.15), 0 8px 22px -4px rgba(164,120,100,.2);
   transform: translateY(-2px);
 }
 .v5-opt.sel::before{ opacity: 0; }
+.v5-opt.sel .v5-opt-name{ color: var(--v5-mocha); }
+.v5-opt.sel .v5-opt-price{ color: var(--v5-mocha); }
 .v5-opt.sel.flash{ animation: v5flash .7s ease-out; }
 @keyframes v5flash{
   0%{ background: var(--v5-mocha); border-color: var(--v5-mocha); box-shadow: 0 0 0 10px rgba(164,120,100,.32), 0 12px 28px -4px rgba(164,120,100,.5); transform: translateY(-4px) scale(1.02); }
@@ -4178,6 +4185,23 @@ h2.card-name{margin:0;padding:0}
 }
 .v5-opt.sel.flash .v5-opt-name,
 .v5-opt.sel.flash .v5-opt-price{ color: #fff !important; }
+
+/* Elite card — gold top accent */
+.v5-opt[data-name="Элит"]{
+  border-top: 2px solid rgba(212,168,84,.5);
+  box-shadow: inset 0 3px 0 rgba(212,168,84,.18), 0 2px 8px rgba(212,168,84,.06);
+  background: linear-gradient(180deg, rgba(212,168,84,.04) 0%, var(--v5-surface-2) 40%);
+}
+.v5-opt[data-name="Элит"] .v5-opt-name{
+  background: linear-gradient(90deg, #b8922a, #d4a83a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.v5-opt[data-name="Элит"].sel{
+  border-top-color: rgba(212,168,84,.75);
+  box-shadow: inset 0 3px 0 rgba(212,168,84,.3), 0 0 0 3px rgba(164,120,100,.15), 0 8px 22px -4px rgba(164,120,100,.2);
+}
 
 .v5-opt-top{
   display: flex; align-items: flex-start; justify-content: space-between;
@@ -5473,17 +5497,18 @@ body{ min-height:100% !important; }
 
 /* Progress bar under sticky header */
 .v5-step-pbar {
-  height: 3px;
-  background: rgba(0,0,0,.09);
+  height: 6px;
+  background: rgba(0,0,0,.07);
   border-radius: 999px;
   margin-bottom: 28px;
   overflow: hidden;
 }
 .v5-step-pbar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #a47864 0%, #c49282 100%);
+  background: linear-gradient(90deg, #a47864 0%, #c49282 60%, #d4a882 100%);
   border-radius: 999px;
   transition: width .6s cubic-bezier(0.32,0.72,0,1);
+  box-shadow: 0 0 10px rgba(164,120,100,.4), 0 2px 4px rgba(164,120,100,.2);
 }
 
 /* Step header block */
