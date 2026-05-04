@@ -474,8 +474,6 @@ html.is-scrolling .slide svg{transition:none !important}
 .card{
   background:var(--glass-bg-strong);
   border:1px solid var(--glass-bdr);
-  backdrop-filter:blur(18px) saturate(180%);
-  -webkit-backdrop-filter:blur(18px) saturate(180%);
   border-radius:20px;
   overflow:hidden;cursor:pointer;
   transition:all .4s cubic-bezier(.4,0,.2,1);
@@ -564,7 +562,6 @@ html.is-scrolling .slide svg{transition:none !important}
   padding:5px 12px;border-radius:24px;
   font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
   box-shadow:0 6px 16px -4px rgba(228,232,238,.5),inset 0 1px 0 rgba(255,255,255,.25);
-  backdrop-filter:blur(8px);
 }
 .card-flag.hit{background:linear-gradient(135deg,var(--gold-light),var(--gold))}
 .card-flag.new{background:linear-gradient(135deg,var(--sage),var(--sage-deep))}
@@ -974,7 +971,7 @@ html.is-scrolling .slide svg{transition:none !important}
 .card-price-val{font-family:'Manrope',sans-serif;font-weight:700;letter-spacing:-.02em;color:var(--ink);font-size:20px}
 .card-cta{background:var(--gold);color:#0a0a0a;border-radius:9px;box-shadow:0 0 0 1px rgba(228,232,238,.4)}
 .card-cta:hover{background:#ffffff;transform:translateY(-1px);box-shadow:0 0 0 1px rgba(228,232,238,.6),0 6px 16px -2px rgba(228,232,238,.4)}
-.car-arrow{background:rgba(20,20,22,.85);border:1px solid var(--bdr-h);color:var(--ink);backdrop-filter:blur(10px)}
+.car-arrow{background:rgba(20,20,22,.85);border:1px solid var(--bdr-h);color:var(--ink)}
 .car-arrow:hover{background:var(--gold);color:#0a0a0a;border-color:var(--gold)}
 .car-dot{background:rgba(255,255,255,.2)}
 .car-dot.on{background:var(--gold)}
@@ -4710,7 +4707,6 @@ h2.card-name{margin:0;padding:0}
     margin: 0 auto !important;
   }
   .results-meta{ max-width: 460px; margin-left: auto; margin-right: auto; }
-  .card-img{ aspect-ratio: 4/3 !important; } /* шире — лучше видно дверь */
   .card-name{ font-size: 19px !important; }
   .card-price-val{ font-size: 22px !important; }
   .card-cta{ padding: 10px 14px !important; font-size: 12px !important; }
@@ -4788,7 +4784,17 @@ h2.card-name{margin:0;padding:0}
     grid-template-columns: 1fr !important;
     gap: 14px !important;
   }
-  .card-img{ aspect-ratio: 3/2 !important; }
+  /* Портретное фото — дверь видна полностью, занимает большую часть карточки */
+  .card-img{ aspect-ratio: 3/4 !important; }
+  /* Компактный body — убираем лишние элементы, оставляем только имя + цена + CTA */
+  .card-body{ padding: 10px 14px 12px !important; gap: 4px !important; }
+  .card-purpose{ display: none !important; }
+  .card-tags{ display: none !important; }
+  .card-series{ font-size: 9px !important; }
+  .card-name{ font-size: 17px !important; }
+  .card-bottom{ padding-top: 8px !important; margin-top: 6px !important; }
+  .card-price-val{ font-size: 18px !important; }
+  .card-cta{ padding: 8px 12px !important; font-size: 11px !important; }
 }
 
 /* ===== END FIX 2026-05-03 ===== */
