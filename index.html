@@ -4737,7 +4737,9 @@ h2.card-name{margin:0;padding:0}
 /* H1: v5-foot не переполняется на ≤420px */
 @media(max-width:420px){
   .v5-foot-info{ min-width:0 !important; flex:1 1 0 !important; }
-  .v5-foot-cta{ width:100% !important; text-align:center !important; }
+  /* BUG FIX: width:100% внутри flex-nav (flex-shrink:0) выталкивало кнопку за правый край экрана на 63px */
+  .v5-foot-nav { flex: 1 1 0 !important; min-width: 0 !important; overflow: hidden !important; }
+  .v5-foot-cta { flex: 1 1 0 !important; min-width: 0 !important; text-align: center !important; }
 }
 /* H2: toolbar search не переносится на 375px */
 @media(max-width:480px){
@@ -5569,6 +5571,22 @@ body { overscroll-behavior-y: contain; }
   }
 }
 
+/* ===== BUG FIX: v5 калькулятор — цвета текста на тёмном мобильном фоне ===== */
+/* Mobile CSS задаёт calc-modal фон rgba(15,15,16,.98) ≈ чёрный.
+   v5-step-h2 (#0c0c0c) и v5-step-sub (#484854) — тёмные → невидимы на тёмном фоне. */
+@media(max-width: 1024px){
+  .v5-step-h2 { color: #f0ede8 !important; }
+  .v5-step-sub { color: rgba(240,237,232,.65) !important; }
+  .v5-step-eye { color: var(--v5-mocha, #a47864) !important; }
+  .v5-step-eye::after { background: linear-gradient(to right, rgba(255,255,255,.12) 0%, transparent 100%) !important; }
+}
+
+/* ===== BUG FIX: скроллбар внутри calc-body — скрываем нативный скроллбар ===== */
+.calc-body::-webkit-scrollbar,
+[data-v="5"] .v5-body::-webkit-scrollbar { display: none !important; }
+.calc-body,
+[data-v="5"] .v5-body { scrollbar-width: none !important; }
+
 /* Filter head/foot — скрыты на десктопе, видны только на мобиле */
 .filters-head { display: none; }
 .filters-foot { display: none; }
@@ -5582,6 +5600,8 @@ body { overscroll-behavior-y: contain; }
     flex-direction: column !important;
     overflow: hidden !important;
     padding: 0 !important;
+    height: 100dvh !important;   /* BUG FIX: flex:1 на filters-scroll не работает без явной высоты родителя */
+    max-height: 100dvh !important;
   }
   .filters-head {
     display: flex;
@@ -5634,15 +5654,20 @@ body { overscroll-behavior-y: contain; }
   .filters-apply:active { background: #fff; }
 }
 
-/* ===== FIX: sort label truncation — prevents "Популярные" от выезда за пределы кнопки ===== */
-#sortLabel {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 120px;
-}
-@media(max-width: 400px){
-  #sortLabel { max-width: 72px; }
+/* ===== FIX: sort button icon-only на мобиле (текст не влезает в 48px) ===== */
+/* На мобиле sort-glass получает ~48px — недостаточно для текста.
+   Скрываем label, делаем компактный icon-only дропдаун. */
+@media(max-width: 600px){
+  #sortLabel { display: none !important; }
+  .sort-glass-btn {
+    padding: 0 10px !important;
+    gap: 0 !important;
+    justify-content: center !important;
+  }
+  .sort-glass {
+    flex: 0 0 42px !important;
+    min-width: 42px !important;
+  }
 }
 
 /* ===== FIX: safe-area-inset-bottom — кнопка "Продолжить" не перекрывается панелью Safari ===== */
