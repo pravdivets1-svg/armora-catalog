@@ -6440,7 +6440,7 @@ function cardHtml(d,idx){
       <h2 class="card-name">${d.name}</h2>
       <div class="card-specs">
         ${steelMm?`<span class="cspec cspec-steel"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="12" height="6" rx="1"/><line x1="5" y1="5" x2="5" y2="11"/><line x1="11" y1="5" x2="11" y2="11"/></svg>Сталь ${steelMm}</span>`:''}
-        ${contourTag?`<span class="cspec cspec-contour"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2L14 5v4c0 3-2.5 4.8-6 5C2.5 13.8 2 10 2 9V5z"/></svg>${contourShort} контур</span>`:''}
+        ${contourTag?`<span class="cspec cspec-contour"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2L14 5v4c0 3-2.5 4.8-6 5C2.5 13.8 2 10 2 9V5z"/></svg>${contourTag}</span>`:''}
         ${lockShort?`<span class="cspec cspec-lock"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="7" width="8" height="7" rx="1"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/><circle cx="8" cy="11" r="1" fill="currentColor"/></svg>${lockShort}</span>`:''}
         ${panelShort?`<span class="cspec cspec-panel"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="12" height="12" rx="1.5"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="7" y1="2" x2="7" y2="14"/></svg>${panelShort}</span>`:''}
         ${glassShort?`<span class="cspec cspec-glass"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="2" width="10" height="12" rx="1"/><line x1="6" y1="2" x2="6" y2="14"/><line x1="10" y1="2" x2="10" y2="14"/></svg>${glassShort}</span>`:''}
