@@ -1740,7 +1740,10 @@ html,body{background:#06070a}
 .range input[type=range]{accent-color: var(--accent) !important}
 
 /* === STICKY FILTERS — фильтры закреплены при скролле === */
-html,body{overflow:visible !important}
+/* html — visible, чтобы не стать scroll-контейнером (iOS ожидает прокрутку через body) */
+html{overflow:visible !important}
+/* body — scroll-контейнер: overflow-x:hidden делает body прокручиваемым, что iOS Safari поддерживает нативно */
+body{overflow-x:hidden !important;overflow-y:visible !important}
 .shell,.app,.layout,.results,main.results{overflow:visible !important}
 .layout{align-items:start !important}
 .filters{
@@ -4871,10 +4874,8 @@ h2.card-name{margin:0;padding:0}
   .svc-card:hover::before{ opacity:0 !important; }
 }
 
-/* L1: только html — html становится scroll-контейнером (overflow-y:visible→auto по спеке),
-   body остаётся НЕ-контейнером → position:sticky фильтра работает;
-   clip на строке 72 заменяется hidden — совместимо с iOS Safari < 15.4 */
-html{ overflow-x:hidden !important; }
+/* L1: убрано — html больше НЕ является scroll-контейнером.
+   iOS Safari корректно работает только когда body — scroll-контейнер. */
 
 /* L2: скрываем полосу прокрутки (Tilda уже показывает свою) */
 html{ scrollbar-width:none !important; -ms-overflow-style:none !important; }
@@ -5518,6 +5519,13 @@ body{ min-height:100% !important; }
   *, *::before, *::after {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
+  }
+  /* Убираем revealScale — на iOS анимация может не запуститься (scroll events в момент загрузки
+     добавляют is-scrolling → animation-play-state:paused → страница остаётся opacity:0) */
+  .app {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
   /* Compensate key surfaces with solid bg so they don't go fully transparent */
   .topbar {
