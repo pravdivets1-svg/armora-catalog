@@ -591,6 +591,8 @@ html.is-scrolling .slide svg{transition:none !important}
 .cspec-steel{color:#d4c49a;border-color:rgba(212,196,154,.3);background:rgba(212,196,154,.08)}
 .cspec-contour{color:#7ecfa8;border-color:rgba(126,207,168,.3);background:rgba(126,207,168,.08)}
 .cspec-lock{color:#a8b8d8;border-color:rgba(168,184,216,.3);background:rgba(168,184,216,.08)}
+.cspec-panel{color:#d4a574;border-color:rgba(212,165,116,.3);background:rgba(212,165,116,.08)}
+.cspec-glass{color:#7ec8d4;border-color:rgba(126,200,212,.3);background:rgba(126,200,212,.08)}
 
 .card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
 .ctag{
@@ -1473,6 +1475,8 @@ html,body{background:#06070a}
 .cspec-steel{color:#e2d09e !important;border-color:rgba(226,208,158,.3) !important;background:rgba(226,208,158,.09) !important}
 .cspec-contour{color:#7ecfa8 !important;border-color:rgba(126,207,168,.3) !important;background:rgba(126,207,168,.09) !important}
 .cspec-lock{color:#a8bcd8 !important;border-color:rgba(168,188,216,.3) !important;background:rgba(168,188,216,.09) !important}
+.cspec-panel{color:#ddb07a !important;border-color:rgba(221,176,122,.3) !important;background:rgba(221,176,122,.09) !important}
+.cspec-glass{color:#7ecfdb !important;border-color:rgba(126,207,219,.3) !important;background:rgba(126,207,219,.09) !important}
 .ctag{color:#fff !important;font-weight:600 !important;background:rgba(255,255,255,.12) !important;border:1px solid rgba(255,255,255,.28) !important;border-radius:7px !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;font-size:11px !important;padding:5px 10px !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.06) !important}
 .card-price-from{color:rgba(255,255,255,.7) !important;font-weight:700 !important}
 .results-meta{color:rgba(255,255,255,.78) !important;font-weight:500 !important}
@@ -1835,6 +1839,26 @@ body{overflow-x:hidden !important;overflow-y:visible !important}
 .hero-badge.green svg,.hero-badge.warm svg{stroke:rgba(255,255,255,.6) !important}
 .hero-badge strong{color:#fff !important;font-weight:600 !important;margin-left:2px;letter-spacing:-.005em}
 @media(prefers-reduced-motion:reduce){.hero-badge{transition:none !important}}
+
+/* Accent hero badges */
+.hero-badge.gold{
+  background:linear-gradient(135deg,rgba(212,168,84,.22),rgba(180,132,48,.12)) !important;
+  border-color:rgba(212,168,84,.45) !important;
+  color:#f0d080 !important;
+  box-shadow:inset 0 1px 0 rgba(255,230,120,.2),0 4px 20px -6px rgba(180,130,40,.45),0 0 0 1px rgba(212,168,84,.15) !important;
+}
+.hero-badge.gold svg{stroke:#e8c060 !important}
+.hero-badge.gold strong{color:#fde68a !important}
+.hero-badge.gold:hover{background:linear-gradient(135deg,rgba(212,168,84,.32),rgba(180,132,48,.2)) !important;border-color:rgba(212,168,84,.6) !important}
+.hero-badge.factory{
+  background:linear-gradient(135deg,rgba(80,160,220,.2),rgba(40,110,180,.12)) !important;
+  border-color:rgba(80,160,220,.42) !important;
+  color:#90c8f0 !important;
+  box-shadow:inset 0 1px 0 rgba(140,200,255,.18),0 4px 20px -6px rgba(40,120,200,.4),0 0 0 1px rgba(80,160,220,.12) !important;
+}
+.hero-badge.factory svg{stroke:#78b8e8 !important}
+.hero-badge.factory strong{color:#bde0ff !important}
+.hero-badge.factory:hover{background:linear-gradient(135deg,rgba(80,160,220,.3),rgba(40,110,180,.2)) !important;border-color:rgba(80,160,220,.6) !important}
 
 /* ORDER TICKER — удалено */
 
@@ -5796,10 +5820,10 @@ body { overscroll-behavior-y: contain; }
     <h1 class="cat-title hero-anim">Двери, которые мы <em>уже установили</em></h1>
     <p class="cat-sub">Каждая дверь в каталоге — <strong>реальная работа нашего завода</strong>. Это не картинки из интернета: эти двери уже стоят в квартирах и домах наших клиентов. Выбирайте готовую конфигурацию — и переходите к точному расчёту. Любую модель адаптируем под ваш проём.</p>
     <div class="hero-badges">
-      <div class="hero-badge"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Гарантия <strong>7 лет</strong></div>
+      <div class="hero-badge gold"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Гарантия <strong>7 лет</strong></div>
       <div class="hero-badge green"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Замер <strong>бесплатно</strong></div>
       <div class="hero-badge warm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>Установка <strong>за 1 день</strong></div>
-      <div class="hero-badge"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>Производство в <strong>Клину</strong></div>
+      <div class="hero-badge factory"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>Производство в <strong>Клину</strong></div>
     </div>
   </div>
 
@@ -6385,12 +6409,17 @@ function cardHtml(d,idx){
   const steelTag   = (d.tags||[]).find(t => t.startsWith('Сталь')) || '';
   const contourTag = (d.tags||[]).find(t => t.includes('контур')) || '';
   const lockTag    = (d.tags||[]).find(t => t.startsWith('Замок')) || '';
+  const panelTag   = (d.tags||[]).find(t => t.startsWith('Панель:')) || '';
+  const glassTag   = (d.tags||[]).find(t => t.startsWith('Стеклопакет')) || '';
   const steelMm    = steelTag.replace('Сталь ','');
-  const contourShort = contourTag;
   const lockShort  = lockTag.replace('Замок: ','');
+  const panelShort = panelTag.replace('Панель: Порошковое полимерное покрытие','Порошок')
+                              .replace('Панель: Влагостойкая фанера','Фанера')
+                              .replace('Панель: ','');
+  const glassShort = glassTag.replace('Стеклопакет ','').replace('Стеклопакет','Стеклопакет');
   const purposeText = d.purpose==='дом'?'Частный дом':d.purpose==='квартира'?'Квартира':d.purpose==='тамбур'?'Тамбур':'Офис';
   // Не дублировать в tags то, что уже показано в specs
-  const specSet = new Set([steelTag, contourTag, lockTag].filter(Boolean));
+  const specSet = new Set([steelTag, contourTag, lockTag, panelTag, glassTag].filter(Boolean));
   const remainTags = (d.tags||[]).filter(t => !specSet.has(t));
 
   return `<article class="card reveal" data-id="${d.id}">
@@ -6412,6 +6441,8 @@ function cardHtml(d,idx){
         ${steelMm?`<span class="cspec cspec-steel"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="12" height="6" rx="1"/><line x1="5" y1="5" x2="5" y2="11"/><line x1="11" y1="5" x2="11" y2="11"/></svg>Сталь ${steelMm}</span>`:''}
         ${contourTag?`<span class="cspec cspec-contour"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 2L14 5v4c0 3-2.5 4.8-6 5C2.5 13.8 2 10 2 9V5z"/></svg>${contourShort} контур</span>`:''}
         ${lockShort?`<span class="cspec cspec-lock"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="7" width="8" height="7" rx="1"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/><circle cx="8" cy="11" r="1" fill="currentColor"/></svg>${lockShort}</span>`:''}
+        ${panelShort?`<span class="cspec cspec-panel"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="12" height="12" rx="1.5"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="7" y1="2" x2="7" y2="14"/></svg>${panelShort}</span>`:''}
+        ${glassShort?`<span class="cspec cspec-glass"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="2" width="10" height="12" rx="1"/><line x1="6" y1="2" x2="6" y2="14"/><line x1="10" y1="2" x2="10" y2="14"/></svg>${glassShort}</span>`:''}
       </div>
       <div class="card-purpose-row">
         <span class="card-purpose-icon">${d.purpose==='квартира'?'🏢':'🏠'}</span>
