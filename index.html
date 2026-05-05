@@ -7267,38 +7267,37 @@ async function sendToTildaForm(name, phone){
 }
 
 async function sendLeadToBackend(payload){
-  /* Также отправляем в Tilda форму */
-  sendToTildaForm(payload.name||'', payload.phone||'').catch(()=>{});
   try{
+    /* Собираем comment из конфигурации двери */
+    const labelMap = {
+      base:'Серия', ext:'Внешняя отделка', int:'Внутренняя отделка',
+      glass:'Стекло', seal:'Контур', lock:'Замок', handle:'Ручка', install_pkg:'Монтаж'
+    };
     const optsList = [];
-    ['base','ext','int','glass','seal','lock','handle','install_pkg'].forEach(k=>{
-      if(payload.sel?.[k]) optsList.push(`${k}: ${payload.sel[k].name}`);
+    Object.entries(labelMap).forEach(([k,label])=>{
+      if(payload.sel?.[k]) optsList.push(`${label}: ${payload.sel[k].name}`);
     });
-    (payload.sel?.extras||[]).forEach(e=>optsList.push('+ '+e.name));
-    (payload.sel?.install_extras||[]).forEach(e=>optsList.push('монтаж: '+e.name));
-    const text = [
-      '🚪 *Новая заявка ARMORA*',
-      `👤 ${payload.name}`,
-      `📞 ${payload.phone}`,
-      `🚪 Дверь: ${payload.door||'—'}`,
-      `💰 Ориентир: ${payload.total?.toLocaleString('ru-RU')} ₽`,
-      '',
-      'Конфигурация:',
-      ...optsList.map(s=>'  · '+s)
-    ].join('\n');
-    if(window.LEAD_TELEGRAM?.token && window.LEAD_TELEGRAM?.chat_id){
-      await fetch(`https://api.telegram.org/bot${window.LEAD_TELEGRAM.token}/sendMessage`, {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({chat_id: window.LEAD_TELEGRAM.chat_id, text, parse_mode:'Markdown'})
-      });
-    } else if(window.LEAD_ENDPOINT){
-      await fetch(window.LEAD_ENDPOINT, {
-        method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body: JSON.stringify({...payload, summary:text})
-      });
-    } else {
-      console.log('[ARMORA LEAD]', payload, '\n', text);
-    }
+    (payload.sel?.extras||[]).forEach(e=>optsList.push('Доп: '+e.name));
+    (payload.sel?.install_extras||[]).forEach(e=>optsList.push('Монтаж доп: '+e.name));
+    const comment = [
+      payload.door ? `Дверь: ${payload.door}` : '',
+      ...optsList
+    ].filter(Boolean).join('\n');
+
+    const res = await fetch('https://xn--80aa9aiic.xn--p1ai/api/leads', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        clientName:     payload.name  || '',
+        clientPhone:    payload.phone || '',
+        estimatedPrice: payload.total || null,
+        comment:        comment,
+        source:         'catalog',
+      })
+    });
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok) console.warn('[ARMORA LEAD] CRM error', res.status, data);
+    else console.log('[ARMORA LEAD] OK, lead #' + data.number);
   } catch(err){ console.error('[ARMORA LEAD ERROR]', err); }
 }
 
