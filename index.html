@@ -6071,6 +6071,27 @@ body { overscroll-behavior-y: contain; }
   transform: translateY(-1px);
 }
 
+/* ---- CTA proof-строка под кнопками ---- */
+.lp-hero-proof{
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin: -8px 0 clamp(28px, 4vh, 40px);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: -.005em;
+  opacity: .9;
+}
+.lp-hero-proof span{ display: inline-flex; align-items: center; gap: 6px; }
+.lp-hero-proof svg{ width: 13px; height: 13px; stroke: var(--gold); fill: none; opacity: .75; }
+.lp-hero-proof .lp-hero-proof-dot{ opacity: .35; }
+@media(max-width: 600px){
+  .lp-hero-proof{ font-size: 11.5px; gap: 10px; }
+  .lp-hero-proof .lp-hero-proof-dot{ display: none; }
+}
+
 /* ---- Trust meta ---- */
 .lp-hero-trust{
   display: inline-flex;
@@ -6915,17 +6936,24 @@ html, body{ overflow-x: clip; }
         </h1>
         <p class="lp-hero-sub">От замера до установки — 14 дней. Замер бесплатный, точная цена фиксируется в договоре до начала производства.</p>
         <div class="lp-hero-cta">
-          <button type="button" class="lp-hero-btn lp-hero-btn-primary" onclick="lpScrollToCatalog()" data-magnetic>
+          <button type="button" class="lp-hero-btn lp-hero-btn-primary" onclick="lpOpenConsult()" data-magnetic>
             <span class="lp-hero-btn-primary-core">
-              <span>Подобрать свою</span>
+              <span>Замер бесплатно за&nbsp;24&nbsp;часа</span>
               <span class="lp-hero-btn-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
               </span>
             </span>
           </button>
-          <button type="button" class="lp-hero-btn lp-hero-btn-secondary" onclick="lpOpenConsult()">
-            Получить консультацию
+          <button type="button" class="lp-hero-btn lp-hero-btn-secondary" onclick="lpScrollToCatalog()">
+            Открыть каталог
           </button>
+        </div>
+        <div class="lp-hero-proof" aria-label="Подтверждение качества обслуживания">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>Перезвоним за&nbsp;15&nbsp;минут</span>
+          <span class="lp-hero-proof-dot">·</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><polyline points="20 6 9 17 4 12"/></svg>Без спама</span>
+          <span class="lp-hero-proof-dot">·</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Цена в&nbsp;договоре</span>
         </div>
         <div class="lp-hero-trust">
           <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>12 лет на&nbsp;рынке</span>
@@ -8578,9 +8606,9 @@ function lpOpenConsult(){
     <button class="lp-consult-close" onclick="lpCloseConsult()" aria-label="Закрыть">
       <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
-    <div class="lp-consult-eyebrow">Бесплатная консультация</div>
-    <h2 class="lp-consult-title">Перезвоним за 15&nbsp;минут</h2>
-    <p class="lp-consult-sub">Расскажем про серии, варианты отделки и согласуем удобное время бесплатного замера.</p>
+    <div class="lp-consult-eyebrow">Замер · бесплатно за 24 часа</div>
+    <h2 class="lp-consult-title">Запишитесь на&nbsp;замер</h2>
+    <p class="lp-consult-sub">Перезвоним за&nbsp;15&nbsp;минут, согласуем удобное время. Эксперт приедет с&nbsp;образцами и&nbsp;зафиксирует точную цену в&nbsp;договоре.</p>
     <form id="lpConsultForm" onsubmit="event.preventDefault();lpSubmitConsult()">
       <input class="lp-consult-input" id="lpConsultName" placeholder="Ваше имя" type="text" autocomplete="name" required>
       <input class="lp-consult-input" id="lpConsultPhone" placeholder="+7 (___) ___-__-__" type="tel" autocomplete="tel" required>
@@ -8589,7 +8617,7 @@ function lpOpenConsult(){
         <input type="checkbox" id="lpConsultAgree" checked>
         <span>Соглашаюсь на обработку персональных данных согласно <a href="/policy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span>
       </label>
-      <button type="submit" class="lp-consult-submit" id="lpConsultSubmit">Перезвоните мне</button>
+      <button type="submit" class="lp-consult-submit" id="lpConsultSubmit">Записаться на&nbsp;замер</button>
     </form>
   </div>`;
   requestAnimationFrame(() => bg.classList.add('show'));
