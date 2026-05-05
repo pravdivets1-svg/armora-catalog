@@ -6509,6 +6509,103 @@ body { overscroll-behavior-y: contain; }
   .lp-hero-content,.lp-hero-cascade,.lp-hero-mark,.lp-hero-watermark{ transform: none !important; }
 }
 
+/* ============================================================
+   EDITORIAL INTRO между marquee/stats и каталогом — наш стиль
+   ============================================================ */
+.lp-intro{
+  max-width: 880px;
+  margin: 0 auto clamp(56px, 8vh, 96px);
+  padding: 0 clamp(20px, 4vw, 40px);
+  text-align: center;
+  position: relative;
+}
+.lp-intro-eyebrow{
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: clamp(20px, 3vh, 28px);
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.lp-intro-eyebrow-line{
+  width: 36px; height: 1px;
+  background: var(--gold);
+  opacity: .55;
+  display: inline-block;
+}
+.lp-intro-title{
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(34px, 5.5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  margin: 0 0 clamp(20px, 3vh, 28px);
+}
+.lp-intro-title em{
+  font-style: italic;
+  background: linear-gradient(135deg,#ffffff 0%,#e4e8ee 35%,#9aa3b2 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.lp-intro-sub{
+  font-family: var(--font-sans);
+  font-size: clamp(14px, 1.25vw, 17px);
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 0 auto;
+  max-width: 640px;
+}
+@media(max-width: 600px){
+  .lp-intro{ margin-bottom: 40px; }
+}
+
+/* ============================================================
+   MOBILE FIXES — шатания, touch overlay, safe-area-inset
+   ============================================================ */
+
+/* 1) Убираем горизонтальные «шатания» от full-bleed (100vw + scrollbar) */
+html, body{ overflow-x: clip; }
+.lp-hero, .lp-marquee, .lp-stats{
+  overflow-x: clip;
+  /* clip предпочтительнее hidden — не создаёт scroll-container */
+}
+
+/* 2) Touch-устройства: hover не бывает, поэтому overlay у карточек
+      виден сразу — иначе цена/название не появляются (скрин юзера). */
+@media(hover: none), (pointer: coarse){
+  .lp-hero-card-overlay{
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    background: linear-gradient(180deg, transparent 0%, rgba(6,7,10,.45) 30%, rgba(6,7,10,.92) 100%);
+  }
+  /* Mobile parallax/hover-lift отключены — карты остаются стабильными */
+  .lp-hero-card-1:hover,.lp-hero-card-2:hover,.lp-hero-card-3:hover{
+    transform: none !important;
+  }
+}
+
+/* 3) Safe-area-inset для bottom — кнопки внутри модалок и фильтров
+      не должны прятаться под динамическую плашку iOS Safari */
+.lp-consult-pop{
+  padding-bottom: calc(28px + env(safe-area-inset-bottom)) !important;
+}
+.filters-foot{
+  padding-bottom: calc(12px + env(safe-area-inset-bottom)) !important;
+}
+.v5-foot{
+  padding-bottom: calc(14px + env(safe-area-inset-bottom)) !important;
+}
+/* На v5-lead-pop submit-кнопка тоже должна быть видна */
+.v5-lead-pop{
+  padding-bottom: calc(28px + env(safe-area-inset-bottom)) !important;
+}
+
 /* ---- Mobile (старый блок ниже) ---- */
 @media(max-width: 980px){
   .lp-hero-inner{ grid-template-columns: 1fr; gap: 56px; }
@@ -6809,7 +6906,7 @@ body { overscroll-behavior-y: contain; }
     <div class="lp-hero-inner">
       <div class="lp-hero-content">
         <div class="lp-hero-eyebrow">
-          STEEL · EST. 2018
+          STEEL · EST. 2014
           <span class="lp-hero-dotpulse" aria-hidden="true"></span>
         </div>
         <h1 class="lp-hero-title">
@@ -6900,8 +6997,8 @@ body { overscroll-behavior-y: contain; }
         <span class="lp-stat-label">Дверей<br>установлено</span>
       </div>
       <div class="lp-stat">
-        <span class="lp-stat-num" data-count-to="47">47</span>
-        <span class="lp-stat-label">Проектов<br>в&nbsp;этом месяце</span>
+        <span class="lp-stat-num" data-count-to="67">67</span>
+        <span class="lp-stat-label">Проектов<br>в&nbsp;этом году</span>
       </div>
       <div class="lp-stat">
         <span class="lp-stat-num" data-count-to="12">12</span>
@@ -6910,17 +7007,12 @@ body { overscroll-behavior-y: contain; }
     </div>
   </div>
 
-  <!-- APPLE-STYLE NAVBAR -->
-  <div class="cat-head">
-    <h1 class="cat-title hero-anim">Двери, которые мы <em>уже установили</em></h1>
-    <p class="cat-sub">Каждая дверь в каталоге — <strong>реальная работа нашего завода</strong>. Это не картинки из интернета: эти двери уже стоят в квартирах и домах наших клиентов. Выбирайте готовую конфигурацию — и переходите к точному расчёту. Любую модель адаптируем под ваш проём.</p>
-    <div class="hero-badges">
-      <div class="hero-badge gold"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Гарантия <strong>7 лет</strong></div>
-      <div class="hero-badge green"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Замер <strong>бесплатно</strong></div>
-      <div class="hero-badge warm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>Установка <strong>за 1 день</strong></div>
-      <div class="hero-badge factory"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>Производство в <strong>Клину</strong></div>
-    </div>
-  </div>
+  <!-- ===== EDITORIAL INTRO ===== -->
+  <section class="lp-intro" aria-label="О каталоге">
+    <div class="lp-intro-eyebrow"><span class="lp-intro-eyebrow-line"></span>Каталог</div>
+    <h2 class="lp-intro-title">Двери, которые мы <em>уже&nbsp;установили</em></h2>
+    <p class="lp-intro-sub">Каждая модель в&nbsp;каталоге — реальная работа нашего завода. Не картинки из&nbsp;интернета: эти двери стоят в&nbsp;квартирах и&nbsp;домах наших клиентов. Выбирайте готовую конфигурацию или адаптируем под ваш проём.</p>
+  </section>
 
   <div class="toolbar">
     <div class="search">
