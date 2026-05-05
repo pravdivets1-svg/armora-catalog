@@ -16,7 +16,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--font-sans);min-height:100%}
-  body{padding:48px 24px;max-width:920px;margin:0 auto}
+  body{padding:48px 24px 140px;max-width:920px;margin:0 auto}
 
   h1{font-family:var(--font-display);font-style:italic;font-weight:500;font-size:48px;line-height:1;letter-spacing:-.02em;margin-bottom:12px}
   h1 em{background:linear-gradient(135deg,#fff 0%,#e4e8ee 50%,#9aa3b2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
@@ -29,46 +29,48 @@
   }
   section h2{
     font-family:var(--font-sans);font-size:11px;letter-spacing:.28em;text-transform:uppercase;
-    color:var(--gold);font-weight:600;margin-bottom:20px;display:flex;align-items:center;gap:12px;
+    color:var(--gold);font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:12px;
   }
   section h2::before{content:"";width:24px;height:1px;background:var(--gold);opacity:.5}
+  section .step-hint{color:var(--ink-faint);font-size:12.5px;margin:6px 0 18px;line-height:1.5}
 
   .row{display:grid;grid-template-columns:160px 1fr;gap:16px;align-items:flex-start;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--bdr)}
   .row:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
   label.field-name{font-size:13px;color:var(--ink-soft);padding-top:10px;font-weight:500}
   label.field-name .req{color:var(--sage);margin-left:4px}
 
-  input[type=text],input[type=number]{
+  input[type=text]{
     width:100%;background:var(--panel2);border:1px solid var(--bdr-h);border-radius:8px;
     padding:10px 12px;color:var(--ink);font:14px var(--font-sans);outline:none;transition:border-color .15s;
   }
-  input[type=text]:focus,input[type=number]:focus{border-color:var(--gold)}
+  input[type=text]:focus{border-color:var(--gold)}
   input::placeholder{color:#4a505c}
 
   .opts{display:flex;flex-wrap:wrap;gap:8px}
-  .opt{
-    position:relative;
-    cursor:pointer;
-    user-select:none;
-  }
+  .opt{position:relative;cursor:pointer;user-select:none}
   .opt input{position:absolute;opacity:0;pointer-events:none}
   .opt span{
-    display:inline-block;padding:8px 14px;border:1px solid var(--bdr-h);border-radius:999px;
+    display:inline-flex;align-items:center;gap:8px;
+    padding:9px 14px;border:1px solid var(--bdr-h);border-radius:999px;
     font-size:13px;color:var(--ink-soft);background:var(--panel2);transition:all .15s;
     line-height:1.2;
   }
+  .opt span .opt-price{color:var(--gold);font-weight:600;font-size:11.5px;font-variant-numeric:tabular-nums;letter-spacing:.02em;opacity:.8}
+  .opt span .opt-price.zero{color:var(--sage);opacity:1}
   .opt:hover span{border-color:var(--gold);color:var(--ink)}
-  .opt input:checked + span{
-    background:var(--ink);color:#0a0a0a;border-color:var(--ink);font-weight:600;
-  }
+  .opt input:checked + span{background:var(--ink);color:#0a0a0a;border-color:var(--ink);font-weight:600}
+  .opt input:checked + span .opt-price{color:rgba(10,10,10,.7)}
+  .opt input:checked + span .opt-price.zero{color:rgba(10,10,10,.7)}
 
-  .opt-color{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 6px}
-  .opt-color span::before{content:"";display:inline-block;width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.2);vertical-align:-4px;margin-right:8px}
+  .opt-color{}
+  .opt-color span::before{content:"";display:inline-block;width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.2)}
   .opt-color[data-c=graphite] span::before{background:#3a3d44}
   .opt-color[data-c=cream] span::before{background:#e8d8b8}
   .opt-color[data-c=walnut] span::before{background:#5a3a28}
   .opt-color[data-c=venge] span::before{background:#1a1614}
   .opt-color[data-c=white] span::before{background:#f5f5f0}
+  .opt-color[data-c=black] span::before{background:#08080a}
+  .opt-color[data-c=oak] span::before{background:#c89968}
 
   .photo-drop{
     border:2px dashed var(--bdr-strong);border-radius:14px;padding:28px;text-align:center;
@@ -82,19 +84,30 @@
   .photo-preview img{max-width:240px;max-height:300px;border-radius:10px;border:1px solid var(--bdr-h)}
   .photo-preview .name{font-size:12px;color:var(--ink-faint);margin-top:8px}
 
-  .actions{
-    position:sticky;bottom:0;background:linear-gradient(180deg,transparent 0%,var(--bg) 30%);
-    padding:24px 0 12px;margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;
+  /* Sticky price footer */
+  .price-bar{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:linear-gradient(180deg,rgba(6,7,10,.85),rgba(6,7,10,.97));
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-top:1px solid var(--bdr-h);padding:18px 24px;
   }
+  .price-bar-inner{max-width:920px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .price-bar-label{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+  .price-bar-val{
+    font-family:var(--font-display);font-style:italic;font-weight:500;font-size:36px;line-height:1;
+    background:linear-gradient(135deg,#fff 0%,#e4e8ee 50%,#9aa3b2 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+  }
+  .price-bar-actions{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
   .btn{
     background:var(--ink);color:#0a0a0a;border:none;border-radius:999px;
-    padding:14px 28px;font:14.5px/1 var(--font-sans);font-weight:600;cursor:pointer;
+    padding:13px 22px;font:14px/1 var(--font-sans);font-weight:600;cursor:pointer;
     transition:transform .2s, background .2s;
   }
   .btn:hover{background:#fff;transform:translateY(-1px)}
   .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--bdr-h)}
   .btn.ghost:hover{border-color:var(--gold);background:rgba(255,255,255,.04)}
-  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none !important}
 
   .out{
     margin-top:18px;background:#0a0c10;border:1px solid var(--bdr-h);border-radius:12px;
@@ -110,18 +123,16 @@
   .out .note{color:var(--ink-faint);font-size:12px;line-height:1.55;margin-top:10px}
   .out .note strong{color:var(--ink-soft)}
 
-  .err{
-    background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);color:#fca5a5;
-    padding:12px 16px;border-radius:8px;font-size:13px;margin-top:14px;display:none;
-  }
+  .err{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);color:#fca5a5;padding:12px 16px;border-radius:8px;font-size:13px;margin-top:14px;display:none}
   .err.show{display:block}
 
   @media(max-width:640px){
-    body{padding:24px 14px}
+    body{padding:24px 14px 160px}
     h1{font-size:34px}
     .row{grid-template-columns:1fr;gap:8px}
     section{padding:20px 18px 18px}
     label.field-name{padding-top:0}
+    .price-bar-val{font-size:30px}
   }
 </style>
 </head>
@@ -129,8 +140,7 @@
 
 <h1>Добавить <em>дверь</em></h1>
 <p class="lead">
-  Заполни форму, нажми <code>Сгенерировать</code>, скопируй блок и пришли мне в чат вместе с фото.
-  Я добавлю всё в каталог и опубликую — обычно за пару минут.
+  Заполни — цена пересчитается автоматически по той же таблице, что использует калькулятор сайта. Нажми <code>Сгенерировать</code>, скопируй блок и пришли в чат вместе с фото.
 </p>
 
 <form id="form" onsubmit="return false">
@@ -149,7 +159,7 @@
     </div>
   </section>
 
-  <!-- 2. Базовое -->
+  <!-- 2. Базовое (что не влияет на цену) -->
   <section>
     <h2>Базовое</h2>
 
@@ -159,35 +169,16 @@
     </div>
 
     <div class="row">
-      <label class="field-name">Серия<span class="req">*</span></label>
-      <div class="opts" data-name="series" data-required="1">
-        <label class="opt"><input type="radio" name="series" value="Элит" checked><span>Элит</span></label>
-        <label class="opt"><input type="radio" name="series" value="Премиум"><span>Премиум</span></label>
-        <label class="opt"><input type="radio" name="series" value="Базовая"><span>Базовая</span></label>
-      </div>
-    </div>
-
-    <div class="row">
       <label class="field-name">Назначение<span class="req">*</span></label>
-      <div class="opts" data-name="purpose" data-required="1">
+      <div class="opts" data-name="purpose">
         <label class="opt"><input type="radio" name="purpose" value="дом" checked><span>Дом</span></label>
         <label class="opt"><input type="radio" name="purpose" value="квартира"><span>Квартира</span></label>
       </div>
     </div>
 
     <div class="row">
-      <label class="field-name" for="price">Цена «от», ₽<span class="req">*</span></label>
-      <input type="number" id="price" placeholder="89500" min="20000" max="500000" step="100">
-    </div>
-  </section>
-
-  <!-- 3. Конструкция -->
-  <section>
-    <h2>Конструкция</h2>
-
-    <div class="row">
       <label class="field-name">Толщина стали<span class="req">*</span></label>
-      <div class="opts" data-name="metal" data-required="1">
+      <div class="opts" data-name="metal">
         <label class="opt"><input type="radio" name="metal" value="1.5"><span>1.5 мм</span></label>
         <label class="opt"><input type="radio" name="metal" value="1.8" checked><span>1.8 мм</span></label>
         <label class="opt"><input type="radio" name="metal" value="2.0"><span>2.0 мм</span></label>
@@ -195,72 +186,15 @@
     </div>
 
     <div class="row">
-      <label class="field-name">Внешняя отделка<span class="req">*</span></label>
-      <div class="opts" data-name="ext" data-required="1">
-        <label class="opt"><input type="radio" name="ext" value="Порошковое полимерное покрытие" checked><span>Порошковое покрытие</span></label>
-        <label class="opt"><input type="radio" name="ext" value="МДФ"><span>МДФ</span></label>
-        <label class="opt"><input type="radio" name="ext" value="Влагостойкая фанера"><span>Влагостойкая фанера</span></label>
-        <label class="opt"><input type="radio" name="ext" value="3D панель"><span>3D панель</span></label>
-      </div>
-    </div>
-
-    <div class="row">
-      <label class="field-name">Внутренняя отделка<span class="req">*</span></label>
-      <div class="opts" data-name="int" data-required="1">
-        <label class="opt"><input type="radio" name="int" value="МДФ" checked><span>МДФ</span></label>
-        <label class="opt"><input type="radio" name="int" value="3D панель"><span>3D панель</span></label>
-        <label class="opt"><input type="radio" name="int" value="Зеркало"><span>Зеркало</span></label>
-      </div>
-    </div>
-
-    <div class="row">
-      <label class="field-name">Стекло / вставка</label>
-      <div class="opts" data-name="glass">
-        <label class="opt"><input type="radio" name="glass" value="Без вставки" checked><span>Без вставки</span></label>
-        <label class="opt"><input type="radio" name="glass" value="Стеклопакет прямой"><span>Стеклопакет прямой</span></label>
-        <label class="opt"><input type="radio" name="glass" value="Стеклопакет с ковкой"><span>Стеклопакет с ковкой</span></label>
-      </div>
-    </div>
-
-    <div class="row">
-      <label class="field-name">Контур уплотнения</label>
-      <div class="opts" data-name="seal">
-        <label class="opt"><input type="radio" name="seal" value="Двойной контур" checked><span>Двойной</span></label>
-        <label class="opt"><input type="radio" name="seal" value="Тройной контур"><span>Тройной</span></label>
-      </div>
-    </div>
-
-    <div class="row">
-      <label class="field-name">Замки</label>
-      <div class="opts" data-name="lock">
-        <label class="opt"><input type="radio" name="lock" value="2 замка Guardian" checked><span>2× Guardian</span></label>
-        <label class="opt"><input type="radio" name="lock" value="2 замка Kale"><span>2× Kale</span></label>
-        <label class="opt"><input type="radio" name="lock" value="Биометрический"><span>Биометрический</span></label>
-      </div>
-    </div>
-
-    <div class="row">
-      <label class="field-name">Ручка</label>
-      <div class="opts" data-name="handle">
-        <label class="opt"><input type="radio" name="handle" value="Бугельная" checked><span>Бугельная</span></label>
-        <label class="opt"><input type="radio" name="handle" value="MSM"><span>MSM</span></label>
-        <label class="opt"><input type="radio" name="handle" value="Длинная"><span>Длинная</span></label>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. Внешний вид + маркировка -->
-  <section>
-    <h2>Внешний вид и метки</h2>
-
-    <div class="row">
       <label class="field-name">Цвет финиша<span class="req">*</span></label>
-      <div class="opts" data-name="finish_color" data-required="1">
+      <div class="opts" data-name="finish_color">
         <label class="opt opt-color" data-c="graphite"><input type="radio" name="finish_color" value="graphite" checked><span>Графит</span></label>
         <label class="opt opt-color" data-c="cream"><input type="radio" name="finish_color" value="cream"><span>Крем</span></label>
         <label class="opt opt-color" data-c="walnut"><input type="radio" name="finish_color" value="walnut"><span>Орех</span></label>
         <label class="opt opt-color" data-c="venge"><input type="radio" name="finish_color" value="venge"><span>Венге</span></label>
         <label class="opt opt-color" data-c="white"><input type="radio" name="finish_color" value="white"><span>Белый</span></label>
+        <label class="opt opt-color" data-c="black"><input type="radio" name="finish_color" value="black"><span>Чёрный</span></label>
+        <label class="opt opt-color" data-c="oak"><input type="radio" name="finish_color" value="oak"><span>Дуб</span></label>
       </div>
     </div>
 
@@ -275,29 +209,16 @@
     </div>
 
     <div class="row">
-      <label class="field-name">Допы</label>
-      <div class="opts" data-name="extras" data-multi="1">
-        <label class="opt"><input type="checkbox" name="extras" value="Терморазрыв"><span>Терморазрыв</span></label>
-        <label class="opt"><input type="checkbox" name="extras" value="Порог из нержавейки"><span>Порог из нержавейки</span></label>
-        <label class="opt"><input type="checkbox" name="extras" value="Доводчик"><span>Доводчик</span></label>
-        <label class="opt"><input type="checkbox" name="extras" value="Глазок"><span>Глазок</span></label>
-      </div>
-    </div>
-
-    <div class="row">
       <label class="field-name">Габариты</label>
-      <div class="opts" data-name="size_flags" data-multi="1">
+      <div class="opts" data-name="size_flags">
         <label class="opt"><input type="checkbox" name="oversize" value="1"><span>Нестандарт (oversize)</span></label>
         <label class="opt"><input type="checkbox" name="double" value="1"><span>Двустворчатая</span></label>
       </div>
     </div>
   </section>
 
-  <div class="actions">
-    <button type="button" class="btn" id="genBtn">Сгенерировать</button>
-    <button type="button" class="btn ghost" id="resetBtn">Сбросить</button>
-    <span style="color:var(--ink-faint);font-size:12.5px;margin-left:auto">След. id будет назначен автоматически</span>
-  </div>
+  <!-- 3. Параметры → авто-расчёт цены (генерится из CALC_STEPS) -->
+  <div id="calcSections"></div>
 
   <div class="err" id="err"></div>
 
@@ -305,25 +226,159 @@
     <h3>Готово — скопируй и пришли в чат</h3>
     <pre id="outText"></pre>
     <button type="button" class="btn ghost" id="copyBtn">Скопировать</button>
-    <p class="note">
-      <strong>Не забудь приложить фото отдельным файлом</strong> — я переименую его в <code id="photoName">id-1.webp</code> и положу в <code>img/doors/</code>.
-    </p>
+    <p class="note"><strong>Не забудь приложить фото отдельным файлом</strong> — я переименую его в <code id="photoName">id-1.webp</code> и положу в <code>img/doors/</code>.</p>
   </div>
 
 </form>
 
+<!-- Sticky bottom price -->
+<div class="price-bar" role="status" aria-live="polite">
+  <div class="price-bar-inner">
+    <div>
+      <div class="price-bar-label">Стоимость двери</div>
+      <div class="price-bar-val" id="priceVal">0 ₽</div>
+    </div>
+    <div class="price-bar-actions">
+      <button type="button" class="btn ghost" id="resetBtn">Сбросить</button>
+      <button type="button" class="btn" id="genBtn">Сгенерировать</button>
+    </div>
+  </div>
+</div>
+
 <script>
+/* ============================================================
+   ИСТОЧНИК ИСТИНЫ — таблица цен из калькулятора (index.html, CALC_STEPS).
+   Скопирована 1-в-1: ключи / имена / цены должны совпадать,
+   иначе расчёт двери будет расходиться с расчётом сайта.
+   Без install_pkg / install_extras — это монтаж, считаем отдельно.
+   ============================================================ */
+const CALC_STEPS = [
+  {key:'base', title:'Серия двери', single:true,
+   options:[
+    {name:'Эконом',price:12900},
+    {name:'Стандарт',price:24900},
+    {name:'Комфорт',price:34900},
+    {name:'Премиум',price:54900},
+    {name:'Элит',price:89900,checked:true}
+  ]},
+  {key:'ext', title:'Отделка снаружи', single:true,
+   options:[
+    {name:'Порошковое полимерное покрытие',price:4500,checked:true},
+    {name:'Винилискожа',price:2500},
+    {name:'Ламинат',price:4500},
+    {name:'ПВХ',price:6500},
+    {name:'МДФ',price:9500},
+    {name:'Влагостойкая фанера',price:17000},
+    {name:'3D панель',price:27000}
+  ]},
+  {key:'int', title:'Отделка внутри', single:true,
+   options:[
+    {name:'Порошковое полимерное покрытие',price:8000},
+    {name:'Винилискожа',price:2500},
+    {name:'Ламинат',price:4500},
+    {name:'ПВХ',price:6500},
+    {name:'МДФ',price:9500,checked:true},
+    {name:'Влагостойкая фанера',price:17000}
+  ]},
+  {key:'glass', title:'Вставка / стеклопакет', single:true,
+   options:[
+    {name:'Без вставки',price:0,checked:true},
+    {name:'Зеркало',price:5500},
+    {name:'Стеклопакет прямой',price:5500},
+    {name:'Стеклопакет арка',price:7500},
+    {name:'Зеркальная тонировка',price:8500},
+    {name:'Стеклопакет с ковкой',price:12000},
+    {name:'Художественный витраж',price:25000}
+  ]},
+  {key:'seal', title:'Контур уплотнения', single:true,
+   options:[
+    {name:'Одинарный контур',price:0},
+    {name:'Двойной контур',price:2500,checked:true},
+    {name:'Тройной контур',price:12000}
+  ]},
+  {key:'lock', title:'Замок и защита', single:true,
+   options:[
+    {name:'1 замок стандарт',price:0},
+    {name:'2 замка Guardian',price:3500,checked:true},
+    {name:'2 замка Kale',price:6500},
+    {name:'Замок Cisa',price:13000},
+    {name:'Замок Mottura',price:19500},
+    {name:'Биометрический',price:25000}
+  ]},
+  {key:'handle', title:'Ручка и фурнитура', single:true,
+   options:[
+    {name:'MSM',price:0,checked:true},
+    {name:'Apex',price:3000},
+    {name:'Armadillo',price:4500},
+    {name:'Guardian Premium',price:6500},
+    {name:'Бугельная',price:16500}
+  ]},
+  {key:'extras', title:'Дополнительные опции', single:false,
+   options:[
+    {name:'Видеоглазок',price:6500},
+    {name:'Доводчик',price:5500},
+    {name:'Терморазрыв',price:10500},
+    {name:'Порог из нержавейки',price:5500},
+    {name:'Броненакладка',price:5500},
+    {name:'Ночная задвижка',price:3200},
+    {name:'Шумоизоляция',price:5500},
+    {name:'Скрытые петли',price:23000}
+  ]}
+];
+
+/* ---- Render parameter sections ---- */
+function fmt(n){ return new Intl.NumberFormat('ru-RU').format(n); }
+function priceLbl(p){
+  if (p === 0) return '<span class="opt-price zero">включено</span>';
+  if (p < 0)   return `<span class="opt-price zero">−${fmt(-p)} ₽</span>`;
+  return `<span class="opt-price">+${fmt(p)} ₽</span>`;
+}
+const calcRoot = document.getElementById('calcSections');
+CALC_STEPS.forEach((step, idx) => {
+  const sec = document.createElement('section');
+  const inputType = step.single ? 'radio' : 'checkbox';
+  const optsHtml = step.options.map(o => {
+    const id = `${step.key}_${o.name}`.replace(/[^a-z0-9_]/gi,'_');
+    const chk = o.checked ? 'checked' : '';
+    return `<label class="opt"><input type="${inputType}" name="${step.key}" value="${o.name}" data-price="${o.price}" ${chk}>
+      <span><span class="opt-name">${o.name}</span> ${priceLbl(o.price)}</span></label>`;
+  }).join('');
+  sec.innerHTML = `<h2>${step.title}${step.single ? '' : ' · можно несколько'}</h2>
+    <div class="opts" data-step="${step.key}">${optsHtml}</div>`;
+  calcRoot.appendChild(sec);
+});
+
+/* ---- Live price calc ---- */
+const priceVal = document.getElementById('priceVal');
+function calcPrice(){
+  let total = 0;
+  CALC_STEPS.forEach(step => {
+    if (step.single){
+      const sel = document.querySelector(`input[name="${step.key}"]:checked`);
+      if (sel) total += Number(sel.dataset.price) || 0;
+    } else {
+      document.querySelectorAll(`input[name="${step.key}"]:checked`).forEach(el => {
+        total += Number(el.dataset.price) || 0;
+      });
+    }
+  });
+  priceVal.textContent = fmt(total) + ' ₽';
+  return total;
+}
+document.addEventListener('change', e => {
+  if (e.target && e.target.name && CALC_STEPS.some(s => s.key === e.target.name)) calcPrice();
+});
+calcPrice(); // initial
+
+/* ---- Photo drop ---- */
 (function(){
   const photo = document.getElementById('photo');
   const drop = document.getElementById('drop');
   const preview = document.getElementById('preview');
   const previewImg = document.getElementById('previewImg');
   const previewName = document.getElementById('previewName');
-  let photoFile = null;
-
   function handleFile(f){
-    if(!f || !f.type.startsWith('image/')){ return; }
-    photoFile = f;
+    if (!f || !f.type.startsWith('image/')) return;
     const url = URL.createObjectURL(f);
     previewImg.src = url;
     previewName.textContent = f.name + ' · ' + Math.round(f.size/1024) + ' KB';
@@ -333,106 +388,112 @@
   ['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('drag'); }));
   ['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('drag'); }));
   drop.addEventListener('drop', e => handleFile(e.dataTransfer.files[0]));
+})();
 
-  const err = document.getElementById('err');
-  const out = document.getElementById('out');
-  const outText = document.getElementById('outText');
-  const photoName = document.getElementById('photoName');
+/* ---- Generate output ---- */
+const err = document.getElementById('err');
+const out = document.getElementById('out');
+const outText = document.getElementById('outText');
+const photoName = document.getElementById('photoName');
 
-  function showErr(msg){
-    err.textContent = msg;
-    err.classList.add('show');
-    out.classList.remove('show');
-  }
-  function clearErr(){ err.classList.remove('show'); }
+function showErr(msg){ err.textContent = msg; err.classList.add('show'); out.classList.remove('show'); }
+function clearErr(){ err.classList.remove('show'); }
 
-  function val(name){ const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ''; }
-  function vals(name){ return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value); }
+function vget(n){ const el = document.querySelector(`input[name="${n}"]:checked`); return el ? el.value : ''; }
+function vmany(n){ return Array.from(document.querySelectorAll(`input[name="${n}"]:checked`)).map(el => el.value); }
 
-  document.getElementById('genBtn').addEventListener('click', () => {
-    clearErr();
-    const name = document.getElementById('name').value.trim();
-    const price = Number(document.getElementById('price').value);
+document.getElementById('genBtn').addEventListener('click', () => {
+  clearErr();
+  const name = document.getElementById('name').value.trim();
+  if (!name){ showErr('Заполни название.'); return; }
 
-    if(!name){ showErr('Заполни название.'); return; }
-    if(!price || price < 1000){ showErr('Цена должна быть числом ≥ 1000.'); return; }
-    const series = val('series'), purpose = val('purpose'), metal = val('metal');
-    const ext = val('ext'), int_ = val('int'), finish_color = val('finish_color');
-    if(!series || !purpose || !metal || !ext || !int_ || !finish_color){
-      showErr('Не все обязательные поля заполнены.'); return;
-    }
+  const purpose = vget('purpose');
+  const metal = vget('metal');
+  const finish_color = vget('finish_color');
+  const flag = vget('flag') || '';
+  const oversize = !!document.querySelector('input[name="oversize"]:checked');
+  const double = !!document.querySelector('input[name="double"]:checked');
 
-    const glass = val('glass') || 'Без вставки';
-    const seal = val('seal') || 'Двойной контур';
-    const lock = val('lock') || '2 замка Guardian';
-    const handle = val('handle') || 'Бугельная';
-    const flag = val('flag') || '';
-    const extras = vals('extras');
-    const oversize = !!document.querySelector('input[name="oversize"]:checked');
-    const double = !!document.querySelector('input[name="double"]:checked');
+  const series = vget('base');         // имя серии — 'Элит' и т.п.
+  const ext = vget('ext');
+  const int_ = vget('int');
+  const glass = vget('glass') || 'Без вставки';
+  const seal = vget('seal') || 'Двойной контур';
+  const lock = vget('lock') || '2 замка Guardian';
+  const handle = vget('handle') || 'MSM';
+  const extras = vmany('extras');
 
-    // glass-код для index.html DOORS
-    const glassCode = glass === 'Стеклопакет с ковкой' ? 'forge' : (glass === 'Без вставки' ? 'none' : 'rect');
-    const handleCode = handle === 'Бугельная' ? 'long' : (handle === 'MSM' ? 'short' : 'long');
+  const price = calcPrice();
+  if (price < 1000){ showErr('Цена меньше 1000 ₽ — что-то не так с выбором.'); return; }
 
-    const tags = [
-      `Сталь ${metal} мм`,
-      `Панель: ${ext}`,
-      glass !== 'Без вставки' ? glass : null,
-      `Замок: ${lock}`,
-    ].filter(Boolean);
+  // Маппинг для кодов в DOORS массиве (index.html)
+  const glassCode = (glass === 'Стеклопакет с ковкой' || glass === 'Художественный витраж') ? 'forge'
+                  : (glass === 'Без вставки' || glass === 'Зеркало' || glass === 'Зеркальная тонировка') ? 'none'
+                  : 'rect';
+  const handleCode = handle === 'Бугельная' ? 'long' : (handle === 'MSM' ? 'short' : 'long');
 
-    const photoFileName = '__ID__-1.webp';
+  const tags = [
+    `Сталь ${metal} мм`,
+    `Панель: ${ext}`,
+    glass !== 'Без вставки' ? glass : null,
+    `Замок: ${lock.replace('2 замка ', '2× ')}`,
+  ].filter(Boolean);
 
-    const jsonRow = {
-      name, purpose, metal, ext, int: int_, glass, seal, lock, handle,
-      extras, oversize, double, finish_color, flag,
-      popular: 50,
-      photos: 'img/doors/' + photoFileName
-    };
+  const photoFileName = '__ID__-1.webp';
 
-    const doorsRow = {
-      name, series, purpose, price,
-      finish: finish_color, glass: glassCode, handle: handleCode,
-      flag: flag || null, popular: 50, tags
-    };
+  // Запись для doors-armora.json
+  const jsonRow = {
+    name, purpose, metal, ext, int: int_, glass, seal, lock, handle,
+    extras, oversize, double, finish_color, flag,
+    popular: 50,
+    photos: 'img/doors/' + photoFileName
+  };
 
-    const block = `// ====== ARMORA NEW DOOR — пришли это сообщение целиком в чат + прикрепи фото ======
+  // Запись для DOORS массива в index.html
+  const doorsRow = `{name:'${name}', series:'${series}', purpose:'${purpose}', price:${price}, finish:'${finish_color}', glass:'${glassCode}', handle:'${handleCode}', flag:${flag ? "'"+flag+"'" : 'null'}, popular:50, tags:${JSON.stringify(tags)}}`;
+
+  const block = `// ========= ARMORA NEW DOOR =========
 // Имя файла фото после переименования: ${photoFileName}
-// Если фото не WebP — Claude сконвертирует.
+// Автоматически рассчитанная цена: ${fmt(price)} ₽
+// (та же таблица CALC_STEPS, что в калькуляторе сайта)
 
 // 1) В doors-armora.json добавить:
 ${JSON.stringify(jsonRow, null, 2)}
 
 // 2) В DOORS массив index.html добавить:
-{name:'${name}', series:'${series}', purpose:'${purpose}', price:${price}, finish:'${finish_color}', glass:'${glassCode}', handle:'${handleCode}', flag:${flag ? "'"+flag+"'" : 'null'}, popular:50, tags:${JSON.stringify(tags)}}
-
-// id назначит Claude (следующий свободный)
+${doorsRow}
 `;
 
-    outText.textContent = block;
-    photoName.textContent = photoFileName.replace('__ID__','<новый id>');
-    out.classList.add('show');
-    out.scrollIntoView({behavior:'smooth', block:'start'});
-  });
+  outText.textContent = block;
+  photoName.textContent = photoFileName.replace('__ID__','<новый id>');
+  out.classList.add('show');
+  out.scrollIntoView({ behavior:'smooth', block:'start' });
+});
 
-  document.getElementById('copyBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(outText.textContent).then(() => {
-      const b = document.getElementById('copyBtn');
-      const old = b.textContent;
-      b.textContent = 'Скопировано ✓';
-      setTimeout(() => b.textContent = old, 1800);
-    });
+document.getElementById('copyBtn').addEventListener('click', () => {
+  navigator.clipboard.writeText(outText.textContent).then(() => {
+    const b = document.getElementById('copyBtn');
+    const old = b.textContent; b.textContent = 'Скопировано ✓';
+    setTimeout(() => b.textContent = old, 1800);
   });
+});
 
-  document.getElementById('resetBtn').addEventListener('click', () => {
-    document.getElementById('form').reset();
-    photoFile = null;
-    preview.style.display = 'none';
-    out.classList.remove('show');
-    clearErr();
+document.getElementById('resetBtn').addEventListener('click', () => {
+  document.getElementById('form').reset();
+  // recheck defaults marked with `checked: true` in CALC_STEPS
+  CALC_STEPS.forEach(step => {
+    if (!step.single) return;
+    const def = step.options.find(o => o.checked);
+    if (def){
+      const el = document.querySelector(`input[name="${step.key}"][value="${def.name}"]`);
+      if (el) el.checked = true;
+    }
   });
-})();
+  document.getElementById('preview').style.display = 'none';
+  out.classList.remove('show');
+  clearErr();
+  calcPrice();
+});
 </script>
 
 </body>
