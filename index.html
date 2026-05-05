@@ -4415,6 +4415,28 @@ h2.card-name{margin:0;padding:0}
 
 /* === Popovers (option detail) === */
 .v5-pop-bg{
+  /* Попап рендерится в document.body — за пределами [data-v="5"] scope.
+     Дублируем сюда все v5-переменные, иначе var(--v5-*) внутри попапа
+     возвращает undefined → background:transparent, иконки и кнопки
+     становятся невидимыми. */
+  --v5-bg: #f7f4ee;
+  --v5-surface: #ffffff;
+  --v5-surface-2: #fbf9f4;
+  --v5-ink: #15171a;
+  --v5-ink-soft: #525861;
+  --v5-ink-mute: #8a8f97;
+  --v5-bdr: #e8e3d8;
+  --v5-bdr-strong: #d4cdbe;
+  --v5-accent: #1e293b;
+  --v5-accent-2: #0f172a;
+  --v5-accent-tint: #eef1f6;
+  --v5-mocha: #a47864;
+  --v5-mocha-tint: #f1ebe6;
+  --v5-success: #16a34a;
+  --v5-shadow-sm: 0 1px 2px rgba(15,23,42,.04), 0 2px 8px rgba(15,23,42,.04);
+  --v5-shadow: 0 2px 6px rgba(15,23,42,.06), 0 12px 32px rgba(15,23,42,.08);
+  --v5-shadow-lg: 0 4px 12px rgba(15,23,42,.08), 0 24px 60px rgba(15,23,42,.16);
+
   position: fixed;
   inset: 0;
   background: rgba(8,12,22,.78);
@@ -5809,6 +5831,426 @@ body { overscroll-behavior-y: contain; }
   }
 }
 
+/* ============================================================
+   AD-LANDING HERO (для трафика с Я.Директ)
+   Полноэкранный первый экран до основного каталога. Тёмный
+   стиль каталога, серебряная типографика, две CTA.
+   ============================================================ */
+.lp-hero{
+  position: relative;
+  min-height: clamp(560px, 78vh, 780px);
+  margin: 0 calc(-1 * clamp(20px, 2.5vw, 48px)) clamp(48px, 8vh, 96px);
+  padding: clamp(80px, 12vh, 140px) clamp(24px, 4vw, 96px) clamp(40px, 6vh, 80px);
+  background:
+    radial-gradient(ellipse at 75% 30%, rgba(228,232,238,.08), transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(154,163,178,.06), transparent 60%),
+    linear-gradient(180deg, #0b0d12 0%, #07080b 100%);
+  border-bottom: 1px solid var(--bdr);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.lp-hero::before{
+  content:"";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size: 3px 3px;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+.lp-hero-inner{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1480px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 480px);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: center;
+}
+.lp-hero-eyebrow{
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  opacity: .82;
+  margin-bottom: clamp(20px, 3vh, 28px);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.lp-hero-eyebrow::before{
+  content:"";
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+  opacity: .5;
+}
+.lp-hero-title{
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(44px, 7.5vw, 96px);
+  line-height: .98;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  margin: 0 0 clamp(20px, 3vh, 28px);
+}
+.lp-hero-title em{
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold);
+  background: var(--gold-shine);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.lp-hero-sub{
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.4vw, 19px);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 560px;
+  margin: 0 0 clamp(28px, 4vh, 40px);
+  font-weight: 400;
+}
+.lp-hero-cta{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: clamp(28px, 4vh, 40px);
+}
+.lp-hero-btn{
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -.005em;
+  border-radius: 999px;
+  padding: 18px 28px 18px 32px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  transition: transform .25s cubic-bezier(.32,.72,0,1), background .25s ease, border-color .25s ease, color .25s ease;
+  white-space: nowrap;
+}
+.lp-hero-btn:hover{ transform: translateY(-1px); }
+.lp-hero-btn:active{ transform: translateY(0) scale(.98); }
+.lp-hero-btn-primary{
+  background: var(--ink);
+  color: #0a0a0a;
+  border-color: var(--ink);
+  box-shadow: 0 8px 32px rgba(228,232,238,.18);
+}
+.lp-hero-btn-primary:hover{
+  background: #ffffff;
+  border-color: #ffffff;
+}
+.lp-hero-btn-primary .lp-hero-btn-icon{
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(10,10,10,.08);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  margin-right: -10px;
+  transition: transform .35s cubic-bezier(.32,.72,0,1), background .25s ease;
+}
+.lp-hero-btn-primary:hover .lp-hero-btn-icon{
+  transform: translate(2px,-2px) scale(1.05);
+  background: rgba(10,10,10,.14);
+}
+.lp-hero-btn-secondary{
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--bdr-strong);
+}
+.lp-hero-btn-secondary:hover{
+  background: rgba(255,255,255,.04);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+.lp-hero-trust{
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  letter-spacing: -.005em;
+}
+.lp-hero-trust span{ display: inline-flex; align-items: center; gap: 6px; }
+.lp-hero-trust .lp-hero-dot{ opacity: .35; }
+
+/* Декоративная композиция справа: концентрические окружности —
+   отсылка к дверному глазку / замочному кругу. */
+.lp-hero-art{
+  position: relative;
+  aspect-ratio: 1;
+  margin-left: auto;
+  width: 100%;
+  max-width: 480px;
+  pointer-events: none;
+}
+.lp-hero-art-ring{
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(228,232,238,.18);
+  inset: 0;
+}
+.lp-hero-art-ring:nth-child(2){ inset: 8%; border-color: rgba(228,232,238,.12); }
+.lp-hero-art-ring:nth-child(3){ inset: 18%; border-color: rgba(228,232,238,.08); }
+.lp-hero-art-ring:nth-child(4){
+  inset: 32%;
+  border: none;
+  background: radial-gradient(circle, rgba(228,232,238,.08) 0%, transparent 70%);
+}
+.lp-hero-art-ring:nth-child(5){
+  inset: 44%;
+  border: 1px solid var(--bdr-strong);
+  background: linear-gradient(135deg, #1a1d24 0%, #0a0c10 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 12px 48px rgba(0,0,0,.6);
+}
+.lp-hero-art-ring:nth-child(5)::after{
+  content:"A";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(48px, 8vw, 100px);
+  background: var(--gold-shine);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Mobile */
+@media(max-width: 900px){
+  .lp-hero-inner{ grid-template-columns: 1fr; gap: 0; }
+  .lp-hero-art{ display: none; }
+}
+@media(max-width: 600px){
+  .lp-hero{
+    min-height: 100dvh;
+    padding: clamp(96px, 14vh, 140px) 20px clamp(32px, 5vh, 60px);
+    margin: 0 -20px clamp(40px, 6vh, 64px);
+  }
+  .lp-hero-cta{ flex-direction: column; align-items: stretch; }
+  .lp-hero-btn{ justify-content: center; padding: 18px 24px; }
+  .lp-hero-trust{ font-size: 12px; gap: 10px; }
+}
+
+/* Hero entrance animation — gentle fade-up + blur lift */
+.lp-hero-eyebrow,
+.lp-hero-title,
+.lp-hero-sub,
+.lp-hero-cta,
+.lp-hero-trust{
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(8px);
+  animation: lpHeroIn .9s cubic-bezier(.2,.7,.2,1) forwards;
+}
+.lp-hero-title{ animation-delay: .12s; }
+.lp-hero-sub{ animation-delay: .22s; }
+.lp-hero-cta{ animation-delay: .32s; }
+.lp-hero-trust{ animation-delay: .42s; }
+.lp-hero-art{ opacity: 0; animation: lpHeroFade 1.2s cubic-bezier(.2,.7,.2,1) .25s forwards; }
+@keyframes lpHeroIn{
+  to{ opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes lpHeroFade{
+  to{ opacity: 1; }
+}
+@media(prefers-reduced-motion: reduce){
+  .lp-hero-eyebrow,.lp-hero-title,.lp-hero-sub,.lp-hero-cta,.lp-hero-trust,.lp-hero-art{
+    opacity: 1; transform: none; filter: none; animation: none;
+  }
+}
+
+/* ============================================================
+   Модалка консультации (отдельная, в стиле каталога — тёмная)
+   ============================================================ */
+.lp-consult-bg{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s;
+}
+.lp-consult-bg.show{ opacity: 1; pointer-events: auto; }
+.lp-consult-pop{
+  position: relative;
+  background: linear-gradient(180deg, #11141a 0%, #0a0c10 100%);
+  border: 1px solid var(--bdr-strong);
+  border-radius: 22px;
+  width: 100%;
+  max-width: 460px;
+  padding: 36px 32px 28px;
+  box-shadow: 0 30px 100px -20px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.06);
+  transform: scale(.96) translateY(8px);
+  opacity: 0;
+  transition: transform .35s cubic-bezier(.34,1.3,.64,1), opacity .25s;
+}
+.lp-consult-bg.show .lp-consult-pop{ transform: scale(1) translateY(0); opacity: 1; }
+.lp-consult-close{
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--bdr);
+  color: var(--ink-soft);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all .2s;
+}
+.lp-consult-close:hover{ background: rgba(255,255,255,.08); color: var(--ink); }
+.lp-consult-close svg{ width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.4; fill: none; }
+.lp-consult-eyebrow{
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  opacity: .7;
+  margin-bottom: 10px;
+}
+.lp-consult-title{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 1.1;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+.lp-consult-sub{
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 22px;
+}
+.lp-consult-input{
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--bdr);
+  border-radius: 12px;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  transition: border-color .2s, background .2s;
+}
+.lp-consult-input::placeholder{ color: var(--ink-faint); }
+.lp-consult-input:focus{
+  outline: none;
+  border-color: var(--gold);
+  background: rgba(255,255,255,.05);
+}
+.lp-consult-input.err{ border-color: var(--error); animation: lpShake .4s; }
+@keyframes lpShake{
+  0%,100%{ transform: translateX(0); }
+  25%{ transform: translateX(-4px); }
+  75%{ transform: translateX(4px); }
+}
+.lp-consult-err{
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  color: var(--error);
+  min-height: 18px;
+  margin: 4px 0 6px;
+}
+.lp-consult-agree{
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--ink-faint);
+  margin: 6px 0 16px;
+  cursor: pointer;
+}
+.lp-consult-agree input{
+  margin-top: 2px;
+  accent-color: var(--gold);
+  flex-shrink: 0;
+}
+.lp-consult-agree a{ color: var(--ink-soft); text-decoration: underline; }
+.lp-consult-submit{
+  width: 100%;
+  padding: 16px;
+  background: var(--ink);
+  color: #0a0a0a;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .25s;
+}
+.lp-consult-submit:hover:not(:disabled){
+  background: #ffffff;
+  border-color: #ffffff;
+  transform: translateY(-1px);
+}
+.lp-consult-submit:disabled{ opacity: .55; cursor: not-allowed; }
+
+.lp-consult-success{
+  text-align: center;
+  padding: 12px 0 4px;
+}
+.lp-consult-success-icon{
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--sage);
+  color: #0a0a0a;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  margin-bottom: 16px;
+  animation: lpPop .45s cubic-bezier(.34,1.5,.64,1);
+}
+.lp-consult-success-icon svg{ width: 30px; height: 30px; stroke: currentColor; stroke-width: 2.6; fill: none; }
+@keyframes lpPop{
+  0%{ transform: scale(0); opacity: 0; }
+  100%{ transform: scale(1); opacity: 1; }
+}
+.lp-consult-success-title{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 26px;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+.lp-consult-success-sub{
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
 </style>
 </head>
 <body>
@@ -5854,6 +6296,40 @@ body { overscroll-behavior-y: contain; }
 <div class="dots-bg"></div>
 <div class="shell">
 <div class="app">
+
+  <!-- ===== AD-LANDING HERO ===== -->
+  <section class="lp-hero" aria-label="Armora — стальные двери ручной сборки">
+    <div class="lp-hero-inner">
+      <div class="lp-hero-content">
+        <div class="lp-hero-eyebrow">STEEL · EST. 2018</div>
+        <h1 class="lp-hero-title">Входные двери <em>ручной&nbsp;сборки</em></h1>
+        <p class="lp-hero-sub">От замера до установки — 7 дней. Замер бесплатный, точная цена фиксируется в договоре до начала производства.</p>
+        <div class="lp-hero-cta">
+          <button type="button" class="lp-hero-btn lp-hero-btn-primary" onclick="lpScrollToCatalog()">
+            <span>Подобрать свою</span>
+            <span class="lp-hero-btn-icon" aria-hidden="true">↗</span>
+          </button>
+          <button type="button" class="lp-hero-btn lp-hero-btn-secondary" onclick="lpOpenConsult()">
+            Получить консультацию
+          </button>
+        </div>
+        <div class="lp-hero-trust">
+          <span>12 лет на рынке</span>
+          <span class="lp-hero-dot" aria-hidden="true">·</span>
+          <span>Гарантия 7 лет</span>
+          <span class="lp-hero-dot" aria-hidden="true">·</span>
+          <span>Производство в Клину</span>
+        </div>
+      </div>
+      <div class="lp-hero-art" aria-hidden="true">
+        <div class="lp-hero-art-ring"></div>
+        <div class="lp-hero-art-ring"></div>
+        <div class="lp-hero-art-ring"></div>
+        <div class="lp-hero-art-ring"></div>
+        <div class="lp-hero-art-ring"></div>
+      </div>
+    </div>
+  </section>
 
   <!-- APPLE-STYLE NAVBAR -->
   <div class="cat-head">
@@ -7264,6 +7740,87 @@ async function sendToTildaForm(name, phone){
     fd.append('phone',phone);
     await fetch('https://forms.tildaforms.com/v1/submit',{method:'POST',body:fd,mode:'no-cors'});
   }catch(e){}
+}
+
+/* ===== AD-LANDING HERO actions ===== */
+function lpScrollToCatalog(){
+  const target = document.querySelector('.toolbar') || document.querySelector('.cat-head');
+  if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function lpOpenConsult(){
+  let bg = document.getElementById('lpConsultBg');
+  if(!bg){
+    bg = document.createElement('div');
+    bg.id = 'lpConsultBg';
+    bg.className = 'lp-consult-bg';
+    bg.addEventListener('click', e => { if(e.target===bg) lpCloseConsult(); });
+    document.body.appendChild(bg);
+    document.addEventListener('keydown', e => {
+      if(e.key==='Escape' && bg.classList.contains('show')) lpCloseConsult();
+    });
+  }
+  bg.innerHTML = `<div class="lp-consult-pop">
+    <button class="lp-consult-close" onclick="lpCloseConsult()" aria-label="Закрыть">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="lp-consult-eyebrow">Бесплатная консультация</div>
+    <h2 class="lp-consult-title">Перезвоним за 15&nbsp;минут</h2>
+    <p class="lp-consult-sub">Расскажем про серии, варианты отделки и согласуем удобное время бесплатного замера.</p>
+    <form id="lpConsultForm" onsubmit="event.preventDefault();lpSubmitConsult()">
+      <input class="lp-consult-input" id="lpConsultName" placeholder="Ваше имя" type="text" autocomplete="name" required>
+      <input class="lp-consult-input" id="lpConsultPhone" placeholder="+7 (___) ___-__-__" type="tel" autocomplete="tel" required>
+      <div class="lp-consult-err" id="lpConsultErr"></div>
+      <label class="lp-consult-agree">
+        <input type="checkbox" id="lpConsultAgree" checked>
+        <span>Соглашаюсь на обработку персональных данных согласно <a href="/policy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span>
+      </label>
+      <button type="submit" class="lp-consult-submit" id="lpConsultSubmit">Перезвоните мне</button>
+    </form>
+  </div>`;
+  requestAnimationFrame(() => bg.classList.add('show'));
+  setTimeout(() => {
+    const p = document.getElementById('lpConsultPhone');
+    if(p) attachPhoneMask(p);
+    document.getElementById('lpConsultName')?.focus();
+  }, 280);
+}
+function lpCloseConsult(){
+  const bg = document.getElementById('lpConsultBg');
+  if(bg) bg.classList.remove('show');
+}
+async function lpSubmitConsult(){
+  const n = document.getElementById('lpConsultName');
+  const p = document.getElementById('lpConsultPhone');
+  const a = document.getElementById('lpConsultAgree');
+  const errBox = document.getElementById('lpConsultErr');
+  const btn = document.getElementById('lpConsultSubmit');
+  const name = n.value.trim();
+  const phone = p.value.trim();
+  const errs = [];
+  if(!name){ n.classList.add('err'); setTimeout(()=>n.classList.remove('err'),450); errs.push('имя'); }
+  if(phone.replace(/\D/g,'').length<11){ p.classList.add('err'); setTimeout(()=>p.classList.remove('err'),450); errs.push('корректный телефон'); }
+  if(a && !a.checked){ errs.push('согласие на обработку данных'); }
+  if(errs.length){ errBox.textContent = 'Заполните: ' + errs.join(', '); return; }
+  errBox.textContent = '';
+  btn.disabled = true;
+  btn.textContent = 'Отправляем…';
+  try{
+    await sendLeadToBackend({ name, phone, src: 'hero-consult' });
+  }catch(e){ /* sendLeadToBackend сам логирует */ }
+  const bg = document.getElementById('lpConsultBg');
+  if(!bg) return;
+  bg.querySelector('.lp-consult-pop').innerHTML = `
+    <button class="lp-consult-close" onclick="lpCloseConsult()" aria-label="Закрыть">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="lp-consult-success">
+      <div class="lp-consult-success-icon">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="lp-consult-success-title">Заявка принята, ${name}!</div>
+      <p class="lp-consult-success-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong> в рабочее время. Спасибо.</p>
+    </div>`;
 }
 
 async function sendLeadToBackend(payload){
