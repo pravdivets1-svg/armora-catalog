@@ -565,7 +565,7 @@ html.is-scrolling .slide svg{transition:none !important}
 .card-flag.elite{background:linear-gradient(135deg,var(--teal-soft),var(--teal-deep))}
 /* ---- Thermal-break badge ---- */
 .badge-thermo{
-  position:absolute;bottom:10px;left:10px;z-index:4;
+  position:absolute;bottom:10px;left:10px;z-index:10;
   display:flex;align-items:center;gap:5px;
   padding:5px 10px 5px 7px;border-radius:999px;
   background:linear-gradient(135deg,rgba(14,165,233,.18) 0%,rgba(56,189,248,.05) 100%);
@@ -6431,10 +6431,9 @@ body { overscroll-behavior-y: contain; }
 }
 
 /* === Custom cursor над cascade === */
-.lp-hero-cursor{
-  position: fixed;
-  top: 0; left: 0;
+.lp-hero-cursor-inner{
   width: 88px; height: 88px;
+  margin: -44px 0 0 -44px;
   border-radius: 50%;
   background: rgba(244,246,248,.95);
   color: #0a0a0a;
@@ -6447,21 +6446,18 @@ body { overscroll-behavior-y: contain; }
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  z-index: 9999;
   opacity: 0;
-  translate: calc(var(--cx, -200px) - 44px) calc(var(--cy, -200px) - 44px);
-  scale: .55;
-  transition: opacity .25s ease, scale .4s cubic-bezier(.32,.72,0,1);
+  transform: scale(.55);
+  transition: opacity .25s ease, transform .4s cubic-bezier(.32,.72,0,1);
   mix-blend-mode: difference;
   box-shadow: 0 12px 40px rgba(0,0,0,.45);
-  will-change: transform, opacity;
 }
-.lp-hero-cursor.show{
+#lpHeroCursor.show .lp-hero-cursor-inner{
   opacity: 1;
-  scale: 1;
+  transform: scale(1);
 }
-.lp-hero-cursor::after{ content:"↗"; font-size: 14px; margin-left: 4px; }
-@media(hover: none){ .lp-hero-cursor{ display: none !important; } }
+#lpHeroCursor.show .lp-hero-cursor-inner span{ transform: translate(2px,-2px); }
+@media(hover: none){ #lpHeroCursor{ display: none !important; } } }
 
 /* === Stats strip — между marquee и каталогом === */
 .lp-stats{
@@ -7019,7 +7015,7 @@ html, body{ overflow-x: clip; }
         </div>
       </div>
 
-      <div class="lp-hero-cursor" id="lpHeroCursor" aria-hidden="true">Открыть</div>
+      <div id="lpHeroCursor" aria-hidden="true"><div class="lp-hero-cursor-inner">Открыть <span>↗</span></div></div>
     </div>
   </section>
 
@@ -7392,7 +7388,8 @@ const DOORS=[
   {id:61, name:'Равенна', series:'Премиум', purpose:'квартира', price:49400, finish:'graphite', glass:'none', handle:'long', flag:'Новинка', popular:50, images:['img/doors/61-1.webp'], tags:['Сталь 1.5 мм','Панель: МДФ','Двойной контур','Замок: 2× Guardian','Фурнитура: Armadillo']},
   {id:62, name:'Тренто', series:'Премиум', purpose:'квартира', price:54400, finish:'graphite', glass:'none', handle:'long', flag:'Рекомендуем', popular:50, images:['img/doors/62-1.webp'], tags:['Сталь 1.8 мм','Панель: МДФ','Двойной контур','Замок: 2× Guardian','Фурнитура: Armadillo']},
   {id:63, name:'Триест', series:'Элит', purpose:'дом', price:74900, finish:'graphite', glass:'none', handle:'long', flag:null, popular:50, images:['img/doors/63-1.webp'], tags:['Сталь 1.8 мм','Панель: Порошковое полимерное покрытие','Тройной контур','Замок: 2× Guardian','Фурнитура: Armadillo','Терморазрыв','Порог из нержавейки']},
-  {id:64, name:'Бергамо', series:'Элит', purpose:'квартира', price:136680, finish:'graphite', glass:'none', handle:'long', flag:'Элит', popular:50, oversize:true, images:['img/doors/64-1.webp'], tags:['Сталь 1.8 мм','Панель: МДФ','Тройной контур','Замок: Биометрический','Фурнитура: Armadillo','Шумоизоляция','Скрытые петли']}
+  {id:64, name:'Бергамо', series:'Элит', purpose:'квартира', price:136680, finish:'graphite', glass:'none', handle:'long', flag:'Элит', popular:50, oversize:true, images:['img/doors/64-1.webp'], tags:['Сталь 1.8 мм','Панель: МДФ','Тройной контур','Замок: Биометрический','Фурнитура: Armadillo','Шумоизоляция','Скрытые петли']},
+  {id:65, name:'Перуджа', series:'Премиум', purpose:'квартира', price:51900, finish:'graphite', glass:'none', handle:'long', flag:'Рекомендуем', popular:50, images:['img/doors/65-1.webp'], tags:['Сталь 1.5 мм','Панель: МДФ','Двойной контур','Замок: 2× Guardian','Фурнитура: Armadillo','Шумоизоляция']}
 ];
 
 
@@ -7678,7 +7675,8 @@ function cardHtml(d,idx){
       <div class="slides">${imgs.map((s,i)=>slideHtml(s, `${d.name} · серия ${d.series}${imgs.length>1?` (фото ${i+1})`:''}`, i===0, (idx||0)<6)).join('')}</div>
       ${arrowsHtml}
       ${dotsHtml}
-      ${hasThermoBreak?`<div class="badge-thermo" aria-label="Терморазрыв"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="20.66" y1="7" x2="3.34" y2="17"/><line x1="3.34" y1="7" x2="20.66" y2="17"/><line x1="12" y1="4" x2="14.8" y2="4"/><line x1="12" y1="4" x2="9.2" y2="4"/><line x1="12" y1="20" x2="14.8" y2="20"/><line x1="12" y1="20" x2="9.2" y2="20"/><line x1="18.93" y1="8" x2="19.6" y2="9.2"/><line x1="18.93" y1="8" x2="18.2" y2="6.8"/><line x1="5.07" y1="16" x2="5.8" y2="17.2"/><line x1="5.07" y1="16" x2="4.4" y2="14.8"/><line x1="5.07" y1="8" x2="5.8" y2="6.8"/><line x1="5.07" y1="8" x2="4.4" y2="9.2"/><line x1="18.93" y1="16" x2="18.2" y2="17.2"/><line x1="18.93" y1="16" x2="19.6" y2="14.8"/><circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none"/></svg><span class="badge-thermo-label">Терморазрыв</span></div>`:''}
+
+          ${hasThermoBreak?`<div class="badge-thermo badge-thermo--card" aria-label="Терморазрыв"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="20.66" y1="7" x2="3.34" y2="17"/><line x1="3.34" y1="7" x2="20.66" y2="17"/><line x1="12" y1="4" x2="14.8" y2="4"/><line x1="12" y1="4" x2="9.2" y2="4"/><line x1="12" y1="20" x2="14.8" y2="20"/><line x1="12" y1="20" x2="9.2" y2="20"/><line x1="18.93" y1="8" x2="19.6" y2="9.2"/><line x1="18.93" y1="8" x2="18.2" y2="6.8"/><line x1="5.07" y1="16" x2="5.8" y2="17.2"/><line x1="5.07" y1="16" x2="4.4" y2="14.8"/><line x1="5.07" y1="8" x2="5.8" y2="6.8"/><line x1="5.07" y1="8" x2="4.4" y2="9.2"/><line x1="18.93" y1="16" x2="18.2" y2="17.2"/><line x1="18.93" y1="16" x2="19.6" y2="14.8"/><circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none"/></svg><span class="badge-thermo-label">Терморазрыв</span></div>`:''}
     </div>
     <div class="card-body">
       <div class="card-series">Серия · ${d.series}</div>
@@ -8541,10 +8539,7 @@ async function sendToTildaForm(name, phone){
     function moveCursor(){
       cTicking = false;
       const c = cursor();
-      if (c){
-        c.style.setProperty('--cx', cx + 'px');
-        c.style.setProperty('--cy', cy + 'px');
-      }
+      if (c) c.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
     }
     document.addEventListener('mousemove', (e) => {
       cx = e.clientX; cy = e.clientY;
@@ -8554,9 +8549,11 @@ async function sendToTildaForm(name, phone){
       const cas = cascadeEl();
       const cur = cursor();
       if (!cas || !cur) return;
+      document.body.appendChild(cur);
+      cur.style.cssText = 'position:fixed;top:0;left:0;z-index:9999;pointer-events:none;';
       cas.addEventListener('mouseenter', (e) => {
         cx = e.clientX; cy = e.clientY;
-        requestAnimationFrame(moveCursor);
+        cur.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
         cur.classList.add('show');
       });
       cas.addEventListener('mouseleave', () => cur.classList.remove('show'));
