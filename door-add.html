@@ -10,27 +10,21 @@
     --bdr:rgba(255,255,255,.08); --bdr-h:rgba(255,255,255,.16); --bdr-strong:rgba(255,255,255,.24);
     --ink:#f4f6f8; --ink-soft:#a8b0bd; --ink-faint:#7c8290;
     --gold:#e4e8ee; --gold-deep:#9aa3b2;
-    --sage:#5ec88f;
+    --sage:#5ec88f; --amber:#f0a040;
     --font-display:'Cormorant',Georgia,serif;
     --font-sans:'Manrope',system-ui,-apple-system,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--font-sans);min-height:100%}
-  body{padding:48px 24px 140px;max-width:920px;margin:0 auto}
+  body{padding:48px 24px 160px;max-width:920px;margin:0 auto}
 
   h1{font-family:var(--font-display);font-style:italic;font-weight:500;font-size:48px;line-height:1;letter-spacing:-.02em;margin-bottom:12px}
   h1 em{background:linear-gradient(135deg,#fff 0%,#e4e8ee 50%,#9aa3b2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .lead{color:var(--ink-soft);font-size:15px;line-height:1.55;max-width:600px;margin-bottom:48px}
   .lead code{background:var(--panel);padding:2px 6px;border-radius:4px;font-size:12.5px;color:var(--gold)}
 
-  section{
-    background:var(--panel);border:1px solid var(--bdr);border-radius:16px;
-    padding:28px 28px 24px;margin-bottom:18px;
-  }
-  section h2{
-    font-family:var(--font-sans);font-size:11px;letter-spacing:.28em;text-transform:uppercase;
-    color:var(--gold);font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:12px;
-  }
+  section{background:var(--panel);border:1px solid var(--bdr);border-radius:16px;padding:28px 28px 24px;margin-bottom:18px}
+  section h2{font-family:var(--font-sans);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:12px}
   section h2::before{content:"";width:24px;height:1px;background:var(--gold);opacity:.5}
   section .step-hint{color:var(--ink-faint);font-size:12.5px;margin:6px 0 18px;line-height:1.5}
 
@@ -39,44 +33,37 @@
   label.field-name{font-size:13px;color:var(--ink-soft);padding-top:10px;font-weight:500}
   label.field-name .req{color:var(--sage);margin-left:4px}
 
-  input[type=text]{
-    width:100%;background:var(--panel2);border:1px solid var(--bdr-h);border-radius:8px;
-    padding:10px 12px;color:var(--ink);font:14px var(--font-sans);outline:none;transition:border-color .15s;
-  }
-  input[type=text]:focus{border-color:var(--gold)}
-  input::placeholder{color:#4a505c}
-
   .opts{display:flex;flex-wrap:wrap;gap:8px}
   .opt{position:relative;cursor:pointer;user-select:none}
   .opt input{position:absolute;opacity:0;pointer-events:none}
-  .opt span{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:9px 14px;border:1px solid var(--bdr-h);border-radius:999px;
-    font-size:13px;color:var(--ink-soft);background:var(--panel2);transition:all .15s;
-    line-height:1.2;
-  }
+  .opt span{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid var(--bdr-h);border-radius:999px;font-size:13px;color:var(--ink-soft);background:var(--panel2);transition:all .15s;line-height:1.2}
   .opt span .opt-price{color:var(--gold);font-weight:600;font-size:11.5px;font-variant-numeric:tabular-nums;letter-spacing:.02em;opacity:.8}
   .opt span .opt-price.zero{color:var(--sage);opacity:1}
+  .opt span .opt-price.neg{color:var(--amber);opacity:1}
   .opt:hover span{border-color:var(--gold);color:var(--ink)}
   .opt input:checked + span{background:var(--ink);color:#0a0a0a;border-color:var(--ink);font-weight:600}
-  .opt input:checked + span .opt-price{color:rgba(10,10,10,.7)}
-  .opt input:checked + span .opt-price.zero{color:rgba(10,10,10,.7)}
+  .opt input:checked + span .opt-price,.opt input:checked + span .opt-price.zero,.opt input:checked + span .opt-price.neg{color:rgba(10,10,10,.65)}
 
-  .opt-color{}
-  .opt-color span::before{content:"";display:inline-block;width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.2)}
+  .opt-color span::before{content:"";display:inline-block;width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.2);flex-shrink:0}
   .opt-color[data-c=graphite] span::before{background:#3a3d44}
-  .opt-color[data-c=cream] span::before{background:#e8d8b8}
-  .opt-color[data-c=walnut] span::before{background:#5a3a28}
-  .opt-color[data-c=venge] span::before{background:#1a1614}
-  .opt-color[data-c=white] span::before{background:#f5f5f0}
-  .opt-color[data-c=black] span::before{background:#08080a}
-  .opt-color[data-c=oak] span::before{background:#c89968}
+  .opt-color[data-c=cream]    span::before{background:#e8d8b8}
+  .opt-color[data-c=walnut]   span::before{background:#5a3a28}
+  .opt-color[data-c=venge]    span::before{background:#1a1614}
+  .opt-color[data-c=white]    span::before{background:#f5f5f0;border-color:rgba(255,255,255,.15)}
+  .opt-color[data-c=black]    span::before{background:#08080a}
+  .opt-color[data-c=oak]      span::before{background:#c89968}
+  .opt-color[data-c=concrete] span::before{background:#aaa9a0}
 
-  .photo-drop{
-    border:2px dashed var(--bdr-strong);border-radius:14px;padding:28px;text-align:center;
-    cursor:pointer;transition:all .2s;background:var(--panel2);
-  }
-  .photo-drop:hover, .photo-drop.drag{border-color:var(--gold);background:#1a1d24}
+  /* City auto-gen */
+  .city-gen{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .city-name-display{flex:1;min-width:160px;background:var(--panel2);border:1px solid var(--bdr-h);border-radius:8px;padding:10px 14px;font:18px/1.3 var(--font-display);font-style:italic;color:var(--ink)}
+  .city-lat-hint{font-size:11px;color:var(--ink-faint);margin-top:5px;letter-spacing:.04em}
+  .city-refresh{background:transparent;border:1px solid var(--bdr-h);border-radius:999px;padding:9px 16px;color:var(--ink-soft);font:13px var(--font-sans);cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
+  .city-refresh:hover{border-color:var(--gold);color:var(--ink)}
+
+  /* Photo */
+  .photo-drop{border:2px dashed var(--bdr-strong);border-radius:14px;padding:28px;text-align:center;cursor:pointer;transition:all .2s;background:var(--panel2)}
+  .photo-drop:hover,.photo-drop.drag{border-color:var(--gold);background:#1a1d24}
   .photo-drop input{display:none}
   .photo-drop p{color:var(--ink-soft);font-size:13px;margin-bottom:8px}
   .photo-drop .hint{color:var(--ink-faint);font-size:11.5px;letter-spacing:.04em}
@@ -84,55 +71,46 @@
   .photo-preview img{max-width:240px;max-height:300px;border-radius:10px;border:1px solid var(--bdr-h)}
   .photo-preview .name{font-size:12px;color:var(--ink-faint);margin-top:8px}
 
-  /* Sticky price footer */
-  .price-bar{
-    position:fixed;left:0;right:0;bottom:0;z-index:50;
-    background:linear-gradient(180deg,rgba(6,7,10,.85),rgba(6,7,10,.97));
-    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-    border-top:1px solid var(--bdr-h);padding:18px 24px;
-  }
-  .price-bar-inner{max-width:920px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  .price-bar-label{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);font-weight:600}
-  .price-bar-val{
-    font-family:var(--font-display);font-style:italic;font-weight:500;font-size:36px;line-height:1;
-    background:linear-gradient(135deg,#fff 0%,#e4e8ee 50%,#9aa3b2 100%);
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-    font-variant-numeric:tabular-nums;letter-spacing:-.01em;
-  }
+  /* Install divider */
+  .install-divider{display:flex;align-items:center;gap:14px;margin:32px 0 18px}
+  .install-divider::before,.install-divider::after{content:"";flex:1;height:1px;background:var(--bdr-h)}
+  .install-divider-text{text-align:center;flex-shrink:0}
+  .install-divider-text strong{display:block;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--amber);font-weight:600}
+  .install-divider-text span{display:block;font-size:11px;color:var(--ink-faint);margin-top:2px}
+
+  /* Price bar */
+  .price-bar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:linear-gradient(180deg,rgba(6,7,10,.85),rgba(6,7,10,.97));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--bdr-h);padding:18px 24px}
+  .price-bar-inner{max-width:920px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .price-bar-label{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:2px}
+  .price-bar-val{font-family:var(--font-display);font-style:italic;font-weight:500;font-size:36px;line-height:1;background:linear-gradient(135deg,#fff 0%,#e4e8ee 50%,#9aa3b2 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .price-install{border-left:1px solid var(--bdr-h);padding-left:20px}
+  .price-install-val{font-family:var(--font-display);font-style:italic;font-size:24px;line-height:1;color:var(--amber);font-variant-numeric:tabular-nums}
   .price-bar-actions{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
-  .btn{
-    background:var(--ink);color:#0a0a0a;border:none;border-radius:999px;
-    padding:13px 22px;font:14px/1 var(--font-sans);font-weight:600;cursor:pointer;
-    transition:transform .2s, background .2s;
-  }
+  .btn{background:var(--ink);color:#0a0a0a;border:none;border-radius:999px;padding:13px 22px;font:14px/1 var(--font-sans);font-weight:600;cursor:pointer;transition:transform .2s,background .2s}
   .btn:hover{background:#fff;transform:translateY(-1px)}
   .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--bdr-h)}
   .btn.ghost:hover{border-color:var(--gold);background:rgba(255,255,255,.04)}
 
-  .out{
-    margin-top:18px;background:#0a0c10;border:1px solid var(--bdr-h);border-radius:12px;
-    padding:18px;display:none;
-  }
+  /* Output */
+  .out{margin-top:18px;background:#0a0c10;border:1px solid var(--bdr-h);border-radius:12px;padding:18px;display:none}
   .out.show{display:block}
   .out h3{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:600}
-  .out pre{
-    background:#06070a;border:1px solid var(--bdr);border-radius:8px;padding:14px;
-    color:var(--ink);font:12px/1.55 SF Mono,Consolas,monospace;
-    overflow-x:auto;white-space:pre;margin-bottom:10px;
-  }
-  .out .note{color:var(--ink-faint);font-size:12px;line-height:1.55;margin-top:10px}
+  .out pre{background:#06070a;border:1px solid var(--bdr);border-radius:8px;padding:14px;color:var(--ink);font:12px/1.55 'SF Mono',Consolas,monospace;overflow-x:auto;white-space:pre;margin-bottom:10px}
+  .out-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .out .note{color:var(--ink-faint);font-size:12px;line-height:1.55;margin-top:12px}
   .out .note strong{color:var(--ink-soft)}
 
   .err{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);color:#fca5a5;padding:12px 16px;border-radius:8px;font-size:13px;margin-top:14px;display:none}
   .err.show{display:block}
 
   @media(max-width:640px){
-    body{padding:24px 14px 160px}
+    body{padding:24px 14px 180px}
     h1{font-size:34px}
     .row{grid-template-columns:1fr;gap:8px}
     section{padding:20px 18px 18px}
     label.field-name{padding-top:0}
-    .price-bar-val{font-size:30px}
+    .price-bar-val{font-size:28px}
+    .price-install-val{font-size:18px}
   }
 </style>
 </head>
@@ -140,7 +118,7 @@
 
 <h1>Добавить <em>дверь</em></h1>
 <p class="lead">
-  Заполни — цена пересчитается автоматически по той же таблице, что использует калькулятор сайта. Нажми <code>Сгенерировать</code>, скопируй блок и пришли в чат вместе с фото.
+  Заполни — цена пересчитается по той же таблице, что использует калькулятор. Нажми <code>Сгенерировать</code>: фото автоматически скачается в WebP, скопируй JSON и пришли всё вместе в чат.
 </p>
 
 <form id="form" onsubmit="return false">
@@ -159,18 +137,26 @@
     </div>
   </section>
 
-  <!-- 2. Базовое (что не влияет на цену) -->
+  <!-- 2. Название — авто-город -->
   <section>
-    <h2>Базовое</h2>
-
-    <div class="row">
-      <label class="field-name" for="name">Название<span class="req">*</span></label>
-      <input type="text" id="name" placeholder="Например: Лазурный берег">
+    <h2>Название</h2>
+    <p class="step-hint">Город выбирается автоматически из пула европейских городов (уже использованные 54 исключены). Нажми ↻ чтобы выбрать другой.</p>
+    <div class="city-gen">
+      <div style="flex:1;min-width:160px">
+        <div class="city-name-display" id="cityDisplay">…</div>
+        <div class="city-lat-hint" id="cityLat"></div>
+      </div>
+      <button type="button" class="city-refresh" id="cityRefresh">↻ Другой</button>
     </div>
+  </section>
+
+  <!-- 3. Мета-параметры -->
+  <section>
+    <h2>Характеристики</h2>
 
     <div class="row">
       <label class="field-name">Назначение<span class="req">*</span></label>
-      <div class="opts" data-name="purpose">
+      <div class="opts">
         <label class="opt"><input type="radio" name="purpose" value="дом" checked><span>Дом</span></label>
         <label class="opt"><input type="radio" name="purpose" value="квартира"><span>Квартира</span></label>
       </div>
@@ -178,7 +164,7 @@
 
     <div class="row">
       <label class="field-name">Толщина стали<span class="req">*</span></label>
-      <div class="opts" data-name="metal">
+      <div class="opts">
         <label class="opt"><input type="radio" name="metal" value="1.5"><span>1.5 мм</span></label>
         <label class="opt"><input type="radio" name="metal" value="1.8" checked><span>1.8 мм</span></label>
         <label class="opt"><input type="radio" name="metal" value="2.0"><span>2.0 мм</span></label>
@@ -187,7 +173,7 @@
 
     <div class="row">
       <label class="field-name">Цвет финиша<span class="req">*</span></label>
-      <div class="opts" data-name="finish_color">
+      <div class="opts">
         <label class="opt opt-color" data-c="graphite"><input type="radio" name="finish_color" value="graphite" checked><span>Графит</span></label>
         <label class="opt opt-color" data-c="cream"><input type="radio" name="finish_color" value="cream"><span>Крем</span></label>
         <label class="opt opt-color" data-c="walnut"><input type="radio" name="finish_color" value="walnut"><span>Орех</span></label>
@@ -195,12 +181,13 @@
         <label class="opt opt-color" data-c="white"><input type="radio" name="finish_color" value="white"><span>Белый</span></label>
         <label class="opt opt-color" data-c="black"><input type="radio" name="finish_color" value="black"><span>Чёрный</span></label>
         <label class="opt opt-color" data-c="oak"><input type="radio" name="finish_color" value="oak"><span>Дуб</span></label>
+        <label class="opt opt-color" data-c="concrete"><input type="radio" name="finish_color" value="concrete"><span>Бетон</span></label>
       </div>
     </div>
 
     <div class="row">
-      <label class="field-name">Флаг (необязательно)</label>
-      <div class="opts" data-name="flag">
+      <label class="field-name">Флаг</label>
+      <div class="opts">
         <label class="opt"><input type="radio" name="flag" value="" checked><span>—</span></label>
         <label class="opt"><input type="radio" name="flag" value="Хит"><span>Хит</span></label>
         <label class="opt"><input type="radio" name="flag" value="Новинка"><span>Новинка</span></label>
@@ -210,33 +197,49 @@
 
     <div class="row">
       <label class="field-name">Габариты</label>
-      <div class="opts" data-name="size_flags">
+      <div class="opts">
         <label class="opt"><input type="checkbox" name="oversize" value="1"><span>Нестандарт (oversize)</span></label>
         <label class="opt"><input type="checkbox" name="double" value="1"><span>Двустворчатая</span></label>
       </div>
     </div>
   </section>
 
-  <!-- 3. Параметры → авто-расчёт цены (генерится из CALC_STEPS) -->
+  <!-- 4. Параметры → цена двери (CALC_STEPS 1–8) -->
   <div id="calcSections"></div>
+
+  <!-- 5. Монтаж -->
+  <div class="install-divider">
+    <div class="install-divider-text">
+      <strong>Монтаж и доставка</strong>
+      <span>не входит в стоимость двери — заполни для справки</span>
+    </div>
+  </div>
+  <div id="installSections"></div>
 
   <div class="err" id="err"></div>
 
   <div class="out" id="out">
     <h3>Готово — скопируй и пришли в чат</h3>
     <pre id="outText"></pre>
-    <button type="button" class="btn ghost" id="copyBtn">Скопировать</button>
-    <p class="note"><strong>Не забудь приложить фото отдельным файлом</strong> — я переименую его в <code id="photoName">id-1.webp</code> и положу в <code>img/doors/</code>.</p>
+    <div class="out-actions">
+      <button type="button" class="btn ghost" id="copyBtn">Скопировать JSON</button>
+      <button type="button" class="btn ghost" id="dlAgainBtn" style="display:none">↓ Скачать фото ещё раз</button>
+    </div>
+    <p class="note" id="outNote"></p>
   </div>
 
 </form>
 
-<!-- Sticky bottom price -->
+<!-- Sticky price -->
 <div class="price-bar" role="status" aria-live="polite">
   <div class="price-bar-inner">
     <div>
       <div class="price-bar-label">Стоимость двери</div>
       <div class="price-bar-val" id="priceVal">0 ₽</div>
+    </div>
+    <div class="price-install" id="priceInstallBlock" style="display:none">
+      <div class="price-bar-label">+ монтаж</div>
+      <div class="price-install-val" id="installVal">0 ₽</div>
     </div>
     <div class="price-bar-actions">
       <button type="button" class="btn ghost" id="resetBtn">Сбросить</button>
@@ -247,13 +250,80 @@
 
 <script>
 /* ============================================================
-   ИСТОЧНИК ИСТИНЫ — таблица цен из калькулятора (index.html, CALC_STEPS).
-   Скопирована 1-в-1: ключи / имена / цены должны совпадать,
-   иначе расчёт двери будет расходиться с расчётом сайта.
-   Без install_pkg / install_extras — это монтаж, считаем отдельно.
+   ПУЛЛ ГОРОДОВ
+   54 уже использованных исключены (Прага, Вена, Рим, Милан,
+   Турин, Верона, Сиена, Пиза, Парма, Лукка, Лион, Ницца,
+   Канны, Бордо, Реймс, Тулуза, Авиньон, Версаль, Шамони,
+   Мадрид, Толедо, Гранада, Севилья, Малага, Валенсия,
+   Барселона, Жирона, Порту, Лиссабон, Эвора, Синтра,
+   Брюгге, Гент, Антверпен, Амстердам, Утрехт, Дельфт,
+   Берлин, Мюнхен, Бонн, Кёльн, Дрезден, Лейпциг,
+   Цюрих, Берн, Базель, Люцерн, Женева, Зальцбург,
+   Грац, Линц, Будапешт, Сегед, Печ).
+   ============================================================ */
+const CITY_POOL = [
+  // Италия
+  {ru:'Флоренция',lat:'firenze'},{ru:'Венеция',lat:'venezia'},{ru:'Болонья',lat:'bologna'},
+  {ru:'Неаполь',lat:'napoli'},{ru:'Палермо',lat:'palermo'},{ru:'Генуя',lat:'genova'},
+  {ru:'Падуя',lat:'padova'},{ru:'Равенна',lat:'ravenna'},{ru:'Перуджа',lat:'perugia'},
+  {ru:'Амальфи',lat:'amalfi'},{ru:'Ассизи',lat:'assisi'},
+  // Франция
+  {ru:'Страсбург',lat:'strasbourg'},{ru:'Дижон',lat:'dijon'},{ru:'Руан',lat:'rouen'},
+  {ru:'Марсель',lat:'marseille'},{ru:'Монпелье',lat:'montpellier'},{ru:'Лилль',lat:'lille'},
+  {ru:'Труа',lat:'troyes'},{ru:'Нант',lat:'nantes'},
+  // Португалия
+  {ru:'Коимбра',lat:'coimbra'},{ru:'Брага',lat:'braga'},{ru:'Фаро',lat:'faro'},
+  // Испания
+  {ru:'Кордова',lat:'cordoba'},{ru:'Бильбао',lat:'bilbao'},{ru:'Сан-Себастьян',lat:'san-sebastian'},
+  {ru:'Памплона',lat:'pamplona'},{ru:'Сарагоса',lat:'zaragoza'},{ru:'Вальядолид',lat:'valladolid'},
+  {ru:'Сеговия',lat:'segovia'},
+  // Бельгия
+  {ru:'Брюссель',lat:'brussels'},{ru:'Льеж',lat:'liege'},{ru:'Намюр',lat:'namur'},{ru:'Лёвен',lat:'leuven'},
+  // Нидерланды
+  {ru:'Роттердам',lat:'rotterdam'},{ru:'Гаага',lat:'hague'},{ru:'Харлем',lat:'haarlem'},
+  {ru:'Эйндховен',lat:'eindhoven'},{ru:'Маастрихт',lat:'maastricht'},
+  // Германия
+  {ru:'Гамбург',lat:'hamburg'},{ru:'Франкфурт',lat:'frankfurt'},{ru:'Штутгарт',lat:'stuttgart'},
+  {ru:'Нюрнберг',lat:'nuremberg'},{ru:'Бремен',lat:'bremen'},{ru:'Ганновер',lat:'hannover'},
+  {ru:'Дюссельдорф',lat:'dusseldorf'},{ru:'Гейдельберг',lat:'heidelberg'},{ru:'Любек',lat:'lubeck'},
+  {ru:'Фрайбург',lat:'freiburg'},{ru:'Эрфурт',lat:'erfurt'},{ru:'Аугсбург',lat:'augsburg'},
+  // Австрия
+  {ru:'Инсбрук',lat:'innsbruck'},{ru:'Клагенфурт',lat:'klagenfurt'},
+  // Швейцария
+  {ru:'Лозанна',lat:'lausanne'},{ru:'Монтрё',lat:'montreux'},{ru:'Шаффхаузен',lat:'schaffhausen'},
+  // Венгрия
+  {ru:'Дебрецен',lat:'debrecen'},{ru:'Дьёр',lat:'gyor'},{ru:'Мишкольц',lat:'miskolc'},
+  // Польша
+  {ru:'Краков',lat:'krakow'},{ru:'Варшава',lat:'warsaw'},{ru:'Вроцлав',lat:'wroclaw'},
+  {ru:'Гданьск',lat:'gdansk'},{ru:'Познань',lat:'poznan'},
+  // Чехия
+  {ru:'Брно',lat:'brno'},{ru:'Оломоуц',lat:'olomouc'},{ru:'Пльзень',lat:'plzen'},
+  {ru:'Карловы Вары',lat:'karlovy-vary'},
+  // Словакия
+  {ru:'Братислава',lat:'bratislava'},{ru:'Кошице',lat:'kosice'},
+  // Хорватия
+  {ru:'Загреб',lat:'zagreb'},{ru:'Дубровник',lat:'dubrovnik'},{ru:'Сплит',lat:'split'},{ru:'Ровинь',lat:'rovinj'},
+  // Словения
+  {ru:'Любляна',lat:'ljubljana'},{ru:'Марибор',lat:'maribor'},
+  // Великобритания / Ирландия
+  {ru:'Эдинбург',lat:'edinburgh'},{ru:'Оксфорд',lat:'oxford'},{ru:'Кембридж',lat:'cambridge'},
+  {ru:'Йорк',lat:'york'},{ru:'Бристоль',lat:'bristol'},{ru:'Дублин',lat:'dublin'},{ru:'Голуэй',lat:'galway'},
+  // Скандинавия
+  {ru:'Гётеборг',lat:'gothenburg'},{ru:'Мальмё',lat:'malmo'},{ru:'Уппсала',lat:'uppsala'},
+  {ru:'Копенгаген',lat:'copenhagen'},{ru:'Орхус',lat:'aarhus'},
+  {ru:'Берген',lat:'bergen'},{ru:'Ставангер',lat:'stavanger'},
+  // Прибалтика
+  {ru:'Таллин',lat:'tallinn'},{ru:'Рига',lat:'riga'},{ru:'Вильнюс',lat:'vilnius'},
+  // Прочее
+  {ru:'Монако',lat:'monaco'},{ru:'Ментон',lat:'menton'}
+];
+
+/* ============================================================
+   CALC_STEPS 1–8 — ЦЕНА ДВЕРИ (точная копия из index.html)
    ============================================================ */
 const CALC_STEPS = [
-  {key:'base', title:'Серия двери', single:true,
+  {key:'base',title:'Серия двери',single:true,
+   hint:'Серия определяет конструкцию, толщину металла и комплектацию.',
    options:[
     {name:'Эконом',price:12900},
     {name:'Стандарт',price:24900},
@@ -261,7 +331,8 @@ const CALC_STEPS = [
     {name:'Премиум',price:54900},
     {name:'Элит',price:89900,checked:true}
   ]},
-  {key:'ext', title:'Отделка снаружи', single:true,
+  {key:'ext',title:'Отделка снаружи',single:true,
+   hint:'Эту сторону видят соседи.',
    options:[
     {name:'Порошковое полимерное покрытие',price:4500,checked:true},
     {name:'Винилискожа',price:2500},
@@ -271,7 +342,8 @@ const CALC_STEPS = [
     {name:'Влагостойкая фанера',price:17000},
     {name:'3D панель',price:27000}
   ]},
-  {key:'int', title:'Отделка внутри', single:true,
+  {key:'int',title:'Отделка внутри',single:true,
+   hint:'Сторона, которую видите вы каждый день.',
    options:[
     {name:'Порошковое полимерное покрытие',price:8000},
     {name:'Винилискожа',price:2500},
@@ -280,7 +352,8 @@ const CALC_STEPS = [
     {name:'МДФ',price:9500,checked:true},
     {name:'Влагостойкая фанера',price:17000}
   ]},
-  {key:'glass', title:'Вставка / стеклопакет', single:true,
+  {key:'glass',title:'Вставка / стеклопакет',single:true,
+   hint:'Если не нужен — оставьте «Без вставки».',
    options:[
     {name:'Без вставки',price:0,checked:true},
     {name:'Зеркало',price:5500},
@@ -290,13 +363,15 @@ const CALC_STEPS = [
     {name:'Стеклопакет с ковкой',price:12000},
     {name:'Художественный витраж',price:25000}
   ]},
-  {key:'seal', title:'Контур уплотнения', single:true,
+  {key:'seal',title:'Контуры уплотнения',single:true,
+   hint:'Каждый контур — тишина и тепло.',
    options:[
     {name:'Одинарный контур',price:0},
     {name:'Двойной контур',price:2500,checked:true},
     {name:'Тройной контур',price:12000}
   ]},
-  {key:'lock', title:'Замок и защита', single:true,
+  {key:'lock',title:'Замок и защита',single:true,
+   hint:'От стандартного цилиндра до биометрии.',
    options:[
     {name:'1 замок стандарт',price:0},
     {name:'2 замка Guardian',price:3500,checked:true},
@@ -305,7 +380,8 @@ const CALC_STEPS = [
     {name:'Замок Mottura',price:19500},
     {name:'Биометрический',price:25000}
   ]},
-  {key:'handle', title:'Ручка и фурнитура', single:true,
+  {key:'handle',title:'Ручка и фурнитура',single:true,
+   hint:'Деталь, к которой прикасаетесь тысячи раз в год.',
    options:[
     {name:'MSM',price:0,checked:true},
     {name:'Apex',price:3000},
@@ -313,7 +389,8 @@ const CALC_STEPS = [
     {name:'Guardian Premium',price:6500},
     {name:'Бугельная',price:16500}
   ]},
-  {key:'extras', title:'Дополнительные опции', single:false,
+  {key:'extras',title:'Дополнительные опции',single:false,
+   hint:'Любое количество.',
    options:[
     {name:'Видеоглазок',price:6500},
     {name:'Доводчик',price:5500},
@@ -326,148 +403,258 @@ const CALC_STEPS = [
   ]}
 ];
 
-/* ---- Render parameter sections ---- */
+/* ============================================================
+   INSTALL_STEPS — монтаж и доставка (не входит в цену двери)
+   ============================================================ */
+const INSTALL_STEPS = [
+  {key:'install_pkg',title:'Монтаж и доставка',single:true,
+   hint:'Доставка по Москве в пределах МКАД до подъезда — бесплатно во всех вариантах.',
+   options:[
+    {name:'Доставка + монтаж под ключ',price:8000,checked:true},
+    {name:'Монтаж + демонтаж старой + доставка',price:9000},
+    {name:'Самовывоз из г. Клин',price:-2000}
+  ]},
+  {key:'install_extras',title:'Дополнительные работы',single:false,
+   hint:'Доплачиваются сверх монтажа — только при сложном проёме.',
+   options:[
+    {name:'Доставка за МКАД',price:2500},
+    {name:'Подъём без лифта',price:1500},
+    {name:'Расширение проёма',price:6000},
+    {name:'Утилизация старой двери',price:2500},
+    {name:'Установка портала',price:5000}
+  ]}
+];
+
+/* ---- helpers ---- */
 function fmt(n){ return new Intl.NumberFormat('ru-RU').format(n); }
 function priceLbl(p){
   if (p === 0) return '<span class="opt-price zero">включено</span>';
-  if (p < 0)   return `<span class="opt-price zero">−${fmt(-p)} ₽</span>`;
-  return `<span class="opt-price">+${fmt(p)} ₽</span>`;
+  if (p < 0)   return `<span class="opt-price neg">−${fmt(-p)} ₽</span>`;
+  return `<span class="opt-price">+${fmt(p)} ₽</span>`;
 }
-const calcRoot = document.getElementById('calcSections');
-CALC_STEPS.forEach((step, idx) => {
-  const sec = document.createElement('section');
-  const inputType = step.single ? 'radio' : 'checkbox';
-  const optsHtml = step.options.map(o => {
-    const id = `${step.key}_${o.name}`.replace(/[^a-z0-9_]/gi,'_');
-    const chk = o.checked ? 'checked' : '';
-    return `<label class="opt"><input type="${inputType}" name="${step.key}" value="${o.name}" data-price="${o.price}" ${chk}>
-      <span><span class="opt-name">${o.name}</span> ${priceLbl(o.price)}</span></label>`;
-  }).join('');
-  sec.innerHTML = `<h2>${step.title}${step.single ? '' : ' · можно несколько'}</h2>
-    <div class="opts" data-step="${step.key}">${optsHtml}</div>`;
-  calcRoot.appendChild(sec);
-});
 
-/* ---- Live price calc ---- */
-const priceVal = document.getElementById('priceVal');
-function calcPrice(){
-  let total = 0;
-  CALC_STEPS.forEach(step => {
-    if (step.single){
-      const sel = document.querySelector(`input[name="${step.key}"]:checked`);
-      if (sel) total += Number(sel.dataset.price) || 0;
+/* ---- City auto-generator ---- */
+let currentCity = null;
+const usedIdxs = new Set();
+
+function pickCity(){
+  if (usedIdxs.size >= CITY_POOL.length) usedIdxs.clear();
+  let idx;
+  do { idx = Math.floor(Math.random() * CITY_POOL.length); } while (usedIdxs.has(idx));
+  usedIdxs.add(idx);
+  currentCity = CITY_POOL[idx];
+  document.getElementById('cityDisplay').textContent = currentCity.ru;
+  document.getElementById('cityLat').textContent = 'имя файла: ' + currentCity.lat + '-1.webp';
+}
+
+document.getElementById('cityRefresh').addEventListener('click', pickCity);
+
+/* ---- Render sections ---- */
+function renderSteps(steps, rootId){
+  const root = document.getElementById(rootId);
+  root.innerHTML = '';
+  steps.forEach(step => {
+    const sec = document.createElement('section');
+    const type = step.single ? 'radio' : 'checkbox';
+    const opts = step.options.map(o => {
+      const chk = o.checked ? 'checked' : '';
+      return `<label class="opt"><input type="${type}" name="${step.key}" value="${o.name.replace(/"/g,'&quot;')}" data-price="${o.price}" ${chk}><span>${o.name} ${priceLbl(o.price)}</span></label>`;
+    }).join('');
+    sec.innerHTML = `<h2>${step.title}${step.single ? '' : ' · можно несколько'}</h2>${step.hint ? `<p class="step-hint">${step.hint}</p>` : ''}<div class="opts">${opts}</div>`;
+    root.appendChild(sec);
+  });
+}
+
+renderSteps(CALC_STEPS, 'calcSections');
+renderSteps(INSTALL_STEPS, 'installSections');
+
+/* ---- Live price ---- */
+const priceValEl = document.getElementById('priceVal');
+const installValEl = document.getElementById('installVal');
+const priceInstallBlock = document.getElementById('priceInstallBlock');
+
+function calcDoorPrice(){
+  let t = 0;
+  CALC_STEPS.forEach(s => {
+    if (s.single){
+      const el = document.querySelector(`input[name="${s.key}"]:checked`);
+      if (el) t += +el.dataset.price || 0;
     } else {
-      document.querySelectorAll(`input[name="${step.key}"]:checked`).forEach(el => {
-        total += Number(el.dataset.price) || 0;
-      });
+      document.querySelectorAll(`input[name="${s.key}"]:checked`).forEach(el => t += +el.dataset.price || 0);
     }
   });
-  priceVal.textContent = fmt(total) + ' ₽';
-  return total;
+  priceValEl.textContent = fmt(t) + ' ₽';
+  return t;
 }
+
+function calcInstallPrice(){
+  let t = 0;
+  INSTALL_STEPS.forEach(s => {
+    if (s.single){
+      const el = document.querySelector(`input[name="${s.key}"]:checked`);
+      if (el) t += +el.dataset.price || 0;
+    } else {
+      document.querySelectorAll(`input[name="${s.key}"]:checked`).forEach(el => t += +el.dataset.price || 0);
+    }
+  });
+  if (t > 0){
+    installValEl.textContent = fmt(t) + ' ₽';
+    priceInstallBlock.style.display = '';
+  } else {
+    priceInstallBlock.style.display = 'none';
+  }
+  return t;
+}
+
+function recalc(){ calcDoorPrice(); calcInstallPrice(); }
+
 document.addEventListener('change', e => {
-  if (e.target && e.target.name && CALC_STEPS.some(s => s.key === e.target.name)) calcPrice();
+  if (!e.target?.name) return;
+  const keys = [...CALC_STEPS, ...INSTALL_STEPS].map(s => s.key);
+  if (keys.includes(e.target.name)) recalc();
 });
-calcPrice(); // initial
 
 /* ---- Photo drop ---- */
+let currentPhotoFile = null;
 (function(){
-  const photo = document.getElementById('photo');
+  const inp = document.getElementById('photo');
   const drop = document.getElementById('drop');
   const preview = document.getElementById('preview');
-  const previewImg = document.getElementById('previewImg');
-  const previewName = document.getElementById('previewName');
-  function handleFile(f){
+  const img = document.getElementById('previewImg');
+  const nm = document.getElementById('previewName');
+  function load(f){
     if (!f || !f.type.startsWith('image/')) return;
-    const url = URL.createObjectURL(f);
-    previewImg.src = url;
-    previewName.textContent = f.name + ' · ' + Math.round(f.size/1024) + ' KB';
+    currentPhotoFile = f;
+    img.src = URL.createObjectURL(f);
+    nm.textContent = f.name + ' · ' + Math.round(f.size/1024) + ' KB';
     preview.style.display = 'block';
   }
-  photo.addEventListener('change', e => handleFile(e.target.files[0]));
+  inp.addEventListener('change', e => load(e.target.files[0]));
   ['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('drag'); }));
   ['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('drag'); }));
-  drop.addEventListener('drop', e => handleFile(e.dataTransfer.files[0]));
+  drop.addEventListener('drop', e => load(e.dataTransfer.files[0]));
 })();
 
-/* ---- Generate output ---- */
-const err = document.getElementById('err');
-const out = document.getElementById('out');
+/* ---- WebP download via Canvas ---- */
+function dlWebp(file, filename){
+  return new Promise((res, rej) => {
+    const imgEl = new Image();
+    const url = URL.createObjectURL(file);
+    imgEl.onload = () => {
+      const c = document.createElement('canvas');
+      c.width = imgEl.naturalWidth; c.height = imgEl.naturalHeight;
+      c.getContext('2d').drawImage(imgEl, 0, 0);
+      URL.revokeObjectURL(url);
+      c.toBlob(blob => {
+        if (!blob){ rej(new Error('Браузер не поддерживает WebP')); return; }
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(a.href), 8000);
+        res(filename);
+      }, 'image/webp', 0.92);
+    };
+    imgEl.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Не удалось загрузить фото')); };
+    imgEl.src = url;
+  });
+}
+
+/* ---- Generate ---- */
+const errEl = document.getElementById('err');
+const outEl = document.getElementById('out');
 const outText = document.getElementById('outText');
-const photoName = document.getElementById('photoName');
+const outNote = document.getElementById('outNote');
+const dlAgainBtn = document.getElementById('dlAgainBtn');
 
-function showErr(msg){ err.textContent = msg; err.classList.add('show'); out.classList.remove('show'); }
-function clearErr(){ err.classList.remove('show'); }
-
+function showErr(m){ errEl.textContent = m; errEl.classList.add('show'); outEl.classList.remove('show'); }
+function clearErr(){ errEl.classList.remove('show'); }
 function vget(n){ const el = document.querySelector(`input[name="${n}"]:checked`); return el ? el.value : ''; }
 function vmany(n){ return Array.from(document.querySelectorAll(`input[name="${n}"]:checked`)).map(el => el.value); }
 
-document.getElementById('genBtn').addEventListener('click', () => {
+document.getElementById('genBtn').addEventListener('click', async () => {
   clearErr();
-  const name = document.getElementById('name').value.trim();
-  if (!name){ showErr('Заполни название.'); return; }
+  if (!currentCity){ showErr('Нажми ↻ чтобы сгенерировать название.'); return; }
 
-  const purpose = vget('purpose');
-  const metal = vget('metal');
-  const finish_color = vget('finish_color');
-  const flag = vget('flag') || '';
-  const oversize = !!document.querySelector('input[name="oversize"]:checked');
-  const double = !!document.querySelector('input[name="double"]:checked');
+  const doorPrice = calcDoorPrice();
+  if (doorPrice < 1000){ showErr('Цена меньше 1 000 ₽ — проверь выбор параметров.'); return; }
 
-  const series = vget('base');         // имя серии — 'Элит' и т.п.
-  const ext = vget('ext');
-  const int_ = vget('int');
-  const glass = vget('glass') || 'Без вставки';
-  const seal = vget('seal') || 'Двойной контур';
-  const lock = vget('lock') || '2 замка Guardian';
-  const handle = vget('handle') || 'MSM';
-  const extras = vmany('extras');
+  const name        = currentCity.ru;
+  const photoFile   = currentCity.lat + '-1.webp';
+  const purpose     = vget('purpose');
+  const metal       = vget('metal');
+  const finish_color= vget('finish_color');
+  const flag        = vget('flag') || null;
+  const oversize    = !!document.querySelector('input[name="oversize"]:checked');
+  const isDbl       = !!document.querySelector('input[name="double"]:checked');
+  const series      = vget('base');
+  const ext         = vget('ext');
+  const int_        = vget('int');
+  const glass       = vget('glass') || 'Без вставки';
+  const seal        = vget('seal');
+  const lock        = vget('lock');
+  const handle      = vget('handle');
+  const extras      = vmany('extras');
+  const install_pkg = vget('install_pkg') || null;
+  const install_ex  = vmany('install_extras');
 
-  const price = calcPrice();
-  if (price < 1000){ showErr('Цена меньше 1000 ₽ — что-то не так с выбором.'); return; }
-
-  // Маппинг для кодов в DOORS массиве (index.html)
-  const glassCode = (glass === 'Стеклопакет с ковкой' || glass === 'Художественный витраж') ? 'forge'
-                  : (glass === 'Без вставки' || glass === 'Зеркало' || glass === 'Зеркальная тонировка') ? 'none'
+  // codes for DOORS array
+  const glassCode = (glass==='Стеклопакет с ковкой'||glass==='Художественный витраж') ? 'forge'
+                  : (glass==='Без вставки'||glass==='Зеркало'||glass==='Зеркальная тонировка') ? 'none'
                   : 'rect';
   const handleCode = handle === 'Бугельная' ? 'long' : (handle === 'MSM' ? 'short' : 'long');
 
   const tags = [
     `Сталь ${metal} мм`,
-    `Панель: ${ext}`,
+    `Снаружи: ${ext}`,
     glass !== 'Без вставки' ? glass : null,
-    `Замок: ${lock.replace('2 замка ', '2× ')}`,
+    `Замок: ${lock.replace('2 замка ','2× ')}`,
   ].filter(Boolean);
 
-  const photoFileName = '__ID__-1.webp';
-
-  // Запись для doors-armora.json
   const jsonRow = {
     name, purpose, metal, ext, int: int_, glass, seal, lock, handle,
-    extras, oversize, double, finish_color, flag,
+    extras: extras.length ? extras : [],
+    oversize, double: isDbl, finish_color,
+    flag,
     popular: 50,
-    photos: 'img/doors/' + photoFileName
+    photos: 'img/doors/' + photoFile,
+    install_pkg,
+    install_extras: install_ex.length ? install_ex : [],
+    price: doorPrice
   };
 
-  // Запись для DOORS массива в index.html
-  const doorsRow = `{name:'${name}', series:'${series}', purpose:'${purpose}', price:${price}, finish:'${finish_color}', glass:'${glassCode}', handle:'${handleCode}', flag:${flag ? "'"+flag+"'" : 'null'}, popular:50, tags:${JSON.stringify(tags)}}`;
+  const doorsRow = `{name:'${name}', series:'${series}', purpose:'${purpose}', price:${doorPrice}, finish:'${finish_color}', glass:'${glassCode}', handle:'${handleCode}', flag:${flag ? `'${flag}'` : 'null'}, popular:50, tags:${JSON.stringify(tags)}}`;
 
-  const block = `// ========= ARMORA NEW DOOR =========
-// Имя файла фото после переименования: ${photoFileName}
-// Автоматически рассчитанная цена: ${fmt(price)} ₽
-// (та же таблица CALC_STEPS, что в калькуляторе сайта)
+  outText.textContent =
+`// ========= ARMORA NEW DOOR =========
+// Название:  ${name}
+// Фото:      img/doors/${photoFile}
+// Цена:      ${fmt(doorPrice)} ₽  (монтаж: ${install_pkg || '—'})
 
-// 1) В doors-armora.json добавить:
-${JSON.stringify(jsonRow, null, 2)}
-
-// 2) В DOORS массив index.html добавить:
+// 1) Добавить в DOORS-массив (index.html):
 ${doorsRow}
+
+// 2) Добавить в doors-armora.json:
+${JSON.stringify(jsonRow, null, 2)}
 `;
 
-  outText.textContent = block;
-  photoName.textContent = photoFileName.replace('__ID__','<новый id>');
-  out.classList.add('show');
-  out.scrollIntoView({ behavior:'smooth', block:'start' });
+  // Download photo as WebP
+  dlAgainBtn.style.display = 'none';
+  if (currentPhotoFile){
+    try {
+      await dlWebp(currentPhotoFile, photoFile);
+      outNote.innerHTML = `<strong>Фото скачано</strong> как <code>${photoFile}</code> — положи в <code>img/doors/</code> и пришли JSON в чат.`;
+      dlAgainBtn.style.display = '';
+      dlAgainBtn.onclick = () => dlWebp(currentPhotoFile, photoFile).catch(e => alert(e.message));
+    } catch(e){
+      outNote.innerHTML = `<strong>Не удалось сконвертировать в WebP</strong> (${e.message}). Пришли исходное фото — переименую в <code>${photoFile}</code> сам.`;
+    }
+  } else {
+    outNote.innerHTML = `Фото не добавлено. Пришли его отдельно — назову <code>${photoFile}</code> и положу в <code>img/doors/</code>.`;
+  }
+
+  outEl.classList.add('show');
+  outEl.scrollIntoView({ behavior:'smooth', block:'start' });
 });
 
 document.getElementById('copyBtn').addEventListener('click', () => {
@@ -480,21 +667,26 @@ document.getElementById('copyBtn').addEventListener('click', () => {
 
 document.getElementById('resetBtn').addEventListener('click', () => {
   document.getElementById('form').reset();
-  // recheck defaults marked with `checked: true` in CALC_STEPS
-  CALC_STEPS.forEach(step => {
-    if (!step.single) return;
-    const def = step.options.find(o => o.checked);
-    if (def){
-      const el = document.querySelector(`input[name="${step.key}"][value="${def.name}"]`);
-      if (el) el.checked = true;
-    }
+  currentPhotoFile = null;
+  // restore checked defaults
+  [...CALC_STEPS, ...INSTALL_STEPS].forEach(s => {
+    if (!s.single) return;
+    const def = s.options.find(o => o.checked);
+    if (!def) return;
+    const el = document.querySelector(`input[name="${s.key}"][value="${def.name.replace(/"/g,'\\"')}"]`);
+    if (el) el.checked = true;
   });
   document.getElementById('preview').style.display = 'none';
-  out.classList.remove('show');
+  outEl.classList.remove('show');
+  dlAgainBtn.style.display = 'none';
   clearErr();
-  calcPrice();
+  pickCity();
+  recalc();
 });
-</script>
 
+/* ---- Init ---- */
+pickCity();
+recalc();
+</script>
 </body>
 </html>
