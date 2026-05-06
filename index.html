@@ -6322,21 +6322,6 @@ body { overscroll-behavior-y: contain; }
   z-index: 0;
   white-space: nowrap;
 }
-.lp-hero-watermark::after{
-  content: "ЛЕТ ГАРАНТИИ";
-  position: absolute;
-  right: 16px;
-  bottom: clamp(28px, 4vh, 56px);
-  font-family: var(--font-sans);
-  font-style: normal;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .32em;
-  color: var(--ink-faint);
-  -webkit-text-stroke: 0;
-  text-stroke: 0;
-  opacity: .5;
-}
 @media(max-width: 980px){ .lp-hero-watermark{ display: none; } }
 
 /* Layered overlap: вторая строка заголовка наезжает вправо на cascade */
@@ -7039,7 +7024,7 @@ html, body{ overflow-x: clip; }
         <span class="lp-stat-label">Дверей<br>установлено</span>
       </div>
       <div class="lp-stat">
-        <span class="lp-stat-num" data-count-to="67">67</span>
+        <span class="lp-stat-num" id="statProjects" data-count-base="89" data-count-base-date="2026-05-07">89</span>
         <span class="lp-stat-label">Проектов<br>в&nbsp;этом году</span>
       </div>
       <div class="lp-stat">
@@ -8478,6 +8463,21 @@ async function sendToTildaForm(name, phone){
 (function(){
   if (typeof window === 'undefined') return;
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- Daily project counter: +1 or +2 per day since base date ----
+  (function(){
+    const el = document.getElementById('statProjects');
+    if (!el) return;
+    const baseDate = new Date('2026-05-07T00:00:00');
+    const base = parseInt(el.dataset.countBase, 10) || 89;
+    const now = new Date(); now.setHours(0,0,0,0);
+    const days = Math.max(0, Math.floor((now - baseDate) / 86400000));
+    // alternating: even-index days +1, odd-index days +2 → avg 1.5/day
+    const added = days + Math.floor(days / 2);
+    const count = base + added;
+    el.dataset.countTo = count;
+    el.textContent = count.toLocaleString('ru-RU');
+  })();
 
   // ---- Animated counters (работает даже при reduced-motion — сразу подставляем) ----
   function animateCounters(){
