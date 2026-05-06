@@ -563,6 +563,25 @@ html.is-scrolling .slide svg{transition:none !important}
 .card-flag.hit{background:linear-gradient(135deg,var(--gold-light),var(--gold))}
 .card-flag.new{background:linear-gradient(135deg,var(--sage),var(--sage-deep))}
 .card-flag.elite{background:linear-gradient(135deg,var(--teal-soft),var(--teal-deep))}
+/* ---- Thermal-break badge ---- */
+.badge-thermo{
+  position:absolute;bottom:10px;left:10px;z-index:3;
+  display:flex;align-items:center;gap:5px;
+  padding:5px 10px 5px 7px;border-radius:999px;
+  background:linear-gradient(135deg,rgba(14,165,233,.18) 0%,rgba(56,189,248,.05) 100%);
+  border:1px solid rgba(125,211,252,.22);
+  box-shadow:0 0 20px rgba(14,165,233,.14),inset 0 1px 0 rgba(186,230,253,.1);
+  pointer-events:none;
+}
+.badge-thermo svg{
+  width:13px;height:13px;color:#7dd3fc;flex-shrink:0;
+  animation:badge-cryo 22s linear infinite;
+}
+.badge-thermo-label{
+  font-size:9.5px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:#bae6fd;
+}
+@keyframes badge-cryo{to{transform:rotate(360deg)}}
 
 .card-body{
   padding:16px 18px 16px;display:flex;flex-direction:column;gap:8px;flex:1;
@@ -7619,6 +7638,7 @@ function flagClass(f){
 
 function cardHtml(d,idx){
   const imgs=d.images||[];
+  const hasThermoBreak=(d.tags||[]).includes('Терморазрыв');
   const multi=imgs.length>1;
   const dotsHtml=multi?`<div class="car-dots">${imgs.map((_,i)=>`<button class="car-dot${i===0?' on':''}" data-go="${i}" aria-label="Слайд ${i+1}"></button>`).join('')}</div>`:'';
   const counterHtml=multi?`<div class="car-counter"><span class="cur">1</span>/${imgs.length}</div>`:'';
@@ -7655,6 +7675,7 @@ function cardHtml(d,idx){
       <div class="slides">${imgs.map((s,i)=>slideHtml(s, `${d.name} · серия ${d.series}${imgs.length>1?` (фото ${i+1})`:''}`, i===0, (idx||0)<6)).join('')}</div>
       ${arrowsHtml}
       ${dotsHtml}
+      ${hasThermoBreak?`<div class="badge-thermo" aria-label="Терморазрыв"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="20.66" y1="7" x2="3.34" y2="17"/><line x1="3.34" y1="7" x2="20.66" y2="17"/><line x1="12" y1="4" x2="14.8" y2="4"/><line x1="12" y1="4" x2="9.2" y2="4"/><line x1="12" y1="20" x2="14.8" y2="20"/><line x1="12" y1="20" x2="9.2" y2="20"/><line x1="18.93" y1="8" x2="19.6" y2="9.2"/><line x1="18.93" y1="8" x2="18.2" y2="6.8"/><line x1="5.07" y1="16" x2="5.8" y2="17.2"/><line x1="5.07" y1="16" x2="4.4" y2="14.8"/><line x1="5.07" y1="8" x2="5.8" y2="6.8"/><line x1="5.07" y1="8" x2="4.4" y2="9.2"/><line x1="18.93" y1="16" x2="18.2" y2="17.2"/><line x1="18.93" y1="16" x2="19.6" y2="14.8"/><circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none"/></svg><span class="badge-thermo-label">Терморазрыв</span></div>`:''}
     </div>
     <div class="card-body">
       <div class="card-series">Серия · ${d.series}</div>
