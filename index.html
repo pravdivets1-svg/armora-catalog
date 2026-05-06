@@ -497,15 +497,12 @@ html.is-scrolling .slide svg{transition:none !important}
   position:relative;aspect-ratio:3/4;
   background:#15161a;
   overflow:hidden;
-  /* отдельный композиционный слой — убирает дрожание/перекраску при перелистывании */
-  transform:translateZ(0);
   isolation:isolate;
 }
 .card-img::after{display:none}
 .slides{
   display:flex;width:100%;height:100%;
   transition:transform .45s cubic-bezier(.4,0,.2,1);
-  will-change:transform;
   background:#15161a;
 }
 .slide{
@@ -6430,7 +6427,7 @@ body { overscroll-behavior-y: contain; }
   transition: opacity .25s ease, transform .4s cubic-bezier(.32,.72,0,1);
   mix-blend-mode: difference;
   box-shadow: 0 12px 40px rgba(0,0,0,.45);
-  will-change: top, left, transform, opacity;
+  will-change: transform, opacity;
 }
 .lp-hero-cursor.show{
   opacity: 1;
@@ -7710,7 +7707,12 @@ function bindCarousels(){
     const go=i=>{
       i=Math.max(0,Math.min(len-1,i));
       car.dataset.idx=i;
-      if(slides) slides.style.transform=`translateX(-${i*100}%)`;
+      if(slides){
+        slides.style.willChange='transform';
+        slides.style.transform=`translateX(-${i*100}%)`;
+        const cleanup=()=>{ slides.style.willChange=''; slides.removeEventListener('transitionend',cleanup); };
+        slides.addEventListener('transitionend',cleanup,{once:true});
+      }
       dots.forEach((d,j)=>d.classList.toggle('on',j===i));
       if(counter)counter.textContent=i+1;
       if(prev)prev.classList.toggle('disabled',i===0);
