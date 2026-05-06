@@ -566,19 +566,19 @@ html.is-scrolling .slide svg{transition:none !important}
 /* ---- Thermal-break badge ---- */
 .badge-thermo{
   position:absolute;bottom:10px;left:10px;z-index:10;
-  display:flex;align-items:center;gap:5px;
-  padding:5px 10px 5px 7px;border-radius:999px;
-  background:linear-gradient(135deg,rgba(14,165,233,.18) 0%,rgba(56,189,248,.05) 100%);
-  border:1px solid rgba(125,211,252,.22);
-  box-shadow:0 0 20px rgba(14,165,233,.14),inset 0 1px 0 rgba(186,230,253,.1);
+  display:flex;align-items:center;gap:6px;
+  padding:6px 11px 6px 8px;border-radius:999px;
+  background:rgba(5,16,30,.82);
+  border:1px solid rgba(125,211,252,.45);
+  box-shadow:0 0 18px rgba(14,165,233,.35),inset 0 1px 0 rgba(186,230,253,.18);
   pointer-events:none;
 }
 .badge-thermo svg{
-  width:13px;height:13px;color:#7dd3fc;flex-shrink:0;
+  width:14px;height:14px;color:#7dd3fc;flex-shrink:0;
   animation:badge-cryo 22s linear infinite;
 }
 .badge-thermo-label{
-  font-size:9.5px;font-weight:700;letter-spacing:.09em;
+  font-size:10px;font-weight:700;letter-spacing:.1em;
   text-transform:uppercase;color:#bae6fd;
 }
 @keyframes badge-cryo{to{transform:rotate(360deg)}}
@@ -7645,9 +7645,9 @@ function cardHtml(d,idx){
                               .replace('Панель: ','');
   const glassShort = glassTag.replace('Стеклопакет ','').replace('Стеклопакет','Стеклопакет');
   const purposeText = d.purpose==='дом'?'Частный дом':d.purpose==='квартира'?'Квартира':d.purpose==='тамбур'?'Тамбур':'Офис';
-  // Не дублировать в tags то, что уже показано в specs
+  // Не дублировать в tags то, что уже показано в specs или badge
   const specSet = new Set([steelTag, contourTag, lockTag, panelTag, glassTag].filter(Boolean));
-  const remainTags = (d.tags||[]).filter(t => !specSet.has(t));
+  const remainTags = (d.tags||[]).filter(t => !specSet.has(t) && !(hasThermoBreak && t==='Терморазрыв'));
 
   return `<article class="card reveal" data-id="${d.id}">
     <div class="card-img" data-carousel data-len="${imgs.length}" data-idx="0">
