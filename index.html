@@ -6171,6 +6171,15 @@ body { overscroll-behavior-y: contain; }
   transition: transform .8s cubic-bezier(.32,.72,0,1);
   will-change: transform;
 }
+.lp-hero-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(6,7,10,.30);
+  border-radius:inherit;
+  z-index:1;
+  pointer-events:none;
+}
 .lp-hero-card img{
   display: block;
   width: 100%; height: 100%;
@@ -6424,10 +6433,8 @@ body { overscroll-behavior-y: contain; }
 /* === Custom cursor над cascade === */
 .lp-hero-cursor{
   position: fixed;
-  top: var(--cy, 0);
-  left: var(--cx, 0);
+  top: 0; left: 0;
   width: 88px; height: 88px;
-  margin: -44px 0 0 -44px;     /* центрируем через margin, чтобы transform был свободен */
   border-radius: 50%;
   background: rgba(244,246,248,.95);
   color: #0a0a0a;
@@ -6442,15 +6449,16 @@ body { overscroll-behavior-y: contain; }
   pointer-events: none;
   z-index: 9999;
   opacity: 0;
-  transform: scale(.55);
-  transition: opacity .25s ease, transform .4s cubic-bezier(.32,.72,0,1);
+  translate: calc(var(--cx, -200px) - 44px) calc(var(--cy, -200px) - 44px);
+  scale: .55;
+  transition: opacity .25s ease, scale .4s cubic-bezier(.32,.72,0,1);
   mix-blend-mode: difference;
   box-shadow: 0 12px 40px rgba(0,0,0,.45);
   will-change: transform, opacity;
 }
 .lp-hero-cursor.show{
   opacity: 1;
-  transform: scale(1);
+  scale: 1;
 }
 .lp-hero-cursor::after{ content:"↗"; font-size: 14px; margin-left: 4px; }
 @media(hover: none){ .lp-hero-cursor{ display: none !important; } }
@@ -6971,13 +6979,7 @@ html, body{ overflow-x: clip; }
           <span class="lp-hero-proof-dot">·</span>
           <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Цена в&nbsp;договоре</span>
         </div>
-        <div class="lp-hero-trust">
-          <span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>12 лет на&nbsp;рынке</span>
-          <span class="lp-hero-dot" aria-hidden="true">·</span>
-          <span><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Гарантия 7&nbsp;лет</span>
-          <span class="lp-hero-dot" aria-hidden="true">·</span>
-          <span><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>Производство в&nbsp;Клину</span>
-        </div>
+        
       </div>
 
       <div class="lp-hero-cascade" id="lpHeroCascade">
@@ -8552,7 +8554,11 @@ async function sendToTildaForm(name, phone){
       const cas = cascadeEl();
       const cur = cursor();
       if (!cas || !cur) return;
-      cas.addEventListener('mouseenter', () => cur.classList.add('show'));
+      cas.addEventListener('mouseenter', (e) => {
+        cx = e.clientX; cy = e.clientY;
+        requestAnimationFrame(moveCursor);
+        cur.classList.add('show');
+      });
       cas.addEventListener('mouseleave', () => cur.classList.remove('show'));
     });
   }
