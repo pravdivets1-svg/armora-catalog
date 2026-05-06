@@ -565,7 +565,7 @@ html.is-scrolling .slide svg{transition:none !important}
 .card-flag.elite{background:linear-gradient(135deg,var(--teal-soft),var(--teal-deep))}
 /* ---- Thermal-break badge ---- */
 .badge-thermo{
-  position:absolute;bottom:10px;left:10px;z-index:3;
+  position:absolute;bottom:10px;left:10px;z-index:4;
   display:flex;align-items:center;gap:5px;
   padding:5px 10px 5px 7px;border-radius:999px;
   background:linear-gradient(135deg,rgba(14,165,233,.18) 0%,rgba(56,189,248,.05) 100%);
@@ -7639,7 +7639,7 @@ function flagClass(f){
 
 function cardHtml(d,idx){
   const imgs=d.images||[];
-  const hasThermoBreak=(d.tags||[]).includes('Терморазрыв');
+  const hasThermoBreak=(d.tags||[]).includes('Терморазрыв')||(d.extras||[]).includes('Терморазрыв');
   const multi=imgs.length>1;
   const dotsHtml=multi?`<div class="car-dots">${imgs.map((_,i)=>`<button class="car-dot${i===0?' on':''}" data-go="${i}" aria-label="Слайд ${i+1}"></button>`).join('')}</div>`:'';
   const counterHtml=multi?`<div class="car-counter"><span class="cur">1</span>/${imgs.length}</div>`:'';
