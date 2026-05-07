@@ -98,15 +98,8 @@ html.is-scrolling .cursor-glow{opacity:0}
 .card{contain:layout paint}
 /* При скролле снимаем backdrop-filter с тяжёлых поверхностей,
    но НЕ с карточек — иначе появляется мерцание/смена цвета при перелистывании. */
-html.is-scrolling .filters,
-html.is-scrolling .filter-group,
 html.is-scrolling .mainhead,
 html.is-scrolling .toolbar,
-html.is-scrolling .crumbs,
-html.is-scrolling .catbtn,
-html.is-scrolling .chip,
-html.is-scrolling .flt-check,
-html.is-scrolling .flt-grp,
 html.is-scrolling .calc-bg,
 html.is-scrolling .calc-modal,
 html.is-scrolling .tb-mega,
@@ -430,9 +423,8 @@ html.is-scrolling .slide svg{transition:none !important}
 .chips{display:flex;flex-wrap:wrap;gap:5px}
 .chip{
   padding:6px 11px;border-radius:8px;border:1px solid var(--bdr-h);
-  background:rgba(255,255,255,.5);font-size:11.5px;font-weight:600;color:var(--ink-soft);
-  cursor:pointer;transition:all .22s cubic-bezier(.4,0,.2,1);font-family:var(--font-sans);
-  backdrop-filter:blur(8px);
+  background:rgba(38,40,46,.82);font-size:11.5px;font-weight:600;color:var(--ink-soft);
+  cursor:pointer;transition:background .2s,border-color .2s,color .2s;font-family:var(--font-sans);
 }
 .chip:hover{transform:translateY(-1px);border-color:rgba(228,232,238,.4);color:var(--gold-deep);background:rgba(255,255,255,.8)}
 .chip.on{background:linear-gradient(135deg,var(--gold),var(--gold-deep));border-color:transparent;color:#fff;box-shadow:0 4px 12px -2px rgba(228,232,238,.4)}
