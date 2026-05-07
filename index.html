@@ -5593,26 +5593,121 @@ body{ min-height:100% !important; }
   justify-content: space-between !important;
   align-items: center !important;
 }
-/* Футер с «← Назад» + цена (цена только на мобилке) */
-.v5-foot-back-only {
-  padding: 12px 28px 16px !important;
-  min-height: unset !important;
-  border-top: 1px solid var(--v5-bdr) !important;
-  justify-content: space-between !important;
+/* === Variant B: auto-advance + inline CTA + back-link in header === */
+.v5-back-link {
+  background: transparent;
+  border: 0;
+  color: var(--v5-mocha);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-left: 6px;
+  transition: all .25s cubic-bezier(.32,.72,0,1);
+  background: rgba(164,120,100,.1);
+  border: 1px solid rgba(164,120,100,.2);
 }
-.v5-foot-back-only .v5-foot-nav { justify-content: flex-start; }
-.v5-foot-price-mob { display: none; }
+.v5-back-link:hover {
+  background: rgba(164,120,100,.2);
+  color: var(--v5-ink);
+}
+.v5-kicker { display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+
+.v5-inline-cta {
+  display: block;
+  width: 100%;
+  margin-top: 24px;
+  padding: 16px 28px;
+  background: var(--v5-ink);
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 14.5px;
+  letter-spacing: .01em;
+  cursor: pointer;
+  box-shadow: 0 10px 30px -4px rgba(0,0,0,.32);
+  transition: opacity .35s, transform .35s, box-shadow .35s;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+.v5-inline-cta.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.v5-inline-cta:hover { transform: translateY(-2px); box-shadow: 0 14px 36px -4px rgba(0,0,0,.42); }
+.v5-inline-cta:active { transform: scale(.98); }
+
+.v5-toast {
+  position: fixed;
+  top: max(82px, calc(env(safe-area-inset-top, 0px) + 78px));
+  left: 50%;
+  transform: translateX(-50%) translateY(-12px);
+  background: rgba(15,15,16,.96);
+  color: #fff;
+  padding: 10px 12px 10px 14px;
+  border-radius: 999px;
+  box-shadow: 0 14px 40px -6px rgba(0,0,0,.45);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 250;
+  opacity: 0;
+  transition: all .35s cubic-bezier(.32,.72,0,1);
+  pointer-events: none;
+  max-width: calc(100vw - 24px);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.v5-toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.v5-toast-icon {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(94,200,143,.22);
+  color: #5ec88f;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.v5-toast-icon svg { width: 12px; height: 12px; stroke-width: 3; }
+.v5-toast-txt {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgba(255,255,255,.85);
+}
+.v5-toast-txt strong { color: #fff; font-weight: 700; }
+.v5-toast-cancel {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.18);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s;
+  flex-shrink: 0;
+  letter-spacing: .02em;
+}
+.v5-toast-cancel:hover { background: rgba(255,255,255,.22); }
+
 @media(max-width: 720px){
-  .v5-foot-back-only { padding: 10px 16px 14px !important; }
-  .v5-foot-price-mob {
-    display: block;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 700;
-    font-size: 20px;
-    color: var(--v5-ink);
-    letter-spacing: -.01em;
-  }
+  .v5-inline-cta { padding: 15px 24px; font-size: 14px; }
+  .v5-toast { font-size: 12.5px; padding: 9px 10px 9px 12px; gap: 8px; }
+  .v5-toast-cancel { padding: 5px 10px; font-size: 11px; }
 }
 .v5-foot-back {
   background: rgba(0,0,0,.06) !important;
@@ -5848,22 +5943,9 @@ body { overscroll-behavior-y: contain; }
     overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
   }
-  /* Sticky-кнопка: прилипает к низу видимой зоны модала */
-  .calc-nav{
-    position: sticky !important;
-    bottom: 0 !important;
-    z-index: 10 !important;
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px) !important;
-    background: rgba(15,15,16,.96) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-  }
-  /* v5-foot уже имеет position:sticky;bottom:0 — теперь работает */
+  /* В Variant B нав-кнопок снизу больше нет — оставляем только safe-area */
   .v5-foot{
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px) !important;
-    padding-top: 14px !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 12px) !important;
   }
 }
 
@@ -8371,20 +8453,19 @@ window.__renderCalcV5 = function(total, prevTotal){
   let html = `
   <div class="v5-sticky" id="v5Sticky">
     <button class="v5-back" onclick="closeCalc()" aria-label="Закрыть">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
     <div class="v5-title-block">
-      <div class="v5-kicker"><span>Шаг ${cur+1} из ${totalSteps}</span></div>
+      <div class="v5-kicker">
+        <span>Шаг ${cur+1} из ${totalSteps}</span>
+        ${!isFirst ? `<button class="v5-back-link" onclick="calcPrev()">← Назад</button>` : ''}
+      </div>
       <div class="v5-title">${CALC.door?.name||'Расчёт двери'}</div>
     </div>
     <div class="v5-price-area">
       <div class="v5-price-lbl">Итого</div>
       <div class="v5-price" id="v5Price">${total>0?fmtRu(total):'—'}</div>
     </div>
-    ${isLast
-      ? `<button class="v5-cta v5-cta-last" onclick="v5OpenLead()"><span>Оставить заявку</span></button>`
-      : `<button class="v5-cta" onclick="calcNext()"><span>Продолжить →</span></button>`
-    }
   </div>
 
   <div class="v5-content">
@@ -8422,11 +8503,27 @@ window.__renderCalcV5 = function(total, prevTotal){
     </button>`;
   });
 
-  html+=`</div></div>
+  html+=`</div>`;
 
-  <div class="v5-foot v5-foot-back-only">
-    ${!isFirst ? `<div class="v5-foot-nav"><button class="v5-foot-back" onclick="calcPrev()">← Назад</button></div>` : `<div></div>`}
-    <div class="v5-foot-price-mob">${total>0?fmtRu(total):'—'}</div>
+  // Inline CTA — для multi-select шагов и последнего шага
+  const isMultiStep = step.type === 'multi';
+  const multiList = step.key === 'install_extras' ? (CALC.sel.install_extras||[]) : (CALC.sel.extras||[]);
+  const hasSelection = isMultiStep ? multiList.length > 0 : !!CALC.sel[step.key];
+  const showInlineCta = isMultiStep || isLast;
+  if(showInlineCta){
+    const ctaTxt = isLast ? 'Оставить заявку →' : 'Готово →';
+    const ctaAction = isLast ? 'v5OpenLead()' : 'calcNext()';
+    const ctaCls = (hasSelection || isLast) ? 'v5-inline-cta show' : 'v5-inline-cta';
+    html += `<button class="${ctaCls}" onclick="${ctaAction}">${ctaTxt}</button>`;
+  }
+
+  html += `</div>
+
+  <div class="v5-foot">
+    <div class="v5-foot-info">
+      <div class="v5-foot-info-l">Промежуточный итог</div>
+      <div class="v5-foot-info-v" id="v5FootPrice">${total>0?fmtRu(total):'—'}</div>
+    </div>
   </div>`;
 
   body.innerHTML = html;
@@ -8455,8 +8552,46 @@ function v5Select(key, name){
   const step=CALC_STEPS.find(s=>s.key===key);
   const o=step?.options.find(x=>x.name===name);
   if(!o) return;
+  // Сбросить любой текущий auto-advance (если юзер передумал)
+  v5CancelAdvance();
   CALC.sel[key]=o;
   renderCalc();
+  // На последнем шаге не продвигаемся — пользователь жмёт inline-CTA
+  const isLast = CALC.cur === CALC_STEPS.length - 1;
+  if(isLast) return;
+  // Запускаем toast + таймер 1.5с
+  v5ShowAdvanceToast(o.name);
+  CALC._advanceTimer = setTimeout(()=>{
+    CALC._advanceTimer = null;
+    v5DismissToast();
+    calcNext();
+  }, 1500);
+}
+function v5CancelAdvance(){
+  if(CALC._advanceTimer){
+    clearTimeout(CALC._advanceTimer);
+    CALC._advanceTimer = null;
+  }
+  v5DismissToast();
+}
+function v5ShowAdvanceToast(optionName){
+  let t = document.getElementById('v5Toast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'v5Toast';
+    t.className = 'v5-toast';
+    document.body.appendChild(t);
+  }
+  t.innerHTML = `
+    <span class="v5-toast-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+    <span class="v5-toast-txt"><strong>${optionName}</strong> · переход через 1.5с</span>
+    <button class="v5-toast-cancel" onclick="v5CancelAdvance()">Отменить</button>
+  `;
+  requestAnimationFrame(()=>t.classList.add('show'));
+}
+function v5DismissToast(){
+  const t = document.getElementById('v5Toast');
+  if(t) t.classList.remove('show');
 }
 function v5ToggleExtra(key, name, btn){
   const step = CALC_STEPS.find(s=>s.key===key);
