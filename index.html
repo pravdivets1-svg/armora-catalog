@@ -897,7 +897,7 @@ html.is-scrolling .slide svg{transition:none !important}
 
 @media(max-width:680px){
   .calc-bg{padding:0;align-items:stretch}
-  .calc-modal{border-radius:0;min-height:100vh}
+  .calc-modal{border-radius:0}
   .calc-head{padding:14px 18px}
   .calc-prog{padding:0 18px 12px}
   .calc-body{padding:22px 18px}
@@ -5799,26 +5799,49 @@ body { overscroll-behavior-y: contain; }
   }
 }
 
-/* ===== FIX: Safari iOS — кнопка "Далее" за тулбаром =====
-   Корень: inset:0 на .calc-bg = 100vh, Safari не включает свой toolbar в dvh.
-   Решение: ограничить overlay ровно видимым экраном через 100dvh,
-   calc-nav получает env(safe-area-inset-bottom) для home indicator. */
+/* ===== Вариант 4: sticky-кнопка внутри скроллируемого модала =====
+   Скролл переносим с .calc-bg на .calc-modal — тогда position:sticky
+   на .calc-nav и .v5-foot начинает работать корректно.
+   .calc-bg становится статичным контейнером фиксированной высоты (100svh),
+   .calc-modal сам прокручивает свой контент. */
 @media(max-width: 900px){
+  /* Overlay — только фон, не скроллит */
   .calc-bg{
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
     bottom: auto !important;
-    height: 100vh !important;   /* fallback: старые браузеры */
-    height: 100dvh !important;  /* dynamic: пересчитывается при скрытии toolbar */
-    height: 100svh !important;  /* small (worst-case): toolbar всегда видим */
+    height: 100vh !important;
+    height: 100dvh !important;
+    height: 100svh !important;
+    overflow: hidden !important;
   }
-  .calc-nav {
+  /* Модал — теперь скроллит сам */
+  .calc-modal{
+    height: 100vh !important;
+    height: 100dvh !important;
+    height: 100svh !important;
+    min-height: unset !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  /* Sticky-кнопка: прилипает к низу видимой зоны модала */
+  .calc-nav{
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 10 !important;
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px) !important;
+    background: rgba(15,15,16,.96) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
   }
-  .v5-foot {
+  /* v5-foot уже имеет position:sticky;bottom:0 — теперь работает */
+  .v5-foot{
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px) !important;
     padding-top: 14px !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
   }
 }
 
