@@ -6916,35 +6916,22 @@ html, body{ overflow-x: clip; }
   position:relative;
   z-index:1;
   width:100%;
-  /* clip to one row of cards */
-  max-height:260px;
+  /* clip only the widget's own aggregate header from the top */
   overflow:hidden;
-  padding:0 clamp(24px,4vw,100px) 0;
-  margin-top:clamp(8px,1.5vw,16px);
-  contain:layout paint;
-}
-/* bottom fade — blends into next section */
-.lp-hero-social-proof::after{
-  content:'';
-  position:absolute;
-  bottom:0;left:0;right:0;
-  height:56px;
-  background:linear-gradient(to bottom,transparent,#050609);
-  pointer-events:none;
-  z-index:2;
+  padding:0 clamp(24px,4vw,100px) clamp(16px,2vw,32px);
+  margin-top:0;
 }
 review-lab{
   display:block;
   color-scheme:dark;
+  /* pull up to hide the platform-icons header bar (~72px tall) */
+  margin-top:-72px;
   --rl-bg:transparent;
   --rl-card-bg:rgba(10,12,19,.88);
   --rl-card-border:rgba(255,255,255,.07);
   --rl-text:rgba(228,232,238,.85);
   --rl-star-color:#f5a623;
   --rl-radius:1.25rem;
-}
-@media(max-width:768px){
-  .lp-hero-social-proof{max-height:220px}
 }
 
 </style>
