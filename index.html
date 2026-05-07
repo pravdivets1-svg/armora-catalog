@@ -5853,7 +5853,7 @@ body { overscroll-behavior-y: contain; }
    ============================================================ */
 .lp-hero{
   position: relative;
-  min-height: clamp(520px, 68vh, 700px);
+  min-height: 100dvh;
   /* Full-bleed: вырываем из любого constrained-родителя (.shell имеет max-width).
      50% - 50vw сдвигает левый/правый край ровно к viewport. */
   margin-left: calc(50% - 50vw);
@@ -6911,17 +6911,6 @@ html, body{ overflow-x: clip; }
 }
 
 
-/* ===== Hero social proof (ReviewLab widget) ===== */
-.lp-hero-social-proof{
-  position:relative;
-  z-index:1;
-  width:100%;
-  margin-top:clamp(16px,2vw,28px);
-  padding:0 clamp(24px,4vw,100px) clamp(16px,2vw,32px);
-}
-review-lab{
-  display:block;
-}
 /* Скрываем всё что ReviewLab/внешние скрипты инжектят в body вне .app */
 body>*:not(.app):not(noscript):not(script):not(style){display:none!important}
 /* Возвращаем видимость нашим модалкам когда они открыты */
