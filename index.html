@@ -7041,6 +7041,23 @@ html, body{ overflow-x: clip; }
   .lp-rev-door-tag{display:none}
 }
 
+/* ===== ReviewLab widget wrapper ===== */
+.lp-rev-widget-wrap{
+  width:100%;
+  /* Blend the widget into our dark section */
+  color-scheme:dark;
+}
+/* Force widget background to transparent so our section bg shows through */
+review-lab{
+  display:block;
+  --rl-bg: transparent;
+  --rl-card-bg: rgba(10,12,19,.92);
+  --rl-card-border: rgba(255,255,255,.07);
+  --rl-text: rgba(228,232,238,.85);
+  --rl-star-color: #f5a623;
+  --rl-radius: 1.5rem;
+}
+
 </style>
 </head>
 <body>
@@ -7227,56 +7244,8 @@ html, body{ overflow-x: clip; }
       </div>
     </div>
 
-    <div class="lp-rev-grid">
-
-      <!-- ── Карточка 1 — большая (левая, span 2 rows) ── -->
-      <div class="lp-rev-card lp-rev-card--large" style="transition-delay:.04s">
-        <div class="lp-rev-core">
-          <div class="lp-rev-stars" aria-label="5 звёзд">★★★★★</div>
-          <p class="lp-rev-quote">«Искали дверь полгода — везде или дорого, или сомнительное. Здесь приехал замерщик на следующий день, всё обмерил, объяснил нюансы по проёму. Брюгге поставили ровно за один день, без мусора и переделок. Два года — ни зазора, ни скрипа. Соседи уже спрашивают, где брали.»</p>
-          <div class="lp-rev-meta">
-            <div class="lp-rev-avatar" aria-hidden="true">АК</div>
-            <div>
-              <div class="lp-rev-name">Андрей К.</div>
-              <div class="lp-rev-sub">Красногорск · частный дом</div>
-            </div>
-            <div class="lp-rev-door-tag">Брюгге · Элит</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── Карточка 2 — правая верхняя ── -->
-      <div class="lp-rev-card" style="transition-delay:.14s">
-        <div class="lp-rev-core">
-          <div class="lp-rev-stars" aria-label="5 звёзд">★★★★★</div>
-          <p class="lp-rev-quote">«Заказывала в новостройку. Цену зафиксировали в договоре, никаких доплат по факту не было. Виченца смотрится дорого — соседи думают, дизайнерская.»</p>
-          <div class="lp-rev-meta">
-            <div class="lp-rev-avatar" aria-hidden="true">МС</div>
-            <div>
-              <div class="lp-rev-name">Мария С.</div>
-              <div class="lp-rev-sub">Москва · ЖК Митино</div>
-            </div>
-            <div class="lp-rev-door-tag">Виченца · Элит</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── Карточка 3 — правая нижняя ── -->
-      <div class="lp-rev-card" style="transition-delay:.24s">
-        <div class="lp-rev-core">
-          <div class="lp-rev-stars" aria-label="5 звёзд">★★★★★</div>
-          <p class="lp-rev-quote">«Брал Триест с терморазрывом для загородного дома. Зимой — никакого конденсата на металле, что было с предыдущей дверью. Цена честная, монтаж аккуратный.»</p>
-          <div class="lp-rev-meta">
-            <div class="lp-rev-avatar" aria-hidden="true">ДН</div>
-            <div>
-              <div class="lp-rev-name">Дмитрий Н.</div>
-              <div class="lp-rev-sub">Одинцово · загородный дом</div>
-            </div>
-            <div class="lp-rev-door-tag">Триест · Элит</div>
-          </div>
-        </div>
-      </div>
-
+    <div class="lp-rev-widget-wrap">
+      <review-lab data-widgetid="698b2da7f9cd571b2883bae7"></review-lab>
     </div>
   </section>
 
@@ -9282,17 +9251,6 @@ window.addEventListener('scroll',()=>{
 },{passive:true});
 
 
-  // ── Review cards scroll-reveal ──
-  (function(){
-    var cards = document.querySelectorAll('.lp-rev-card');
-    if(!cards.length) return;
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if(en.isIntersecting){ en.target.classList.add('in-view'); io.unobserve(en.target); }
-      });
-    },{threshold:.18});
-    cards.forEach(function(c){ io.observe(c); });
-  })();
 
   /* === Плавность скролла: глушим тяжёлые эффекты во время прокрутки === */
 (function(){
@@ -9315,5 +9273,6 @@ window.addEventListener('scroll',()=>{
   window.addEventListener('touchmove',onScroll,{passive:true});
 })();
 </script>
+  <script src="https://app.reviewlab.ru/widget/index-es2015.js" defer></script>
 </body>
 </html>
