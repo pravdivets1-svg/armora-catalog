@@ -6911,12 +6911,14 @@ html, body{ overflow-x: clip; }
 }
 
 
-/* Скрываем всё что ReviewLab/внешние скрипты инжектят в body вне .app */
-body>*:not(.app):not(noscript):not(script):not(style){display:none!important}
-/* Возвращаем видимость нашим модалкам когда они открыты */
-#calcBg.show,#lpConsultBg.show,#v5LeadBg.show,
-#cmpDrawer.open,#wishDrawer.open,
-#pdfOverlay{display:block!important}
+/* Виджет отзывов внутри hero */
+.lp-hero-reviews{
+  position:relative;
+  z-index:1;
+  width:100%;
+  padding:0 clamp(24px,4vw,100px) clamp(24px,3vw,48px);
+}
+review-lab{ display:block; }
 </style>
 </head>
 <body>
@@ -7044,6 +7046,10 @@ body>*:not(.app):not(noscript):not(script):not(style){display:none!important}
       <div id="lpHeroCursor" aria-hidden="true"><div class="lp-hero-cursor-inner">Открыть <span>↗</span></div></div>
     </div>
 
+    <!-- ── Отзывы ── -->
+    <div class="lp-hero-reviews" aria-label="Отзывы клиентов">
+      <review-lab data-widgetid="698b2da7f9cd571b2883bae7"></review-lab>
+    </div>
   </section>
 
   <!-- ===== MARQUEE TICKER ===== -->
@@ -9099,5 +9105,6 @@ window.addEventListener('scroll',()=>{
   window.addEventListener('touchmove',onScroll,{passive:true});
 })();
 </script>
+  <script src="https://app.reviewlab.ru/widget/index-es2015.js" defer></script>
 </body>
 </html>
