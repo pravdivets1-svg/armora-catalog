@@ -21,6 +21,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="bg.png">
+<link rel="preload" as="image" href="img/doors/55-1.webp" fetchpriority="high">
+<link rel="preload" as="image" href="img/doors/32-1.webp" fetchpriority="high">
+<link rel="preload" as="image" href="img/doors/60-1.webp">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -5803,13 +5806,15 @@ body { overscroll-behavior-y: contain; }
   }
 }
 
-/* ===== FIX: safe-area-inset-bottom — кнопка "Продолжить" не перекрывается панелью Safari ===== */
+/* ===== FIX: safe-area-inset-bottom — кнопка "Продолжить" не перекрывается панелью Safari =====
+   Safari toolbar (~50px) сидит ВЫШЕ env(safe-area-inset-bottom) (34px, только home-indicator).
+   Итого нужно: safe-area + 50px = ~84px на iPhone X+. */
 @media(max-width: 900px){
   .calc-nav {
-    padding-bottom: max(24px, env(safe-area-inset-bottom)) !important;
+    padding-bottom: max(80px, calc(env(safe-area-inset-bottom, 0px) + 52px)) !important;
   }
   .v5-foot {
-    padding-bottom: max(32px, env(safe-area-inset-bottom)) !important;
+    padding-bottom: max(80px, calc(env(safe-area-inset-bottom, 0px) + 52px)) !important;
     padding-top: 14px !important;
   }
 }
@@ -5926,9 +5931,7 @@ body { overscroll-behavior-y: contain; }
   mask-image:radial-gradient(ellipse 85% 85% at 60% 40%,rgba(0,0,0,.7) 0%,transparent 100%);
 }
 @media(max-width:768px){
-  .lp-hero-orb-3{display:none}
-  .lp-hero-orb-1{width:380px;height:320px;filter:blur(45px)}
-  .lp-hero-orb-2{width:300px;height:260px;filter:blur:50px}
+  .lp-hero-orb-1,.lp-hero-orb-2,.lp-hero-orb-3{display:none}
 }
 
 .lp-hero-inner{
@@ -6660,19 +6663,16 @@ html, body{ overflow-x: clip; }
 }
 
 /* 3) Safe-area-inset для bottom — кнопки внутри модалок и фильтров
-      не должны прятаться под динамическую плашку iOS Safari */
+      не должны прятаться под динамическую плашку iOS Safari.
+      Правило для calc-nav / v5-foot вынесено в @media(max-width:900px) выше. */
 .lp-consult-pop{
-  padding-bottom: calc(28px + env(safe-area-inset-bottom)) !important;
+  padding-bottom: max(72px, calc(env(safe-area-inset-bottom, 0px) + 48px)) !important;
 }
 .filters-foot{
-  padding-bottom: calc(12px + env(safe-area-inset-bottom)) !important;
+  padding-bottom: max(56px, calc(env(safe-area-inset-bottom, 0px) + 32px)) !important;
 }
-.v5-foot{
-  padding-bottom: calc(14px + env(safe-area-inset-bottom)) !important;
-}
-/* На v5-lead-pop submit-кнопка тоже должна быть видна */
 .v5-lead-pop{
-  padding-bottom: calc(28px + env(safe-area-inset-bottom)) !important;
+  padding-bottom: max(72px, calc(env(safe-area-inset-bottom, 0px) + 48px)) !important;
 }
 
 /* ---- Mobile (старый блок ниже) ---- */
