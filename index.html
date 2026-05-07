@@ -5593,15 +5593,26 @@ body{ min-height:100% !important; }
   justify-content: space-between !important;
   align-items: center !important;
 }
-/* Футер только с «← Назад» — компактный */
+/* Футер с «← Назад» + цена (цена только на мобилке) */
 .v5-foot-back-only {
   padding: 12px 28px 16px !important;
   min-height: unset !important;
   border-top: 1px solid var(--v5-bdr) !important;
+  justify-content: space-between !important;
 }
 .v5-foot-back-only .v5-foot-nav { justify-content: flex-start; }
+.v5-foot-price-mob { display: none; }
 @media(max-width: 720px){
   .v5-foot-back-only { padding: 10px 16px 14px !important; }
+  .v5-foot-price-mob {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--v5-ink);
+    letter-spacing: -.01em;
+  }
 }
 .v5-foot-back {
   background: rgba(0,0,0,.06) !important;
@@ -8413,11 +8424,10 @@ window.__renderCalcV5 = function(total, prevTotal){
 
   html+=`</div></div>
 
-  ${!isFirst ? `<div class="v5-foot v5-foot-back-only">
-    <div class="v5-foot-nav">
-      <button class="v5-foot-back" onclick="calcPrev()">← Назад</button>
-    </div>
-  </div>` : ''}`;
+  <div class="v5-foot v5-foot-back-only">
+    ${!isFirst ? `<div class="v5-foot-nav"><button class="v5-foot-back" onclick="calcPrev()">← Назад</button></div>` : `<div></div>`}
+    <div class="v5-foot-price-mob">${total>0?fmtRu(total):'—'}</div>
+  </div>`;
 
   body.innerHTML = html;
 
