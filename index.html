@@ -6922,6 +6922,12 @@ html, body{ overflow-x: clip; }
 review-lab{
   display:block;
 }
+/* Скрываем всё что ReviewLab/внешние скрипты инжектят в body вне .app */
+body>*:not(.app):not(noscript):not(script):not(style){display:none!important}
+/* Возвращаем видимость нашим модалкам когда они открыты */
+#calcBg.show,#lpConsultBg.show,#v5LeadBg.show,
+#cmpDrawer.open,#wishDrawer.open,
+#pdfOverlay{display:block!important}
 </style>
 </head>
 <body>
