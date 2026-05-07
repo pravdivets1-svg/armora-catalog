@@ -99,6 +99,7 @@ html.is-scrolling .cursor-glow{opacity:0}
 /* При скролле снимаем backdrop-filter с тяжёлых поверхностей,
    но НЕ с карточек — иначе появляется мерцание/смена цвета при перелистывании. */
 html.is-scrolling .filters,
+html.is-scrolling .filter-group,
 html.is-scrolling .mainhead,
 html.is-scrolling .toolbar,
 html.is-scrolling .crumbs,
@@ -421,8 +422,8 @@ html.is-scrolling .slide svg{transition:none !important}
 .filters::-webkit-scrollbar-thumb{background:var(--bdr-strong);border-radius:5px}
 .filter-group{
   margin-bottom:16px;padding:14px 16px;
-  background:var(--glass-bg);border:1px solid var(--glass-bdr);
-  backdrop-filter:blur(14px);border-radius:14px;
+  background:var(--glass-bg-strong);border:1px solid var(--glass-bdr);
+  border-radius:14px;
   box-shadow:0 2px 12px -4px rgba(14,16,20,.06);
 }
 .filter-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);font-weight:700;margin-bottom:11px}
