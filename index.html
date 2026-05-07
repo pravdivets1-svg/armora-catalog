@@ -6126,6 +6126,29 @@ body { overscroll-behavior-y: contain; }
   transform: translateY(-1px);
 }
 
+/* ---- Ghost-ссылка «Смотреть каталог» ---- */
+.lp-hero-btn-ghost{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--font-sans);font-size:13px;font-weight:600;
+  color:var(--ink-soft);
+  cursor:pointer;
+  text-decoration:none;
+  padding:6px 4px;
+  border-radius:6px;
+  transition:color .25s cubic-bezier(.32,.72,0,1),
+             background .25s cubic-bezier(.32,.72,0,1);
+  background:none;border:none;
+}
+.lp-hero-btn-ghost:hover{
+  color:var(--ink);
+  background:rgba(255,255,255,.06);
+}
+.lp-hero-btn-ghost svg{
+  transition:transform .3s cubic-bezier(.32,.72,0,1);
+  flex-shrink:0;
+}
+.lp-hero-btn-ghost:hover svg{ transform:translateX(4px); }
+
 /* ---- CTA proof-строка под кнопками ---- */
 .lp-hero-proof{
   display: inline-flex;
