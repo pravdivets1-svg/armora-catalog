@@ -6910,152 +6910,41 @@ html, body{ overflow-x: clip; }
   margin: 0;
 }
 
-/* ===== ОТЗЫВЫ — Asymmetric Bento ===== */
-.lp-rev{
-  position:relative;
-  margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
-  width:100vw;max-width:100vw;
-  padding:clamp(80px,11vh,130px) clamp(32px,5vw,120px) clamp(72px,9vh,110px);
-  background:linear-gradient(180deg,#07080d 0%,#050609 100%);
-  border-bottom:1px solid var(--bdr);
-  overflow:hidden;
-}
-.lp-rev-top{
-  display:flex;align-items:flex-end;justify-content:space-between;
-  gap:32px;flex-wrap:wrap;
-  margin-bottom:clamp(48px,7vh,80px);
-}
-.lp-rev-eyebrow{
-  font-size:10px;letter-spacing:.28em;text-transform:uppercase;
-  font-weight:700;color:var(--gold-deep);
-  display:flex;align-items:center;gap:10px;margin-bottom:18px;
-}
-.lp-rev-eyebrow::before{
-  content:'';display:block;width:28px;height:1px;
-  background:var(--gold-deep);opacity:.6;
-}
-.lp-rev-h2{
-  font-family:var(--font-display);
-  font-size:clamp(30px,4.2vw,56px);
-  font-weight:500;letter-spacing:-.025em;line-height:1.1;
-  color:var(--ink);max-width:500px;
-}
-.lp-rev-h2 em{
-  font-style:italic;
-  background:linear-gradient(135deg,var(--gold) 0%,var(--gold-deep) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-/* Aggregate rating pill */
-.lp-rev-agg{
-  display:flex;align-items:center;gap:16px;
-  padding:16px 24px;
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:999px;flex-shrink:0;
-}
-.lp-rev-agg-score{
-  font-family:var(--font-display);font-size:28px;font-weight:500;
-  color:var(--ink);line-height:1;
-}
-.lp-rev-agg-stars{color:#f5a623;font-size:12px;letter-spacing:3px;line-height:1;margin-top:4px}
-.lp-rev-agg-label{font-size:11px;color:var(--ink-faint);line-height:1.5}
-/* Bento grid */
-.lp-rev-grid{
-  display:grid;
-  grid-template-columns:1.35fr 1fr;
-  grid-template-rows:1fr 1fr;
-  gap:14px;
-  max-width:1320px;
-}
-/* Double-Bezel card — outer shell */
-.lp-rev-card{
-  background:rgba(255,255,255,.024);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:2rem;padding:2px;
-  transform:translateY(44px);opacity:0;
-  transition:transform .85s cubic-bezier(.22,.9,.36,1),opacity .85s cubic-bezier(.22,.9,.36,1);
-}
-.lp-rev-card.in-view{transform:translateY(0);opacity:1}
-.lp-rev-card--large{grid-row:span 2}
-/* Inner core */
-.lp-rev-core{
-  background:rgba(10,12,19,.92);
-  border-radius:calc(2rem - 2px);
-  padding:clamp(28px,3vw,44px);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
-  height:100%;display:flex;flex-direction:column;box-sizing:border-box;
-}
-.lp-rev-stars{color:#f5a623;font-size:13px;letter-spacing:3px;margin-bottom:20px}
-.lp-rev-quote{
-  font-family:var(--font-display);
-  font-size:clamp(15px,1.5vw,19px);
-  font-style:italic;font-weight:400;line-height:1.65;
-  color:rgba(228,232,238,.85);flex:1;margin-bottom:28px;
-}
-.lp-rev-card--large .lp-rev-quote{font-size:clamp(17px,1.9vw,23px)}
-.lp-rev-meta{
-  display:flex;align-items:center;gap:12px;
-  padding-top:20px;border-top:1px solid rgba(255,255,255,.07);
-}
-.lp-rev-avatar{
-  width:38px;height:38px;border-radius:50%;
-  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:800;color:#0a0a0a;flex-shrink:0;
-}
-.lp-rev-name{font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:3px}
-.lp-rev-sub{font-size:10.5px;color:var(--ink-faint)}
-.lp-rev-door-tag{
-  margin-left:auto;padding:5px 11px;
-  background:rgba(228,232,238,.05);
-  border:1px solid rgba(228,232,238,.12);
-  border-radius:999px;font-size:9.5px;font-weight:700;
-  letter-spacing:.08em;text-transform:uppercase;
-  color:var(--gold-deep);white-space:nowrap;flex-shrink:0;
-}
-/* Hero ghost link + rating */
-.lp-hero-btn-ghost{
-  display:inline-flex;align-items:center;gap:7px;
-  font-family:var(--font-sans);font-size:13px;font-weight:600;
-  color:var(--ink-soft);cursor:pointer;
-  transition:color .25s cubic-bezier(.32,.72,0,1);
-  padding:0;background:none;border:none;text-decoration:none;
-}
-.lp-hero-btn-ghost:hover{color:var(--ink)}
-.lp-hero-btn-ghost svg{transition:transform .3s cubic-bezier(.32,.72,0,1)}
-.lp-hero-btn-ghost:hover svg{transform:translateX(3px)}
-.lp-hero-rating{
-  display:flex;align-items:center;gap:8px;
-  margin-top:18px;
-}
-.lp-hero-rating-stars{color:#f5a623;font-size:11px;letter-spacing:2px}
-.lp-hero-rating-text{font-size:11.5px;color:var(--ink-faint)}
-.lp-hero-rating-text strong{color:var(--ink-soft);font-weight:700}
-/* Mobile */
-@media(max-width:900px){
-  .lp-rev-grid{grid-template-columns:1fr;grid-template-rows:auto}
-  .lp-rev-card--large{grid-row:span 1}
-  .lp-rev-top{flex-direction:column;align-items:flex-start;gap:24px}
-}
-@media(max-width:600px){
-  .lp-rev-door-tag{display:none}
-}
 
-/* ===== ReviewLab widget wrapper ===== */
-.lp-rev-widget-wrap{
+/* ===== Hero social proof strip (ReviewLab) ===== */
+.lp-hero-social-proof{
+  position:relative;
+  z-index:1;
   width:100%;
-  /* Blend the widget into our dark section */
-  color-scheme:dark;
+  /* clip to one row of cards */
+  max-height:260px;
+  overflow:hidden;
+  padding:0 clamp(24px,4vw,100px) 0;
+  margin-top:clamp(20px,3vw,40px);
+  contain:layout paint;
 }
-/* Force widget background to transparent so our section bg shows through */
+/* bottom fade — blends into next section */
+.lp-hero-social-proof::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:56px;
+  background:linear-gradient(to bottom,transparent,#050609);
+  pointer-events:none;
+  z-index:2;
+}
 review-lab{
   display:block;
-  --rl-bg: transparent;
-  --rl-card-bg: rgba(10,12,19,.92);
-  --rl-card-border: rgba(255,255,255,.07);
-  --rl-text: rgba(228,232,238,.85);
-  --rl-star-color: #f5a623;
-  --rl-radius: 1.5rem;
+  color-scheme:dark;
+  --rl-bg:transparent;
+  --rl-card-bg:rgba(10,12,19,.88);
+  --rl-card-border:rgba(255,255,255,.07);
+  --rl-text:rgba(228,232,238,.85);
+  --rl-star-color:#f5a623;
+  --rl-radius:1.25rem;
+}
+@media(max-width:768px){
+  .lp-hero-social-proof{max-height:220px}
 }
 
 </style>
@@ -7195,6 +7084,11 @@ review-lab{
 
       <div id="lpHeroCursor" aria-hidden="true"><div class="lp-hero-cursor-inner">Открыть <span>↗</span></div></div>
     </div>
+
+    <!-- ── Social proof strip — live reviews ── -->
+    <div class="lp-hero-social-proof" aria-label="Отзывы клиентов">
+      <review-lab data-widgetid="698b2da7f9cd571b2883bae7"></review-lab>
+    </div>
   </section>
 
   <!-- ===== MARQUEE TICKER ===== -->
@@ -7227,20 +7121,6 @@ review-lab{
     </div>
   </div>
 
-
-  <!-- ===== ОТЗЫВЫ — Asymmetric Bento · Double-Bezel ===== -->
-  <section class="lp-rev" aria-label="Отзывы клиентов">
-    <div class="lp-rev-top">
-      <div>
-        <div class="lp-rev-eyebrow">Клиенты · Отзывы</div>
-        <h2 class="lp-rev-h2">Говорят те, кто уже<br><em>живёт с ARMORA</em></h2>
-      </div>
-    </div>
-
-    <div class="lp-rev-widget-wrap">
-      <review-lab data-widgetid="698b2da7f9cd571b2883bae7"></review-lab>
-    </div>
-  </section>
 
   <!-- ===== EDITORIAL INTRO ===== -->
   <section class="lp-intro" aria-label="О каталоге">
