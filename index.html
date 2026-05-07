@@ -8093,6 +8093,29 @@ document.querySelectorAll('.tb-mega-item').forEach(it=>{
    CALCULATOR LOGIC
    ============================================================ */
 
+/* ============================================================
+   ⚠️  ВНИМАНИЕ — ЗАЩИЩЁННАЯ КОНФИГУРАЦИЯ КАЛЬКУЛЯТОРА  ⚠️
+   ────────────────────────────────────────────────────────────
+   НЕЛЬЗЯ удалять шаги (категории) из CALC_STEPS — это сломает
+   индексацию шагов и весь расчёт цены.
+   НЕЛЬЗЯ удалять опции из списка REQUIRED_OPTIONS ниже.
+   МОЖНО: менять текст title/hint/desc, добавлять новые опции,
+   менять цены, переставлять опции внутри одного шага.
+
+   Если случайно удалишь обязательный шаг или опцию — страница
+   сломается с явной ошибкой в консоли (см. validateCalcConfig).
+   Это сделано намеренно — лучше явная ошибка, чем тихий баг.
+   ============================================================ */
+const CALC_STEPS_REQUIRED_KEYS = [
+  'base','ext','int','glass','seal','lock','handle',
+  'extras','install_pkg','install_extras'
+];
+
+const CALC_REQUIRED_OPTIONS = {
+  'install_pkg': ['Только доставка по МКАД'], // бесплатный путь без монтажа
+  'extras': ['Доборы и наличники МДФ','Доборы и наличники ПВХ'], // материалы
+};
+
 const CALC_STEPS=[
   {key:'base',type:'radio',title:'Серия <em>двери</em>',hint:'Серия определяет конструкцию: толщину металла, класс замков, количество контуров. Уже выбрана под модель из каталога — но можно сменить.',
    options:[
@@ -8183,6 +8206,37 @@ const CALC_STEPS=[
     {name:'Установка портала',price:5000,desc:'Доборы + наличники МДФ под цвет двери.'}
   ]}
 ];
+
+/* ============================================================
+   ВАЛИДАЦИЯ КОНФИГУРАЦИИ — выполняется при загрузке скрипта.
+   Если кто-то (включая ИИ-ассистента) случайно удалил обязательный
+   шаг или опцию — здесь сработает явная ошибка, а не тихий баг.
+   ============================================================ */
+(function validateCalcConfig(){
+  const presentKeys = CALC_STEPS.map(s => s.key);
+  const missingSteps = CALC_STEPS_REQUIRED_KEYS.filter(k => !presentKeys.includes(k));
+  if(missingSteps.length){
+    const msg = '[CALC] КРИТИЧЕСКАЯ ОШИБКА: удалены обязательные шаги: ' + missingSteps.join(', ');
+    console.error(msg);
+    throw new Error(msg);
+  }
+  const missingOpts = [];
+  for(const [stepKey, requiredNames] of Object.entries(CALC_REQUIRED_OPTIONS)){
+    const step = CALC_STEPS.find(s => s.key === stepKey);
+    if(!step){ continue; } // уже поймано выше
+    const optNames = step.options.map(o => o.name);
+    for(const reqName of requiredNames){
+      if(!optNames.includes(reqName)){
+        missingOpts.push(`${stepKey} → "${reqName}"`);
+      }
+    }
+  }
+  if(missingOpts.length){
+    const msg = '[CALC] КРИТИЧЕСКАЯ ОШИБКА: удалены обязательные опции: ' + missingOpts.join('; ');
+    console.error(msg);
+    throw new Error(msg);
+  }
+})();
 
 const CALC_ICONS={
   'Видеоглазок':`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>`,
