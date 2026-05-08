@@ -7311,7 +7311,7 @@ review-lab{
   <div class="lp-stats" aria-label="Статистика производства">
     <div class="lp-stats-inner">
       <div class="lp-stat">
-        <span class="lp-stat-num" data-count-to="4723">4 723</span>
+        <span class="lp-stat-num" id="statDoors" data-count-base="4723" data-count-base-date="2026-05-07">4 723</span>
         <span class="lp-stat-label">Дверей<br>установлено</span>
       </div>
       <div class="lp-stat">
@@ -8815,19 +8815,31 @@ async function sendToTildaForm(name, phone){
   if (typeof window === 'undefined') return;
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ---- Daily project counter: +1 or +2 per day since base date ----
+  // ---- Daily counters: проекты и двери растут вместе с базовой даты ----
   (function(){
-    const el = document.getElementById('statProjects');
-    if (!el) return;
     const baseDate = new Date('2026-05-07T00:00:00');
-    const base = parseInt(el.dataset.countBase, 10) || 89;
     const now = new Date(); now.setHours(0,0,0,0);
     const days = Math.max(0, Math.floor((now - baseDate) / 86400000));
-    // alternating: even-index days +1, odd-index days +2 → avg 1.5/day
-    const added = days + Math.floor(days / 2);
-    const count = base + added;
-    el.dataset.countTo = count;
-    el.textContent = count.toLocaleString('ru-RU');
+
+    // Проекты: +1 или +2 в день, среднее 1.5/день
+    const proj = document.getElementById('statProjects');
+    if (proj){
+      const base = parseInt(proj.dataset.countBase, 10) || 89;
+      const added = days + Math.floor(days / 2);
+      const count = base + added;
+      proj.dataset.countTo = count;
+      proj.textContent = count.toLocaleString('ru-RU');
+    }
+
+    // Двери: ~5 в день (5 каждый день + 1 каждый 3-й), реалистично 5 дверей/проект
+    const doors = document.getElementById('statDoors');
+    if (doors){
+      const base = parseInt(doors.dataset.countBase, 10) || 4723;
+      const added = days * 5 + Math.floor(days / 3);
+      const count = base + added;
+      doors.dataset.countTo = count;
+      doors.textContent = count.toLocaleString('ru-RU');
+    }
   })();
 
   // ---- Animated counters (работает даже при reduced-motion — сразу подставляем) ----
