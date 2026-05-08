@@ -8831,11 +8831,11 @@ async function sendToTildaForm(name, phone){
       proj.textContent = count.toLocaleString('ru-RU');
     }
 
-    // Двери: ~5 в день (5 каждый день + 1 каждый 3-й), реалистично 5 дверей/проект
+    // Двери: ~1.7 в день (1 + ⌊2/3⌋), в 3 раза медленнее проектов вместе взятых
     const doors = document.getElementById('statDoors');
     if (doors){
       const base = parseInt(doors.dataset.countBase, 10) || 4723;
-      const added = days * 5 + Math.floor(days / 3);
+      const added = days + Math.floor(days * 2 / 3);
       const count = base + added;
       doors.dataset.countTo = count;
       doors.textContent = count.toLocaleString('ru-RU');
