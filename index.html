@@ -880,6 +880,9 @@ html.is-scrolling .slide svg{transition:none !important}
 .lsubmit:disabled{opacity:.6;cursor:wait}
 .lead-proof{display:flex;align-items:center;justify-content:center;gap:8px;font-size:11px;color:var(--ink-faint);margin-top:14px;font-weight:500}
 .lead-proof svg{width:12px;height:12px;stroke:var(--sage-deep);stroke-width:2;fill:none}
+.lead-policy,.v5-lead-policy{font-size:11px;line-height:1.5;color:var(--ink-faint);text-align:center;margin-top:10px;padding:0 4px;font-weight:400}
+.lead-policy a,.v5-lead-policy a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;text-decoration-color:rgba(255,255,255,.3)}
+.lead-policy a:hover,.v5-lead-policy a:hover{color:var(--ink);text-decoration-color:currentColor}
 
 .success{text-align:center;padding:18px 0 4px}
 .s-icon{
@@ -7470,7 +7473,7 @@ review-lab{
     </div>
   </section>
 
-  <div class="app-footer">© 2026 ARMORA · Каталог · Цена индивидуальна и определяется на бесплатном замере</div>
+  <div class="app-footer">© 2026 ARMORA · Каталог · Цена индивидуальна и определяется на бесплатном замере · <a href="https://armora.ru/policy" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">Политика конфиденциальности</a></div>
 </div>
 </div>
 
@@ -8482,6 +8485,7 @@ function renderCalc(){
         </div>
         <div class="lerr" id="lerr" role="alert"></div>
         <button type="submit" class="lsubmit">Заказать свою дверь</button>
+        <div class="lead-policy">Нажимая кнопку, вы соглашаетесь с <a href="https://armora.ru/policy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</div>
       </form>
       <div class="lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Никакого спама. Звонок только для согласования замера.</div>
     </div>`;
@@ -8772,6 +8776,7 @@ function v5OpenLead(){
       <div class="v5-lead-err" id="v5Err"></div>
       <button type="submit" class="v5-lead-submit" id="v5Submit">Заказать свою дверь</button>
       <div class="v5-lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Без спама. Звонок только для согласования времени.</div>
+      <div class="v5-lead-policy">Нажимая кнопку, вы соглашаетесь с <a href="https://armora.ru/policy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</div>
     </form>
   </div>`;
   requestAnimationFrame(()=>bg.classList.add('show'));
@@ -9014,7 +9019,7 @@ function lpOpenConsult(){
       <div class="lp-consult-err" id="lpConsultErr"></div>
       <label class="lp-consult-agree">
         <input type="checkbox" id="lpConsultAgree" checked>
-        <span>Соглашаюсь на обработку персональных данных согласно <a href="/policy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span>
+        <span>Соглашаюсь на обработку персональных данных согласно <a href="https://armora.ru/policy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span>
       </label>
       <button type="submit" class="lp-consult-submit" id="lpConsultSubmit">Записаться на&nbsp;замер</button>
     </form>
