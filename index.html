@@ -4344,6 +4344,37 @@ h2.card-name{margin:0;padding:0}
   background: #16a34a;
   flex-shrink: 0;
 }
+/* Апгрейд-цена с кредитом серии: старая ¥ зачёркнута + эффективная + бейдж выгоды */
+.v5-opt-price-up{
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  line-height: 1.1;
+}
+.v5-opt-price-old{
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(15,23,42,.4);
+  text-decoration: line-through;
+  letter-spacing: -.005em;
+}
+.v5-opt-price-up .v5-opt-price{
+  font-size: 16px;
+}
+.v5-opt-credit{
+  color: #16a34a;
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-weight: 800;
+  background: rgba(22,163,74,.13);
+  padding: 2px 7px;
+  border-radius: 999px;
+  margin-top: 2px;
+}
 .v5-opt-chk{
   width: 24px; height: 24px;
   border-radius: 50%;
@@ -8217,11 +8248,16 @@ const CALC_REQUIRED_OPTIONS = {
 const CALC_STEPS=[
   {key:'base',type:'radio',title:'Серия <em>двери</em>',hint:'Серия определяет конструкцию: толщину металла, класс замков, количество контуров. Уже выбрана под модель из каталога — но можно сменить.',
    options:[
-    {name:'Эконом',price:12900,desc:'Для дач, гаражей, нежилых помещений.',inc:'Порошковое покрытие · Винилискожа'},
-    {name:'Стандарт',price:24900,desc:'Базовый вариант для квартиры.',inc:'Порошковое покрытие · Ламинат · 2 контура'},
-    {name:'Комфорт',price:34900,desc:'Повышенная тепло- и шумоизоляция.',inc:'ПВХ · 2 контура · Guardian · Armadillo'},
-    {name:'Премиум',price:54900,desc:'Оптимальный выбор для московских квартир.',inc:'МДФ · 2 контура · Guardian · Armadillo · Ночная задвижка'},
-    {name:'Элит',price:89900,desc:'Индивидуальное производство.',inc:'Фанера · МДФ · 3 контура · 2 замка · Терморазрыв'}
+    {name:'Эконом',price:12900,desc:'Для дач, гаражей, нежилых помещений.',inc:'Порошковое покрытие · Винилискожа',
+     incMap:{ext:'Порошковое полимерное покрытие',int:'Винилискожа'}},
+    {name:'Стандарт',price:24900,desc:'Базовый вариант для квартиры.',inc:'Порошковое покрытие · Ламинат · 2 контура',
+     incMap:{ext:'Порошковое полимерное покрытие',int:'Ламинат',seal:'Двойной контур'}},
+    {name:'Комфорт',price:34900,desc:'Повышенная тепло- и шумоизоляция.',inc:'ПВХ · 2 контура · Guardian · Armadillo',
+     incMap:{ext:'ПВХ',int:'ПВХ',seal:'Двойной контур',lock:'2 замка Guardian',handle:'Armadillo'}},
+    {name:'Премиум',price:54900,desc:'Оптимальный выбор для московских квартир.',inc:'МДФ · 2 контура · Guardian · Armadillo · Ночная задвижка',
+     incMap:{ext:'МДФ',int:'МДФ',seal:'Двойной контур',lock:'2 замка Guardian',handle:'Armadillo',extras:['Ночная задвижка']}},
+    {name:'Элит',price:89900,desc:'Индивидуальное производство.',inc:'Фанера · МДФ · 3 контура · 2 замка · Терморазрыв',
+     incMap:{ext:'Влагостойкая фанера',int:'МДФ',seal:'Тройной контур',lock:'2 замка Guardian',extras:['Терморазрыв']}}
   ]},
   {key:'ext',type:'radio',title:'Отделка <em>снаружи</em>',hint:'Эту сторону видят соседи. Варианты дешевле включённого в серию — бесплатны.',
    options:[
@@ -8347,51 +8383,56 @@ const CALC_ICONS={
   'Скрытые петли':`<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="9" r="1.5"/><circle cx="8" cy="15" r="1.5"/></svg>`
 };
 
-/* Таблица: токен из поля inc серии → конкретные опции шагов */
-const SERIES_INC_MAP = {
-  'Порошковое покрытие': [
-    {step:'ext', opt:'Порошковое полимерное покрытие'},
-    {step:'int', opt:'Порошковое полимерное покрытие'},
-  ],
-  'Винилискожа': [
-    {step:'ext', opt:'Винилискожа'},
-    {step:'int', opt:'Винилискожа'},
-  ],
-  'Ламинат': [
-    {step:'ext', opt:'Ламинат'},
-    {step:'int', opt:'Ламинат'},
-  ],
-  'ПВХ': [
-    {step:'ext', opt:'ПВХ'},
-    {step:'int', opt:'ПВХ'},
-  ],
-  'МДФ': [
-    {step:'ext', opt:'МДФ'},
-    {step:'int', opt:'МДФ'},
-  ],
-  'Фанера': [
-    {step:'ext', opt:'Влагостойкая фанера'},
-    {step:'int', opt:'Влагостойкая фанера'},
-  ],
-  '2 контура': [{step:'seal', opt:'Двойной контур'}],
-  '3 контура': [{step:'seal', opt:'Тройной контур'}],
-  'Guardian': [{step:'lock', opt:'2 замка Guardian'}],
-  '2 замка': [{step:'lock', opt:'2 замка Guardian'}],
-  'Armadillo': [{step:'handle', opt:'Armadillo'}],
-  'Ночная задвижка': [{step:'extras', opt:'Ночная задвижка'}],
-  'Терморазрыв': [{step:'extras', opt:'Терморазрыв'}],
-};
+/* ============================================================
+   КРЕДИТНАЯ ЛОГИКА СЕРИЙ
+   ────────────────────────────────────────────────────────────
+   Каждое включение в серии — это денежный КРЕДИТ на конкретный шаг.
+   Если клиент выбирает более дорогую опцию — платит max(0, цена − кредит).
+   Если выбирает более дешёвую — платит 0, разница "сгорает" (без возврата).
+   Для extras: items в incMap.extras автоматически добавляются и не идут в счёт.
+   ============================================================ */
 
-/* Возвращает Set вида "step:optName" для текущей выбранной серии */
-function calcIncludedSet(){
+/* Возвращает имя включённой опции для шага, либо null */
+function seriesIncludedOptName(stepKey){
   const base = CALC.sel.base;
-  if(!base || !base.inc) return new Set();
-  const included = new Set();
-  base.inc.split(' · ').forEach(token => {
-    const mappings = SERIES_INC_MAP[token.trim()] || [];
-    mappings.forEach(({step, opt}) => included.add(step + ':' + opt));
-  });
-  return included;
+  if(!base || !base.incMap) return null;
+  const v = base.incMap[stepKey];
+  if(stepKey === 'extras') return null; // для extras отдельная логика
+  return v || null;
+}
+
+/* Возвращает кредит (в рублях) для шага по текущей серии */
+function getStepCredit(stepKey){
+  const optName = seriesIncludedOptName(stepKey);
+  if(!optName) return 0;
+  const step = CALC_STEPS.find(s => s.key === stepKey);
+  if(!step) return 0;
+  const opt = step.options.find(o => o.name === optName);
+  return opt ? opt.price : 0;
+}
+
+/* Возвращает Set имён extras, включённых в серию */
+function seriesIncludedExtras(){
+  const base = CALC.sel.base;
+  if(!base || !base.incMap || !base.incMap.extras) return new Set();
+  return new Set(base.incMap.extras);
+}
+
+/* Эффективная цена опции на шаге с учётом кредита серии */
+function effectiveStepPrice(stepKey, opt){
+  if(!opt) return 0;
+  const credit = getStepCredit(stepKey);
+  return Math.max(0, opt.price - credit);
+}
+
+/* Проверка: опция конкретно та, что включена в серию */
+function isExactSeriesOpt(stepKey, optName){
+  return seriesIncludedOptName(stepKey) === optName;
+}
+
+/* Проверка: extra включён в серию */
+function isIncludedExtra(name){
+  return seriesIncludedExtras().has(name);
 }
 
 const CALC={
@@ -8412,38 +8453,43 @@ function presetFromDoor(d){
   const glassStep=CALC_STEPS.find(s=>s.key==='glass');
   CALC.sel.glass=glassStep.options.find(o=>o.name===glassName)||glassStep.options[0];
 
-  // Выставляем ext/int/seal/lock/handle на лучшую включённую в серию опцию
-  const incl = calcIncludedSet();
-  ['ext','int','seal','lock','handle'].forEach(k=>{
-    const s=CALC_STEPS.find(x=>x.key===k);
-    const inclOpts = s.options.filter(o => incl.has(k + ':' + o.name));
-    if(inclOpts.length > 0){
-      inclOpts.sort((a,b) => b.price - a.price);
-      CALC.sel[k] = inclOpts[0];
+  // Пресет ext/int/seal/lock/handle строго по incMap серии (если шаг включён)
+  ['ext','int','seal','lock','handle'].forEach(k => {
+    const s = CALC_STEPS.find(x => x.key === k);
+    const inclName = seriesIncludedOptName(k);
+    if(inclName){
+      CALC.sel[k] = s.options.find(o => o.name === inclName) || s.options[0];
     } else {
       CALC.sel[k] = s.options[0];
     }
   });
 
-  // Включённые extras автоматически добавляем в список
+  // Включённые в серию extras автоматически добавляем в список
   CALC.sel.extras = [];
-  const extrasStep = CALC_STEPS.find(s=>s.key==='extras');
-  extrasStep.options.forEach(o => {
-    if(incl.has('extras:' + o.name)) CALC.sel.extras.push(o);
-  });
+  const inclExtras = seriesIncludedExtras();
+  if(inclExtras.size > 0){
+    const extrasStep = CALC_STEPS.find(s => s.key === 'extras');
+    extrasStep.options.forEach(o => {
+      if(inclExtras.has(o.name)) CALC.sel.extras.push(o);
+    });
+  }
 }
 
 function calcTotal(){
-  const incl = calcIncludedSet();
   let t = CALC.sel.base ? CALC.sel.base.price : 0;
-  ['ext','int','glass','seal','lock','handle'].forEach(k => {
+  // Шаги-radio: применяем кредит серии — клиент платит max(0, цена − кредит)
+  ['ext','int','seal','lock','handle'].forEach(k => {
     if(!CALC.sel[k]) return;
-    if(!incl.has(k + ':' + CALC.sel[k].name)) t += CALC.sel[k].price;
+    t += effectiveStepPrice(k, CALC.sel[k]);
   });
+  // Стекло — отдельный шаг без кредитов серии
+  if(CALC.sel.glass) t += CALC.sel.glass.price;
   if(CALC.sel.install_pkg) t += CALC.sel.install_pkg.price;
+  // Extras: items включённые в серию = бесплатны, остальные — полная цена
   CALC.sel.extras.forEach(e => {
     if(CALC.leadInfo && e.isGift) return;
-    if(!incl.has('extras:' + e.name)) t += e.price;
+    if(isIncludedExtra(e.name)) return;
+    t += e.price;
   });
   (CALC.sel.install_extras||[]).forEach(e => { t += e.price; });
   return t;
@@ -8636,18 +8682,20 @@ const V5_SECTIONS = [
 const V5 = { open: 'geom' };
 
 function v5SumPrice(stepKeys){
-  const incl = calcIncludedSet();
   let p=0;
   stepKeys.forEach(k=>{
     if(k==='extras'){
       CALC.sel.extras.forEach(e=>{
         if(CALC.leadInfo&&e.isGift) return;
-        if(!incl.has('extras:'+e.name)) p+=e.price;
+        if(isIncludedExtra(e.name)) return;
+        p+=e.price;
       });
     } else if(k==='install_extras'){
       (CALC.sel.install_extras||[]).forEach(e=>{ p+=e.price; });
+    } else if(k==='glass'){
+      if(CALC.sel.glass) p+=CALC.sel.glass.price;
     } else if(CALC.sel[k]){
-      if(!incl.has(k+':'+CALC.sel[k].name)) p+=CALC.sel[k].price;
+      p += effectiveStepPrice(k, CALC.sel[k]);
     }
   });
   return p;
@@ -8713,26 +8761,44 @@ window.__renderCalcV5 = function(total, prevTotal){
     </div>
     <div class="v5-opts">`;
 
-  const inclSet = calcIncludedSet();
+  const stepCredit = step.key !== 'base' ? getStepCredit(step.key) : 0;
   step.options.forEach(o=>{
     const isMulti = step.type==='multi';
     const multiList = step.key==='install_extras'?(CALC.sel.install_extras||[]):CALC.sel.extras;
     const sel = isMulti ? multiList.some(x=>x.name===o.name) : (CALC.sel[step.key]&&CALC.sel[step.key].name===o.name);
     const isRec = step.key==='base' && o.name==='Премиум';
-    const inclKey = step.key + ':' + o.name;
-    const isIncl = step.key !== 'base' && inclSet.has(inclKey);
+    // Кредитная логика для отображения цены
+    const isExactSeries = step.key !== 'base' && !isMulti && isExactSeriesOpt(step.key, o.name);
+    const isInclExtra = step.key === 'extras' && isIncludedExtra(o.name);
+    const hasUpgrade = step.key !== 'base' && !isMulti && stepCredit > 0 && o.price > stepCredit && !isExactSeries;
+    const isFreeBelowCredit = step.key !== 'base' && !isMulti && stepCredit > 0 && o.price > 0 && o.price <= stepCredit && !isExactSeries;
+
     let priceHtml;
-    if(isIncl){ priceHtml=`<span class="v5-opt-price incl">включено в серию</span>`; }
-    else if(o.price===0 && !isMulti){ priceHtml=`<span class="v5-opt-price zero">включено</span>`; }
-    else if(o.isGift){ priceHtml=`<span class="v5-opt-price gift">в подарок</span>`; }
-    else if(o.price<0){ priceHtml=`<span class="v5-opt-price zero" style="background:rgba(164,120,100,.14);color:#a47864">−${Math.abs(o.price).toLocaleString('ru-RU')} ₽</span>`; }
-    else { priceHtml=`<span class="v5-opt-price">+${o.price.toLocaleString('ru-RU')} ₽</span>`; }
+    if(isExactSeries){
+      priceHtml=`<span class="v5-opt-price incl">включено в серию</span>`;
+    } else if(isInclExtra){
+      priceHtml=`<span class="v5-opt-price incl">включено в серию</span>`;
+    } else if(hasUpgrade){
+      const eff = o.price - stepCredit;
+      priceHtml=`<span class="v5-opt-price-up"><span class="v5-opt-price-old">${o.price.toLocaleString('ru-RU')} ₽</span><span class="v5-opt-price">+${eff.toLocaleString('ru-RU')} ₽</span><span class="v5-opt-credit">−${stepCredit.toLocaleString('ru-RU')} ₽ по серии</span></span>`;
+    } else if(isFreeBelowCredit){
+      priceHtml=`<span class="v5-opt-price incl">бесплатно по серии</span>`;
+    } else if(o.price===0 && !isMulti){
+      priceHtml=`<span class="v5-opt-price zero">включено</span>`;
+    } else if(o.isGift){
+      priceHtml=`<span class="v5-opt-price gift">в подарок</span>`;
+    } else if(o.price<0){
+      priceHtml=`<span class="v5-opt-price zero" style="background:rgba(164,120,100,.14);color:#a47864">−${Math.abs(o.price).toLocaleString('ru-RU')} ₽</span>`;
+    } else {
+      priceHtml=`<span class="v5-opt-price">+${o.price.toLocaleString('ru-RU')} ₽</span>`;
+    }
     const chk=`<span class="v5-opt-chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>`;
     const kEsc=step.key.replace(/'/g,"\\'");
     const nEsc=o.name.replace(/'/g,"\\'").replace(/\\/g,'\\\\');
     const nAttr=o.name.replace(/"/g,'&quot;');
     const action=isMulti?`v5ToggleExtra('${kEsc}','${nEsc}',this)`:`v5Select('${kEsc}','${nEsc}',this)`;
-    html+=`<button type="button" class="v5-opt${sel?' sel':''}${isMulti?' v5-opt-multi':''}${isIncl?' v5-opt-incl':''}" onclick="${action}" data-name="${nAttr}">
+    const inclClass = (isExactSeries||isInclExtra||isFreeBelowCredit) ? ' v5-opt-incl' : '';
+    html+=`<button type="button" class="v5-opt${sel?' sel':''}${isMulti?' v5-opt-multi':''}${inclClass}" onclick="${action}" data-name="${nAttr}">
       ${isRec?'<span class="v5-opt-rec">Рекомендуем</span>':''}
       <div class="v5-opt-top">
         <span class="v5-opt-name">${o.name}</span>
@@ -8829,9 +8895,15 @@ function v5OpenPop(key, name){
   const sel = step.type==='multi'
     ? CALC.sel.extras.some(x=>x.name===o.name)
     : (CALC.sel[step.key]&&CALC.sel[step.key].name===o.name);
-  const popIncl = calcIncludedSet().has(step.key + ':' + o.name) && step.key !== 'base';
+  const popExact = step.key !== 'base' && step.type !== 'multi' && isExactSeriesOpt(step.key, o.name);
+  const popInclExtra = step.key === 'extras' && isIncludedExtra(o.name);
+  const popCredit = (step.key !== 'base' && step.type !== 'multi') ? getStepCredit(step.key) : 0;
+  const popHasUpgrade = popCredit > 0 && o.price > popCredit && !popExact;
+  const popFreeBelow = popCredit > 0 && o.price > 0 && o.price <= popCredit && !popExact;
   let priceTxt;
-  if(popIncl) priceTxt = 'Включено в выбранную серию — бесплатно';
+  if(popExact || popInclExtra) priceTxt = 'Включено в выбранную серию — бесплатно';
+  else if(popHasUpgrade) priceTxt = `+ ${(o.price - popCredit).toLocaleString('ru-RU')} ₽ (полная цена ${o.price.toLocaleString('ru-RU')} ₽, кредит серии −${popCredit.toLocaleString('ru-RU')} ₽)`;
+  else if(popFreeBelow) priceTxt = `Бесплатно по серии (кредит ${popCredit.toLocaleString('ru-RU')} ₽ покрывает полностью)`;
   else if(o.price===0 && step.type!=='multi') priceTxt = 'Включено в стоимость';
   else if(o.isGift) priceTxt = 'В подарок при заказе после замера';
   else if(o.price<0) priceTxt = '− ' + Math.abs(o.price).toLocaleString('ru-RU') + ' ₽ (скидка)';
