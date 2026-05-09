@@ -9377,6 +9377,16 @@ function applyBaseSeriesChange(){
       if(newIncl.has(o.name)) CALC.sel.extras.push(o);
     });
   }
+  // 4) Stekло / размер / монтаж — тоже к дефолтам, чтобы цена честно
+  //    падала к base.price новой серии. Иначе при открытии Elite-двери
+  //    с дорогим витражом и oversize переключение на Эконом оставляло
+  //    стекло 25 000 ₽ + ×1.20 — пользователь не понимал, откуда деньги.
+  const glassStep = CALC_STEPS.find(s => s.key === 'glass');
+  if(glassStep) CALC.sel.glass = glassStep.options[0]; // «Без вставки»
+  const sizeStep = CALC_STEPS.find(s => s.key === 'size');
+  if(sizeStep) CALC.sel.size = sizeStep.options[0];    // «Стандартный»
+  CALC.sel.install_pkg = null;
+  CALC.sel.install_extras = [];
 }
 function toggleExtra(idx){
   const o=CALC_STEPS.find(s=>s.key==='extras').options[idx];
