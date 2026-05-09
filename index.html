@@ -5028,6 +5028,49 @@ h2.card-name{margin:0;padding:0}
 }
 .v5-lead-proof svg{ width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
 
+/* === Inline lead form (на финальном шаге калькулятора, без popup) === */
+.v5-inline-lead{
+  margin-top: 24px;
+  background: var(--v5-surface);
+  border: 1.5px solid var(--v5-bdr);
+  border-radius: 22px;
+  padding: 28px 28px 24px;
+  box-shadow: 0 12px 36px -8px rgba(0,0,0,.08);
+  position: relative;
+  overflow: hidden;
+}
+.v5-inline-lead::before{
+  content:'';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(164,120,100,.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.v5-inline-lead > *{ position: relative; z-index: 1; }
+.v5-inline-lead-hd{ margin-bottom: 18px; }
+.v5-inline-lead-title{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -.012em;
+  color: var(--v5-ink);
+  margin: 6px 0 10px;
+}
+.v5-inline-lead-desc{
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--v5-ink-soft);
+  max-width: 56ch;
+  margin: 0;
+}
+@media(max-width: 600px){
+  .v5-inline-lead{ padding: 22px 18px 18px; border-radius: 18px; }
+  .v5-inline-lead-title{ font-size: 26px; }
+  .v5-inline-lead-desc{ font-size: 13px; }
+}
+
 /* Success state */
 .v5-success{
   text-align: center;
@@ -9564,10 +9607,12 @@ window.__renderCalcV5 = function(total, prevTotal){
   if(step.type === 'bundles'){
     html += renderBundlesStep();
     html += `</div>`;
-    const ctaTxt = isLast ? 'Оставить заявку →' : 'Продолжить →';
-    const ctaAction = isLast ? 'v5OpenLead()' : 'calcNext()';
-    const ctaCls = isLast ? 'v5-inline-cta v5-inline-cta-last' : 'v5-inline-cta';
-    html += `<button class="${ctaCls}" onclick="${ctaAction}">${ctaTxt}</button>`;
+    if(isLast){
+      // (на практике bundles не последний шаг, но на всякий случай — inline-форма)
+      html += `<button class="v5-inline-cta" onclick="v5OpenLead()">Оставить заявку →</button>`;
+    } else {
+      html += `<button class="v5-inline-cta" onclick="calcNext()">Продолжить →</button>`;
+    }
     html += `</div>
     <div class="v5-foot">
       <div class="v5-foot-info">
@@ -9654,22 +9699,55 @@ window.__renderCalcV5 = function(total, prevTotal){
 
   html+=`</div>`;
 
-  // Inline CTA — большая кнопка во всю ширину контента
-  const ctaTxt = isLast ? 'Оставить заявку →' : 'Продолжить →';
-  const ctaAction = isLast ? 'v5OpenLead()' : 'calcNext()';
-  const ctaCls = isLast ? 'v5-inline-cta v5-inline-cta-last' : 'v5-inline-cta';
-  html += `<button class="${ctaCls}" onclick="${ctaAction}">${ctaTxt}</button>`;
+  // Финальный шаг: вместо CTA-кнопки сразу показываем встроенную форму заявки
+  if(isLast){
+    html += `<div class="v5-inline-lead">
+      <div class="v5-inline-lead-hd">
+        <div class="v5-pop-kicker">Конфигурация собрана</div>
+        <h3 class="v5-inline-lead-title">Заказать свою дверь</h3>
+        <p class="v5-inline-lead-desc">Менеджер перезвонит за 15 минут, согласует время бесплатного замера и зафиксирует точную цену в договоре. Без обязательств.</p>
+      </div>
+      <div class="v5-lead-summary">
+        <div>
+          <div class="v5-lead-sum-l">${CALC.door?.name || 'Дверь'} · ${CALC.sel.base?.name || ''}</div>
+          <div style="color:var(--v5-ink-soft);font-size:13px;">Ориентировочная стоимость</div>
+        </div>
+        <div class="v5-lead-sum-v" id="v5InlineSum">${total>0?fmtRu(total):'—'}</div>
+      </div>
+      <form id="v5LeadForm" onsubmit="event.preventDefault();v5SubmitLead()">
+        <div class="v5-lead-fields">
+          <input class="v5-lead-input" id="v5Name" placeholder="Ваше имя" type="text" autocomplete="name" required>
+          <input class="v5-lead-input" id="v5Phone" placeholder="+7 (___) ___-__-__" type="tel" autocomplete="tel" required>
+        </div>
+        <div class="v5-lead-err" id="v5Err"></div>
+        <button type="submit" class="v5-lead-submit" id="v5Submit">Заказать свою дверь — ${total>0?fmtRu(total):''}</button>
+        <div class="v5-lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Без спама. Звонок только для согласования времени.</div>
+        <div class="v5-lead-policy">Нажимая кнопку, вы соглашаетесь с <a href="https://armora.ru/policy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</div>
+      </form>
+    </div>`;
+  } else {
+    // Обычный шаг — большая CTA-кнопка «Продолжить»
+    html += `<button class="v5-inline-cta" onclick="calcNext()">Продолжить →</button>`;
+  }
 
   html += `</div>
 
   <div class="v5-foot">
     <div class="v5-foot-info">
-      <div class="v5-foot-info-l">Промежуточный итог</div>
+      <div class="v5-foot-info-l">${isLast?'Итого к заказу':'Промежуточный итог'}</div>
       <div class="v5-foot-info-v" id="v5FootPrice">${total>0?fmtRu(total):'—'}</div>
     </div>
   </div>`;
 
   body.innerHTML = html;
+
+  // На финальном шаге сразу повесить маску на телефон
+  if(isLast){
+    setTimeout(()=>{
+      const p=document.getElementById('v5Phone');
+      if(p) attachPhoneMask(p);
+    }, 80);
+  }
 
   // price flash + count-up
   if(total>0 && prevTotal>0 && total!==prevTotal){
@@ -10193,16 +10271,22 @@ function v5SubmitLead(){
   CALC.leadInfo={name,phone,total,door:CALC.door?.name};
   sendLeadToBackend({name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel,activeBundles:CALC.activeBundles,size:CALC.sel.size,src:'v5'});
   setTimeout(()=>{
-    const bg=document.getElementById('v5LeadBg');
-    if(!bg) return;
-    bg.querySelector('.v5-lead-pop').innerHTML = `
-      <button class="v5-pop-close" onclick="v5CloseLead();closeCalc()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    const successHtml = `
       <div class="v5-success">
         <div class="v5-success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="v5-success-title">Заявка принята, ${name}!</div>
         <div class="v5-success-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong>, чтобы согласовать удобное время бесплатного замера. Эксперт приедет с образцами и зафиксирует цену в договоре.</div>
-        <button class="v5-foot-cta" onclick="v5CloseLead();closeCalc()">Вернуться в каталог</button>
+        <button class="v5-foot-cta" onclick="closeCalc()">Вернуться в каталог</button>
       </div>`;
+    // Inline-форма на финальном шаге?
+    const inline = document.querySelector('.v5-inline-lead');
+    if(inline){ inline.innerHTML = successHtml; inline.scrollIntoView({behavior:'smooth', block:'center'}); return; }
+    // Иначе — старый popup-режим
+    const bg=document.getElementById('v5LeadBg');
+    if(!bg) return;
+    bg.querySelector('.v5-lead-pop').innerHTML = `
+      <button class="v5-pop-close" onclick="v5CloseLead();closeCalc()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      ${successHtml}`;
   }, 600);
 }
 
