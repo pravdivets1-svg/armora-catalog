@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ARMORA · Редактор калькулятора</title>
+<style>
+:root{
+  --bg:#0f1115; --panel:#171a21; --panel-2:#1f232c; --bdr:#2a2f3a; --bdr-2:#363c49;
+  --ink:#e8eaef; --ink-soft:#a8b0bf; --ink-mute:#6b7384;
+  --accent:#a47864; --accent-2:#b8896f; --success:#16a34a; --danger:#dc2626; --gold:#d4a83a;
+  --font-sans:'Inter','Segoe UI',system-ui,sans-serif;
+  --font-display:'Playfair Display',Georgia,serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);font-size:14px;line-height:1.5}
+body{display:grid;grid-template-columns:340px 1fr 380px;height:100vh;overflow:hidden}
+@media(max-width:1200px){body{grid-template-columns:280px 1fr}.preview-pane{display:none}}
+@media(max-width:760px){body{grid-template-columns:1fr;height:auto;overflow:auto}.steps-pane{position:sticky;top:0;z-index:10;max-height:50vh}}
+
+/* Topbar */
+.topbar{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--bdr);background:var(--panel);position:sticky;top:0;z-index:50}
+.topbar-logo{font-family:var(--font-display);font-style:italic;font-weight:600;font-size:20px;letter-spacing:-.02em}
+.topbar-logo b{color:var(--accent)}
+.topbar-title{color:var(--ink-soft);font-size:13px}
+.topbar-actions{margin-left:auto;display:flex;gap:8px}
+.btn{padding:9px 14px;border-radius:8px;border:1px solid var(--bdr-2);background:var(--panel-2);color:var(--ink);font:inherit;font-size:12.5px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px;font-weight:500}
+.btn:hover{background:var(--bdr);border-color:var(--ink-mute)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:var(--accent-2)}
+.btn.success{background:var(--success);border-color:var(--success);color:#fff}
+.btn.danger{background:transparent;border-color:rgba(220,38,38,.4);color:#f87171}
+.btn.danger:hover{background:rgba(220,38,38,.12);border-color:var(--danger)}
+.btn.sm{padding:5px 10px;font-size:11px;border-radius:6px}
+.btn.icon{padding:7px 9px}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--ink-soft)}
+.btn.ghost:hover{background:var(--panel-2);color:var(--ink)}
+
+/* Steps pane (left) */
+.steps-pane{border-right:1px solid var(--bdr);background:var(--panel);overflow-y:auto;display:flex;flex-direction:column}
+.steps-hd{padding:14px 16px 8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);font-weight:700;display:flex;justify-content:space-between;align-items:center}
+.step-list{padding:4px 8px 16px;flex:1}
+.step-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;cursor:pointer;border:1px solid transparent;transition:all .12s;margin-bottom:3px}
+.step-item:hover{background:var(--panel-2)}
+.step-item.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.step-item.active .step-item-key{color:rgba(255,255,255,.65)}
+.step-item-num{width:22px;height:22px;border-radius:50%;background:var(--bdr);color:var(--ink-soft);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.step-item.active .step-item-num{background:rgba(255,255,255,.22);color:#fff}
+.step-item-name{flex:1;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step-item-key{font-size:10px;color:var(--ink-mute);font-family:ui-monospace,Consolas,monospace}
+.step-item-protect{font-size:9px;background:rgba(212,168,84,.18);color:var(--gold);padding:2px 5px;border-radius:4px;font-weight:700;letter-spacing:.06em}
+
+/* Editor pane (center) */
+.editor-pane{overflow-y:auto;padding:24px 28px 80px}
+.editor-empty{color:var(--ink-mute);font-style:italic;padding:40px;text-align:center}
+.section{background:var(--panel);border:1px solid var(--bdr);border-radius:14px;padding:20px 22px;margin-bottom:16px}
+.section-hd{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--bdr)}
+.section-title{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute)}
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+.field-label{display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:6px}
+.field-row{display:grid;grid-template-columns:1fr 120px;gap:10px}
+.field-row-3{display:grid;grid-template-columns:1fr 100px 100px;gap:10px}
+input[type=text],input[type=number],textarea,select{
+  width:100%;background:var(--panel-2);border:1px solid var(--bdr-2);border-radius:8px;padding:10px 12px;font:inherit;font-size:13px;color:var(--ink);transition:border-color .15s
+}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(164,120,100,.18)}
+textarea{resize:vertical;min-height:60px;font-family:inherit}
+.field-hint{font-size:11px;color:var(--ink-mute);margin-top:5px;line-height:1.4}
+.field-checkbox{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft);cursor:pointer;user-select:none}
+.field-checkbox input{margin:0;accent-color:var(--accent);width:15px;height:15px}
+
+/* Option cards in editor */
+.opts-list{display:flex;flex-direction:column;gap:10px}
+.opt-card{background:var(--panel-2);border:1px solid var(--bdr-2);border-radius:12px;padding:14px;transition:border-color .15s}
+.opt-card:hover{border-color:var(--bdr)}
+.opt-card.editing{border-color:var(--accent);box-shadow:0 4px 18px rgba(164,120,100,.18)}
+.opt-card-row{display:flex;align-items:center;gap:10px}
+.opt-handle{cursor:grab;color:var(--ink-mute);padding:4px 6px;font-size:14px;line-height:1;user-select:none}
+.opt-handle:active{cursor:grabbing}
+.opt-name-input{flex:1;background:transparent;border:1px solid transparent;font-weight:600;font-size:14px;color:var(--ink);padding:6px 8px;border-radius:6px;transition:all .15s}
+.opt-name-input:hover{background:var(--panel)}
+.opt-name-input:focus{background:var(--panel);border-color:var(--accent)}
+.opt-price-input{width:110px;background:transparent;border:1px solid transparent;font-weight:700;font-size:13px;color:var(--gold);text-align:right;padding:6px 8px;border-radius:6px;font-variant-numeric:tabular-nums}
+.opt-price-input:hover{background:var(--panel)}
+.opt-price-input:focus{background:var(--panel);border-color:var(--accent);color:var(--ink)}
+.opt-actions{display:flex;gap:4px;flex-shrink:0}
+.opt-card-expanded{margin-top:10px;padding-top:12px;border-top:1px solid var(--bdr);display:none}
+.opt-card.expanded .opt-card-expanded{display:block}
+.opt-card.expanded .opt-toggle{transform:rotate(180deg)}
+.opt-toggle{transition:transform .2s;color:var(--ink-mute)}
+
+/* Series-incmap chips */
+.incmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.incmap-cell{background:var(--bg);border:1px solid var(--bdr-2);border-radius:8px;padding:10px 12px}
+.incmap-cell-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:5px}
+.incmap-cell select{padding:7px 10px;font-size:12px}
+.incmap-extras{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.incmap-extra-chip{background:rgba(22,163,74,.16);color:#4ade80;border:1px solid rgba(22,163,74,.35);padding:3px 8px;border-radius:999px;font-size:11px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.incmap-extra-chip.off{background:transparent;color:var(--ink-mute);border-color:var(--bdr-2)}
+.incmap-extra-chip:hover{border-color:var(--success)}
+
+/* Add option button */
+.add-opt-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border:1.5px dashed var(--bdr-2);border-radius:10px;background:transparent;color:var(--ink-soft);cursor:pointer;font:inherit;font-size:12.5px;font-weight:600;transition:all .15s;width:100%}
+.add-opt-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(164,120,100,.05)}
+
+/* Preview pane (right) */
+.preview-pane{border-left:1px solid var(--bdr);background:var(--bg);overflow-y:auto;padding:20px 18px}
+.preview-hd{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);font-weight:700;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.preview-frame{background:#f7f4ee;border-radius:18px;padding:18px;color:#0a0a0a;font-family:'Inter',sans-serif;border:1px solid var(--bdr)}
+.pf-step-h{font-family:var(--font-display);font-style:italic;font-weight:600;font-size:22px;margin:0 0 4px;color:#0c0c0c;letter-spacing:-.012em}
+.pf-step-h em{color:#a47864;font-style:italic}
+.pf-step-sub{font-size:12px;color:#484854;margin:0 0 16px;line-height:1.45}
+.pf-opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.pf-opt{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:14px;padding:10px 11px 9px;display:flex;flex-direction:column;gap:5px;min-height:90px;position:relative;box-shadow:0 0 0 2px rgba(0,0,0,.03)}
+.pf-opt-name{font-family:var(--font-display);font-style:italic;font-weight:600;font-size:13.5px;color:#0c0c0c;line-height:1.2;padding-right:18px}
+.pf-opt-desc{font-size:10.5px;color:#666;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.pf-opt-foot{display:flex;justify-content:flex-end;align-items:center;margin-top:auto;padding-top:5px}
+.pf-opt-price{font-family:var(--font-display);font-style:italic;font-weight:700;font-size:12px;color:#0c0c0c;font-variant-numeric:tabular-nums}
+.pf-opt-price.zero{background:rgba(22,163,74,.1);color:#16a34a;font-style:normal;font-family:var(--font-sans);font-weight:800;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:3px 7px;border-radius:999px}
+.pf-opt-price.incl{background:rgba(22,163,74,.13);color:#16a34a;font-style:normal;font-family:var(--font-sans);font-weight:800;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border-radius:999px;border:1px solid rgba(22,163,74,.3)}
+.pf-opt-price.locked{background:rgba(0,0,0,.05);color:rgba(0,0,0,.45);font-style:italic;font-size:9px;border:1px dashed rgba(0,0,0,.18);padding:2px 6px;border-radius:999px;text-transform:uppercase}
+.pf-opt.locked{opacity:.55;filter:grayscale(.4);border-style:dashed}
+.pf-opt-up{font-size:10px;color:#666}
+.pf-opt-up b{color:#0c0c0c;font-style:italic;font-family:var(--font-display);font-size:12px}
+.pf-rec{position:absolute;top:-8px;left:10px;background:linear-gradient(135deg,#a47864,#c89684);color:#fff;font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:3px 7px;border-radius:999px}
+
+.preview-series-pick{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.preview-series-pick button{padding:5px 10px;border-radius:999px;background:var(--panel-2);border:1px solid var(--bdr-2);color:var(--ink-soft);font:inherit;font-size:11px;font-weight:600;cursor:pointer}
+.preview-series-pick button.act{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* Toast */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:10px;font-weight:600;font-size:13px;opacity:0;pointer-events:none;transition:all .25s;z-index:1000;box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--danger);color:#fff}
+.toast.ok{background:var(--success);color:#fff}
+
+/* Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:var(--panel);border:1px solid var(--bdr);border-radius:16px;max-width:720px;width:100%;max-height:85vh;overflow:auto;padding:24px}
+.modal-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.modal-title{font-size:16px;font-weight:700;margin:0}
+.modal-close{background:transparent;border:none;color:var(--ink-mute);cursor:pointer;font-size:22px;line-height:1;padding:4px 8px}
+.code-area{width:100%;min-height:340px;background:var(--bg);border:1px solid var(--bdr);border-radius:8px;padding:14px;color:#9cdcfe;font-family:ui-monospace,Consolas,'Cascadia Code',monospace;font-size:12px;line-height:1.5;white-space:pre;overflow:auto}
+
+/* Status badge */
+.status-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-mute);font-weight:600}
+.status-badge.dirty{color:var(--gold)}
+.status-badge.dirty::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.status-badge.saved::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--success)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">ARMOR<b>A</b></div>
+  <div class="topbar-title">Редактор калькулятора · CALC_STEPS</div>
+  <div class="status-badge" id="statusBadge">загрузка…</div>
+  <div class="topbar-actions">
+    <button class="btn ghost" onclick="reload()" title="Перезагрузить из index.html">↻ Перезагрузить</button>
+    <button class="btn" onclick="saveLocal()">💾 Сохранить локально</button>
+    <button class="btn primary" onclick="showExport()">⬇ Экспорт JS</button>
+    <button class="btn success" onclick="downloadPatched()">📦 Скачать index.html</button>
+  </div>
+</div>
+
+<aside class="steps-pane">
+  <div class="steps-hd">
+    <span>Шаги (категории)</span>
+    <button class="btn sm" onclick="addStep()" title="Добавить новый шаг">+</button>
+  </div>
+  <div class="step-list" id="stepList"></div>
+</aside>
+
+<main class="editor-pane">
+  <div id="editorBody"><div class="editor-empty">Выберите шаг слева</div></div>
+</main>
+
+<aside class="preview-pane">
+  <div class="preview-hd">
+    <span>Предпросмотр</span>
+  </div>
+  <div class="preview-series-pick" id="previewSeriesPick"></div>
+  <div class="preview-frame" id="previewFrame"></div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="exportModal" onclick="if(event.target===this)closeExport()">
+  <div class="modal">
+    <div class="modal-hd">
+      <h3 class="modal-title">Экспорт CALC_STEPS</h3>
+      <button class="modal-close" onclick="closeExport()">×</button>
+    </div>
+    <p style="color:var(--ink-soft);font-size:13px;margin:0 0 12px">Скопируй и вставь в <code style="color:var(--accent)">index.html</code> вместо текущего <code style="color:var(--accent)">const CALC_STEPS=[…]</code> блока.</p>
+    <textarea class="code-area" id="exportCode" readonly></textarea>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
+      <button class="btn" onclick="closeExport()">Закрыть</button>
+      <button class="btn primary" onclick="copyExport()">📋 Скопировать</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   ARMORA CALC EDITOR
+   - Loads CALC_STEPS from index.html via fetch + regex extract
+   - Inline editing: name/price/desc/incMap
+   - Live preview using mini v5-opt cards
+   - Export: JS literal text + patched index.html download
+   ============================================================ */
+
+const STORAGE_KEY = 'armora_calc_editor_draft_v1';
+
+const STEP_LABELS = {
+  base:'Серия двери', ext:'Отделка снаружи', int:'Отделка внутри',
+  glass:'Стекло / вставка', seal:'Уплотнение', lock:'Замок',
+  handle:'Ручка', extras:'Доп. опции', size:'Размер',
+  bundles:'Пакеты', install_pkg:'Монтаж', install_extras:'Доп. работы'
+};
+
+const PROTECTED_KEYS = ['base','ext','int','glass','seal','lock','handle','extras','size','bundles','install_pkg','install_extras'];
+
+let CALC_STEPS = [];
+let SOURCE_HTML = '';   // raw index.html for patching
+let SOURCE_BLOCK = '';  // exact "const CALC_STEPS=[…];" text to replace
+let activeIdx = 0;
+let dirty = false;
+let previewSeriesIdx = 3; // Премиум by default
+
+/* ─── Load ─────────────────────────────────────────────────── */
+async function reload(){
+  setStatus('загрузка…');
+  try{
+    const res = await fetch('index.html?t='+Date.now(),{cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    SOURCE_HTML = await res.text();
+    const m = SOURCE_HTML.match(/const\s+CALC_STEPS\s*=\s*\[[\s\S]*?\n\];/);
+    if(!m) throw new Error('CALC_STEPS не найден в index.html');
+    SOURCE_BLOCK = m[0];
+    // safely eval the literal
+    const fn = new Function('return '+m[0].replace(/^const\s+CALC_STEPS\s*=\s*/,'').replace(/;\s*$/,''));
+    CALC_STEPS = fn();
+    setStatus('загружено',true);
+    activeIdx = 0;
+    render();
+    toast('Загружено '+CALC_STEPS.length+' шагов из index.html', 'ok');
+  }catch(e){
+    setStatus('ошибка');
+    toast('Не удалось загрузить index.html: '+e.message+'. Загрузи через 💾', 'err');
+    // try draft
+    const draft = localStorage.getItem(STORAGE_KEY);
+    if(draft){ try{ CALC_STEPS = JSON.parse(draft); render(); toast('Загружен черновик из localStorage','ok'); }catch(_){} }
+  }
+}
+
+function setStatus(txt, saved){
+  const b = document.getElementById('statusBadge');
+  b.textContent = txt;
+  b.className = 'status-badge' + (dirty ? ' dirty' : (saved?' saved':''));
+}
+function markDirty(){ dirty = true; setStatus('изменено'); savePreview(); }
+
+function saveLocal(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(CALC_STEPS));
+  dirty = false;
+  setStatus('сохранено локально', true);
+  toast('Черновик сохранён в браузере', 'ok');
+}
+
+/* ─── Render ───────────────────────────────────────────────── */
+function render(){
+  renderStepList();
+  renderEditor();
+  renderPreviewSeriesPick();
+  renderPreview();
+}
+
+function renderStepList(){
+  const c = document.getElementById('stepList');
+  c.innerHTML = CALC_STEPS.map((s,i)=>{
+    const lbl = STEP_LABELS[s.key] || s.key;
+    const protect = PROTECTED_KEYS.includes(s.key) ? '<span class="step-item-protect">SYS</span>' : '';
+    return `<div class="step-item ${i===activeIdx?'active':''}" onclick="setActive(${i})">
+      <span class="step-item-num">${i+1}</span>
+      <div style="flex:1;min-width:0">
+        <div class="step-item-name">${lbl}</div>
+        <div class="step-item-key">${s.key} · ${s.type} · ${(s.options||[]).length} опц.</div>
+      </div>
+      ${protect}
+    </div>`;
+  }).join('');
+}
+
+function setActive(i){ activeIdx = i; render(); }
+
+function renderEditor(){
+  const s = CALC_STEPS[activeIdx];
+  const c = document.getElementById('editorBody');
+  if(!s){ c.innerHTML = '<div class="editor-empty">Выберите шаг</div>'; return; }
+  const isProtected = PROTECTED_KEYS.includes(s.key);
+  const isBaseStep = s.key === 'base';
+  const isMulti = s.type === 'multi';
+
+  let html = `
+  <div class="section">
+    <div class="section-hd">
+      <div class="section-title">Параметры шага</div>
+      ${isProtected
+        ? '<span style="font-size:10px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase">⚠ системный — key менять нельзя</span>'
+        : `<button class="btn sm danger" onclick="removeStep(${activeIdx})">Удалить шаг</button>`
+      }
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Заголовок (с &lt;em&gt;)</label>
+        <input type="text" value="${esc(s.title||'')}" oninput="updateStep('title',this.value)">
+        <div class="field-hint">HTML &lt;em&gt; курсивит часть слов. Пример: «Отделка &lt;em&gt;снаружи&lt;/em&gt;»</div>
+      </div>
+      <div class="field">
+        <label class="field-label">Тип</label>
+        <select onchange="updateStep('type',this.value)" ${isProtected?'disabled':''}>
+          <option value="radio" ${s.type==='radio'?'selected':''}>radio (одиночный выбор)</option>
+          <option value="multi" ${s.type==='multi'?'selected':''}>multi (мульти-выбор)</option>
+          <option value="bundles" ${s.type==='bundles'?'selected':''}>bundles (пакеты)</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label">Подсказка под заголовком</label>
+      <textarea oninput="updateStep('hint',this.value)">${esc(s.hint||'')}</textarea>
+    </div>
+    <div class="field">
+      <label class="field-label">Ключ (key)</label>
+      <input type="text" value="${esc(s.key)}" ${isProtected?'disabled':''} oninput="updateStep('key',this.value)">
+      <div class="field-hint">Системный идентификатор. Если шаг используется в коде — менять опасно.</div>
+    </div>
+  </div>`;
+
+  // Options list
+  if(s.type !== 'bundles'){
+    html += `<div class="section">
+      <div class="section-hd">
+        <div class="section-title">Опции (${(s.options||[]).length})</div>
+        <button class="btn sm" onclick="addOption()">+ Добавить опцию</button>
+      </div>
+      <div class="opts-list" id="optsList">${renderOptions(s)}</div>
+    </div>`;
+  }
+
+  // incMap editor (only for base step)
+  if(isBaseStep){
+    html += `<div class="section">
+      <div class="section-hd">
+        <div class="section-title">Что включено в каждую серию (incMap)</div>
+        <span style="font-size:10px;color:var(--ink-mute)">кликни — выбери из вариантов</span>
+      </div>
+      ${renderIncMaps()}
+    </div>`;
+  }
+
+  c.innerHTML = html;
+}
+
+function renderOptions(s){
+  return (s.options||[]).map((o,i)=>{
+    const isLockExtras = (o.excludesLocks||[]).length || o.bundleOnly || o.isGift || o.steelMm || o.mult;
+    return `<div class="opt-card" data-i="${i}">
+      <div class="opt-card-row">
+        <span class="opt-handle" title="Перетащить">⋮⋮</span>
+        <input type="text" class="opt-name-input" value="${esc(o.name)}" oninput="updateOpt(${i},'name',this.value)" placeholder="Название опции">
+        <input type="number" class="opt-price-input" value="${o.price||0}" oninput="updateOpt(${i},'price',+this.value)" placeholder="₽">
+        <div class="opt-actions">
+          <button class="btn icon ghost" onclick="moveOpt(${i},-1)" title="Выше">↑</button>
+          <button class="btn icon ghost" onclick="moveOpt(${i},1)" title="Ниже">↓</button>
+          <button class="btn icon ghost opt-toggle-btn" onclick="toggleExpand(${i})" title="Подробно"><span class="opt-toggle">▾</span></button>
+          <button class="btn icon danger" onclick="removeOpt(${i})" title="Удалить">×</button>
+        </div>
+      </div>
+      <div class="opt-card-expanded">
+        <div class="field">
+          <label class="field-label">Описание (desc)</label>
+          <textarea oninput="updateOpt(${i},'desc',this.value)">${esc(o.desc||'')}</textarea>
+        </div>
+        <div class="field">
+          <label class="field-label">Состав / краткий список (inc)</label>
+          <input type="text" value="${esc(o.inc||'')}" oninput="updateOpt(${i},'inc',this.value)" placeholder="Пример: МДФ · 2 контура · Guardian">
+        </div>
+        <div class="field-row-3">
+          <label class="field-checkbox"><input type="checkbox" ${o.isGift?'checked':''} onchange="updateOpt(${i},'isGift',this.checked||undefined)"> isGift (подарок)</label>
+          <label class="field-checkbox"><input type="checkbox" ${o.bundleOnly?'checked':''} onchange="updateOpt(${i},'bundleOnly',this.checked||undefined)"> bundleOnly</label>
+          <div class="field"><label class="field-label">Множитель (mult)</label><input type="number" step="0.01" value="${o.mult||''}" oninput="updateOpt(${i},'mult',this.value?+this.value:undefined)" placeholder="1.00"></div>
+        </div>
+        ${activeIdx===0 ? `<div class="field"><label class="field-label">steelMm (толщина стали серии)</label><input type="number" step="0.1" value="${o.steelMm||''}" oninput="updateOpt(${i},'steelMm',this.value?+this.value:undefined)" placeholder="1.5"></div>` : ''}
+        ${CALC_STEPS[activeIdx].key==='lock' ? `<div class="field"><label class="field-label">excludesLocks (через запятую — конфликтует с замками)</label><input type="text" value="${(o.excludesLocks||[]).join(', ')}" oninput="updateOpt(${i},'excludesLocks',this.value.split(',').map(s=>s.trim()).filter(Boolean))" placeholder="Замок Mottura"></div>` : ''}
+      </div>
+    </div>`;
+  }).join('') + `<button class="add-opt-btn" onclick="addOption()">+ Добавить опцию</button>`;
+}
+
+function renderIncMaps(){
+  const baseStep = CALC_STEPS[0];
+  const otherSteps = CALC_STEPS.filter(s=>s.key!=='base'&&s.key!=='bundles'&&s.type==='radio');
+  const extrasStep = CALC_STEPS.find(s=>s.key==='extras');
+
+  return baseStep.options.map((series, sIdx)=>{
+    const incMap = series.incMap || {};
+    let html = `<div style="background:var(--bg);border:1px solid var(--bdr-2);border-radius:10px;padding:14px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <strong style="font-size:14px;color:var(--accent)">${esc(series.name)}</strong>
+        <span style="font-size:11px;color:var(--ink-mute)">${(series.price||0).toLocaleString('ru-RU')} ₽ · steel ${series.steelMm||'?'}мм</span>
+      </div>
+      <div class="incmap-grid">`;
+    otherSteps.forEach(st=>{
+      const cur = incMap[st.key] || '';
+      html += `<div class="incmap-cell">
+        <div class="incmap-cell-label">${STEP_LABELS[st.key]||st.key}</div>
+        <select onchange="updateIncMap(${sIdx},'${st.key}',this.value)">
+          <option value="">— ничего не включать —</option>
+          ${st.options.filter(o=>!o.bundleOnly).map(o=>`<option value="${esc(o.name)}" ${cur===o.name?'selected':''}>${esc(o.name)} (${(o.price||0).toLocaleString('ru-RU')} ₽)</option>`).join('')}
+        </select>
+      </div>`;
+    });
+    html += `</div>`;
+    // extras chips
+    if(extrasStep){
+      const inclSet = new Set(incMap.extras||[]);
+      html += `<div class="incmap-cell-label" style="margin-top:14px">Дополнительные опции в серии</div>
+        <div class="incmap-extras">${extrasStep.options.map(o=>`<span class="incmap-extra-chip ${inclSet.has(o.name)?'':'off'}" onclick="toggleIncExtra(${sIdx},'${esc(o.name).replace(/'/g,"\\'")}')">${inclSet.has(o.name)?'✓':'+'} ${esc(o.name)}</span>`).join('')}</div>`;
+    }
+    html += `</div>`;
+    return html;
+  }).join('');
+}
+
+function renderPreviewSeriesPick(){
+  const base = CALC_STEPS[0];
+  if(!base) return;
+  document.getElementById('previewSeriesPick').innerHTML = base.options.map((o,i)=>
+    `<button class="${i===previewSeriesIdx?'act':''}" onclick="previewSeriesIdx=${i};renderPreview()">${esc(o.name)}</button>`
+  ).join('');
+}
+
+function renderPreview(){
+  const s = CALC_STEPS[activeIdx];
+  if(!s){ document.getElementById('previewFrame').innerHTML=''; return; }
+  const baseSeries = CALC_STEPS[0].options[previewSeriesIdx] || {};
+  const incMap = baseSeries.incMap || {};
+  const inclName = incMap[s.key] || null;
+  const incExtras = new Set(incMap.extras||[]);
+  const inclOpt = inclName ? (s.options||[]).find(o=>o.name===inclName) : null;
+  const credit = inclOpt ? inclOpt.price : 0;
+
+  let html = `<h3 class="pf-step-h">${s.title||''}</h3><p class="pf-step-sub">${esc(s.hint||'')}</p><div class="pf-opts">`;
+  (s.options||[]).filter(o=>!o.bundleOnly).forEach(o=>{
+    let priceHtml, classExtra='';
+    const isExact = inclName && o.name === inclName;
+    const isInclExtra = s.key==='extras' && incExtras.has(o.name);
+    const isLocked = s.key !== 'base' && s.type !== 'multi' && credit>0 && !isExact && (o.price||0) < credit;
+    const hasUpgrade = s.key !== 'base' && s.type !== 'multi' && credit>0 && (o.price||0) > credit && !isExact;
+
+    if(s.key==='size' && o.mult){
+      priceHtml = o.mult===1 ? `<span class="pf-opt-price zero">без наценки</span>` : `<span class="pf-opt-price">+${Math.round((o.mult-1)*100)}% к итогу</span>`;
+    } else if(isExact || isInclExtra){
+      priceHtml = `<span class="pf-opt-price incl">включено в серию</span>`;
+    } else if(isLocked){
+      priceHtml = `<span class="pf-opt-price locked">недоступно</span>`;
+      classExtra = ' locked';
+    } else if(hasUpgrade){
+      priceHtml = `<span class="pf-opt-up">апгрейд <b>+${(o.price-credit).toLocaleString('ru-RU')} ₽</b></span>`;
+    } else if((o.price||0)===0){
+      priceHtml = `<span class="pf-opt-price zero">включено</span>`;
+    } else if(o.isGift){
+      priceHtml = `<span class="pf-opt-price zero" style="background:#a47864;color:#fff">в подарок</span>`;
+    } else if(o.price<0){
+      priceHtml = `<span class="pf-opt-price">−${Math.abs(o.price).toLocaleString('ru-RU')} ₽</span>`;
+    } else {
+      priceHtml = `<span class="pf-opt-price">+${(o.price||0).toLocaleString('ru-RU')} ₽</span>`;
+    }
+    const isRec = s.key==='base' && o.name==='Премиум';
+    html += `<div class="pf-opt${classExtra}">
+      ${isRec?'<span class="pf-rec">★ Рекомендуем</span>':''}
+      <div class="pf-opt-name">${esc(o.name)}</div>
+      <div class="pf-opt-desc">${esc(o.desc||'')}</div>
+      <div class="pf-opt-foot">${priceHtml}</div>
+    </div>`;
+  });
+  html += `</div>`;
+  document.getElementById('previewFrame').innerHTML = html;
+}
+
+function savePreview(){ renderPreview(); }
+
+/* ─── Mutations ────────────────────────────────────────────── */
+function updateStep(field, value){
+  CALC_STEPS[activeIdx][field] = value;
+  markDirty();
+  if(field==='title'||field==='hint') renderPreview();
+  if(field==='type') renderEditor();
+  renderStepList();
+}
+
+function updateOpt(i, field, value){
+  const o = CALC_STEPS[activeIdx].options[i];
+  if(value===undefined || value===''||(Array.isArray(value)&&!value.length)){ delete o[field]; }
+  else { o[field] = value; }
+  markDirty();
+  // re-render incMap if base names change
+  if(activeIdx===0 && field==='name') renderEditor();
+  // refresh just preview in most cases (avoid losing focus)
+  if(field==='name'||field==='price'||field==='desc'||field==='mult'||field==='isGift') renderPreview();
+}
+
+function moveOpt(i, dir){
+  const arr = CALC_STEPS[activeIdx].options;
+  const j = i+dir;
+  if(j<0||j>=arr.length) return;
+  [arr[i], arr[j]] = [arr[j], arr[i]];
+  markDirty();
+  renderEditor(); renderPreview();
+}
+
+function removeOpt(i){
+  const o = CALC_STEPS[activeIdx].options[i];
+  if(!confirm(`Удалить опцию «${o.name}»?`)) return;
+  CALC_STEPS[activeIdx].options.splice(i,1);
+  markDirty();
+  renderEditor(); renderPreview();
+}
+
+function addOption(){
+  CALC_STEPS[activeIdx].options.push({name:'Новая опция', price:0, desc:''});
+  markDirty();
+  renderEditor(); renderPreview();
+  setTimeout(()=>{
+    const list = document.getElementById('optsList');
+    if(list) list.lastElementChild?.scrollIntoView({behavior:'smooth',block:'center'});
+  },50);
+}
+
+function toggleExpand(i){
+  const card = document.querySelectorAll('.opt-card')[i];
+  if(card) card.classList.toggle('expanded');
+}
+
+function addStep(){
+  const key = prompt('Ключ нового шага (latin, без пробелов):');
+  if(!key) return;
+  if(CALC_STEPS.find(s=>s.key===key)){ toast('Такой key уже есть','err'); return; }
+  CALC_STEPS.push({key, type:'radio', title:'Новый шаг', hint:'', options:[]});
+  markDirty();
+  activeIdx = CALC_STEPS.length-1;
+  render();
+}
+
+function removeStep(i){
+  const s = CALC_STEPS[i];
+  if(PROTECTED_KEYS.includes(s.key)){ toast('Системный шаг удалить нельзя','err'); return; }
+  if(!confirm(`Удалить шаг «${STEP_LABELS[s.key]||s.key}»?`)) return;
+  CALC_STEPS.splice(i,1);
+  if(activeIdx>=CALC_STEPS.length) activeIdx = CALC_STEPS.length-1;
+  markDirty();
+  render();
+}
+
+function updateIncMap(seriesIdx, stepKey, value){
+  const series = CALC_STEPS[0].options[seriesIdx];
+  series.incMap = series.incMap || {};
+  if(value) series.incMap[stepKey] = value;
+  else delete series.incMap[stepKey];
+  markDirty();
+  renderPreview();
+}
+
+function toggleIncExtra(seriesIdx, name){
+  const series = CALC_STEPS[0].options[seriesIdx];
+  series.incMap = series.incMap || {};
+  const arr = series.incMap.extras = series.incMap.extras || [];
+  const i = arr.indexOf(name);
+  if(i>=0) arr.splice(i,1); else arr.push(name);
+  if(!arr.length) delete series.incMap.extras;
+  markDirty();
+  renderEditor();
+  renderPreview();
+}
+
+/* ─── Export / serialize ──────────────────────────────────── */
+function serializeCalcSteps(){
+  // Pretty-print to match index.html style as closely as possible
+  const lines = ['const CALC_STEPS=['];
+  CALC_STEPS.forEach((s,i)=>{
+    const last = i===CALC_STEPS.length-1;
+    const head = `  {key:${jsStr(s.key)},type:${jsStr(s.type)},title:${jsStr(s.title||'')},hint:${jsStr(s.hint||'')},`;
+    if(s.type==='bundles' && (!s.options||!s.options.length)){
+      lines.push(head.slice(0,-1) + `,options:[]}` + (last?'':','));
+      return;
+    }
+    lines.push(head);
+    lines.push('   options:[');
+    (s.options||[]).forEach((o,j)=>{
+      const pairs = [];
+      pairs.push(`name:${jsStr(o.name)}`);
+      pairs.push(`price:${o.price||0}`);
+      if(o.steelMm!=null) pairs.push(`steelMm:${o.steelMm}`);
+      if(o.mult!=null) pairs.push(`mult:${o.mult}`);
+      if(o.desc) pairs.push(`desc:${jsStr(o.desc)}`);
+      if(o.inc) pairs.push(`inc:${jsStr(o.inc)}`);
+      if(o.isGift) pairs.push(`isGift:true`);
+      if(o.bundleOnly) pairs.push(`bundleOnly:true`);
+      if(o.excludesLocks && o.excludesLocks.length) pairs.push(`excludesLocks:[${o.excludesLocks.map(jsStr).join(',')}]`);
+      if(o.incMap){
+        const im = [];
+        Object.keys(o.incMap).forEach(k=>{
+          const v = o.incMap[k];
+          if(Array.isArray(v)) im.push(`${k}:[${v.map(jsStr).join(',')}]`);
+          else im.push(`${k}:${jsStr(v)}`);
+        });
+        pairs.push(`incMap:{${im.join(',')}}`);
+      }
+      const lj = j===s.options.length-1?'':',';
+      lines.push(`    {${pairs.join(',')}}${lj}`);
+    });
+    lines.push(`  ]}${last?'':','}`);
+  });
+  lines.push('];');
+  return lines.join('\n');
+}
+function jsStr(s){ return "'" + String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'") + "'"; }
+
+function showExport(){
+  document.getElementById('exportCode').value = serializeCalcSteps();
+  document.getElementById('exportModal').classList.add('show');
+}
+function closeExport(){ document.getElementById('exportModal').classList.remove('show'); }
+function copyExport(){
+  const ta = document.getElementById('exportCode');
+  ta.select();
+  document.execCommand('copy');
+  toast('JS-код скопирован','ok');
+}
+
+function downloadPatched(){
+  if(!SOURCE_HTML || !SOURCE_BLOCK){
+    toast('Нет загруженного index.html. Используй ⬇ Экспорт JS','err');
+    return;
+  }
+  const newBlock = serializeCalcSteps();
+  const patched = SOURCE_HTML.replace(SOURCE_BLOCK, newBlock);
+  const blob = new Blob([patched], {type:'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'index.html';
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 100);
+  toast('index.html скачан — замени файл в проекте','ok');
+}
+
+/* ─── Helpers ─────────────────────────────────────────────── */
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function toast(msg, kind){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (kind||'');
+  clearTimeout(t.__tm);
+  t.__tm = setTimeout(()=>t.classList.remove('show'), 2400);
+}
+
+window.addEventListener('beforeunload', e=>{
+  if(dirty){ e.preventDefault(); e.returnValue=''; }
+});
+
+document.addEventListener('keydown', e=>{
+  if((e.ctrlKey||e.metaKey) && e.key==='s'){ e.preventDefault(); saveLocal(); }
+});
+
+reload();
+</script>
+</body>
+</html>
