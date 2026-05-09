@@ -8540,16 +8540,16 @@ const CALC_REQUIRED_OPTIONS = {
 const CALC_STEPS=[
   {key:'base',type:'radio',title:'Серия <em>двери</em>',hint:'Серия определяет конструкцию: толщину металла, класс замков, количество контуров. Уже выбрана под модель из каталога — но можно сменить.',
    options:[
-    {name:'Эконом',price:12900,desc:'Для дач, гаражей, нежилых помещений.',inc:'Порошковое покрытие · Винилискожа',
+    {name:'Эконом',price:12900,steelMm:1.2,desc:'Для дач, гаражей, нежилых помещений.',inc:'Порошковое покрытие · Винилискожа',
      incMap:{ext:'Порошковое полимерное покрытие',int:'Винилискожа'}},
-    {name:'Стандарт',price:24900,desc:'Базовый вариант для квартиры.',inc:'Порошковое покрытие · Ламинат · 2 контура',
-     incMap:{ext:'Порошковое полимерное покрытие',int:'Ламинат',seal:'Двойной контур'}},
-    {name:'Комфорт',price:34900,desc:'Повышенная тепло- и шумоизоляция.',inc:'ПВХ · 2 контура · Guardian · Armadillo',
+    {name:'Стандарт',price:24900,steelMm:1.5,desc:'Базовый вариант для квартиры.',inc:'Порошковое покрытие · Ламинат · 2 контура · Guardian',
+     incMap:{ext:'Порошковое полимерное покрытие',int:'Ламинат',seal:'Двойной контур',lock:'2 замка Guardian'}},
+    {name:'Комфорт',price:34900,steelMm:1.5,desc:'Повышенная тепло- и шумоизоляция.',inc:'ПВХ · 2 контура · Guardian · Armadillo',
      incMap:{ext:'ПВХ',int:'ПВХ',seal:'Двойной контур',lock:'2 замка Guardian',handle:'Armadillo'}},
-    {name:'Премиум',price:54900,desc:'Оптимальный выбор для московских квартир.',inc:'МДФ · 2 контура · Guardian · Armadillo · Ночная задвижка',
-     incMap:{ext:'МДФ',int:'МДФ',seal:'Двойной контур',lock:'2 замка Guardian',handle:'Armadillo',extras:['Ночная задвижка']}},
-    {name:'Элит',price:89900,desc:'Индивидуальное производство.',inc:'Фанера · МДФ · 3 контура · 2 замка · Терморазрыв',
-     incMap:{ext:'Влагостойкая фанера',int:'МДФ',seal:'Тройной контур',lock:'2 замка Guardian',extras:['Терморазрыв']}}
+    {name:'Премиум',price:54900,steelMm:1.8,desc:'Оптимальный выбор для московских квартир.',inc:'МДФ · 2 контура · Guardian · Guardian Premium · Ночная задвижка',
+     incMap:{ext:'Ламинат',int:'МДФ',seal:'Двойной контур',lock:'2 замка Guardian',handle:'Guardian Premium',extras:['Ночная задвижка']}},
+    {name:'Элит',price:89900,steelMm:2.0,desc:'Индивидуальное производство.',inc:'Фанера · МДФ · 3 контура · Cisa · Guardian Premium · Терморазрыв · Скрытые петли',
+     incMap:{ext:'Влагостойкая фанера',int:'МДФ',seal:'Тройной контур',lock:'Замок Cisa',handle:'Guardian Premium',extras:['Терморазрыв','Скрытые петли']}}
   ]},
   {key:'ext',type:'radio',title:'Отделка <em>снаружи</em>',hint:'Эту сторону видят соседи. Варианты дешевле включённого в серию — бесплатны.',
    options:[
@@ -8593,7 +8593,7 @@ const CALC_STEPS=[
     {name:'2 замка Kale',price:6500,desc:'Турецкое качество.'},
     {name:'Замок Cisa',price:13000,desc:'Итальянский сертифицированный.'},
     {name:'Замок Mottura',price:35500,desc:'Топовый итальянский замок класса 5+. Защита от перепиливания и высверливания.'},
-    {name:'Электронный замок премиум',price:36900,desc:'Отпечаток пальца + PIN + карта-ключ + аварийный механический ключ. Полностью офлайн, без интернета.'},
+    {name:'Электронный замок премиум',price:42900,desc:'Отпечаток пальца + PIN + карта-ключ + аварийный механический ключ. Полностью офлайн, без интернета.',excludesLocks:['Замок Mottura']},
     {name:'Замок редукторного типа',price:9000,desc:'Бесшумный механизм закрытия.',bundleOnly:true}
   ]},
   {key:'handle',type:'radio',title:'Ручка и <em>фурнитура</em>',hint:'Деталь, к которой прикасаетесь тысячи раз в год.',
@@ -9098,10 +9098,10 @@ function renderBundlesStep(){
     html += `<div class="v5-combo-bonus${lvl2?' lvl2':''}">
       <div class="v5-combo-bonus-icon">🎁</div>
       <div class="v5-combo-bonus-body">
-        <div class="v5-combo-bonus-title">${lvl2?'Уровень «Коллекционер» разблокирован':'Премиум-бонус разблокирован'}</div>
+        <div class="v5-combo-bonus-title">${lvl2?'Уровень «Коллекционер» — скидка 3 500 ₽ + бонусы':'Премиум-бонус — скидка 3 500 ₽'}</div>
         <div class="v5-combo-bonus-text">${lvl2
-          ? 'Бесплатная антикоррозийная обработка коробки + годовой техосмотр на дому. Подарок зафиксируем при подтверждении заявки.'
-          : 'Бесплатная антикоррозийная обработка коробки (3 500 ₽) — в подарок при заказе.'
+          ? '−3 500 ₽ применены к итогу. Дополнительно: годовой техосмотр на дому (зафиксируем при подтверждении заявки).'
+          : '−3 500 ₽ применены к итогу за выбор 2 пакетов (антикоррозийная обработка коробки в подарок).'
         }</div>
       </div>
     </div>`;
@@ -9182,18 +9182,22 @@ function calcTotal(){
   });
   (CALC.sel.install_extras||[]).forEach(e => { t += e.price; });
   // Прибавляем эффективную цену каждого активного бандла (с учётом кредитов серии)
+  let bundlesSum = 0;
   CALC.activeBundles.forEach(id => {
     const b = bundleById(id);
-    if(b) t += bundleEffectivePrice(b);
+    if(b) bundlesSum += bundleEffectivePrice(b);
   });
-  // Множитель размера (двустворка ×1.40, oversize ×1.20 и т.д.) — применяется к итогу.
-  // Доставку/монтаж и доп. работы НЕ умножаем — это отдельные услуги.
+  t += bundlesSum;
+  // Combo-бонус: 2+ активных пакета → скидка 3 500 ₽ (антикоррозийная обработка в подарок)
+  if(CALC.activeBundles.length >= 2) t -= 3500;
+  // Множитель размера (двустворка ×1.40, oversize ×1.20 и т.д.) — применяется к product-части.
+  // Доставку/монтаж, доп. работы и бандлы НЕ умножаем — это отдельные услуги/комплекты.
   const sizeMult = (CALC.sel.size && CALC.sel.size.mult) ? CALC.sel.size.mult : 1;
   if(sizeMult !== 1){
     const installPkg = CALC.sel.install_pkg ? CALC.sel.install_pkg.price : 0;
     const installExtras = (CALC.sel.install_extras||[]).reduce((a,e)=>a+e.price,0);
-    const productPart = t - installPkg - installExtras;
-    t = Math.round(productPart * sizeMult) + installPkg + installExtras;
+    const productPart = t - installPkg - installExtras - bundlesSum;
+    t = Math.round(productPart * sizeMult) + installPkg + installExtras + bundlesSum;
   }
   return t;
 }
@@ -9360,6 +9364,10 @@ function selOption(key,idx){
     toast && toast(`Нельзя выбрать дешевле включённого в серию (${credit.toLocaleString('ru-RU')} ₽)`);
     return;
   }
+  // Проверка взаимоисключений замков (Mottura ↔ Электронный)
+  if(key==='lock' && opt.excludesLocks && CALC.sel.lock && opt.excludesLocks.includes(CALC.sel.lock.name)){
+    toast && toast(`«${opt.name}» не совместим с «${CALC.sel.lock.name}»`);
+  }
   CALC.sel[key]=opt;
   if(key==='base') applyBaseSeriesChange();
   renderCalc();
@@ -9414,6 +9422,12 @@ function applyBaseSeriesChange(){
         CALC.sel.extras.push(o);
       }
     });
+  }
+  // 5) Снять Терморазрыв, если новая серия имеет тонкий металл (<1.8 мм)
+  const steel = CALC.sel.base?.steelMm || 0;
+  if(steel < 1.8){
+    const ti = CALC.sel.extras.findIndex(x => x.name === 'Терморазрыв');
+    if(ti >= 0 && !newIncl.has('Терморазрыв')) CALC.sel.extras.splice(ti, 1);
   }
 }
 function toggleExtra(idx){
@@ -9687,6 +9701,9 @@ function v5Select(key, name){
     toast && toast(`«${o.name}» дешевле включённого в серию «${inclName}» (${credit.toLocaleString('ru-RU')} ₽). Можно выбрать только равное или дороже.`);
     return;
   }
+  if(key==='lock' && o.excludesLocks && CALC.sel.lock && o.excludesLocks.includes(CALC.sel.lock.name)){
+    toast && toast(`«${o.name}» не совместим с «${CALC.sel.lock.name}»`);
+  }
   CALC.sel[key]=o;
   if(key==='base') applyBaseSeriesChange();
   renderCalc();
@@ -9699,6 +9716,15 @@ function v5ToggleExtra(key, name, btn){
   if(key === 'extras' && isExtraLocked(o.name)){
     toast && toast(`«${o.name}» уже входит в серию или пакет — снять нельзя`);
     return;
+  }
+  // Терморазрыв требует сталь ≥1.8 мм (нельзя ставить на тонкий каркас)
+  if(key === 'extras' && o.name === 'Терморазрыв'){
+    const steel = CALC.sel.base?.steelMm || 0;
+    const already = CALC.sel.extras.some(x => x.name === 'Терморазрыв');
+    if(!already && steel < 1.8){
+      toast && toast(`Терморазрыв требует сталь ≥1.8 мм. Выберите серию Премиум или Элит.`);
+      return;
+    }
   }
   const list = key==='install_extras' ? (CALC.sel.install_extras=CALC.sel.install_extras||[]) : CALC.sel.extras;
   const i = list.findIndex(x=>x.name===o.name);
