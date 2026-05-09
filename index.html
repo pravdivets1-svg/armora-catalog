@@ -4212,6 +4212,33 @@ h2.card-name{margin:0;padding:0}
   border-color: var(--v5-mocha);
 }
 
+/* Locked option — disabled visually, опция дешевле включённого в серию */
+.v5-opt.is-locked{
+  opacity: .42;
+  cursor: not-allowed;
+  filter: grayscale(.5);
+  border-style: dashed !important;
+  background: repeating-linear-gradient(135deg, transparent 0 8px, rgba(0,0,0,.018) 8px 16px), var(--v5-surface) !important;
+}
+.v5-opt.is-locked:hover{ transform: none !important; border-color: var(--v5-bdr) !important; }
+.v5-opt.is-locked::before{ display:none !important; }
+.v5-opt-price.locked{
+  background: rgba(0,0,0,.05) !important;
+  color: rgba(0,0,0,.5) !important;
+  font-style: italic;
+  border: 1px dashed rgba(0,0,0,.18);
+}
+.v5-opt-locked-badge{
+  position: absolute; top: 10px; right: 10px;
+  font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  background: rgba(22,163,74,.12); color: #16a34a;
+  padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(22,163,74,.3);
+}
+.v5-opt-credit{
+  font-size: 10.5px; color: var(--v5-ink-mute); font-style: italic; margin-top: 2px;
+}
+.v5-opt-price-up{ display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+
 /* Elite card — gold top accent */
 .v5-opt[data-name="Элит"]{
   border-top: 2px solid rgba(212,168,84,.5);
@@ -8779,6 +8806,37 @@ function isIncludedExtra(name){
 }
 
 /* ============================================================
+   ВАРИАНТ 2 — «Только апгрейды»
+   ────────────────────────────────────────────────────────────
+   Серия даёт фикс-набор. Дешевле включённого выбрать НЕЛЬЗЯ —
+   только равное (включено бесплатно) или дороже (платишь разницу).
+   Никаких сгораний кредита, никаких «бесплатно по серии».
+   ============================================================ */
+
+/* Опция шага доступна для выбора?
+   - base/glass — всегда доступны (нет кредита)
+   - если шаг не включён в серию — все опции доступны
+   - если включён — доступны только опции с price >= credit */
+function isOptionAllowed(stepKey, opt){
+  if(!opt) return false;
+  if(stepKey === 'base' || stepKey === 'glass' || stepKey === 'size'
+     || stepKey === 'install_pkg' || stepKey === 'install_extras') return true;
+  const credit = getStepCredit(stepKey);
+  if(credit === 0) return true;
+  // Включённая в серию опция всегда доступна
+  if(isExactSeriesOpt(stepKey, opt.name)) return true;
+  // Дороже или равно кредиту — апгрейд разрешён
+  return opt.price >= credit;
+}
+
+/* Extra залочен (включён в серию или бандлом) — нельзя снять */
+function isExtraLocked(name){
+  if(isIncludedExtra(name)) return true;
+  if(extraCoveredByBundle(name)) return true;
+  return false;
+}
+
+/* ============================================================
    BUNDLE HELPERS — активация, проверка покрытия, эффективная цена
    ============================================================ */
 function isBundleActive(id){ return CALC.activeBundles.includes(id); }
@@ -9278,7 +9336,13 @@ function renderCalc(){
 
 function selOption(key,idx){
   const s=CALC_STEPS.find(x=>x.key===key);
-  CALC.sel[key]=s.options[idx];
+  const opt = s.options[idx];
+  if(!isOptionAllowed(key, opt)){
+    const credit = getStepCredit(key);
+    toast && toast(`Нельзя выбрать дешевле включённого в серию (${credit.toLocaleString('ru-RU')} ₽)`);
+    return;
+  }
+  CALC.sel[key]=opt;
   if(key==='base') applyBaseSeriesChange();
   renderCalc();
 }
@@ -9308,18 +9372,20 @@ function applyBaseSeriesChange(){
     if(allSeriesExtras.has(e.name)) return false; // был series-only от старой серии → убрать
     return true; // ручной выбор — сохранить
   });
-  // 3) Переприменить ext/int/seal/lock/handle по incMap новой серии (если включено)
+  // 3) Переприменить ext/int/seal/lock/handle:
+  //    - если текущий выбор клиента ДОРОЖЕ нового кредита → сохранить апгрейд
+  //    - если текущий выбор ДЕШЕВЛЕ нового кредита → подтянуть к включённому в серию
+  //    - если новая серия ничего не включает на шаге → оставить выбор как есть
   ['ext','int','seal','lock','handle'].forEach(k => {
     const s = CALC_STEPS.find(x => x.key === k);
     const inclName = seriesIncludedOptName(k);
-    if(inclName){
-      const opt = s.options.find(o => o.name === inclName);
-      if(opt) CALC.sel[k] = opt;
-    } else {
-      // Если новая серия ничего не включает на этом шаге — откат на options[0]
-      // только если текущая опция была series-only старой серии.
-      // Чтобы не быть слишком агрессивными, оставляем как есть: пусть кредит=0
-      // и клиент сам сменит при необходимости.
+    const inclOpt = inclName ? s.options.find(o => o.name === inclName) : null;
+    const cur = CALC.sel[k];
+    if(inclOpt){
+      if(!cur || cur.price < inclOpt.price){
+        CALC.sel[k] = inclOpt; // даунгрейд → подтянуть к серии
+      }
+      // иначе клиент уже выбрал апгрейд → сохраняем
     }
   });
   // 4) Добавить недостающие series-extras новой серии
@@ -9334,6 +9400,10 @@ function applyBaseSeriesChange(){
 }
 function toggleExtra(idx){
   const o=CALC_STEPS.find(s=>s.key==='extras').options[idx];
+  if(isExtraLocked(o.name)){
+    toast && toast(`«${o.name}» включено в серию или пакет — снять нельзя`);
+    return;
+  }
   const i=CALC.sel.extras.findIndex(x=>x.name===o.name);
   if(i>=0)CALC.sel.extras.splice(i,1);else CALC.sel.extras.push(o);
   renderCalc();
@@ -9342,6 +9412,10 @@ function calcNext(){if(CALC.cur<CALC_STEPS.length-1){CALC.cur++;renderCalc();}}
 function calcPrev(){if(CALC.cur>0){CALC.cur--;renderCalc();}}
 function goCalcStep(i){if(i>=0&&i<CALC_STEPS.length){CALC.cur=i;renderCalc();}}
 function removeExtra(name){
+  if(isExtraLocked(name)){
+    toast && toast(`«${name}» включено в серию или пакет — снять нельзя`);
+    return;
+  }
   const i=CALC.sel.extras.findIndex(x=>x.name===name);
   if(i>=0){CALC.sel.extras.splice(i,1);renderCalc();}
 }
@@ -9493,30 +9567,28 @@ window.__renderCalcV5 = function(total, prevTotal){
     const multiList = step.key==='install_extras'?(CALC.sel.install_extras||[]):CALC.sel.extras;
     const sel = isMulti ? multiList.some(x=>x.name===o.name) : (CALC.sel[step.key]&&CALC.sel[step.key].name===o.name);
     const isRec = step.key==='base' && o.name==='Премиум';
-    // Кредитная логика для отображения цены
-    const isExactSeries = step.key !== 'base' && !isMulti && isExactSeriesOpt(step.key, o.name);
+    // Вариант 2: только апгрейды
+    const isExactSeries = !isMulti && step.key !== 'base' && isExactSeriesOpt(step.key, o.name);
     const isInclExtra = step.key === 'extras' && isIncludedExtra(o.name);
-    const hasUpgrade = step.key !== 'base' && !isMulti && stepCredit > 0 && o.price > stepCredit && !isExactSeries;
-    const isFreeBelowCredit = step.key !== 'base' && !isMulti && stepCredit > 0 && o.price > 0 && o.price <= stepCredit && !isExactSeries;
+    const hasUpgrade = !isMulti && step.key !== 'base' && stepCredit > 0 && o.price > stepCredit && !isExactSeries;
+    const isLocked = !isMulti && step.key !== 'base' && stepCredit > 0 && !isExactSeries && o.price < stepCredit;
+    const isExtraLockedNow = isMulti && step.key === 'extras' && isExtraLocked(o.name);
 
     let priceHtml;
     if(step.key === 'size' && o.mult){
-      // Размер двери — показываем процент-наценку, а не «+0 ₽»
       if(o.mult === 1){
         priceHtml=`<span class="v5-opt-price zero">без наценки</span>`;
       } else {
         const pct = Math.round((o.mult - 1) * 100);
         priceHtml=`<span class="v5-opt-price">+${pct}% к итогу</span>`;
       }
-    } else if(isExactSeries){
+    } else if(isExactSeries || isInclExtra){
       priceHtml=`<span class="v5-opt-price incl">включено в серию</span>`;
-    } else if(isInclExtra){
-      priceHtml=`<span class="v5-opt-price incl">включено в серию</span>`;
+    } else if(isLocked){
+      priceHtml=`<span class="v5-opt-price locked">недоступно для серии</span>`;
     } else if(hasUpgrade){
-      const eff = o.price - stepCredit;
-      priceHtml=`<span class="v5-opt-price-up"><span class="v5-opt-price-old">${o.price.toLocaleString('ru-RU')} ₽</span><span class="v5-opt-price">+${eff.toLocaleString('ru-RU')} ₽</span><span class="v5-opt-credit">−${stepCredit.toLocaleString('ru-RU')} ₽ по серии</span></span>`;
-    } else if(isFreeBelowCredit){
-      priceHtml=`<span class="v5-opt-price incl">бесплатно по серии</span>`;
+      const upgrade = o.price - stepCredit;
+      priceHtml=`<span class="v5-opt-price-up"><span class="v5-opt-price">апгрейд +${upgrade.toLocaleString('ru-RU')} ₽</span><span class="v5-opt-credit">вместо «${seriesIncludedOptName(step.key)}»</span></span>`;
     } else if(o.price===0 && !isMulti){
       priceHtml=`<span class="v5-opt-price zero">включено</span>`;
     } else if(o.isGift){
@@ -9531,9 +9603,12 @@ window.__renderCalcV5 = function(total, prevTotal){
     const nEsc=o.name.replace(/'/g,"\\'").replace(/\\/g,'\\\\');
     const nAttr=o.name.replace(/"/g,'&quot;');
     const action=isMulti?`v5ToggleExtra('${kEsc}','${nEsc}',this)`:`v5Select('${kEsc}','${nEsc}',this)`;
-    const inclClass = (isExactSeries||isInclExtra||isFreeBelowCredit) ? ' v5-opt-incl' : '';
-    html+=`<button type="button" class="v5-opt${sel?' sel':''}${isMulti?' v5-opt-multi':''}${inclClass}" onclick="${action}" data-name="${nAttr}">
+    const inclClass = (isExactSeries||isInclExtra||isExtraLockedNow) ? ' v5-opt-incl' : '';
+    const lockedCls = (isLocked || isExtraLockedNow) ? ' is-locked' : '';
+    const ariaDis = (isLocked || isExtraLockedNow) ? ' aria-disabled="true"' : '';
+    html+=`<button type="button" class="v5-opt${sel?' sel':''}${isMulti?' v5-opt-multi':''}${inclClass}${lockedCls}" onclick="${action}" data-name="${nAttr}"${ariaDis}>
       ${isRec?'<span class="v5-opt-rec">Рекомендуем</span>':''}
+      ${(isExactSeries||isInclExtra||isExtraLockedNow)?'<span class="v5-opt-locked-badge">входит в серию</span>':''}
       <div class="v5-opt-top">
         <span class="v5-opt-name">${o.name}</span>
         <span class="v5-opt-info" onclick="event.stopPropagation();v5OpenPop('${kEsc}','${nEsc}')" title="Подробнее"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="5.5" r=".55" fill="currentColor" stroke="none"/><line x1="8" y1="7.5" x2="8" y2="11"/></svg></span>
@@ -9586,6 +9661,12 @@ function v5Select(key, name){
   const step=CALC_STEPS.find(s=>s.key===key);
   const o=step?.options.find(x=>x.name===name);
   if(!o) return;
+  if(!isOptionAllowed(key, o)){
+    const credit = getStepCredit(key);
+    const inclName = seriesIncludedOptName(key);
+    toast && toast(`«${o.name}» дешевле включённого в серию «${inclName}» (${credit.toLocaleString('ru-RU')} ₽). Можно выбрать только равное или дороже.`);
+    return;
+  }
   CALC.sel[key]=o;
   if(key==='base') applyBaseSeriesChange();
   renderCalc();
@@ -9594,6 +9675,11 @@ function v5ToggleExtra(key, name, btn){
   const step = CALC_STEPS.find(s=>s.key===key);
   const o = step.options.find(x=>x.name===name);
   if(!o) return;
+  // Только для key==='extras' проверяем lock; install_extras всегда свободны
+  if(key === 'extras' && isExtraLocked(o.name)){
+    toast && toast(`«${o.name}» уже входит в серию или пакет — снять нельзя`);
+    return;
+  }
   const list = key==='install_extras' ? (CALC.sel.install_extras=CALC.sel.install_extras||[]) : CALC.sel.extras;
   const i = list.findIndex(x=>x.name===o.name);
   if(i>=0) list.splice(i,1); else list.push(o);
@@ -9634,29 +9720,37 @@ function v5OpenPop(key, name){
   const popInclExtra = step.key === 'extras' && isIncludedExtra(o.name);
   const popCredit = (step.key !== 'base' && step.type !== 'multi') ? getStepCredit(step.key) : 0;
   const popHasUpgrade = popCredit > 0 && o.price > popCredit && !popExact;
-  const popFreeBelow = popCredit > 0 && o.price > 0 && o.price <= popCredit && !popExact;
+  const popLocked = popCredit > 0 && o.price < popCredit && !popExact;
+  const popExtraLocked = step.type === 'multi' && step.key === 'extras' && isExtraLocked(o.name);
   let priceTxt;
   if(popExact || popInclExtra) priceTxt = 'Включено в выбранную серию — бесплатно';
-  else if(popHasUpgrade) priceTxt = `+ ${(o.price - popCredit).toLocaleString('ru-RU')} ₽ (полная цена ${o.price.toLocaleString('ru-RU')} ₽, кредит серии −${popCredit.toLocaleString('ru-RU')} ₽)`;
-  else if(popFreeBelow) priceTxt = `Бесплатно по серии (кредит ${popCredit.toLocaleString('ru-RU')} ₽ покрывает полностью)`;
+  else if(popLocked) priceTxt = `Недоступно: дешевле включённой опции «${seriesIncludedOptName(step.key)}» (${popCredit.toLocaleString('ru-RU')} ₽). Серия не даунгрейдится.`;
+  else if(popHasUpgrade) priceTxt = `Апгрейд: +${(o.price - popCredit).toLocaleString('ru-RU')} ₽ (вместо «${seriesIncludedOptName(step.key)}»)`;
   else if(o.price===0 && step.type!=='multi') priceTxt = 'Включено в стоимость';
   else if(o.isGift) priceTxt = 'В подарок при заказе после замера';
   else if(o.price<0) priceTxt = '− ' + Math.abs(o.price).toLocaleString('ru-RU') + ' ₽ (скидка)';
   else priceTxt = '+ ' + o.price.toLocaleString('ru-RU') + ' ₽';
 
   const groupTitle = (step.title||'').replace(/<[^>]+>/g,'').trim();
+  const isBlocked = popLocked || popExtraLocked;
+  const primaryAction = step.type==='multi'
+    ? `v5ToggleExtra('${step.key}','${o.name.replace(/'/g,"\\'")}');v5ClosePop()`
+    : `v5Select('${step.key}','${o.name.replace(/'/g,"\\'")}');v5ClosePop()`;
+  const primaryLabel = isBlocked
+    ? 'Недоступно'
+    : (sel ? (step.type==='multi' ? (popExtraLocked ? 'Входит в серию' : 'Убрать') : 'Уже выбрано') : 'Выбрать');
   bg.innerHTML = `<div class="v5-pop">
     <button class="v5-pop-close" onclick="v5ClosePop()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <div class="v5-pop-kicker">${groupTitle}</div>
     <div class="v5-pop-title">${o.name}</div>
     <div class="v5-pop-desc">${o.desc || 'Описание скоро появится.'}</div>
     <div class="v5-pop-price">
-      <span class="v5-pop-price-l">Доплата</span>
+      <span class="v5-pop-price-l">${popLocked ? 'Статус' : 'Доплата'}</span>
       <span class="v5-pop-price-v">${priceTxt}</span>
     </div>
     <div class="v5-pop-actions">
       <button class="v5-pop-btn" onclick="v5ClosePop()">Закрыть</button>
-      <button class="v5-pop-btn primary" onclick="${step.type==='multi'?`v5ToggleExtra('${step.key}','${o.name.replace(/'/g,"\\'")}');v5ClosePop()`:`v5Select('${step.key}','${o.name.replace(/'/g,"\\'")}');v5ClosePop()`}">${sel?(step.type==='multi'?'Убрать':'Уже выбрано'):'Выбрать'}</button>
+      <button class="v5-pop-btn primary" ${isBlocked?'disabled style="opacity:.5;cursor:not-allowed"':`onclick="${primaryAction}"`}>${primaryLabel}</button>
     </div>
   </div>`;
   requestAnimationFrame(()=>bg.classList.add('show'));
@@ -10232,12 +10326,26 @@ function restoreFromURL(){
         const step=CALC_STEPS.find(s=>s.key===k);if(!step)return;
         const opt=step.options.find(o=>o.name===name);
         if(opt){
-          CALC.sel[k]=opt;
-          if(k==='base') applyBaseSeriesChange();
+          if(k==='base'){
+            CALC.sel[k]=opt;
+            applyBaseSeriesChange();
+          } else if(isOptionAllowed(k, opt)){
+            CALC.sel[k]=opt;
+          }
+          // если опция дешевле включённого в серию — игнорируем (preset уже выставил серийную)
         }
       });
       const ex=p.get('extras');
-      if(ex){const exStep=CALC_STEPS.find(s=>s.key==='extras');CALC.sel.extras=ex.split('|').map(n=>exStep.options.find(o=>o.name===n)).filter(Boolean);}
+      if(ex){
+        const exStep=CALC_STEPS.find(s=>s.key==='extras');
+        const incl = seriesIncludedExtras();
+        // Сначала залочённые series-extras, затем ручные из URL (без дублей)
+        const fromUrl = ex.split('|').map(n=>exStep.options.find(o=>o.name===n)).filter(Boolean);
+        const merged = [];
+        exStep.options.forEach(o => { if(incl.has(o.name)) merged.push(o); });
+        fromUrl.forEach(o => { if(!merged.some(x=>x.name===o.name)) merged.push(o); });
+        CALC.sel.extras = merged;
+      }
       renderCalc();
     },300);
   }
