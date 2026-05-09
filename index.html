@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="bg.png">
+<link rel="preload" as="image" href="bg.webp" type="image/webp">
 <link rel="preload" as="image" href="img/doors/56-1.webp" fetchpriority="high">
 <link rel="preload" as="image" href="img/doors/32-1.webp" fetchpriority="high">
 <link rel="preload" as="image" href="img/doors/60-1.webp">
@@ -83,7 +83,7 @@ body{
   -webkit-font-smoothing:antialiased;
   position:relative;
 }
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:url('bg.png') center/cover no-repeat;opacity:1}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:url('bg.webp') center/cover no-repeat;opacity:1}
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(180deg,rgba(6,7,10,.20) 0%,rgba(6,7,10,.50) 100%)}
 /* Радиал-подсветку под курсором отдельным лёгким слоем — отключаем во время скролла */
 body::before{will-change:auto}
@@ -113,7 +113,10 @@ html.is-scrolling .slide svg{transition:none !important}
 .faq-section,.adv-bar,.app-footer{content-visibility:auto;contain-intrinsic-size:1px 600px}
 @media(max-width:900px){
   /* На мобильных backdrop-filter сильно тормозит — оставляем только на ключевых поверхностях */
-  .chip,.flt-check,.opt-tile,.opt-card,.btn-back,.reset-filters,.calc-close,.mainhead-burger{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+  .chip,.flt-check,.opt-tile,.opt-card,.btn-back,.reset-filters,.calc-close,.mainhead-burger,
+  .catbtn,.adv-bar,.cat-eyebrow,.toolbar,.app-footer,.measure-invite,.linput,.toggle-filters{
+    backdrop-filter:none !important;-webkit-backdrop-filter:none !important
+  }
 }
 /* .grain-bg удалён из DOM */
 .dots-bg{position:fixed;inset:0;pointer-events:none;z-index:1;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.05) 1px,transparent 0);background-size:32px 32px}
@@ -8329,7 +8332,7 @@ function cardHtml(d,idx){
         <button class="card-act cmp" data-id="${d.id}" onclick="event.stopPropagation();toggleCmp(${d.id},this)" aria-label="Сравнить"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="9" y2="18"/></svg></button>
       </div>
       ${counterHtml}
-      <div class="slides">${imgs.map((s,i)=>slideHtml(s, `${d.name} · серия ${d.series}${imgs.length>1?` (фото ${i+1})`:''}`, i===0, (idx||0)<6)).join('')}</div>
+      <div class="slides">${imgs.map((s,i)=>slideHtml(s, `${d.name} · серия ${d.series}${imgs.length>1?` (фото ${i+1})`:''}`, i===0, (idx||0)<3)).join('')}</div>
       ${arrowsHtml}
       ${dotsHtml}
 
@@ -9978,21 +9981,32 @@ async function sendToTildaForm(name, phone){
   if (reduced) return; // дальше — только моушен
 
   // ---- Scroll-driven parallax: hero контент уезжает медленно ----
-  const hero = () => document.getElementById('lpHero');
+  // PERF: кэшируем DOM-элемент и его offsetTop/offsetHeight.
+  // getBoundingClientRect() в scroll-handler вызывал forced layout
+  // на каждый кадр (layout thrashing). Замеры только при resize/load.
+  let heroEl = null;
+  let heroTop = 0;
+  let heroHeight = 0;
+  function refreshHeroMeta(){
+    heroEl = document.getElementById('lpHero');
+    if(!heroEl) return;
+    heroTop = heroEl.offsetTop;
+    heroHeight = heroEl.offsetHeight;
+  }
   let spTicking = false;
   function onScroll(){
     spTicking = false;
-    const h = hero();
-    if (!h) return;
-    const r = h.getBoundingClientRect();
+    if (!heroEl || heroHeight === 0) return;
     // 0 когда hero полностью в окне сверху, 1 когда уехал вверх на свою высоту
-    const sp = Math.max(0, Math.min(1, -r.top / Math.max(1, r.height)));
-    h.style.setProperty('--sp', sp.toFixed(3));
+    const sp = Math.max(0, Math.min(1, (window.scrollY - heroTop) / heroHeight));
+    heroEl.style.setProperty('--sp', sp.toFixed(3));
   }
   window.addEventListener('scroll', () => {
     if (!spTicking){ spTicking = true; requestAnimationFrame(onScroll); }
   }, { passive: true });
-  document.addEventListener('DOMContentLoaded', onScroll);
+  window.addEventListener('resize', refreshHeroMeta, { passive: true });
+  window.addEventListener('load', refreshHeroMeta);
+  document.addEventListener('DOMContentLoaded', () => { refreshHeroMeta(); onScroll(); });
 
   // ---- Custom cursor над cascade ----
   // CSS-переменные --cx/--cy управляют top/left; класс .show меняет scale.
