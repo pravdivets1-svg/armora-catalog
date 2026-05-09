@@ -8608,19 +8608,18 @@ const CALC_STEPS=[
     {name:'Apex',price:3000,desc:'Лаконичный дизайн.'},
     {name:'Armadillo',price:4500,desc:'Широкая линейка стилей.'},
     {name:'Guardian Premium',price:6500,desc:'Хром, золото, антик. Усиленное крепление.'},
-    {name:'Бугельная',price:16500,desc:'Массивная ручка-скоба во всю высоту полотна.'},
-    {name:'Бугельная с LED-подсветкой',price:33900,desc:'Бугель с встроенной LED-лентой по всей длине. Включается автоматически при касании. Требует электромонтаж.'}
+    {name:'Бугельная',price:16500,desc:'Массивная ручка-скоба во всю высоту полотна.'}
   ]},
   {key:'extras',type:'multi',title:'Дополнительные <em>опции</em>',hint:'Любое количество. Видеоглазок — в подарок при заказе после замера.',
    options:[
-    {name:'Видеоглазок',price:6500,desc:'180°, запись на смартфон.',isGift:true},
-    {name:'Доводчик',price:5500,desc:'Закрывается сама — плавно и тихо.'},
+    {name:'Видеоглазок',price:6500,desc:'180°, запись на смартфон.',isGift:true,unitItem:true},
+    {name:'Доводчик',price:5500,desc:'Закрывается сама — плавно и тихо.',unitItem:true},
     {name:'Терморазрыв',price:10500,desc:'Устраняет иней и конденсат.'},
     {name:'Доборы и наличники МДФ',price:15000,desc:'Закроют торцы проёма. Покраска под цвет двери.'},
     {name:'Доборы и наличники ПВХ',price:13000,desc:'Влагостойкое покрытие. Не боится перепадов температуры.'},
     {name:'Порог из нержавейки',price:5500,desc:'Нет сквозняков снизу.'},
     {name:'Броненакладка',price:5500,desc:'Защита замка от высверливания.'},
-    {name:'Ночная задвижка',price:3200,desc:'Дополнительный запор изнутри.'},
+    {name:'Ночная задвижка',price:3200,desc:'Дополнительный запор изнутри.',unitItem:true},
     {name:'Шумоизоляция',price:5500,desc:'Вибропласт STP + утеплитель.'},
     {name:'Скрытые петли',price:23000,desc:'Дверь как единая плита.'}
   ]},
@@ -9159,13 +9158,23 @@ function calcTotal(){
   // Combo-бонус: 2+ активных пакета → скидка 3 500 ₽ (антикоррозийная обработка в подарок)
   if(CALC.activeBundles.length >= 2) t -= 3500;
   // Множитель размера (двустворка ×1.40, oversize ×1.20 и т.д.) — применяется к product-части.
-  // Доставку/монтаж, доп. работы и бандлы НЕ умножаем — это отдельные услуги/комплекты.
+  // НЕ умножаем: доставку/монтаж, бандлы (отдельные услуги),
+  // штучные extras (видеоглазок, доводчик, ночная задвижка — одинаковы для любой двери).
   const sizeMult = (CALC.sel.size && CALC.sel.size.mult) ? CALC.sel.size.mult : 1;
   if(sizeMult !== 1){
     const installPkg = CALC.sel.install_pkg ? CALC.sel.install_pkg.price : 0;
     const installExtras = (CALC.sel.install_extras||[]).reduce((a,e)=>a+e.price,0);
-    const productPart = t - installPkg - installExtras - bundlesSum;
-    t = Math.round(productPart * sizeMult) + installPkg + installExtras + bundlesSum;
+    // Сумма штучных extras, которые не должны умножаться на размер
+    let unitExtrasSum = 0;
+    CALC.sel.extras.forEach(e => {
+      if(!e.unitItem) return;
+      if(CALC.leadInfo && e.isGift) return;
+      if(isIncludedExtra(e.name)) return;
+      if(extraCoveredByBundle(e.name)) return;
+      unitExtrasSum += e.price;
+    });
+    const productPart = t - installPkg - installExtras - bundlesSum - unitExtrasSum;
+    t = Math.round(productPart * sizeMult) + installPkg + installExtras + bundlesSum + unitExtrasSum;
   }
   return t;
 }
