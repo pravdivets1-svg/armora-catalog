@@ -33,3 +33,6 @@ FILLING-WORKFLOW.md
 _after.html
 
 catalog.html
+
+*.backup
+index.html.backup-*
