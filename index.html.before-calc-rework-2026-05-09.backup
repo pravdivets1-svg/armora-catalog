@@ -4201,58 +4201,6 @@ h2.card-name{margin:0;padding:0}
 .v5-opt.sel.flash .v5-opt-name,
 .v5-opt.sel.flash .v5-opt-price{ color: #fff !important; }
 
-/* Опция включена в выбранную серию — лёгкая зелёная подсветка */
-.v5-opt.v5-opt-incl{
-  border-color: rgba(22,163,74,.35);
-}
-.v5-opt.v5-opt-incl:not(.sel):hover{
-  border-color: rgba(22,163,74,.6);
-}
-.v5-opt.v5-opt-incl.sel{
-  border-color: var(--v5-mocha);
-}
-
-/* Locked option — disabled visually, опция дешевле включённого в серию */
-.v5-opt.is-locked{
-  opacity: .55;
-  cursor: not-allowed;
-  filter: grayscale(.4);
-  border-style: dashed !important;
-  background: repeating-linear-gradient(135deg, transparent 0 8px, rgba(0,0,0,.018) 8px 16px), var(--v5-surface) !important;
-}
-.v5-opt.is-locked:hover{ transform: none !important; border-color: var(--v5-bdr) !important; box-shadow: 0 0 0 3px rgba(0,0,0,.03) !important; }
-.v5-opt.is-locked::before{ display:none !important; }
-.v5-opt.is-locked .v5-opt-info{ opacity: .5; }
-.v5-opt-price.locked{
-  background: rgba(0,0,0,.05) !important;
-  color: rgba(0,0,0,.5) !important;
-  font-style: italic;
-  border: 1px dashed rgba(0,0,0,.18);
-  font-size: 10px !important;
-  letter-spacing: .1em !important;
-  text-transform: uppercase !important;
-  padding: 3px 8px !important;
-}
-/* Бейдж «входит в серию» — рендерится inline внутри footer слева, не пересекается с dog-ear */
-.v5-opt-locked-badge{
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-  background: rgba(22,163,74,.12); color: #16a34a;
-  padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(22,163,74,.3);
-  white-space: nowrap;
-}
-.v5-opt-credit{
-  font-size: 9.5px; color: var(--v5-ink-mute); font-style: normal;
-  letter-spacing: .04em; line-height: 1.2; max-width: 140px; text-align: right;
-  white-space: normal;
-}
-.v5-opt-price-up{
-  display: inline-flex; flex-direction: column; align-items: flex-end; gap: 2px;
-  max-width: 60%;
-}
-/* Имя не должно залезать под dog-ear 44×44 в правом-верхнем углу */
-.v5-opt-top{ padding-right: 46px; min-height: 24px; }
-
 /* Elite card — gold top accent */
 .v5-opt[data-name="Элит"]{
   border-top: 2px solid rgba(212,168,84,.5);
@@ -4322,16 +4270,12 @@ h2.card-name{margin:0;padding:0}
   font-weight: 500;
 }
 .v5-opt-foot{
-  display: flex; align-items: flex-end; justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
   margin-top: auto;
   padding-top: 8px;
   position: relative;
   z-index: 1;
-  gap: 8px;
 }
-.v5-opt-foot-l{ display: flex; align-items: center; min-width: 0; }
-.v5-opt-foot-l:empty{ display: none; }
-.v5-opt-foot-r{ display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .v5-opt-price{
   font-family: var(--font-display);
   font-style: italic;
@@ -4367,268 +4311,6 @@ h2.card-name{margin:0;padding:0}
   border-radius: 999px;
   display: inline-flex; align-items: center; gap: 4px;
   box-shadow: 0 3px 10px rgba(164,120,100,.32);
-}
-.v5-opt-price.incl{
-  color: #16a34a;
-  font-size: 11px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  font-style: normal;
-  font-family: var(--font-sans);
-  font-weight: 800;
-  background: rgba(22,163,74,.13);
-  padding: 4px 10px;
-  border-radius: 999px;
-  display: inline-flex; align-items: center; gap: 4px;
-}
-.v5-opt-price.incl::before{
-  content: '';
-  display: inline-block;
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: #16a34a;
-  flex-shrink: 0;
-}
-/* Апгрейд-цена с кредитом серии: старая ¥ зачёркнута + эффективная + бейдж выгоды */
-.v5-opt-price-up{
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-  line-height: 1.1;
-}
-.v5-opt-price-old{
-  font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 600;
-  color: rgba(15,23,42,.4);
-  text-decoration: line-through;
-  letter-spacing: -.005em;
-}
-.v5-opt-price-up .v5-opt-price{
-  font-size: 16px;
-}
-.v5-opt-credit{
-  color: #16a34a;
-  font-size: 9px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  font-family: var(--font-sans);
-  font-weight: 800;
-  background: rgba(22,163,74,.13);
-  padding: 2px 7px;
-  border-radius: 999px;
-  margin-top: 2px;
-}
-
-/* ============================================================
-   BUNDLE CARDS — готовые комплекты с эксклюзивами
-   ============================================================ */
-/* ===== BUNDLE CARDS — compact, editorial, no cartoon ===== */
-.v5-bundles-grid{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 8px;
-}
-@media(max-width: 900px){ .v5-bundles-grid{ grid-template-columns: 1fr; gap: 10px; } }
-
-.v5-bundle{
-  position: relative;
-  background: #fff;
-  border: 1px solid rgba(15,23,42,.1);
-  border-radius: 14px;
-  padding: 16px 16px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  box-shadow: 0 1px 2px rgba(15,23,42,.03);
-  transition: border-color .2s, box-shadow .2s, transform .2s;
-}
-.v5-bundle:hover:not(.is-blocked){
-  border-color: var(--v5-ink);
-  box-shadow: 0 4px 14px -4px rgba(15,23,42,.12);
-  transform: translateY(-1px);
-}
-.v5-bundle.is-active{
-  border-color: var(--v5-ink);
-  background: #fafaf8;
-  box-shadow: 0 0 0 2px var(--v5-ink), 0 6px 18px -6px rgba(15,23,42,.18);
-}
-.v5-bundle.is-blocked{ opacity:.45; filter: grayscale(.5); }
-
-.v5-bundle-hd{
-  display: flex; flex-direction: column; gap: 4px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(15,23,42,.06);
-}
-.v5-bundle-icon{ display: none; }
-.v5-bundle-titles{ min-width: 0; }
-.v5-bundle-name{
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 600;
-  font-size: 18px;
-  letter-spacing: -.012em;
-  color: var(--v5-ink);
-  line-height: 1.1;
-}
-.v5-bundle-persona{
-  font-family: var(--font-sans);
-  font-size: 11.5px;
-  color: var(--v5-ink-soft);
-  line-height: 1.35;
-}
-.v5-bundle-badge-active{
-  display: none;
-}
-.v5-bundle-items{
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.v5-bundle-item{
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 8px;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  line-height: 1.35;
-}
-.v5-bundle-item-name{
-  color: var(--v5-ink);
-  font-weight: 500;
-}
-.v5-bundle-item-price{
-  color: var(--v5-ink-mute);
-  font-variant-numeric: tabular-nums;
-  font-size: 11px;
-  white-space: nowrap;
-}
-.v5-bundle-item.is-exclusive .v5-bundle-item-name{
-  color: var(--v5-ink);
-  font-weight: 600;
-}
-.v5-bundle-star{
-  display: inline-block;
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: var(--v5-mocha);
-  margin-right: 6px;
-  vertical-align: middle;
-}
-.v5-bundle-series-note{
-  font-family: var(--font-sans);
-  font-size: 10.5px;
-  color: #16a34a;
-  line-height: 1.35;
-  padding: 0;
-  background: transparent;
-  margin-top: -2px;
-}
-.v5-bundle-pricing{
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding-top: 10px;
-  margin-top: auto;
-  border-top: 1px solid rgba(15,23,42,.06);
-}
-.v5-bundle-price-block{ display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.v5-bundle-price-old{
-  font-family: var(--font-sans);
-  font-size: 10.5px;
-  color: rgba(15,23,42,.4);
-  text-decoration: line-through;
-  font-variant-numeric: tabular-nums;
-}
-.v5-bundle-price-new{
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 600;
-  font-size: 19px;
-  color: var(--v5-ink);
-  letter-spacing: -.01em;
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-}
-.v5-bundle-saving{
-  display: inline-block;
-  font-family: var(--font-sans);
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: #16a34a;
-}
-.v5-bundle-cta{
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 9px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--v5-ink);
-  background: transparent;
-  color: var(--v5-ink);
-  cursor: pointer;
-  transition: background .2s, color .2s;
-  white-space: nowrap;
-  letter-spacing: .02em;
-}
-.v5-bundle-cta:hover:not(:disabled){
-  background: var(--v5-ink);
-  color: #fff;
-}
-.v5-bundle-cta.is-on{
-  background: var(--v5-ink);
-  color: #fff;
-}
-.v5-bundle-cta.is-blocked{
-  border-color: rgba(15,23,42,.15);
-  color: rgba(15,23,42,.45);
-  cursor: not-allowed;
-  background: transparent;
-}
-
-/* Combo-бонус — компактнее, без эмодзи-блока */
-.v5-combo-bonus{
-  margin-top: 14px;
-  padding: 12px 14px;
-  border-radius: 10px;
-  background: rgba(22,163,74,.06);
-  border: 1px solid rgba(22,163,74,.22);
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  animation: v5ComboPop .35s ease-out;
-}
-.v5-combo-bonus.lvl2{
-  background: rgba(212,160,74,.08);
-  border-color: rgba(212,160,74,.3);
-}
-.v5-combo-bonus-icon{ display: none; }
-.v5-combo-bonus-body{ display: contents; }
-.v5-combo-bonus-title{
-  font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: 12.5px;
-  color: #16a34a;
-  letter-spacing: .01em;
-}
-.v5-combo-bonus.lvl2 .v5-combo-bonus-title{ color: #b8801f; }
-.v5-combo-bonus-text{
-  font-family: var(--font-sans);
-  font-size: 11.5px;
-  color: var(--v5-ink-soft);
-  line-height: 1.4;
-}
-@keyframes v5ComboPop{
-  from{ opacity: 0; transform: translateY(4px); }
-  to{ opacity: 1; transform: translateY(0); }
 }
 .v5-opt-chk{
   width: 24px; height: 24px;
@@ -4990,49 +4672,6 @@ h2.card-name{margin:0;padding:0}
   display: flex; align-items: center; justify-content: center; gap: 6px;
 }
 .v5-lead-proof svg{ width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
-
-/* === Inline lead form (на финальном шаге калькулятора, без popup) === */
-.v5-inline-lead{
-  margin-top: 24px;
-  background: var(--v5-surface);
-  border: 1.5px solid var(--v5-bdr);
-  border-radius: 22px;
-  padding: 28px 28px 24px;
-  box-shadow: 0 12px 36px -8px rgba(0,0,0,.08);
-  position: relative;
-  overflow: hidden;
-}
-.v5-inline-lead::before{
-  content:'';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(164,120,100,.04) 0%, transparent 60%);
-  pointer-events: none;
-}
-.v5-inline-lead > *{ position: relative; z-index: 1; }
-.v5-inline-lead-hd{ margin-bottom: 18px; }
-.v5-inline-lead-title{
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 600;
-  font-size: 32px;
-  line-height: 1.1;
-  letter-spacing: -.012em;
-  color: var(--v5-ink);
-  margin: 6px 0 10px;
-}
-.v5-inline-lead-desc{
-  font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--v5-ink-soft);
-  max-width: 56ch;
-  margin: 0;
-}
-@media(max-width: 600px){
-  .v5-inline-lead{ padding: 22px 18px 18px; border-radius: 18px; }
-  .v5-inline-lead-title{ font-size: 26px; }
-  .v5-inline-lead-desc{ font-size: 13px; }
-}
 
 /* Success state */
 .v5-success{
@@ -8433,7 +8072,7 @@ function openCalc(id){
   CALC.door=d;
   CALC.cur=0;
   // Reset selections, then preset based on door
-  CALC.sel={base:null,ext:null,int:null,glass:null,seal:null,lock:null,handle:null,extras:[],size:null,install_pkg:null,install_extras:[],install:[]};
+  CALC.sel={base:null,ext:null,int:null,glass:null,seal:null,lock:null,handle:null,extras:[],install_pkg:null,install_extras:[],install:[]};
   presetFromDoor(d);
   document.getElementById('calcDoorName').innerHTML=`${d.name} <em style="opacity:.5;font-size:.85em">· ${d.series}</em>`;
   const bg=document.getElementById('calcBg');
@@ -8535,7 +8174,7 @@ document.querySelectorAll('.tb-mega-item').forEach(it=>{
    ============================================================ */
 const CALC_STEPS_REQUIRED_KEYS = [
   'base','ext','int','glass','seal','lock','handle',
-  'extras','size','bundles','install_pkg','install_extras'
+  'extras','install_pkg','install_extras'
 ];
 
 const CALC_REQUIRED_OPTIONS = {
@@ -8546,16 +8185,11 @@ const CALC_REQUIRED_OPTIONS = {
 const CALC_STEPS=[
   {key:'base',type:'radio',title:'Серия <em>двери</em>',hint:'Серия определяет конструкцию: толщину металла, класс замков, количество контуров. Уже выбрана под модель из каталога — но можно сменить.',
    options:[
-    {name:'Эконом',price:12900,steelMm:1.2,desc:'Для дач, гаражей, нежилых помещений.',inc:'Порошковое покрытие · Винилискожа',
-     incMap:{ext:'Порошковое полимерное покрытие',int:'Винилискожа'}},
-    {name:'Стандарт',price:24900,steelMm:1.5,desc:'Базовый вариант для квартиры.',inc:'Порошковое покрытие · Ламинат · 2 контура · Guardian',
-     incMap:{ext:'Порошковое полимерное покрытие',int:'Ламинат',seal:'Одинарный контур',lock:'1 замок стандарт'}},
-    {name:'Комфорт',price:34900,steelMm:1.5,desc:'Повышенная тепло- и шумоизоляция.',inc:'ПВХ · 2 контура · Guardian · Armadillo',
-     incMap:{ext:'ПВХ',int:'ПВХ',seal:'Двойной контур',lock:'2 замка Guardian'}},
-    {name:'Премиум',price:54900,steelMm:1.8,desc:'Оптимальный выбор для московских квартир.',inc:'МДФ · 2 контура · Guardian · Guardian Premium · Ночная задвижка',
-     incMap:{ext:'МДФ',int:'ПВХ',seal:'Двойной контур',lock:'2 замка Guardian',handle:'Armadillo',extras:['Ночная задвижка']}},
-    {name:'Элит',price:89900,steelMm:2.0,desc:'Индивидуальное производство.',inc:'Фанера · МДФ · 3 контура · Cisa · Guardian Premium · Терморазрыв · Скрытые петли',
-     incMap:{ext:'Влагостойкая фанера',int:'МДФ',seal:'Двойной контур',lock:'2 замка Guardian',handle:'Armadillo',extras:['Терморазрыв']}}
+    {name:'Эконом',price:12900,desc:'Для дач, гаражей, нежилых помещений.',inc:'Порошковое покрытие · Винилискожа'},
+    {name:'Стандарт',price:24900,desc:'Базовый вариант для квартиры.',inc:'Порошковое покрытие · Ламинат · 2 контура'},
+    {name:'Комфорт',price:34900,desc:'Повышенная тепло- и шумоизоляция.',inc:'ПВХ · 2 контура · Guardian · Armadillo'},
+    {name:'Премиум',price:54900,desc:'Оптимальный выбор для московских квартир.',inc:'МДФ · 2 контура · Guardian · Armadillo · Ночная задвижка'},
+    {name:'Элит',price:89900,desc:'Индивидуальное производство.',inc:'Фанера · МДФ · 3 контура · 2 замка · Терморазрыв'}
   ]},
   {key:'ext',type:'radio',title:'Отделка <em>снаружи</em>',hint:'Эту сторону видят соседи. Варианты дешевле включённого в серию — бесплатны.',
    options:[
@@ -8592,15 +8226,14 @@ const CALC_STEPS=[
     {name:'Двойной контур',price:2500,desc:'Заметно снижает шум и сквозняки.'},
     {name:'Тройной контур',price:12000,desc:'Максимальная шумо- и теплоизоляция.'}
   ]},
-  {key:'lock',type:'radio',title:'Замок и <em>защита</em>',hint:'От стандартного цилиндра до электронного замка.',
+  {key:'lock',type:'radio',title:'Замок и <em>защита</em>',hint:'От стандартного цилиндра до биометрии.',
    options:[
     {name:'1 замок стандарт',price:0,desc:'Цилиндровый 3-го класса защиты.'},
     {name:'2 замка Guardian',price:3500,desc:'Цилиндровый + сувальдный.'},
     {name:'2 замка Kale',price:6500,desc:'Турецкое качество.'},
     {name:'Замок Cisa',price:13000,desc:'Итальянский сертифицированный.'},
-    {name:'Замок Mottura',price:35500,desc:'Топовый итальянский замок класса 5+. Защита от перепиливания и высверливания.'},
-    {name:'Электронный замок премиум',price:42900,desc:'Отпечаток пальца + PIN + карта-ключ + аварийный механический ключ. Полностью офлайн, без интернета.',excludesLocks:['Замок Mottura']},
-    {name:'Замок редукторного типа',price:9000,desc:'Бесшумный механизм закрытия.',bundleOnly:true}
+    {name:'Замок Mottura',price:19500,desc:'Премиум итальянский.'},
+    {name:'Биометрический',price:25000,desc:'Отпечаток пальца, PIN, ключ.'}
   ]},
   {key:'handle',type:'radio',title:'Ручка и <em>фурнитура</em>',hint:'Деталь, к которой прикасаетесь тысячи раз в год.',
    options:[
@@ -8608,8 +8241,7 @@ const CALC_STEPS=[
     {name:'Apex',price:3000,desc:'Лаконичный дизайн.'},
     {name:'Armadillo',price:4500,desc:'Широкая линейка стилей.'},
     {name:'Guardian Premium',price:6500,desc:'Хром, золото, антик. Усиленное крепление.'},
-    {name:'Бугельная',price:16500,desc:'Массивная ручка-скоба во всю высоту полотна.'},
-    {name:'Бугельная с LED-подсветкой',price:33900,desc:'Бугель с встроенной LED-лентой по всей длине. Включается автоматически при касании. Требует электромонтаж.'}
+    {name:'Бугельная',price:16500,desc:'Массивная ручка-скоба во всю высоту полотна.'}
   ]},
   {key:'extras',type:'multi',title:'Дополнительные <em>опции</em>',hint:'Любое количество. Видеоглазок — в подарок при заказе после замера.',
    options:[
@@ -8623,15 +8255,6 @@ const CALC_STEPS=[
     {name:'Ночная задвижка',price:3200,desc:'Дополнительный запор изнутри.'},
     {name:'Шумоизоляция',price:5500,desc:'Вибропласт STP + утеплитель.'},
     {name:'Скрытые петли',price:23000,desc:'Дверь как единая плита.'}
-  ]},
-  {key:'bundles',type:'bundles',title:'Готовые <em>комплекты с эксклюзивами</em>',hint:'3 пакета — на сон, защиту и загородный дом. В каждом эксклюзивы, недоступные иначе. Можно активировать совместимые.',
-   options:[]},
-  {key:'size',type:'radio',title:'Размер <em>двери</em>',hint:'Стандартный проём — без доплаты. Нестандартный размер — +20%. Двустворчатая (двупольная) дверь — +40% к итоговой цене конструкции.',
-   options:[
-    {name:'Стандартный (до 2050×960 мм)',price:0,mult:1,desc:'Подходит для большинства проёмов в квартирах и домах.',inc:'Без наценки'},
-    {name:'Нестандартный размер',price:0,mult:1.20,desc:'Высота >2050 мм или ширина >960 мм. Индивидуальное производство.',inc:'+20% к итогу'},
-    {name:'Двустворчатая (двупольная)',price:0,mult:1.40,desc:'Две створки: основная + узкая. Для широких проёмов и парадных входов.',inc:'+40% к итогу'},
-    {name:'Двустворчатая нестандарт',price:0,mult:1.60,desc:'Две створки + нестандартные габариты. Полностью под проём.',inc:'+60% к итогу'}
   ]},
   {key:'install_pkg',type:'radio',title:'Монтаж и <em>доставка</em>',hint:'Установка оплачивается отдельно от стоимости двери. Доставка по Москве в пределах МКАД до подъезда — бесплатно во всех вариантах.',
    options:[
@@ -8692,396 +8315,10 @@ const CALC_ICONS={
   'Скрытые петли':`<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="9" r="1.5"/><circle cx="8" cy="15" r="1.5"/></svg>`
 };
 
-/* ============================================================
-   КОНФИГУРАЦИЯ БАНДЛОВ — готовых комплектов с эксклюзивами
-   ────────────────────────────────────────────────────────────
-   Каждый бандл:
-   - overrides: заменяет выбор клиента на конкретных шагах
-   - addsExtras: автоматически добавляет items в extras
-   - exclusives: виртуальные line-items, доступные только в составе пакета
-   - excludes: id других бандлов, с которыми этот несовместим
-   ============================================================ */
-const CALC_BUNDLES = [
-  {
-    id:'silent_night',
-    name:'Тихая ночь',
-    persona:'Семьи со спальней у входа, чувствительные к шуму',
-    price:24900,
-    overrides:{ seal:'Тройной контур', lock:'Замок редукторного типа' },
-    addsExtras:['Шумоизоляция'],
-    exclusives:[
-      {name:'Магнитный уплотнитель пожизненный',listPrice:4500,desc:'Не теряет упругости 50+ лет, гарантия пожизненная'}
-    ],
-    excludes:['fortress','country_guard'],
-    badge:'Сон без шума'
-  },
-  {
-    id:'fortress',
-    name:'Крепость',
-    persona:'Частные дома, недоверчивые к улице',
-    price:47900,
-    overrides:{ lock:'Замок Mottura' },
-    addsExtras:['Броненакладка'],
-    exclusives:[
-      {name:'Личинка Cisa в корпус Mottura',listPrice:11000,desc:'Премиум-цилиндр Cisa установлен в корпус Mottura. Двойная защита от взлома.'},
-      {name:'Сейфовый антивыбойный болт',listPrice:3500,desc:'Дополнительный ригель против выбивания двери ударом'}
-    ],
-    excludes:['silent_night'],
-    badge:'Бастион'
-  },
-  {
-    id:'country_guard',
-    name:'Страж',
-    persona:'Частные дома и дачи, длительные отъезды',
-    price:29900,
-    overrides:{ seal:'Тройной контур' },
-    addsExtras:['Терморазрыв','Порог из нержавейки'],
-    exclusives:[
-      {name:'Современный базальтовый утеплитель премиум',listPrice:4500,desc:'Негорючий, не теряет свойств 50 лет. Эксклюзив пакета.'},
-      {name:'Антикоррозийная обработка коробки',listPrice:4500,desc:'Защита металла торцов и коробки от ржавчины и сезонной влаги'}
-    ],
-    excludes:['silent_night'],
-    badge:'Хозяин загородного'
-  }
-];
-
-/* ============================================================
-   КРЕДИТНАЯ ЛОГИКА СЕРИЙ
-   ────────────────────────────────────────────────────────────
-   Каждое включение в серии — это денежный КРЕДИТ на конкретный шаг.
-   Если клиент выбирает более дорогую опцию — платит max(0, цена − кредит).
-   Если выбирает более дешёвую — платит 0, разница "сгорает" (без возврата).
-   Для extras: items в incMap.extras автоматически добавляются и не идут в счёт.
-   ============================================================ */
-
-/* Возвращает имя включённой опции для шага, либо null */
-function seriesIncludedOptName(stepKey){
-  const base = CALC.sel.base;
-  if(!base || !base.incMap) return null;
-  const v = base.incMap[stepKey];
-  if(stepKey === 'extras') return null; // для extras отдельная логика
-  return v || null;
-}
-
-/* Возвращает кредит (в рублях) для шага по текущей серии */
-function getStepCredit(stepKey){
-  const optName = seriesIncludedOptName(stepKey);
-  if(!optName) return 0;
-  const step = CALC_STEPS.find(s => s.key === stepKey);
-  if(!step) return 0;
-  const opt = step.options.find(o => o.name === optName);
-  return opt ? opt.price : 0;
-}
-
-/* Возвращает Set имён extras, включённых в серию */
-function seriesIncludedExtras(){
-  const base = CALC.sel.base;
-  if(!base || !base.incMap || !base.incMap.extras) return new Set();
-  return new Set(base.incMap.extras);
-}
-
-/* Эффективная цена опции на шаге с учётом кредита серии */
-function effectiveStepPrice(stepKey, opt){
-  if(!opt) return 0;
-  const credit = getStepCredit(stepKey);
-  return Math.max(0, opt.price - credit);
-}
-
-/* Проверка: опция конкретно та, что включена в серию */
-function isExactSeriesOpt(stepKey, optName){
-  return seriesIncludedOptName(stepKey) === optName;
-}
-
-/* Проверка: extra включён в серию */
-function isIncludedExtra(name){
-  return seriesIncludedExtras().has(name);
-}
-
-/* ============================================================
-   ВАРИАНТ 2 — «Только апгрейды»
-   ────────────────────────────────────────────────────────────
-   Серия даёт фикс-набор. Дешевле включённого выбрать НЕЛЬЗЯ —
-   только равное (включено бесплатно) или дороже (платишь разницу).
-   Никаких сгораний кредита, никаких «бесплатно по серии».
-   ============================================================ */
-
-/* Опция шага доступна для выбора?
-   - base/glass — всегда доступны (нет кредита)
-   - если шаг не включён в серию — все опции доступны
-   - если включён — доступны только опции с price >= credit */
-function isOptionAllowed(stepKey, opt){
-  if(!opt) return false;
-  if(stepKey === 'base' || stepKey === 'glass' || stepKey === 'size'
-     || stepKey === 'install_pkg' || stepKey === 'install_extras') return true;
-  const credit = getStepCredit(stepKey);
-  if(credit === 0) return true;
-  // Включённая в серию опция всегда доступна
-  if(isExactSeriesOpt(stepKey, opt.name)) return true;
-  // Дороже или равно кредиту — апгрейд разрешён
-  return opt.price >= credit;
-}
-
-/* Extra залочен (включён в серию или бандлом) — нельзя снять */
-function isExtraLocked(name){
-  if(isIncludedExtra(name)) return true;
-  if(extraCoveredByBundle(name)) return true;
-  return false;
-}
-
-/* ============================================================
-   BUNDLE HELPERS — активация, проверка покрытия, эффективная цена
-   ============================================================ */
-function isBundleActive(id){ return CALC.activeBundles.includes(id); }
-
-function bundleById(id){ return CALC_BUNDLES.find(b => b.id === id); }
-
-/* Проверка: шаг покрыт активным бандлом (его цена включена в bundle.price) */
-function stepCoveredByBundle(stepKey){
-  return CALC.activeBundles.some(id => {
-    const b = bundleById(id);
-    return b && b.overrides && b.overrides[stepKey] !== undefined;
-  });
-}
-
-/* Проверка: extras-имя покрыто активным бандлом (бесплатно из-за бандла) */
-function extraCoveredByBundle(name){
-  return CALC.activeBundles.some(id => {
-    const b = bundleById(id);
-    return b && b.addsExtras && b.addsExtras.includes(name);
-  });
-}
-
-/* Эффективная цена бандла с учётом кредитов серии (за overrides и addsExtras) */
-function bundleEffectivePrice(bundle){
-  let price = bundle.price;
-  // Кредит серии за заменяемые шаги — переносим в виде вычета из цены пакета
-  if(bundle.overrides){
-    Object.keys(bundle.overrides).forEach(stepKey => {
-      price -= getStepCredit(stepKey);
-    });
-  }
-  // Кредит серии за extras, которые добавляет бандл (если они уже включены в серию)
-  if(bundle.addsExtras){
-    const extrasStep = CALC_STEPS.find(s => s.key === 'extras');
-    bundle.addsExtras.forEach(name => {
-      if(isIncludedExtra(name)){
-        const opt = extrasStep.options.find(o => o.name === name);
-        if(opt) price -= opt.price;
-      }
-    });
-  }
-  return Math.max(0, price);
-}
-
-/* Сумма «по отдельности» для пакета (для отображения зачёркнутой цены) */
-function bundleSeparatelyPrice(bundle){
-  let p = 0;
-  if(bundle.overrides){
-    Object.keys(bundle.overrides).forEach(stepKey => {
-      const optName = bundle.overrides[stepKey];
-      const step = CALC_STEPS.find(s => s.key === stepKey);
-      const opt = step?.options.find(o => o.name === optName);
-      if(opt) p += opt.price;
-    });
-  }
-  if(bundle.addsExtras){
-    const extrasStep = CALC_STEPS.find(s => s.key === 'extras');
-    bundle.addsExtras.forEach(name => {
-      const opt = extrasStep.options.find(o => o.name === name);
-      if(opt) p += opt.price;
-    });
-  }
-  (bundle.exclusives || []).forEach(e => p += (e.listPrice || 0));
-  return p;
-}
-
-/* Активация бандла: применяет overrides, добавляет extras, отключает несовместимые */
-function activateBundle(id){
-  const bundle = bundleById(id);
-  if(!bundle) return;
-  // Отключить несовместимые
-  (bundle.excludes || []).forEach(eid => {
-    const i = CALC.activeBundles.indexOf(eid);
-    if(i >= 0){
-      const exb = bundleById(eid);
-      // Откатить overrides отключаемого бандла к series-default или первой non-bundleOnly опции
-      if(exb && exb.overrides){
-        Object.keys(exb.overrides).forEach(stepKey => {
-          const step = CALC_STEPS.find(s => s.key === stepKey);
-          const seriesName = seriesIncludedOptName(stepKey);
-          let fallback = seriesName ? step.options.find(o => o.name === seriesName) : null;
-          if(!fallback || fallback.bundleOnly) fallback = step.options.find(o => !o.bundleOnly);
-          if(fallback) CALC.sel[stepKey] = fallback;
-        });
-      }
-      // Удалить addsExtras отключаемого бандла (если они не пересекаются с включениями серии или другим бандлом)
-      if(exb && exb.addsExtras){
-        exb.addsExtras.forEach(name => {
-          if(isIncludedExtra(name)) return; // оставляем — серия требует
-          // оставляем если другой ещё активный бандл его требует
-          const stillNeeded = CALC.activeBundles.some(other => other !== eid && other !== id && bundleById(other)?.addsExtras?.includes(name));
-          if(stillNeeded) return;
-          const idx = CALC.sel.extras.findIndex(x => x.name === name);
-          if(idx >= 0) CALC.sel.extras.splice(idx, 1);
-        });
-      }
-      CALC.activeBundles.splice(i, 1);
-    }
-  });
-  if(!CALC.activeBundles.includes(id)) CALC.activeBundles.push(id);
-  // Применить overrides этого бандла
-  if(bundle.overrides){
-    Object.keys(bundle.overrides).forEach(stepKey => {
-      const step = CALC_STEPS.find(s => s.key === stepKey);
-      const opt = step?.options.find(o => o.name === bundle.overrides[stepKey]);
-      if(opt) CALC.sel[stepKey] = opt;
-    });
-  }
-  // Добавить addsExtras
-  if(bundle.addsExtras){
-    const extrasStep = CALC_STEPS.find(s => s.key === 'extras');
-    bundle.addsExtras.forEach(name => {
-      const opt = extrasStep.options.find(o => o.name === name);
-      if(opt && !CALC.sel.extras.some(x => x.name === name)){
-        CALC.sel.extras.push(opt);
-      }
-    });
-  }
-}
-
-function deactivateBundle(id){
-  const bundle = bundleById(id);
-  if(!bundle) return;
-  const i = CALC.activeBundles.indexOf(id);
-  if(i < 0) return;
-  CALC.activeBundles.splice(i, 1);
-  // Откатить overrides к series-default или первой non-bundleOnly опции
-  if(bundle.overrides){
-    Object.keys(bundle.overrides).forEach(stepKey => {
-      const step = CALC_STEPS.find(s => s.key === stepKey);
-      const seriesName = seriesIncludedOptName(stepKey);
-      let fallback = seriesName ? step.options.find(o => o.name === seriesName) : null;
-      if(!fallback || fallback.bundleOnly) fallback = step.options.find(o => !o.bundleOnly);
-      if(fallback) CALC.sel[stepKey] = fallback;
-    });
-  }
-  // Удалить addsExtras (если не из серии и не из другого активного бандла)
-  if(bundle.addsExtras){
-    bundle.addsExtras.forEach(name => {
-      if(isIncludedExtra(name)) return;
-      const stillNeeded = CALC.activeBundles.some(other => bundleById(other)?.addsExtras?.includes(name));
-      if(stillNeeded) return;
-      const idx = CALC.sel.extras.findIndex(x => x.name === name);
-      if(idx >= 0) CALC.sel.extras.splice(idx, 1);
-    });
-  }
-}
-
-function toggleBundle(id){
-  if(isBundleActive(id)) deactivateBundle(id);
-  else activateBundle(id);
-  renderCalc();
-}
-
-/* ============================================================
-   Рендер шага бандлов — крупные карточки с эксклюзивами
-   ============================================================ */
-function renderBundlesStep(){
-  let html = `<div class="v5-bundles-grid">`;
-  CALC_BUNDLES.forEach(bundle => {
-    const isActive = isBundleActive(bundle.id);
-    const conflictId = (bundle.excludes||[]).find(eid => CALC.activeBundles.includes(eid));
-    const isBlocked = !isActive && !!conflictId;
-    const blocker = isBlocked ? bundleById(conflictId) : null;
-    const eff = bundleEffectivePrice(bundle);
-    const sep = bundleSeparatelyPrice(bundle);
-    const savings = Math.max(0, sep - eff);
-    // Что серия уже покрывает в этом бандле
-    const seriesCovers = [];
-    if(bundle.overrides){
-      Object.keys(bundle.overrides).forEach(k => {
-        if(seriesIncludedOptName(k) === bundle.overrides[k]){
-          const step = CALC_STEPS.find(s => s.key === k);
-          const lbl = {ext:'отделка снаружи',int:'отделка внутри',seal:'уплотнение',lock:'замок',handle:'ручка'}[k] || k;
-          seriesCovers.push(`${lbl}: ${bundle.overrides[k]}`);
-        }
-      });
-    }
-    if(bundle.addsExtras){
-      bundle.addsExtras.forEach(name => {
-        if(isIncludedExtra(name)) seriesCovers.push(name);
-      });
-    }
-    // Список компонентов для отображения
-    const items = [];
-    if(bundle.overrides){
-      Object.keys(bundle.overrides).forEach(k => {
-        const step = CALC_STEPS.find(s => s.key === k);
-        const opt = step?.options.find(o => o.name === bundle.overrides[k]);
-        if(opt) items.push({name:opt.name, price:opt.price, exclusive:false});
-      });
-    }
-    if(bundle.addsExtras){
-      const extrasStep = CALC_STEPS.find(s => s.key === 'extras');
-      bundle.addsExtras.forEach(name => {
-        const opt = extrasStep.options.find(o => o.name === name);
-        if(opt) items.push({name:opt.name, price:opt.price, exclusive:false});
-      });
-    }
-    (bundle.exclusives||[]).forEach(e => {
-      items.push({name:e.name, price:e.listPrice, exclusive:true, desc:e.desc});
-    });
-    const itemsHtml = items.map(it =>
-      `<li class="v5-bundle-item${it.exclusive?' is-exclusive':''}">
-        <span class="v5-bundle-item-name">${it.exclusive?'<span class="v5-bundle-star" title="Эксклюзив пакета">★</span>':''}${it.name}</span>
-        <span class="v5-bundle-item-price">${it.price.toLocaleString('ru-RU')} ₽</span>
-      </li>`
-    ).join('');
-    const stateCls = isActive ? ' is-active' : (isBlocked ? ' is-blocked' : '');
-    const ctaText = isActive ? 'Включено' : (isBlocked ? `Конфликт с «${blocker?.name||''}»` : 'Включить');
-    const ctaAction = isBlocked ? '' : `onclick="toggleBundle('${bundle.id}')"`;
-    const seriesNote = seriesCovers.length
-      ? `<div class="v5-bundle-series-note">Серия уже покрывает: ${seriesCovers.join(', ')}. Цена пакета снижена.</div>`
-      : '';
-    html += `<div class="v5-bundle${stateCls}" data-id="${bundle.id}">
-      <div class="v5-bundle-hd">
-        <div class="v5-bundle-titles">
-          <div class="v5-bundle-name">${bundle.name}</div>
-          <div class="v5-bundle-persona">${bundle.persona}</div>
-        </div>
-      </div>
-      <ul class="v5-bundle-items">${itemsHtml}</ul>
-      ${seriesNote}
-      <div class="v5-bundle-pricing">
-        <div class="v5-bundle-price-block">
-          <div>
-            <div class="v5-bundle-price-old">по отдельности ${sep.toLocaleString('ru-RU')} ₽</div>
-            <div class="v5-bundle-price-new">${eff.toLocaleString('ru-RU')} ₽</div>
-          </div>
-          ${savings>0?`<div class="v5-bundle-saving">−${savings.toLocaleString('ru-RU')} ₽</div>`:''}
-        </div>
-        <button type="button" class="v5-bundle-cta${isActive?' is-on':''}${isBlocked?' is-blocked':''}" ${ctaAction} ${isBlocked?'disabled':''}>${ctaText}</button>
-      </div>
-    </div>`;
-  });
-  html += `</div>`;
-  // Combo-бонус: 2+ активных пакета (макс 3 совместимых: silent_night конфликтует с двумя другими, но fortress+country_guard работают вместе)
-  if(CALC.activeBundles.length >= 2){
-    html += `<div class="v5-combo-bonus">
-      <div class="v5-combo-bonus-body">
-        <div class="v5-combo-bonus-title">Бонус за комбо — −3 500 ₽</div>
-        <div class="v5-combo-bonus-text">Скидка применена к итогу. Антикоррозийная обработка коробки в подарок.</div>
-      </div>
-    </div>`;
-  }
-  return html;
-}
-
 const CALC={
   door:null,
   cur:0,
-  sel:{base:null,ext:null,int:null,glass:null,seal:null,lock:null,handle:null,extras:[],size:null,install_pkg:null,install_extras:[],install:[]},
-  activeBundles:[],
+  sel:{base:null,ext:null,int:null,glass:null,seal:null,lock:null,handle:null,extras:[],install_pkg:null,install_extras:[],install:[]},
   leadInfo:null
 };
 
@@ -9089,7 +8326,6 @@ const CALC={
 function presetFromDoor(d){
   const baseStep=CALC_STEPS[0];
   CALC.sel.base=baseStep.options.find(o=>o.name===d.series)||baseStep.options[1];
-  CALC.activeBundles = [];
 
   // Glass mapping
   const glassMap={none:'Без вставки',rect:'Стеклопакет прямой',arch:'Стеклопакет арка',mirror:'Зеркало',forge:'Стеклопакет с ковкой',vitrage:'Художественный витраж',panel:'Без вставки'};
@@ -9097,76 +8333,18 @@ function presetFromDoor(d){
   const glassStep=CALC_STEPS.find(s=>s.key==='glass');
   CALC.sel.glass=glassStep.options.find(o=>o.name===glassName)||glassStep.options[0];
 
-  // Пресет ext/int/seal/lock/handle строго по incMap серии (если шаг включён)
-  ['ext','int','seal','lock','handle'].forEach(k => {
-    const s = CALC_STEPS.find(x => x.key === k);
-    const inclName = seriesIncludedOptName(k);
-    if(inclName){
-      CALC.sel[k] = s.options.find(o => o.name === inclName) || s.options[0];
-    } else {
-      CALC.sel[k] = s.options[0];
-    }
+  // Default ext/int/seal/lock/handle to first option of step
+  ['ext','int','seal','lock','handle'].forEach(k=>{
+    const s=CALC_STEPS.find(x=>x.key===k);
+    CALC.sel[k]=s.options[0];
   });
-
-  // Включённые в серию extras автоматически добавляем в список
-  CALC.sel.extras = [];
-  const inclExtras = seriesIncludedExtras();
-  if(inclExtras.size > 0){
-    const extrasStep = CALC_STEPS.find(s => s.key === 'extras');
-    extrasStep.options.forEach(o => {
-      if(inclExtras.has(o.name)) CALC.sel.extras.push(o);
-    });
-  }
-
-  // Размер: если у двери oversize:true — выбираем «Нестандартный размер», иначе «Стандартный»
-  const sizeStep = CALC_STEPS.find(s => s.key === 'size');
-  if(sizeStep){
-    if(d.oversize){
-      CALC.sel.size = sizeStep.options.find(o => o.mult === 1.20) || sizeStep.options[0];
-    } else {
-      CALC.sel.size = sizeStep.options[0];
-    }
-  }
 }
 
 function calcTotal(){
-  let t = CALC.sel.base ? CALC.sel.base.price : 0;
-  // Шаги-radio: применяем кредит серии — клиент платит max(0, цена − кредит)
-  // Если шаг покрыт активным бандлом — пропускаем (его цена в bundle.price)
-  ['ext','int','seal','lock','handle'].forEach(k => {
-    if(!CALC.sel[k]) return;
-    if(stepCoveredByBundle(k)) return;
-    t += effectiveStepPrice(k, CALC.sel[k]);
-  });
-  // Стекло — отдельный шаг без кредитов серии
-  if(CALC.sel.glass) t += CALC.sel.glass.price;
-  if(CALC.sel.install_pkg) t += CALC.sel.install_pkg.price;
-  // Extras: items включённые в серию или бандл = бесплатны
-  CALC.sel.extras.forEach(e => {
-    if(CALC.leadInfo && e.isGift) return;
-    if(isIncludedExtra(e.name)) return;
-    if(extraCoveredByBundle(e.name)) return;
-    t += e.price;
-  });
-  (CALC.sel.install_extras||[]).forEach(e => { t += e.price; });
-  // Прибавляем эффективную цену каждого активного бандла (с учётом кредитов серии)
-  let bundlesSum = 0;
-  CALC.activeBundles.forEach(id => {
-    const b = bundleById(id);
-    if(b) bundlesSum += bundleEffectivePrice(b);
-  });
-  t += bundlesSum;
-  // Combo-бонус: 2+ активных пакета → скидка 3 500 ₽ (антикоррозийная обработка в подарок)
-  if(CALC.activeBundles.length >= 2) t -= 3500;
-  // Множитель размера (двустворка ×1.40, oversize ×1.20 и т.д.) — применяется к product-части.
-  // Доставку/монтаж, доп. работы и бандлы НЕ умножаем — это отдельные услуги/комплекты.
-  const sizeMult = (CALC.sel.size && CALC.sel.size.mult) ? CALC.sel.size.mult : 1;
-  if(sizeMult !== 1){
-    const installPkg = CALC.sel.install_pkg ? CALC.sel.install_pkg.price : 0;
-    const installExtras = (CALC.sel.install_extras||[]).reduce((a,e)=>a+e.price,0);
-    const productPart = t - installPkg - installExtras - bundlesSum;
-    t = Math.round(productPart * sizeMult) + installPkg + installExtras + bundlesSum;
-  }
+  let t=CALC.sel.base?CALC.sel.base.price:0;
+  ['ext','int','glass','seal','lock','handle','install_pkg'].forEach(k=>{if(CALC.sel[k])t+=CALC.sel[k].price;});
+  CALC.sel.extras.forEach(e=>{if(CALC.leadInfo&&e.isGift)return;t+=e.price;});
+  (CALC.sel.install_extras||[]).forEach(e=>{t+=e.price;});
   return t;
 }
 const fmtRu=n=>n.toLocaleString('ru-RU')+' ₽';
@@ -9202,7 +8380,7 @@ function renderCalc(){
     stepsNav.id='calcStepsNav';stepsNav.className='calc-steps-nav';
     document.querySelector('.calc-head').after(stepsNav);
   }
-  const stepLabels={base:'Серия',ext:'Снаружи',int:'Внутри',glass:'Стекло',seal:'Уплотнение',lock:'Замок',handle:'Ручка',extras:'Опции',size:'Размер',bundles:'Пакеты',install_pkg:'Монтаж',install_extras:'Доп. работы'};
+  const stepLabels={base:'Серия',ext:'Снаружи',int:'Внутри',glass:'Стекло',seal:'Уплотнение',lock:'Замок',handle:'Ручка',extras:'Опции'};
   stepsNav.innerHTML=CALC_STEPS.map((st,i)=>{
     const cls=i<CALC.cur?'done':(i===CALC.cur?'cur':'');
     return `<button class="calc-step-btn ${cls}" data-label="${stepLabels[st.key]||st.key}" aria-label="Шаг ${i+1}" onclick="goCalcStep(${i})"></button>`;
@@ -9326,64 +8504,11 @@ function renderCalc(){
 
 function selOption(key,idx){
   const s=CALC_STEPS.find(x=>x.key===key);
-  const opt = s.options[idx];
-  if(!isOptionAllowed(key, opt)){
-    const credit = getStepCredit(key);
-    toast && toast(`Нельзя выбрать дешевле включённого в серию (${credit.toLocaleString('ru-RU')} ₽)`);
-    return;
-  }
-  // Проверка взаимоисключений замков (Mottura ↔ Электронный)
-  if(key==='lock' && opt.excludesLocks && CALC.sel.lock && opt.excludesLocks.includes(CALC.sel.lock.name)){
-    toast && toast(`«${opt.name}» не совместим с «${CALC.sel.lock.name}»`);
-  }
-  CALC.sel[key]=opt;
-  if(key==='base') applyBaseSeriesChange();
+  CALC.sel[key]=s.options[idx];
   renderCalc();
-}
-
-/* ============================================================
-   При смене базовой серии — сбрасываем активные бандлы
-   и переприменяем включения новой серии (ext/int/seal/lock/handle/extras),
-   чтобы избежать фантомных платных опций от старой серии и двойного учёта
-   кредитов в активных бандлах.
-   ============================================================ */
-function applyBaseSeriesChange(){
-  // Серия = пресет. При смене base полностью пересобираем ext/int/seal/lock/handle/extras
-  // к дефолтам новой серии. Сохранять «апгрейды» от прошлой серии нельзя:
-  // 1) фанера от Элит цеплялась платным апгрейдом к Эконому;
-  // 2) seal/lock/handle, которых нет в incMap новой серии (Эконом, Стандарт),
-  //    оставались от прошлой серии без бейджа «включено», вводя в заблуждение.
-  // 1) Сбросить активные бандлы (их overrides и addsExtras уйдут вместе с откатом)
-  CALC.activeBundles = [];
-  // 2) ext/int/seal/lock/handle: жёсткий пресет по incMap новой серии,
-  //    либо первый option шага (обычно price=0).
-  ['ext','int','seal','lock','handle'].forEach(k => {
-    const s = CALC_STEPS.find(x => x.key === k);
-    if(!s) return;
-    const inclName = seriesIncludedOptName(k);
-    if(inclName){
-      CALC.sel[k] = s.options.find(o => o.name === inclName) || s.options[0];
-    } else {
-      // Берём первый non-bundleOnly option (обычно базовый, price=0)
-      CALC.sel[k] = s.options.find(o => !o.bundleOnly) || s.options[0];
-    }
-  });
-  // 3) Extras: полностью переcобрать по серии (только то, что включает новая серия)
-  const newIncl = seriesIncludedExtras();
-  CALC.sel.extras = [];
-  if(newIncl.size > 0){
-    const extrasStep = CALC_STEPS.find(s => s.key === 'extras');
-    extrasStep.options.forEach(o => {
-      if(newIncl.has(o.name)) CALC.sel.extras.push(o);
-    });
-  }
 }
 function toggleExtra(idx){
   const o=CALC_STEPS.find(s=>s.key==='extras').options[idx];
-  if(isExtraLocked(o.name)){
-    toast && toast(`«${o.name}» включено в серию или пакет — снять нельзя`);
-    return;
-  }
   const i=CALC.sel.extras.findIndex(x=>x.name===o.name);
   if(i>=0)CALC.sel.extras.splice(i,1);else CALC.sel.extras.push(o);
   renderCalc();
@@ -9392,10 +8517,6 @@ function calcNext(){if(CALC.cur<CALC_STEPS.length-1){CALC.cur++;renderCalc();}}
 function calcPrev(){if(CALC.cur>0){CALC.cur--;renderCalc();}}
 function goCalcStep(i){if(i>=0&&i<CALC_STEPS.length){CALC.cur=i;renderCalc();}}
 function removeExtra(name){
-  if(isExtraLocked(name)){
-    toast && toast(`«${name}» включено в серию или пакет — снять нельзя`);
-    return;
-  }
   const i=CALC.sel.extras.findIndex(x=>x.name===name);
   if(i>=0){CALC.sel.extras.splice(i,1);renderCalc();}
 }
@@ -9408,53 +8529,28 @@ const V5_SECTIONS = [
   {id:'geom', num:'01', title:'Геометрия', steps:['base'], hint:'Серия — основа конструкции: толщина стали, контуры, класс замков.'},
   {id:'look', num:'02', title:'Внешний вид', steps:['ext','int','glass'], hint:'Отделка снаружи и внутри, декоративная вставка.'},
   {id:'sec',  num:'03', title:'Безопасность', steps:['seal','lock','handle'], hint:'Уплотнение, замки и фурнитура — что отвечает за тишину и защиту.'},
-  {id:'add',  num:'04', title:'Дополнительно', steps:['extras','size'], hint:'Видеоглазок, доводчик, терморазрыв и размер двери.'},
-  {id:'pack', num:'05', title:'Готовые комплекты', steps:['bundles'], hint:'Пакеты с эксклюзивами под конкретные задачи: тишина, безопасность, дача, дизайн.'},
-  {id:'inst', num:'06', title:'Монтаж и доставка', steps:['install_pkg','install_extras'], hint:'Установка оплачивается отдельно. Доставка по МКАД до подъезда — бесплатно.'}
+  {id:'add',  num:'04', title:'Дополнительно', steps:['extras'], hint:'Видеоглазок, доводчик, терморазрыв и другие опции.'},
+  {id:'inst', num:'05', title:'Монтаж и доставка', steps:['install_pkg','install_extras'], hint:'Установка оплачивается отдельно. Доставка по МКАД до подъезда — бесплатно.'}
 ];
 const V5 = { open: 'geom' };
 
 function v5SumPrice(stepKeys){
   let p=0;
   stepKeys.forEach(k=>{
-    if(k==='extras'){
-      CALC.sel.extras.forEach(e=>{
-        if(CALC.leadInfo&&e.isGift) return;
-        if(isIncludedExtra(e.name)) return;
-        if(extraCoveredByBundle(e.name)) return;
-        p+=e.price;
-      });
-    } else if(k==='install_extras'){
-      (CALC.sel.install_extras||[]).forEach(e=>{ p+=e.price; });
-    } else if(k==='glass'){
-      if(CALC.sel.glass) p+=CALC.sel.glass.price;
-    } else if(k==='bundles'){
-      CALC.activeBundles.forEach(id => {
-        const b = bundleById(id);
-        if(b) p += bundleEffectivePrice(b);
-      });
-    } else if(CALC.sel[k]){
-      if(stepCoveredByBundle(k)) return;
-      p += effectiveStepPrice(k, CALC.sel[k]);
-    }
+    if(k==='extras'){ CALC.sel.extras.forEach(e=>{ if(CALC.leadInfo&&e.isGift) return; p+=e.price; }); }
+    else if(k==='install_extras'){ (CALC.sel.install_extras||[]).forEach(e=>{ p+=e.price; }); }
+    else if(CALC.sel[k]){ p+=CALC.sel[k].price; }
   });
   return p;
 }
 function v5SectionComplete(sec){
-  if(sec.id==='add' || sec.id==='inst' || sec.id==='pack') return true; // optional sections always "complete"
+  if(sec.id==='add' || sec.id==='inst') return true; // optional sections always "complete"
   return sec.steps.every(k => !!CALC.sel[k]);
 }
 function v5SectionSummary(sec){
   if(sec.id==='add'){
     if(!CALC.sel.extras.length) return 'Опции не выбраны';
     return CALC.sel.extras.map(e=>e.name).join(' · ');
-  }
-  if(sec.id==='pack'){
-    if(!CALC.activeBundles.length) return 'Пакеты не выбраны';
-    return CALC.activeBundles.map(id => {
-      const b = bundleById(id);
-      return b ? `<em>${b.icon} ${b.name}</em>` : null;
-    }).filter(Boolean).join(' · ');
   }
   if(sec.id==='inst'){
     const parts=[];
@@ -9508,151 +8604,50 @@ window.__renderCalcV5 = function(total, prevTotal){
     </div>
     <div class="v5-opts">`;
 
-  // === Шаг "bundles" — отдельный рендер карточек пакетов ===
-  if(step.type === 'bundles'){
-    html += renderBundlesStep();
-    html += `</div>`;
-    if(isLast){
-      // (на практике bundles не последний шаг, но на всякий случай — inline-форма)
-      html += `<button class="v5-inline-cta" onclick="v5OpenLead()">Оставить заявку →</button>`;
-    } else {
-      html += `<button class="v5-inline-cta" onclick="calcNext()">Продолжить →</button>`;
-    }
-    html += `</div>
-    <div class="v5-foot">
-      <div class="v5-foot-info">
-        <div class="v5-foot-info-l">Промежуточный итог</div>
-        <div class="v5-foot-info-v" id="v5FootPrice">${total>0?fmtRu(total):'—'}</div>
-      </div>
-    </div>`;
-    body.innerHTML = html;
-    if(total>0 && prevTotal>0 && total!==prevTotal){
-      const priceEl2=document.getElementById('v5Price');
-      if(priceEl2){ priceEl2.classList.add('flash'); v5CountUp(priceEl2,prevTotal,total); setTimeout(()=>priceEl2.classList.remove('flash'),700); }
-      const fp=document.getElementById('v5FootPrice');
-      if(fp){ fp.classList.add('flash'); v5CountUp(fp,prevTotal,total); setTimeout(()=>fp.classList.remove('flash'),700); }
-    }
-    if(!body.__v5ScrollBound){
-      body.__v5ScrollBound=true;
-      body.addEventListener('scroll',()=>{
-        const s=body.querySelector('.v5-sticky');
-        if(s) s.classList.toggle('scrolled',body.scrollTop>6);
-      },{passive:true});
-    }
-    body.scrollTo({top:0,behavior:'smooth'});
-    return;
-  }
-
-  const stepCredit = step.key !== 'base' ? getStepCredit(step.key) : 0;
-  step.options.filter(o => !o.bundleOnly).forEach(o=>{
+  step.options.forEach(o=>{
     const isMulti = step.type==='multi';
     const multiList = step.key==='install_extras'?(CALC.sel.install_extras||[]):CALC.sel.extras;
     const sel = isMulti ? multiList.some(x=>x.name===o.name) : (CALC.sel[step.key]&&CALC.sel[step.key].name===o.name);
     const isRec = step.key==='base' && o.name==='Премиум';
-    // Вариант 2: только апгрейды
-    const isExactSeries = !isMulti && step.key !== 'base' && isExactSeriesOpt(step.key, o.name);
-    const isInclExtra = step.key === 'extras' && isIncludedExtra(o.name);
-    const hasUpgrade = !isMulti && step.key !== 'base' && stepCredit > 0 && o.price > stepCredit && !isExactSeries;
-    const isLocked = !isMulti && step.key !== 'base' && stepCredit > 0 && !isExactSeries && o.price < stepCredit;
-    const isExtraLockedNow = isMulti && step.key === 'extras' && isExtraLocked(o.name);
-
     let priceHtml;
-    if(step.key === 'size' && o.mult){
-      if(o.mult === 1){
-        priceHtml=`<span class="v5-opt-price zero">без наценки</span>`;
-      } else {
-        const pct = Math.round((o.mult - 1) * 100);
-        priceHtml=`<span class="v5-opt-price">+${pct}% к итогу</span>`;
-      }
-    } else if(isExactSeries || isInclExtra){
-      priceHtml=`<span class="v5-opt-price incl">включено в серию</span>`;
-    } else if(isLocked){
-      priceHtml=`<span class="v5-opt-price locked">недоступно для серии</span>`;
-    } else if(hasUpgrade){
-      const upgrade = o.price - stepCredit;
-      priceHtml=`<span class="v5-opt-price-up"><span class="v5-opt-price">апгрейд +${upgrade.toLocaleString('ru-RU')} ₽</span><span class="v5-opt-credit">вместо «${seriesIncludedOptName(step.key)}»</span></span>`;
-    } else if(o.price===0 && !isMulti){
-      priceHtml=`<span class="v5-opt-price zero">включено</span>`;
-    } else if(o.isGift){
-      priceHtml=`<span class="v5-opt-price gift">в подарок</span>`;
-    } else if(o.price<0){
-      priceHtml=`<span class="v5-opt-price zero" style="background:rgba(164,120,100,.14);color:#a47864">−${Math.abs(o.price).toLocaleString('ru-RU')} ₽</span>`;
-    } else {
-      priceHtml=`<span class="v5-opt-price">+${o.price.toLocaleString('ru-RU')} ₽</span>`;
-    }
+    if(o.price===0 && !isMulti){ priceHtml=`<span class="v5-opt-price zero">включено</span>`; }
+    else if(o.isGift){ priceHtml=`<span class="v5-opt-price gift">в подарок</span>`; }
+    else if(o.price<0){ priceHtml=`<span class="v5-opt-price zero" style="background:rgba(164,120,100,.14);color:#a47864">−${Math.abs(o.price).toLocaleString('ru-RU')} ₽</span>`; }
+    else { priceHtml=`<span class="v5-opt-price">+${o.price.toLocaleString('ru-RU')} ₽</span>`; }
     const chk=`<span class="v5-opt-chk"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>`;
     const kEsc=step.key.replace(/'/g,"\\'");
     const nEsc=o.name.replace(/'/g,"\\'").replace(/\\/g,'\\\\');
     const nAttr=o.name.replace(/"/g,'&quot;');
     const action=isMulti?`v5ToggleExtra('${kEsc}','${nEsc}',this)`:`v5Select('${kEsc}','${nEsc}',this)`;
-    const inclClass = (isExactSeries||isInclExtra||isExtraLockedNow) ? ' v5-opt-incl' : '';
-    const lockedCls = (isLocked || isExtraLockedNow) ? ' is-locked' : '';
-    const ariaDis = (isLocked || isExtraLockedNow) ? ' aria-disabled="true"' : '';
-    html+=`<button type="button" class="v5-opt${sel?' sel':''}${isMulti?' v5-opt-multi':''}${inclClass}${lockedCls}" onclick="${action}" data-name="${nAttr}"${ariaDis}>
+    html+=`<button type="button" class="v5-opt${sel?' sel':''}${isMulti?' v5-opt-multi':''}" onclick="${action}" data-name="${nAttr}">
       ${isRec?'<span class="v5-opt-rec">Рекомендуем</span>':''}
       <div class="v5-opt-top">
         <span class="v5-opt-name">${o.name}</span>
         <span class="v5-opt-info" onclick="event.stopPropagation();v5OpenPop('${kEsc}','${nEsc}')" title="Подробнее"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="5.5" r=".55" fill="currentColor" stroke="none"/><line x1="8" y1="7.5" x2="8" y2="11"/></svg></span>
       </div>
       <div class="v5-opt-desc">${o.desc||''}</div>
-      <div class="v5-opt-foot">
-        <div class="v5-opt-foot-l"></div>
-        <div class="v5-opt-foot-r">${priceHtml}${chk}</div>
-      </div>
+      <div class="v5-opt-foot">${priceHtml}${chk}</div>
     </button>`;
   });
 
   html+=`</div>`;
 
-  // Финальный шаг: вместо CTA-кнопки сразу показываем встроенную форму заявки
-  if(isLast){
-    html += `<div class="v5-inline-lead">
-      <div class="v5-inline-lead-hd">
-        <div class="v5-pop-kicker">Конфигурация собрана</div>
-        <h3 class="v5-inline-lead-title">Заказать свою дверь</h3>
-        <p class="v5-inline-lead-desc">Менеджер перезвонит за 15 минут, согласует время бесплатного замера и зафиксирует точную цену в договоре. Без обязательств.</p>
-      </div>
-      <div class="v5-lead-summary">
-        <div>
-          <div class="v5-lead-sum-l">${CALC.door?.name || 'Дверь'} · ${CALC.sel.base?.name || ''}</div>
-          <div style="color:var(--v5-ink-soft);font-size:13px;">Ориентировочная стоимость</div>
-        </div>
-        <div class="v5-lead-sum-v" id="v5InlineSum">${total>0?fmtRu(total):'—'}</div>
-      </div>
-      <form id="v5LeadForm" onsubmit="event.preventDefault();v5SubmitLead()">
-        <div class="v5-lead-fields">
-          <input class="v5-lead-input" id="v5Name" placeholder="Ваше имя" type="text" autocomplete="name" required>
-          <input class="v5-lead-input" id="v5Phone" placeholder="+7 (___) ___-__-__" type="tel" autocomplete="tel" required>
-        </div>
-        <div class="v5-lead-err" id="v5Err"></div>
-        <button type="submit" class="v5-lead-submit" id="v5Submit">Заказать свою дверь — ${total>0?fmtRu(total):''}</button>
-        <div class="v5-lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Без спама. Звонок только для согласования времени.</div>
-        <div class="v5-lead-policy">Нажимая кнопку, вы соглашаетесь с <a href="https://armora.ru/policy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</div>
-      </form>
-    </div>`;
-  } else {
-    // Обычный шаг — большая CTA-кнопка «Продолжить»
-    html += `<button class="v5-inline-cta" onclick="calcNext()">Продолжить →</button>`;
-  }
+  // Inline CTA — большая кнопка во всю ширину контента
+  const ctaTxt = isLast ? 'Оставить заявку →' : 'Продолжить →';
+  const ctaAction = isLast ? 'v5OpenLead()' : 'calcNext()';
+  const ctaCls = isLast ? 'v5-inline-cta v5-inline-cta-last' : 'v5-inline-cta';
+  html += `<button class="${ctaCls}" onclick="${ctaAction}">${ctaTxt}</button>`;
 
   html += `</div>
 
   <div class="v5-foot">
     <div class="v5-foot-info">
-      <div class="v5-foot-info-l">${isLast?'Итого к заказу':'Промежуточный итог'}</div>
+      <div class="v5-foot-info-l">Промежуточный итог</div>
       <div class="v5-foot-info-v" id="v5FootPrice">${total>0?fmtRu(total):'—'}</div>
     </div>
   </div>`;
 
   body.innerHTML = html;
-
-  // На финальном шаге сразу повесить маску на телефон
-  if(isLast){
-    setTimeout(()=>{
-      const p=document.getElementById('v5Phone');
-      if(p) attachPhoneMask(p);
-    }, 80);
-  }
 
   // price flash + count-up
   if(total>0 && prevTotal>0 && total!==prevTotal){
@@ -9678,37 +8673,13 @@ function v5Select(key, name){
   const step=CALC_STEPS.find(s=>s.key===key);
   const o=step?.options.find(x=>x.name===name);
   if(!o) return;
-  if(!isOptionAllowed(key, o)){
-    const credit = getStepCredit(key);
-    const inclName = seriesIncludedOptName(key);
-    toast && toast(`«${o.name}» дешевле включённого в серию «${inclName}» (${credit.toLocaleString('ru-RU')} ₽). Можно выбрать только равное или дороже.`);
-    return;
-  }
-  if(key==='lock' && o.excludesLocks && CALC.sel.lock && o.excludesLocks.includes(CALC.sel.lock.name)){
-    toast && toast(`«${o.name}» не совместим с «${CALC.sel.lock.name}»`);
-  }
   CALC.sel[key]=o;
-  if(key==='base') applyBaseSeriesChange();
   renderCalc();
 }
 function v5ToggleExtra(key, name, btn){
   const step = CALC_STEPS.find(s=>s.key===key);
   const o = step.options.find(x=>x.name===name);
   if(!o) return;
-  // Только для key==='extras' проверяем lock; install_extras всегда свободны
-  if(key === 'extras' && isExtraLocked(o.name)){
-    toast && toast(`«${o.name}» уже входит в серию или пакет — снять нельзя`);
-    return;
-  }
-  // Терморазрыв требует сталь ≥1.8 мм (нельзя ставить на тонкий каркас)
-  if(key === 'extras' && o.name === 'Терморазрыв'){
-    const steel = CALC.sel.base?.steelMm || 0;
-    const already = CALC.sel.extras.some(x => x.name === 'Терморазрыв');
-    if(!already && steel < 1.8){
-      toast && toast(`Терморазрыв требует сталь ≥1.8 мм. Выберите серию Премиум или Элит.`);
-      return;
-    }
-  }
   const list = key==='install_extras' ? (CALC.sel.install_extras=CALC.sel.install_extras||[]) : CALC.sel.extras;
   const i = list.findIndex(x=>x.name===o.name);
   if(i>=0) list.splice(i,1); else list.push(o);
@@ -9745,41 +8716,25 @@ function v5OpenPop(key, name){
   const sel = step.type==='multi'
     ? CALC.sel.extras.some(x=>x.name===o.name)
     : (CALC.sel[step.key]&&CALC.sel[step.key].name===o.name);
-  const popExact = step.key !== 'base' && step.type !== 'multi' && isExactSeriesOpt(step.key, o.name);
-  const popInclExtra = step.key === 'extras' && isIncludedExtra(o.name);
-  const popCredit = (step.key !== 'base' && step.type !== 'multi') ? getStepCredit(step.key) : 0;
-  const popHasUpgrade = popCredit > 0 && o.price > popCredit && !popExact;
-  const popLocked = popCredit > 0 && o.price < popCredit && !popExact;
-  const popExtraLocked = step.type === 'multi' && step.key === 'extras' && isExtraLocked(o.name);
   let priceTxt;
-  if(popExact || popInclExtra) priceTxt = 'Включено в выбранную серию — бесплатно';
-  else if(popLocked) priceTxt = `Недоступно: дешевле включённой опции «${seriesIncludedOptName(step.key)}» (${popCredit.toLocaleString('ru-RU')} ₽). Серия не даунгрейдится.`;
-  else if(popHasUpgrade) priceTxt = `Апгрейд: +${(o.price - popCredit).toLocaleString('ru-RU')} ₽ (вместо «${seriesIncludedOptName(step.key)}»)`;
-  else if(o.price===0 && step.type!=='multi') priceTxt = 'Включено в стоимость';
+  if(o.price===0 && step.type!=='multi') priceTxt = 'Включено в стоимость';
   else if(o.isGift) priceTxt = 'В подарок при заказе после замера';
   else if(o.price<0) priceTxt = '− ' + Math.abs(o.price).toLocaleString('ru-RU') + ' ₽ (скидка)';
   else priceTxt = '+ ' + o.price.toLocaleString('ru-RU') + ' ₽';
 
   const groupTitle = (step.title||'').replace(/<[^>]+>/g,'').trim();
-  const isBlocked = popLocked || popExtraLocked;
-  const primaryAction = step.type==='multi'
-    ? `v5ToggleExtra('${step.key}','${o.name.replace(/'/g,"\\'")}');v5ClosePop()`
-    : `v5Select('${step.key}','${o.name.replace(/'/g,"\\'")}');v5ClosePop()`;
-  const primaryLabel = isBlocked
-    ? 'Недоступно'
-    : (sel ? (step.type==='multi' ? (popExtraLocked ? 'Входит в серию' : 'Убрать') : 'Уже выбрано') : 'Выбрать');
   bg.innerHTML = `<div class="v5-pop">
     <button class="v5-pop-close" onclick="v5ClosePop()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <div class="v5-pop-kicker">${groupTitle}</div>
     <div class="v5-pop-title">${o.name}</div>
     <div class="v5-pop-desc">${o.desc || 'Описание скоро появится.'}</div>
     <div class="v5-pop-price">
-      <span class="v5-pop-price-l">${popLocked ? 'Статус' : 'Доплата'}</span>
+      <span class="v5-pop-price-l">Доплата</span>
       <span class="v5-pop-price-v">${priceTxt}</span>
     </div>
     <div class="v5-pop-actions">
       <button class="v5-pop-btn" onclick="v5ClosePop()">Закрыть</button>
-      <button class="v5-pop-btn primary" ${isBlocked?'disabled style="opacity:.5;cursor:not-allowed"':`onclick="${primaryAction}"`}>${primaryLabel}</button>
+      <button class="v5-pop-btn primary" onclick="${step.type==='multi'?`v5ToggleExtra('${step.key}','${o.name.replace(/'/g,"\\'")}');v5ClosePop()`:`v5Select('${step.key}','${o.name.replace(/'/g,"\\'")}');v5ClosePop()`}">${sel?(step.type==='multi'?'Убрать':'Уже выбрано'):'Выбрать'}</button>
     </div>
   </div>`;
   requestAnimationFrame(()=>bg.classList.add('show'));
@@ -10127,20 +9082,6 @@ async function sendLeadToBackend(payload){
     });
     (payload.sel?.extras||[]).forEach(e=>optsList.push('Доп: '+e.name));
     (payload.sel?.install_extras||[]).forEach(e=>optsList.push('Монтаж доп: '+e.name));
-    /* Активные бандлы и их эксклюзивы */
-    if(payload.activeBundles && payload.activeBundles.length && typeof bundleById === 'function'){
-      payload.activeBundles.forEach(id => {
-        const b = bundleById(id);
-        if(!b) return;
-        const eff = (typeof bundleEffectivePrice === 'function') ? bundleEffectivePrice(b) : b.price;
-        optsList.push(`Пакет: ${b.name} (${eff.toLocaleString('ru-RU')} ₽)`);
-        (b.exclusives||[]).forEach(e => optsList.push('  ★ эксклюзив: '+e.name));
-      });
-    }
-    /* Размер двери (если задан) */
-    if(payload.size){
-      optsList.push(`Размер: ${payload.size.label}${payload.size.mult && payload.size.mult!==1 ? ' (×'+payload.size.mult+')' : ''}`);
-    }
     const comment = [
       payload.door ? `Дверь: ${payload.door}` : '',
       ...optsList
@@ -10174,24 +9115,18 @@ function v5SubmitLead(){
   errBox.textContent=''; btn.disabled=true; btn.textContent='Отправляем…';
   const total=calcTotal();
   CALC.leadInfo={name,phone,total,door:CALC.door?.name};
-  sendLeadToBackend({name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel,activeBundles:CALC.activeBundles,size:CALC.sel.size,src:'v5'});
+  sendLeadToBackend({name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel,src:'v5'});
   setTimeout(()=>{
-    const successHtml = `
-      <div class="v5-success">
-        <div class="v5-success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="v5-success-title">Заявка принята, ${name}!</div>
-        <div class="v5-success-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong>, чтобы согласовать удобное время бесплатного замера. Эксперт приедет с образцами и зафиксирует цену в договоре.</div>
-        <button class="v5-foot-cta" onclick="closeCalc()">Вернуться в каталог</button>
-      </div>`;
-    // Inline-форма на финальном шаге?
-    const inline = document.querySelector('.v5-inline-lead');
-    if(inline){ inline.innerHTML = successHtml; inline.scrollIntoView({behavior:'smooth', block:'center'}); return; }
-    // Иначе — старый popup-режим
     const bg=document.getElementById('v5LeadBg');
     if(!bg) return;
     bg.querySelector('.v5-lead-pop').innerHTML = `
       <button class="v5-pop-close" onclick="v5CloseLead();closeCalc()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      ${successHtml}`;
+      <div class="v5-success">
+        <div class="v5-success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="v5-success-title">Заявка принята, ${name}!</div>
+        <div class="v5-success-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong>, чтобы согласовать удобное время бесплатного замера. Эксперт приедет с образцами и зафиксирует цену в договоре.</div>
+        <button class="v5-foot-cta" onclick="v5CloseLead();closeCalc()">Вернуться в каталог</button>
+      </div>`;
   }, 600);
 }
 
@@ -10226,7 +9161,7 @@ function submitLead(){
   const total=calcTotal();
   CALC.leadInfo={name,phone,total,door:CALC.door?.name};
   if(window.__ARMORA_DEV__) console.log('[ARMORA LEAD]',{name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel});
-  sendLeadToBackend({name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel,activeBundles:CALC.activeBundles,size:CALC.sel.size,src:'legacy'});
+  sendLeadToBackend({name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel,src:'legacy'});
     setTimeout(()=>{
       const body=document.getElementById('calcBody');
       body.innerHTML='';
@@ -10343,7 +9278,7 @@ function saveCalcToURL(){
   __saveCalcT=setTimeout(()=>{
     const p=new URLSearchParams();
     p.set('door',CALC.door.id);
-    ['base','ext','int','glass','seal','lock','handle','size'].forEach(k=>{if(CALC.sel[k])p.set(k,CALC.sel[k].name);});
+    ['base','ext','int','glass','seal','lock','handle'].forEach(k=>{if(CALC.sel[k])p.set(k,CALC.sel[k].name);});
     if(CALC.sel.extras.length)p.set('extras',CALC.sel.extras.map(e=>e.name).join('|'));
     try{ history.replaceState(null,'','?'+p.toString()); }catch(e){}
   },300);
@@ -10356,31 +9291,13 @@ function restoreFromURL(){
   if(did&&DOORS.find(d=>d.id===did)){
     setTimeout(()=>{
       openCalc(did);
-      ['base','ext','int','glass','seal','lock','handle','size'].forEach(k=>{
+      ['base','ext','int','glass','seal','lock','handle'].forEach(k=>{
         const name=p.get(k);if(!name)return;
         const step=CALC_STEPS.find(s=>s.key===k);if(!step)return;
-        const opt=step.options.find(o=>o.name===name);
-        if(opt){
-          if(k==='base'){
-            CALC.sel[k]=opt;
-            applyBaseSeriesChange();
-          } else if(isOptionAllowed(k, opt)){
-            CALC.sel[k]=opt;
-          }
-          // если опция дешевле включённого в серию — игнорируем (preset уже выставил серийную)
-        }
+        const opt=step.options.find(o=>o.name===name);if(opt)CALC.sel[k]=opt;
       });
       const ex=p.get('extras');
-      if(ex){
-        const exStep=CALC_STEPS.find(s=>s.key==='extras');
-        const incl = seriesIncludedExtras();
-        // Сначала залочённые series-extras, затем ручные из URL (без дублей)
-        const fromUrl = ex.split('|').map(n=>exStep.options.find(o=>o.name===n)).filter(Boolean);
-        const merged = [];
-        exStep.options.forEach(o => { if(incl.has(o.name)) merged.push(o); });
-        fromUrl.forEach(o => { if(!merged.some(x=>x.name===o.name)) merged.push(o); });
-        CALC.sel.extras = merged;
-      }
+      if(ex){const exStep=CALC_STEPS.find(s=>s.key==='extras');CALC.sel.extras=ex.split('|').map(n=>exStep.options.find(o=>o.name===n)).filter(Boolean);}
       renderCalc();
     },300);
   }
@@ -10419,7 +9336,7 @@ function downloadEstimate(){
     '───────────────────────────────',
     'СПЕЦИФИКАЦИЯ:',''
   ];
-  const labels={base:'Серия',ext:'Отделка снаружи',int:'Отделка внутри',glass:'Вставка',seal:'Уплотнение',lock:'Замок',handle:'Фурнитура',size:'Размер'};
+  const labels={base:'Серия',ext:'Отделка снаружи',int:'Отделка внутри',glass:'Вставка',seal:'Уплотнение',lock:'Замок',handle:'Фурнитура'};
   Object.keys(labels).forEach(k=>{
     const v=CALC.sel[k];if(!v)return;
     lines.push((labels[k]+':').padEnd(22,' ')+' '+v.name+'  '+(v.price?'+'+v.price.toLocaleString('ru-RU')+' ₽':'включено'));
@@ -10427,16 +9344,6 @@ function downloadEstimate(){
   if(CALC.sel.extras.length){
     lines.push('','ДОП. ОПЦИИ:');
     CALC.sel.extras.forEach(e=>lines.push('  · '+e.name+'  +'+e.price.toLocaleString('ru-RU')+' ₽'));
-  }
-  if(CALC.activeBundles && CALC.activeBundles.length){
-    lines.push('','АКТИВНЫЕ ПАКЕТЫ:');
-    CALC.activeBundles.forEach(id => {
-      const b = bundleById(id);
-      if(!b) return;
-      const eff = bundleEffectivePrice(b);
-      lines.push('  ★ '+b.name+'  '+eff.toLocaleString('ru-RU')+' ₽');
-      (b.exclusives||[]).forEach(e => lines.push('     эксклюзив: '+e.name));
-    });
   }
   lines.push('═══════════════════════════════','ИТОГО (ориентир): '+total.toLocaleString('ru-RU')+' ₽','','Точная цена — после бесплатного замера.','Гарантия 10 лет · Производство в Клину');
   const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
