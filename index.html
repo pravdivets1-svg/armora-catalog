@@ -4214,30 +4214,44 @@ h2.card-name{margin:0;padding:0}
 
 /* Locked option — disabled visually, опция дешевле включённого в серию */
 .v5-opt.is-locked{
-  opacity: .42;
+  opacity: .55;
   cursor: not-allowed;
-  filter: grayscale(.5);
+  filter: grayscale(.4);
   border-style: dashed !important;
   background: repeating-linear-gradient(135deg, transparent 0 8px, rgba(0,0,0,.018) 8px 16px), var(--v5-surface) !important;
 }
-.v5-opt.is-locked:hover{ transform: none !important; border-color: var(--v5-bdr) !important; }
+.v5-opt.is-locked:hover{ transform: none !important; border-color: var(--v5-bdr) !important; box-shadow: 0 0 0 3px rgba(0,0,0,.03) !important; }
 .v5-opt.is-locked::before{ display:none !important; }
+.v5-opt.is-locked .v5-opt-info{ opacity: .5; }
 .v5-opt-price.locked{
   background: rgba(0,0,0,.05) !important;
   color: rgba(0,0,0,.5) !important;
   font-style: italic;
   border: 1px dashed rgba(0,0,0,.18);
+  font-size: 10px !important;
+  letter-spacing: .1em !important;
+  text-transform: uppercase !important;
+  padding: 3px 8px !important;
 }
+/* Бейдж «входит в серию» — рендерится inline внутри footer слева, не пересекается с dog-ear */
 .v5-opt-locked-badge{
-  position: absolute; top: 10px; right: 10px;
+  display: inline-flex; align-items: center; gap: 4px;
   font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
   background: rgba(22,163,74,.12); color: #16a34a;
   padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(22,163,74,.3);
+  white-space: nowrap;
 }
 .v5-opt-credit{
-  font-size: 10.5px; color: var(--v5-ink-mute); font-style: italic; margin-top: 2px;
+  font-size: 9.5px; color: var(--v5-ink-mute); font-style: normal;
+  letter-spacing: .04em; line-height: 1.2; max-width: 140px; text-align: right;
+  white-space: normal;
 }
-.v5-opt-price-up{ display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.v5-opt-price-up{
+  display: inline-flex; flex-direction: column; align-items: flex-end; gap: 2px;
+  max-width: 60%;
+}
+/* Имя не должно залезать под dog-ear 44×44 в правом-верхнем углу */
+.v5-opt-top{ padding-right: 46px; min-height: 24px; }
 
 /* Elite card — gold top accent */
 .v5-opt[data-name="Элит"]{
@@ -4308,12 +4322,16 @@ h2.card-name{margin:0;padding:0}
   font-weight: 500;
 }
 .v5-opt-foot{
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: flex-end; justify-content: space-between;
   margin-top: auto;
   padding-top: 8px;
   position: relative;
   z-index: 1;
+  gap: 8px;
 }
+.v5-opt-foot-l{ display: flex; align-items: center; min-width: 0; }
+.v5-opt-foot-l:empty{ display: none; }
+.v5-opt-foot-r{ display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .v5-opt-price{
   font-family: var(--font-display);
   font-style: italic;
@@ -8585,7 +8603,7 @@ const CALC_STEPS=[
     {name:'Armadillo',price:4500,desc:'Широкая линейка стилей.'},
     {name:'Guardian Premium',price:6500,desc:'Хром, золото, антик. Усиленное крепление.'},
     {name:'Бугельная',price:16500,desc:'Массивная ручка-скоба во всю высоту полотна.'},
-    {name:'Бугельная с LED-подсветкой',price:29400,desc:'Бугель с встроенной LED-лентой по всей длине. Включается автоматически при касании.'}
+    {name:'Бугельная с LED-подсветкой',price:33900,desc:'Бугель с встроенной LED-лентой по всей длине. Включается автоматически при касании. Требует электромонтаж.'}
   ]},
   {key:'extras',type:'multi',title:'Дополнительные <em>опции</em>',hint:'Любое количество. Видеоглазок — в подарок при заказе после замера.',
    options:[
@@ -9608,13 +9626,15 @@ window.__renderCalcV5 = function(total, prevTotal){
     const ariaDis = (isLocked || isExtraLockedNow) ? ' aria-disabled="true"' : '';
     html+=`<button type="button" class="v5-opt${sel?' sel':''}${isMulti?' v5-opt-multi':''}${inclClass}${lockedCls}" onclick="${action}" data-name="${nAttr}"${ariaDis}>
       ${isRec?'<span class="v5-opt-rec">Рекомендуем</span>':''}
-      ${(isExactSeries||isInclExtra||isExtraLockedNow)?'<span class="v5-opt-locked-badge">входит в серию</span>':''}
       <div class="v5-opt-top">
         <span class="v5-opt-name">${o.name}</span>
         <span class="v5-opt-info" onclick="event.stopPropagation();v5OpenPop('${kEsc}','${nEsc}')" title="Подробнее"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="5.5" r=".55" fill="currentColor" stroke="none"/><line x1="8" y1="7.5" x2="8" y2="11"/></svg></span>
       </div>
       <div class="v5-opt-desc">${o.desc||''}</div>
-      <div class="v5-opt-foot">${priceHtml}${chk}</div>
+      <div class="v5-opt-foot">
+        <div class="v5-opt-foot-l">${(isExactSeries||isInclExtra||isExtraLockedNow)?'<span class="v5-opt-locked-badge">в серии</span>':''}</div>
+        <div class="v5-opt-foot-r">${priceHtml}${chk}</div>
+      </div>
     </button>`;
   });
 
