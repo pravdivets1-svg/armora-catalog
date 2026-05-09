@@ -4689,6 +4689,22 @@ h2.card-name{margin:0;padding:0}
   z-index: 30;
 }
 .v5-foot-info{ flex: 1; min-width: 200px; }
+.v5-foot-combo{
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  color: #16a34a;
+  background: rgba(22,163,74,.12);
+  padding: 7px 14px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: .01em;
+  margin-bottom: 8px;
+  align-self: flex-start;
+}
 .v5-foot-info-l{
   font-size: 11px;
   letter-spacing: .2em;
@@ -8599,7 +8615,7 @@ const CALC_STEPS=[
     {name:'2 замка Kale',price:6500,desc:'Турецкое качество.'},
     {name:'Замок Cisa',price:13000,desc:'Итальянский сертифицированный.'},
     {name:'Замок Mottura',price:35500,desc:'Топовый итальянский замок класса 5+. Защита от перепиливания и высверливания.'},
-    {name:'Электронный замок премиум',price:42900,desc:'Отпечаток пальца + PIN + карта-ключ + аварийный механический ключ. Полностью офлайн, без интернета.',excludesLocks:['Замок Mottura']},
+    {name:'Электронный замок премиум',price:42900,desc:'Отпечаток пальца + PIN + карта-ключ + аварийный механический ключ. Полностью офлайн, без интернета.'},
     {name:'Замок редукторного типа',price:9000,desc:'Бесшумный механизм закрытия.',bundleOnly:true}
   ]},
   {key:'handle',type:'radio',title:'Ручка и <em>фурнитура</em>',hint:'Деталь, к которой прикасаетесь тысячи раз в год.',
@@ -9155,8 +9171,6 @@ function calcTotal(){
     if(b) bundlesSum += bundleEffectivePrice(b);
   });
   t += bundlesSum;
-  // Combo-бонус: 2+ активных пакета → скидка 3 500 ₽ (антикоррозийная обработка в подарок)
-  if(CALC.activeBundles.length >= 2) t -= 3500;
   // Множитель размера (двустворка ×1.40, oversize ×1.20 и т.д.) — применяется к product-части.
   // НЕ умножаем: доставку/монтаж, бандлы (отдельные услуги),
   // штучные extras (видеоглазок, доводчик, ночная задвижка — одинаковы для любой двери).
@@ -9176,6 +9190,9 @@ function calcTotal(){
     const productPart = t - installPkg - installExtras - bundlesSum - unitExtrasSum;
     t = Math.round(productPart * sizeMult) + installPkg + installExtras + bundlesSum + unitExtrasSum;
   }
+  // Combo-бонус ПОСЛЕ множителя — фиксированная скидка 3 500 ₽,
+  // не должна масштабироваться размером двери.
+  if(CALC.activeBundles.length >= 2) t -= 3500;
   return t;
 }
 const fmtRu=n=>n.toLocaleString('ru-RU')+' ₽';
@@ -9539,6 +9556,7 @@ window.__renderCalcV5 = function(total, prevTotal){
     }
     html += `</div>
     <div class="v5-foot">
+      ${CALC.activeBundles.length >= 2 ? `<div class="v5-foot-combo">🎁 Комбо-бонус активен: −3 500 ₽ к итогу</div>` : ''}
       <div class="v5-foot-info">
         <div class="v5-foot-info-l">Промежуточный итог</div>
         <div class="v5-foot-info-v" id="v5FootPrice">${total>0?fmtRu(total):'—'}</div>
@@ -9563,7 +9581,9 @@ window.__renderCalcV5 = function(total, prevTotal){
   }
 
   const stepCredit = step.key !== 'base' ? getStepCredit(step.key) : 0;
-  step.options.filter(o => !o.bundleOnly).forEach(o=>{
+  // Bundle-only опции скрыты для прямого выбора, НО если бандл их активировал
+  // (CALC.sel[stepKey] указывает на bundleOnly опцию) — показываем её, чтобы клиент видел выбор.
+  step.options.filter(o => !o.bundleOnly || (CALC.sel[step.key] && CALC.sel[step.key].name === o.name)).forEach(o=>{
     const isMulti = step.type==='multi';
     const multiList = step.key==='install_extras'?(CALC.sel.install_extras||[]):CALC.sel.extras;
     const sel = isMulti ? multiList.some(x=>x.name===o.name) : (CALC.sel[step.key]&&CALC.sel[step.key].name===o.name);
@@ -9571,6 +9591,7 @@ window.__renderCalcV5 = function(total, prevTotal){
     // Вариант 2: только апгрейды
     const isExactSeries = !isMulti && step.key !== 'base' && isExactSeriesOpt(step.key, o.name);
     const isInclExtra = step.key === 'extras' && isIncludedExtra(o.name);
+    const isBundleExtra = step.key === 'extras' && extraCoveredByBundle(o.name);
     const hasUpgrade = !isMulti && step.key !== 'base' && stepCredit > 0 && o.price > stepCredit && !isExactSeries;
     const isLocked = !isMulti && step.key !== 'base' && stepCredit > 0 && !isExactSeries && o.price < stepCredit;
     const isExtraLockedNow = isMulti && step.key === 'extras' && isExtraLocked(o.name);
@@ -9583,8 +9604,13 @@ window.__renderCalcV5 = function(total, prevTotal){
         const pct = Math.round((o.mult - 1) * 100);
         priceHtml=`<span class="v5-opt-price">+${pct}% к итогу</span>`;
       }
+    } else if(o.bundleOnly){
+      // Опция активирована бандлом — её цена покрыта пакетом
+      priceHtml=`<span class="v5-opt-price incl">от пакета</span>`;
     } else if(isExactSeries || isInclExtra){
       priceHtml=`<span class="v5-opt-price incl">включено в серию</span>`;
+    } else if(isBundleExtra){
+      priceHtml=`<span class="v5-opt-price incl">включено в пакет</span>`;
     } else if(isLocked){
       priceHtml=`<span class="v5-opt-price locked">недоступно для серии</span>`;
     } else if(hasUpgrade){
@@ -9657,6 +9683,7 @@ window.__renderCalcV5 = function(total, prevTotal){
   html += `</div>
 
   <div class="v5-foot">
+    ${CALC.activeBundles.length >= 2 ? `<div class="v5-foot-combo">🎁 Комбо-бонус активен: −3 500 ₽ к итогу</div>` : ''}
     <div class="v5-foot-info">
       <div class="v5-foot-info-l">${isLast?'Итого к заказу':'Промежуточный итог'}</div>
       <div class="v5-foot-info-v" id="v5FootPrice">${total>0?fmtRu(total):'—'}</div>
@@ -9703,8 +9730,13 @@ function v5Select(key, name){
     toast && toast(`«${o.name}» дешевле включённого в серию «${inclName}» (${credit.toLocaleString('ru-RU')} ₽). Можно выбрать только равное или дороже.`);
     return;
   }
-  if(key==='lock' && o.excludesLocks && CALC.sel.lock && o.excludesLocks.includes(CALC.sel.lock.name)){
-    toast && toast(`«${o.name}» не совместим с «${CALC.sel.lock.name}»`);
+  // Если шаг управляется активным бандлом — нельзя менять напрямую
+  if(stepCoveredByBundle(key) && CALC.sel[key] && CALC.sel[key].name !== o.name){
+    const ownerBundle = CALC.activeBundles.map(bundleById).find(b => b && b.overrides && b.overrides[key]);
+    if(ownerBundle){
+      toast && toast(`Этот выбор от пакета «${ownerBundle.name}». Чтобы сменить — отключите пакет в шаге «Готовые комплекты».`);
+      return;
+    }
   }
   CALC.sel[key]=o;
   if(key==='base') applyBaseSeriesChange();
