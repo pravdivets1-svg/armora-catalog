@@ -8382,7 +8382,7 @@ function openCalc(id){
   CALC.door=d;
   CALC.cur=0;
   // Reset selections, then preset based on door
-  CALC.sel={base:null,ext:null,int:null,glass:null,seal:null,lock:null,handle:null,extras:[],install_pkg:null,install_extras:[],install:[]};
+  CALC.sel={base:null,ext:null,int:null,glass:null,seal:null,lock:null,handle:null,extras:[],size:null,install_pkg:null,install_extras:[],install:[]};
   presetFromDoor(d);
   document.getElementById('calcDoorName').innerHTML=`${d.name} <em style="opacity:.5;font-size:.85em">· ${d.series}</em>`;
   const bg=document.getElementById('calcBg');
@@ -8484,7 +8484,7 @@ document.querySelectorAll('.tb-mega-item').forEach(it=>{
    ============================================================ */
 const CALC_STEPS_REQUIRED_KEYS = [
   'base','ext','int','glass','seal','lock','handle',
-  'extras','bundles','install_pkg','install_extras'
+  'extras','size','bundles','install_pkg','install_extras'
 ];
 
 const CALC_REQUIRED_OPTIONS = {
@@ -8575,6 +8575,13 @@ const CALC_STEPS=[
   ]},
   {key:'bundles',type:'bundles',title:'Готовые <em>комплекты с эксклюзивами</em>',hint:'5 пакетов решают конкретные задачи. В каждом — 2 эксклюзива, недоступные иначе. Можно активировать несколько совместимых.',
    options:[]},
+  {key:'size',type:'radio',title:'Размер <em>двери</em>',hint:'Стандартный проём — без доплаты. Нестандартный размер — +20%. Двустворчатая (двупольная) дверь — +40% к итоговой цене конструкции.',
+   options:[
+    {name:'Стандартный (до 2050×960 мм)',price:0,mult:1,desc:'Подходит для большинства проёмов в квартирах и домах.',inc:'Без наценки'},
+    {name:'Нестандартный размер',price:0,mult:1.20,desc:'Высота >2050 мм или ширина >960 мм. Индивидуальное производство.',inc:'+20% к итогу'},
+    {name:'Двустворчатая (двупольная)',price:0,mult:1.40,desc:'Две створки: основная + узкая. Для широких проёмов и парадных входов.',inc:'+40% к итогу'},
+    {name:'Двустворчатая нестандарт',price:0,mult:1.60,desc:'Две створки + нестандартные габариты. Полностью под проём.',inc:'+60% к итогу'}
+  ]},
   {key:'install_pkg',type:'radio',title:'Монтаж и <em>доставка</em>',hint:'Установка оплачивается отдельно от стоимости двери. Доставка по Москве в пределах МКАД до подъезда — бесплатно во всех вариантах.',
    options:[
     {name:'Только доставка по МКАД',price:0,desc:'Привезём дверь до подъезда. Установка — своими силами или отдельно.',inc:'Доставка по МКАД · Без монтажа'},
@@ -8847,13 +8854,14 @@ function activateBundle(id){
     const i = CALC.activeBundles.indexOf(eid);
     if(i >= 0){
       const exb = bundleById(eid);
-      // Откатить overrides отключаемого бандла к series-default или options[0]
+      // Откатить overrides отключаемого бандла к series-default или первой non-bundleOnly опции
       if(exb && exb.overrides){
         Object.keys(exb.overrides).forEach(stepKey => {
           const step = CALC_STEPS.find(s => s.key === stepKey);
           const seriesName = seriesIncludedOptName(stepKey);
-          const fallback = seriesName ? step.options.find(o => o.name === seriesName) : step.options[0];
-          if(fallback && !fallback.bundleOnly) CALC.sel[stepKey] = fallback;
+          let fallback = seriesName ? step.options.find(o => o.name === seriesName) : null;
+          if(!fallback || fallback.bundleOnly) fallback = step.options.find(o => !o.bundleOnly);
+          if(fallback) CALC.sel[stepKey] = fallback;
         });
       }
       // Удалить addsExtras отключаемого бандла (если они не пересекаются с включениями серии или другим бандлом)
@@ -8897,12 +8905,13 @@ function deactivateBundle(id){
   const i = CALC.activeBundles.indexOf(id);
   if(i < 0) return;
   CALC.activeBundles.splice(i, 1);
-  // Откатить overrides к series-default или options[0]
+  // Откатить overrides к series-default или первой non-bundleOnly опции
   if(bundle.overrides){
     Object.keys(bundle.overrides).forEach(stepKey => {
       const step = CALC_STEPS.find(s => s.key === stepKey);
       const seriesName = seriesIncludedOptName(stepKey);
-      const fallback = seriesName ? step.options.find(o => o.name === seriesName) : step.options.find(o => !o.bundleOnly);
+      let fallback = seriesName ? step.options.find(o => o.name === seriesName) : null;
+      if(!fallback || fallback.bundleOnly) fallback = step.options.find(o => !o.bundleOnly);
       if(fallback) CALC.sel[stepKey] = fallback;
     });
   }
@@ -9027,7 +9036,7 @@ function renderBundlesStep(){
 const CALC={
   door:null,
   cur:0,
-  sel:{base:null,ext:null,int:null,glass:null,seal:null,lock:null,handle:null,extras:[],install_pkg:null,install_extras:[],install:[]},
+  sel:{base:null,ext:null,int:null,glass:null,seal:null,lock:null,handle:null,extras:[],size:null,install_pkg:null,install_extras:[],install:[]},
   activeBundles:[],
   leadInfo:null
 };
@@ -9064,6 +9073,16 @@ function presetFromDoor(d){
       if(inclExtras.has(o.name)) CALC.sel.extras.push(o);
     });
   }
+
+  // Размер: если у двери oversize:true — выбираем «Нестандартный размер», иначе «Стандартный»
+  const sizeStep = CALC_STEPS.find(s => s.key === 'size');
+  if(sizeStep){
+    if(d.oversize){
+      CALC.sel.size = sizeStep.options.find(o => o.mult === 1.20) || sizeStep.options[0];
+    } else {
+      CALC.sel.size = sizeStep.options[0];
+    }
+  }
 }
 
 function calcTotal(){
@@ -9091,6 +9110,15 @@ function calcTotal(){
     const b = bundleById(id);
     if(b) t += bundleEffectivePrice(b);
   });
+  // Множитель размера (двустворка ×1.40, oversize ×1.20 и т.д.) — применяется к итогу.
+  // Доставку/монтаж и доп. работы НЕ умножаем — это отдельные услуги.
+  const sizeMult = (CALC.sel.size && CALC.sel.size.mult) ? CALC.sel.size.mult : 1;
+  if(sizeMult !== 1){
+    const installPkg = CALC.sel.install_pkg ? CALC.sel.install_pkg.price : 0;
+    const installExtras = (CALC.sel.install_extras||[]).reduce((a,e)=>a+e.price,0);
+    const productPart = t - installPkg - installExtras;
+    t = Math.round(productPart * sizeMult) + installPkg + installExtras;
+  }
   return t;
 }
 const fmtRu=n=>n.toLocaleString('ru-RU')+' ₽';
@@ -9126,7 +9154,7 @@ function renderCalc(){
     stepsNav.id='calcStepsNav';stepsNav.className='calc-steps-nav';
     document.querySelector('.calc-head').after(stepsNav);
   }
-  const stepLabels={base:'Серия',ext:'Снаружи',int:'Внутри',glass:'Стекло',seal:'Уплотнение',lock:'Замок',handle:'Ручка',extras:'Опции'};
+  const stepLabels={base:'Серия',ext:'Снаружи',int:'Внутри',glass:'Стекло',seal:'Уплотнение',lock:'Замок',handle:'Ручка',extras:'Опции',size:'Размер',bundles:'Пакеты',install_pkg:'Монтаж',install_extras:'Доп. работы'};
   stepsNav.innerHTML=CALC_STEPS.map((st,i)=>{
     const cls=i<CALC.cur?'done':(i===CALC.cur?'cur':'');
     return `<button class="calc-step-btn ${cls}" data-label="${stepLabels[st.key]||st.key}" aria-label="Шаг ${i+1}" onclick="goCalcStep(${i})"></button>`;
@@ -9251,7 +9279,58 @@ function renderCalc(){
 function selOption(key,idx){
   const s=CALC_STEPS.find(x=>x.key===key);
   CALC.sel[key]=s.options[idx];
+  if(key==='base') applyBaseSeriesChange();
   renderCalc();
+}
+
+/* ============================================================
+   При смене базовой серии — сбрасываем активные бандлы
+   и переприменяем включения новой серии (ext/int/seal/lock/handle/extras),
+   чтобы избежать фантомных платных опций от старой серии и двойного учёта
+   кредитов в активных бандлах.
+   ============================================================ */
+function applyBaseSeriesChange(){
+  // 1) Сбросить активные бандлы (их overrides и addsExtras уйдут вместе с откатом)
+  CALC.activeBundles = [];
+  // 2) Удалить из extras всё, что было автодобавлено старой серией
+  //    (т.е. items, которые сейчас НЕ включены в новую серию, но являются
+  //     автодобавляемыми из incMap.extras любой серии). Простой подход:
+  //    оставляем только то, что выбрал пользователь руками = всё что НЕ
+  //    помечено как series-included для прежней серии. Так как мы уже
+  //    переключили base, ориентируемся на новую серию.
+  //    Чтобы не потерять ручной выбор, удаляем только пересечение со
+  //    «всеми возможными series-extras» которые отсутствуют в новой серии.
+  const newIncl = seriesIncludedExtras();
+  const allSeriesExtras = new Set();
+  CALC_STEPS[0].options.forEach(s=>{ (s.incMap?.extras||[]).forEach(n=>allSeriesExtras.add(n)); });
+  CALC.sel.extras = CALC.sel.extras.filter(e => {
+    if(newIncl.has(e.name)) return true; // новая серия включает — оставим (добавим ниже если нет)
+    if(allSeriesExtras.has(e.name)) return false; // был series-only от старой серии → убрать
+    return true; // ручной выбор — сохранить
+  });
+  // 3) Переприменить ext/int/seal/lock/handle по incMap новой серии (если включено)
+  ['ext','int','seal','lock','handle'].forEach(k => {
+    const s = CALC_STEPS.find(x => x.key === k);
+    const inclName = seriesIncludedOptName(k);
+    if(inclName){
+      const opt = s.options.find(o => o.name === inclName);
+      if(opt) CALC.sel[k] = opt;
+    } else {
+      // Если новая серия ничего не включает на этом шаге — откат на options[0]
+      // только если текущая опция была series-only старой серии.
+      // Чтобы не быть слишком агрессивными, оставляем как есть: пусть кредит=0
+      // и клиент сам сменит при необходимости.
+    }
+  });
+  // 4) Добавить недостающие series-extras новой серии
+  if(newIncl.size > 0){
+    const extrasStep = CALC_STEPS.find(s => s.key === 'extras');
+    extrasStep.options.forEach(o => {
+      if(newIncl.has(o.name) && !CALC.sel.extras.some(x => x.name === o.name)){
+        CALC.sel.extras.push(o);
+      }
+    });
+  }
 }
 function toggleExtra(idx){
   const o=CALC_STEPS.find(s=>s.key==='extras').options[idx];
@@ -9275,7 +9354,7 @@ const V5_SECTIONS = [
   {id:'geom', num:'01', title:'Геометрия', steps:['base'], hint:'Серия — основа конструкции: толщина стали, контуры, класс замков.'},
   {id:'look', num:'02', title:'Внешний вид', steps:['ext','int','glass'], hint:'Отделка снаружи и внутри, декоративная вставка.'},
   {id:'sec',  num:'03', title:'Безопасность', steps:['seal','lock','handle'], hint:'Уплотнение, замки и фурнитура — что отвечает за тишину и защиту.'},
-  {id:'add',  num:'04', title:'Дополнительно', steps:['extras'], hint:'Видеоглазок, доводчик, терморазрыв и другие опции.'},
+  {id:'add',  num:'04', title:'Дополнительно', steps:['extras','size'], hint:'Видеоглазок, доводчик, терморазрыв и размер двери.'},
   {id:'pack', num:'05', title:'Готовые комплекты', steps:['bundles'], hint:'Пакеты с эксклюзивами под конкретные задачи: тишина, безопасность, дача, дизайн.'},
   {id:'inst', num:'06', title:'Монтаж и доставка', steps:['install_pkg','install_extras'], hint:'Установка оплачивается отдельно. Доставка по МКАД до подъезда — бесплатно.'}
 ];
@@ -9421,7 +9500,15 @@ window.__renderCalcV5 = function(total, prevTotal){
     const isFreeBelowCredit = step.key !== 'base' && !isMulti && stepCredit > 0 && o.price > 0 && o.price <= stepCredit && !isExactSeries;
 
     let priceHtml;
-    if(isExactSeries){
+    if(step.key === 'size' && o.mult){
+      // Размер двери — показываем процент-наценку, а не «+0 ₽»
+      if(o.mult === 1){
+        priceHtml=`<span class="v5-opt-price zero">без наценки</span>`;
+      } else {
+        const pct = Math.round((o.mult - 1) * 100);
+        priceHtml=`<span class="v5-opt-price">+${pct}% к итогу</span>`;
+      }
+    } else if(isExactSeries){
       priceHtml=`<span class="v5-opt-price incl">включено в серию</span>`;
     } else if(isInclExtra){
       priceHtml=`<span class="v5-opt-price incl">включено в серию</span>`;
@@ -9500,6 +9587,7 @@ function v5Select(key, name){
   const o=step?.options.find(x=>x.name===name);
   if(!o) return;
   CALC.sel[key]=o;
+  if(key==='base') applyBaseSeriesChange();
   renderCalc();
 }
 function v5ToggleExtra(key, name, btn){
@@ -9916,6 +10004,20 @@ async function sendLeadToBackend(payload){
     });
     (payload.sel?.extras||[]).forEach(e=>optsList.push('Доп: '+e.name));
     (payload.sel?.install_extras||[]).forEach(e=>optsList.push('Монтаж доп: '+e.name));
+    /* Активные бандлы и их эксклюзивы */
+    if(payload.activeBundles && payload.activeBundles.length && typeof bundleById === 'function'){
+      payload.activeBundles.forEach(id => {
+        const b = bundleById(id);
+        if(!b) return;
+        const eff = (typeof bundleEffectivePrice === 'function') ? bundleEffectivePrice(b) : b.price;
+        optsList.push(`Пакет: ${b.name} (${eff.toLocaleString('ru-RU')} ₽)`);
+        (b.exclusives||[]).forEach(e => optsList.push('  ★ эксклюзив: '+e.name));
+      });
+    }
+    /* Размер двери (если задан) */
+    if(payload.size){
+      optsList.push(`Размер: ${payload.size.label}${payload.size.mult && payload.size.mult!==1 ? ' (×'+payload.size.mult+')' : ''}`);
+    }
     const comment = [
       payload.door ? `Дверь: ${payload.door}` : '',
       ...optsList
@@ -9949,7 +10051,7 @@ function v5SubmitLead(){
   errBox.textContent=''; btn.disabled=true; btn.textContent='Отправляем…';
   const total=calcTotal();
   CALC.leadInfo={name,phone,total,door:CALC.door?.name};
-  sendLeadToBackend({name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel,src:'v5'});
+  sendLeadToBackend({name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel,activeBundles:CALC.activeBundles,size:CALC.sel.size,src:'v5'});
   setTimeout(()=>{
     const bg=document.getElementById('v5LeadBg');
     if(!bg) return;
@@ -9995,7 +10097,7 @@ function submitLead(){
   const total=calcTotal();
   CALC.leadInfo={name,phone,total,door:CALC.door?.name};
   if(window.__ARMORA_DEV__) console.log('[ARMORA LEAD]',{name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel});
-  sendLeadToBackend({name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel,src:'legacy'});
+  sendLeadToBackend({name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel,activeBundles:CALC.activeBundles,size:CALC.sel.size,src:'legacy'});
     setTimeout(()=>{
       const body=document.getElementById('calcBody');
       body.innerHTML='';
@@ -10112,7 +10214,7 @@ function saveCalcToURL(){
   __saveCalcT=setTimeout(()=>{
     const p=new URLSearchParams();
     p.set('door',CALC.door.id);
-    ['base','ext','int','glass','seal','lock','handle'].forEach(k=>{if(CALC.sel[k])p.set(k,CALC.sel[k].name);});
+    ['base','ext','int','glass','seal','lock','handle','size'].forEach(k=>{if(CALC.sel[k])p.set(k,CALC.sel[k].name);});
     if(CALC.sel.extras.length)p.set('extras',CALC.sel.extras.map(e=>e.name).join('|'));
     try{ history.replaceState(null,'','?'+p.toString()); }catch(e){}
   },300);
@@ -10125,10 +10227,14 @@ function restoreFromURL(){
   if(did&&DOORS.find(d=>d.id===did)){
     setTimeout(()=>{
       openCalc(did);
-      ['base','ext','int','glass','seal','lock','handle'].forEach(k=>{
+      ['base','ext','int','glass','seal','lock','handle','size'].forEach(k=>{
         const name=p.get(k);if(!name)return;
         const step=CALC_STEPS.find(s=>s.key===k);if(!step)return;
-        const opt=step.options.find(o=>o.name===name);if(opt)CALC.sel[k]=opt;
+        const opt=step.options.find(o=>o.name===name);
+        if(opt){
+          CALC.sel[k]=opt;
+          if(k==='base') applyBaseSeriesChange();
+        }
       });
       const ex=p.get('extras');
       if(ex){const exStep=CALC_STEPS.find(s=>s.key==='extras');CALC.sel.extras=ex.split('|').map(n=>exStep.options.find(o=>o.name===n)).filter(Boolean);}
@@ -10170,7 +10276,7 @@ function downloadEstimate(){
     '───────────────────────────────',
     'СПЕЦИФИКАЦИЯ:',''
   ];
-  const labels={base:'Серия',ext:'Отделка снаружи',int:'Отделка внутри',glass:'Вставка',seal:'Уплотнение',lock:'Замок',handle:'Фурнитура'};
+  const labels={base:'Серия',ext:'Отделка снаружи',int:'Отделка внутри',glass:'Вставка',seal:'Уплотнение',lock:'Замок',handle:'Фурнитура',size:'Размер'};
   Object.keys(labels).forEach(k=>{
     const v=CALC.sel[k];if(!v)return;
     lines.push((labels[k]+':').padEnd(22,' ')+' '+v.name+'  '+(v.price?'+'+v.price.toLocaleString('ru-RU')+' ₽':'включено'));
