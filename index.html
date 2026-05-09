@@ -4424,248 +4424,211 @@ h2.card-name{margin:0;padding:0}
 /* ============================================================
    BUNDLE CARDS — готовые комплекты с эксклюзивами
    ============================================================ */
+/* ===== BUNDLE CARDS — compact, editorial, no cartoon ===== */
 .v5-bundles-grid{
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
   margin-top: 8px;
 }
-@media(min-width:768px){
-  .v5-bundles-grid{ grid-template-columns: 1fr 1fr; gap: 20px; }
-}
+@media(max-width: 900px){ .v5-bundles-grid{ grid-template-columns: 1fr; gap: 10px; } }
+
 .v5-bundle{
   position: relative;
-  background: linear-gradient(180deg, #fff 0%, #faf8f5 100%);
-  border: 1px solid rgba(15,23,42,.08);
-  border-radius: 22px;
-  padding: 22px 22px 18px;
+  background: #fff;
+  border: 1px solid rgba(15,23,42,.1);
+  border-radius: 14px;
+  padding: 16px 16px 14px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  box-shadow: 0 1px 3px rgba(15,23,42,.04), 0 8px 22px -10px rgba(15,23,42,.08);
-  transition: all .35s cubic-bezier(.32,.72,0,1);
+  gap: 10px;
+  box-shadow: 0 1px 2px rgba(15,23,42,.03);
+  transition: border-color .2s, box-shadow .2s, transform .2s;
 }
 .v5-bundle:hover:not(.is-blocked){
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(15,23,42,.06), 0 16px 36px -10px rgba(15,23,42,.16);
-  border-color: rgba(164,120,100,.4);
+  border-color: var(--v5-ink);
+  box-shadow: 0 4px 14px -4px rgba(15,23,42,.12);
+  transform: translateY(-1px);
 }
 .v5-bundle.is-active{
-  border-color: var(--v5-mocha);
-  background: linear-gradient(180deg, rgba(164,120,100,.06) 0%, rgba(164,120,100,.02) 100%);
-  box-shadow: 0 0 0 3px rgba(164,120,100,.15), 0 12px 28px -8px rgba(164,120,100,.22);
+  border-color: var(--v5-ink);
+  background: #fafaf8;
+  box-shadow: 0 0 0 2px var(--v5-ink), 0 6px 18px -6px rgba(15,23,42,.18);
 }
-.v5-bundle.is-blocked{
-  opacity: .55;
-  filter: grayscale(.4);
-}
+.v5-bundle.is-blocked{ opacity:.45; filter: grayscale(.5); }
+
 .v5-bundle-hd{
-  display: grid;
-  grid-template-columns: 48px 1fr auto;
-  gap: 12px;
-  align-items: center;
+  display: flex; flex-direction: column; gap: 4px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(15,23,42,.06);
 }
-.v5-bundle-icon{
-  width: 48px; height: 48px;
-  border-radius: 14px;
-  background: rgba(164,120,100,.1);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 26px;
-  flex-shrink: 0;
-}
-.v5-bundle.is-active .v5-bundle-icon{
-  background: var(--v5-mocha);
-  filter: brightness(1.1);
-}
+.v5-bundle-icon{ display: none; }
 .v5-bundle-titles{ min-width: 0; }
 .v5-bundle-name{
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 19px;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 18px;
   letter-spacing: -.012em;
   color: var(--v5-ink);
-  line-height: 1.15;
+  line-height: 1.1;
 }
 .v5-bundle-persona{
-  margin-top: 3px;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--v5-ink-soft);
-  line-height: 1.3;
+  line-height: 1.35;
 }
 .v5-bundle-badge-active{
-  font-family: var(--font-sans);
-  font-size: 10px;
-  font-weight: 800;
-  color: var(--v5-mocha);
-  background: rgba(164,120,100,.13);
-  padding: 4px 9px;
-  border-radius: 999px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  align-self: start;
+  display: none;
 }
 .v5-bundle-items{
   list-style: none;
   margin: 0;
-  padding: 12px 14px;
-  background: rgba(15,23,42,.025);
-  border-radius: 14px;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
 }
 .v5-bundle-item{
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 10px;
-  font-size: 13px;
+  gap: 8px;
   font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.35;
 }
 .v5-bundle-item-name{
   color: var(--v5-ink);
   font-weight: 500;
-  line-height: 1.3;
 }
 .v5-bundle-item-price{
-  color: var(--v5-ink-soft);
+  color: var(--v5-ink-mute);
   font-variant-numeric: tabular-nums;
-  font-size: 12px;
+  font-size: 11px;
   white-space: nowrap;
 }
 .v5-bundle-item.is-exclusive .v5-bundle-item-name{
-  color: var(--v5-mocha);
-  font-weight: 700;
+  color: var(--v5-ink);
+  font-weight: 600;
 }
 .v5-bundle-star{
-  color: #d4a04a;
-  font-size: 11px;
-  margin-right: 5px;
-  letter-spacing: 0;
+  display: inline-block;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--v5-mocha);
+  margin-right: 6px;
+  vertical-align: middle;
 }
 .v5-bundle-series-note{
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 10.5px;
   color: #16a34a;
-  background: rgba(22,163,74,.08);
-  padding: 8px 11px;
-  border-radius: 10px;
   line-height: 1.35;
+  padding: 0;
+  background: transparent;
+  margin-top: -2px;
 }
 .v5-bundle-pricing{
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 14px;
-  align-items: center;
-  padding-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+  margin-top: auto;
   border-top: 1px solid rgba(15,23,42,.06);
-  margin-top: 2px;
-  padding-top: 14px;
 }
-.v5-bundle-price-block{ display: flex; flex-direction: column; gap: 2px; }
+.v5-bundle-price-block{ display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .v5-bundle-price-old{
   font-family: var(--font-sans);
-  font-size: 11px;
-  color: rgba(15,23,42,.45);
+  font-size: 10.5px;
+  color: rgba(15,23,42,.4);
   text-decoration: line-through;
   font-variant-numeric: tabular-nums;
 }
 .v5-bundle-price-new{
   font-family: var(--font-display);
   font-style: italic;
-  font-weight: 700;
-  font-size: 22px;
+  font-weight: 600;
+  font-size: 19px;
   color: var(--v5-ink);
   letter-spacing: -.01em;
   font-variant-numeric: tabular-nums;
   line-height: 1;
 }
 .v5-bundle-saving{
+  display: inline-block;
   font-family: var(--font-sans);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: .1em;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: #16a34a;
-  background: rgba(22,163,74,.13);
-  padding: 3px 8px;
-  border-radius: 999px;
-  align-self: flex-start;
-  margin-top: 2px;
 }
 .v5-bundle-cta{
   font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 700;
-  padding: 10px 16px;
-  border-radius: 999px;
-  border: 1.5px solid var(--v5-mocha);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--v5-ink);
   background: transparent;
-  color: var(--v5-mocha);
+  color: var(--v5-ink);
   cursor: pointer;
-  transition: all .3s cubic-bezier(.32,.72,0,1);
+  transition: background .2s, color .2s;
   white-space: nowrap;
+  letter-spacing: .02em;
 }
 .v5-bundle-cta:hover:not(:disabled){
-  background: var(--v5-mocha);
+  background: var(--v5-ink);
   color: #fff;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px -4px rgba(164,120,100,.4);
 }
-.v5-bundle-cta:active:not(:disabled){ transform: scale(.98); }
 .v5-bundle-cta.is-on{
-  background: var(--v5-mocha);
+  background: var(--v5-ink);
   color: #fff;
-  border-color: var(--v5-mocha);
 }
 .v5-bundle-cta.is-blocked{
-  border-color: rgba(15,23,42,.12);
-  color: rgba(15,23,42,.4);
+  border-color: rgba(15,23,42,.15);
+  color: rgba(15,23,42,.45);
   cursor: not-allowed;
+  background: transparent;
 }
 
-/* Combo-бонус блок */
+/* Combo-бонус — компактнее, без эмодзи-блока */
 .v5-combo-bonus{
-  margin-top: 18px;
-  padding: 16px 18px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, rgba(22,163,74,.08) 0%, rgba(22,163,74,.04) 100%);
-  border: 1.5px solid rgba(22,163,74,.25);
-  display: grid;
-  grid-template-columns: 44px 1fr;
-  gap: 14px;
-  align-items: center;
-  animation: v5ComboPop .5s cubic-bezier(.32,.72,0,1);
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(22,163,74,.06);
+  border: 1px solid rgba(22,163,74,.22);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  animation: v5ComboPop .35s ease-out;
 }
 .v5-combo-bonus.lvl2{
-  background: linear-gradient(135deg, rgba(212,160,74,.14) 0%, rgba(212,160,74,.06) 100%);
-  border-color: rgba(212,160,74,.4);
+  background: rgba(212,160,74,.08);
+  border-color: rgba(212,160,74,.3);
 }
-@keyframes v5ComboPop{
-  0%{ opacity: 0; transform: translateY(8px) scale(.98); }
-  100%{ opacity: 1; transform: translateY(0) scale(1); }
-}
-.v5-combo-bonus-icon{
-  font-size: 30px;
-  line-height: 1;
-  text-align: center;
-}
+.v5-combo-bonus-icon{ display: none; }
+.v5-combo-bonus-body{ display: contents; }
 .v5-combo-bonus-title{
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 12.5px;
   color: #16a34a;
-  letter-spacing: -.005em;
+  letter-spacing: .01em;
 }
 .v5-combo-bonus.lvl2 .v5-combo-bonus-title{ color: #b8801f; }
 .v5-combo-bonus-text{
-  margin-top: 3px;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--v5-ink-soft);
   line-height: 1.4;
+}
+@keyframes v5ComboPop{
+  from{ opacity: 0; transform: translateY(4px); }
+  to{ opacity: 1; transform: translateY(0); }
 }
 .v5-opt-chk{
   width: 24px; height: 24px;
@@ -8661,7 +8624,7 @@ const CALC_STEPS=[
     {name:'Шумоизоляция',price:5500,desc:'Вибропласт STP + утеплитель.'},
     {name:'Скрытые петли',price:23000,desc:'Дверь как единая плита.'}
   ]},
-  {key:'bundles',type:'bundles',title:'Готовые <em>комплекты с эксклюзивами</em>',hint:'5 пакетов решают конкретные задачи. В каждом — 2 эксклюзива, недоступные иначе. Можно активировать несколько совместимых.',
+  {key:'bundles',type:'bundles',title:'Готовые <em>комплекты с эксклюзивами</em>',hint:'3 пакета — на сон, защиту и загородный дом. В каждом эксклюзивы, недоступные иначе. Можно активировать совместимые.',
    options:[]},
   {key:'size',type:'radio',title:'Размер <em>двери</em>',hint:'Стандартный проём — без доплаты. Нестандартный размер — +20%. Двустворчатая (двупольная) дверь — +40% к итоговой цене конструкции.',
    options:[
@@ -8742,7 +8705,6 @@ const CALC_BUNDLES = [
   {
     id:'silent_night',
     name:'Тихая ночь',
-    icon:'🌙',
     persona:'Семьи со спальней у входа, чувствительные к шуму',
     price:24900,
     overrides:{ seal:'Тройной контур', lock:'Замок редукторного типа' },
@@ -8750,13 +8712,12 @@ const CALC_BUNDLES = [
     exclusives:[
       {name:'Магнитный уплотнитель пожизненный',listPrice:4500,desc:'Не теряет упругости 50+ лет, гарантия пожизненная'}
     ],
-    excludes:['fortress','smart_access','country_guard'],
+    excludes:['fortress','country_guard'],
     badge:'Сон без шума'
   },
   {
     id:'fortress',
     name:'Крепость',
-    icon:'🛡',
     persona:'Частные дома, недоверчивые к улице',
     price:47900,
     overrides:{ lock:'Замок Mottura' },
@@ -8765,28 +8726,12 @@ const CALC_BUNDLES = [
       {name:'Личинка Cisa в корпус Mottura',listPrice:11000,desc:'Премиум-цилиндр Cisa установлен в корпус Mottura. Двойная защита от взлома.'},
       {name:'Сейфовый антивыбойный болт',listPrice:3500,desc:'Дополнительный ригель против выбивания двери ударом'}
     ],
-    excludes:['silent_night','smart_access'],
+    excludes:['silent_night'],
     badge:'Бастион'
   },
   {
-    id:'smart_access',
-    name:'Smart-доступ',
-    icon:'📲',
-    persona:'Современный дом, цифровой контроль',
-    price:41900,
-    overrides:{ lock:'Электронный замок премиум' },
-    addsExtras:['Видеоглазок'],
-    exclusives:[
-      {name:'Электронная моторизованная задвижка',listPrice:4500,desc:'Дополнительный засов с электроприводом, управление с замка'},
-      {name:'Встроенная сирена тревоги 100 дБ',listPrice:4500,desc:'Срабатывает при попытке вскрытия. Питание независимое от сети.'}
-    ],
-    excludes:['silent_night','fortress'],
-    badge:'Цифровой контроль'
-  },
-  {
     id:'country_guard',
-    name:'Загородный страж',
-    icon:'🏡',
+    name:'Страж',
     persona:'Частные дома и дачи, длительные отъезды',
     price:29900,
     overrides:{ seal:'Тройной контур' },
@@ -8797,20 +8742,6 @@ const CALC_BUNDLES = [
     ],
     excludes:['silent_night'],
     badge:'Хозяин загородного'
-  },
-  {
-    id:'design_facade',
-    name:'Дизайнерский фасад',
-    icon:'🎨',
-    persona:'Эстеты, premium-сегмент',
-    price:64900,
-    overrides:{ ext:'3D панель', handle:'Бугельная с LED-подсветкой' },
-    addsExtras:['Скрытые петли'],
-    exclusives:[
-      {name:'Премиум-финиш всей фурнитуры в едином стиле',listPrice:5500,desc:'Все элементы (петли, ручка, накладки, замок) в одной премиум-палитре: античная бронза / графит / розовое золото / шампань'}
-    ],
-    excludes:[],
-    badge:'Эстет'
   }
 ];
 
@@ -9107,45 +9038,39 @@ function renderBundlesStep(){
       </li>`
     ).join('');
     const stateCls = isActive ? ' is-active' : (isBlocked ? ' is-blocked' : '');
-    const ctaText = isActive ? 'Включено ✓' : (isBlocked ? `Конфликт с «${blocker?.name||''}»` : 'Включить пакет');
+    const ctaText = isActive ? 'Включено' : (isBlocked ? `Конфликт с «${blocker?.name||''}»` : 'Включить');
     const ctaAction = isBlocked ? '' : `onclick="toggleBundle('${bundle.id}')"`;
     const seriesNote = seriesCovers.length
       ? `<div class="v5-bundle-series-note">Серия уже покрывает: ${seriesCovers.join(', ')}. Цена пакета снижена.</div>`
       : '';
     html += `<div class="v5-bundle${stateCls}" data-id="${bundle.id}">
       <div class="v5-bundle-hd">
-        <div class="v5-bundle-icon">${bundle.icon}</div>
         <div class="v5-bundle-titles">
           <div class="v5-bundle-name">${bundle.name}</div>
           <div class="v5-bundle-persona">${bundle.persona}</div>
         </div>
-        ${isActive?`<div class="v5-bundle-badge-active">🏆 ${bundle.badge}</div>`:''}
       </div>
       <ul class="v5-bundle-items">${itemsHtml}</ul>
       ${seriesNote}
       <div class="v5-bundle-pricing">
         <div class="v5-bundle-price-block">
-          <div class="v5-bundle-price-old">по отдельности ${sep.toLocaleString('ru-RU')} ₽</div>
-          <div class="v5-bundle-price-new">${eff.toLocaleString('ru-RU')} ₽</div>
-          ${savings>0?`<div class="v5-bundle-saving">Выгода ${savings.toLocaleString('ru-RU')} ₽</div>`:''}
+          <div>
+            <div class="v5-bundle-price-old">по отдельности ${sep.toLocaleString('ru-RU')} ₽</div>
+            <div class="v5-bundle-price-new">${eff.toLocaleString('ru-RU')} ₽</div>
+          </div>
+          ${savings>0?`<div class="v5-bundle-saving">−${savings.toLocaleString('ru-RU')} ₽</div>`:''}
         </div>
         <button type="button" class="v5-bundle-cta${isActive?' is-on':''}${isBlocked?' is-blocked':''}" ${ctaAction} ${isBlocked?'disabled':''}>${ctaText}</button>
       </div>
     </div>`;
   });
   html += `</div>`;
-  // Combo-бонус: 2+ активных пакета
+  // Combo-бонус: 2+ активных пакета (макс 3 совместимых: silent_night конфликтует с двумя другими, но fortress+country_guard работают вместе)
   if(CALC.activeBundles.length >= 2){
-    const lvl1 = CALC.activeBundles.length >= 2;
-    const lvl2 = CALC.activeBundles.length >= 3;
-    html += `<div class="v5-combo-bonus${lvl2?' lvl2':''}">
-      <div class="v5-combo-bonus-icon">🎁</div>
+    html += `<div class="v5-combo-bonus">
       <div class="v5-combo-bonus-body">
-        <div class="v5-combo-bonus-title">${lvl2?'Уровень «Коллекционер» — скидка 3 500 ₽ + бонусы':'Премиум-бонус — скидка 3 500 ₽'}</div>
-        <div class="v5-combo-bonus-text">${lvl2
-          ? '−3 500 ₽ применены к итогу. Дополнительно: годовой техосмотр на дому (зафиксируем при подтверждении заявки).'
-          : '−3 500 ₽ применены к итогу за выбор 2 пакетов (антикоррозийная обработка коробки в подарок).'
-        }</div>
+        <div class="v5-combo-bonus-title">Бонус за комбо — −3 500 ₽</div>
+        <div class="v5-combo-bonus-text">Скидка применена к итогу. Антикоррозийная обработка коробки в подарок.</div>
       </div>
     </div>`;
   }
