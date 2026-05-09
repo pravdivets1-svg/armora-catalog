@@ -7636,7 +7636,7 @@ review-lab{
         <div class="lp-hero-tag">Хит сезона · Серия Элит</div>
 
         <div class="lp-hero-card lp-hero-card-1" onclick="openCalc(56)" role="button" tabindex="0" aria-label="Открыть калькулятор для двери Феррара">
-          <img src="img/doors/56-1.webp" alt="Дверь Феррара" loading="eager" decoding="async">
+          <img src="img/doors/56-1.webp" alt="Дверь Феррара" loading="eager" decoding="async" fetchpriority="high">
           <div class="lp-hero-card-overlay">
             <span class="lp-hero-card-name">Феррара</span>
             <span class="lp-hero-card-meta">
@@ -7647,7 +7647,7 @@ review-lab{
         </div>
 
         <div class="lp-hero-card lp-hero-card-2" onclick="openCalc(32)" role="button" tabindex="0" aria-label="Открыть калькулятор для двери Брюгге">
-          <img src="img/doors/32-1.webp" alt="Дверь Брюгге" loading="eager" decoding="async">
+          <img src="img/doors/32-1.webp" alt="Дверь Брюгге" loading="lazy" decoding="async" fetchpriority="low">
           <div class="lp-hero-card-overlay">
             <span class="lp-hero-card-name">Брюгге</span>
             <span class="lp-hero-card-meta">
@@ -7658,7 +7658,7 @@ review-lab{
         </div>
 
         <div class="lp-hero-card lp-hero-card-3" onclick="openCalc(60)" role="button" tabindex="0" aria-label="Открыть калькулятор для двери Кремона">
-          <img src="img/doors/60-1.webp" alt="Дверь Кремона" loading="eager" decoding="async">
+          <img src="img/doors/60-1.webp" alt="Дверь Кремона" loading="lazy" decoding="async" fetchpriority="low">
           <div class="lp-hero-card-overlay">
             <span class="lp-hero-card-name">Кремона</span>
             <span class="lp-hero-card-meta">
@@ -8504,12 +8504,14 @@ document.querySelectorAll('.tb-mega-item').forEach(it=>{
 /* Лёгкий глобальный mousemove только для фонового радиал-градиента (--mx/--my).
    Throttle до ~30 fps + отключение во время скролла + skip если ничего не двинулось. */
 (function(){
-  let raf=0,lastX=0,lastY=0,scrolling=false,prevX=-1,prevY=-1,lastTs=0;
+  let raf=0,lastX=0,lastY=0,prevX=-1,prevY=-1,lastTs=0;
   const root=document.documentElement;
   const FPS_INTERVAL=33; // ~30fps
   document.addEventListener('mousemove',e=>{
     lastX=e.clientX;lastY=e.clientY;
-    if(scrolling||raf)return;
+    // PERF: переиспользуем общий is-scrolling класс (выставляется unified scroll handler ниже)
+    // вместо отдельного scroll-listener'а, который дублировал ту же логику.
+    if(root.classList.contains('is-scrolling')||raf)return;
     const now=performance.now();
     if(now-lastTs<FPS_INTERVAL)return;
     raf=requestAnimationFrame(()=>{
@@ -8519,12 +8521,6 @@ document.querySelectorAll('.tb-mega-item').forEach(it=>{
       root.style.setProperty('--mx',lastX+'px');
       root.style.setProperty('--my',lastY+'px');
     });
-  },{passive:true});
-  // не обновляем фон во время прокрутки
-  window.addEventListener('scroll',()=>{
-    scrolling=true;
-    clearTimeout(window.__bgScrT);
-    window.__bgScrT=setTimeout(()=>scrolling=false,180);
   },{passive:true});
 
   // Точечная подсветка под курсором над .card — отключена.
@@ -10557,12 +10553,11 @@ document.addEventListener('click',e=>{
     closeSortMenu();
   }
 });
-window.addEventListener('scroll',()=>{
-  const sg=document.getElementById('sortGlass');
-  if(sg && sg.classList.contains('open'))closeSortMenu();
-},{passive:true});
-
-  /* === Плавность скролла: глушим тяжёлые эффекты во время прокрутки === */
+  /* === Unified scroll dispatcher ===
+     Один scroll-listener вместо нескольких. Делает три вещи:
+     1) is-scrolling класс на html (CSS отключает blur/transitions/cursor-glow)
+     2) Закрывает open-меню сортировки (раньше это был отдельный listener)
+     3) Хук для других scroll-зависимых эффектов через root.classList */
 (function(){
   const root=document.documentElement;
   let t=0, scrolling=false, rafId=0;
@@ -10573,6 +10568,9 @@ window.addEventListener('scroll',()=>{
       scrolling=false;
       root.classList.remove('is-scrolling');
     },180);
+    // Закрыть открытое меню сортировки при скролле
+    const sg=document.getElementById('sortGlass');
+    if(sg && sg.classList.contains('open')) closeSortMenu();
   };
   window.addEventListener('scroll',()=>{
     if(rafId)return;
