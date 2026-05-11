@@ -6464,26 +6464,28 @@ body { overscroll-behavior-y: contain; }
 /* ---- Vertical issue mark (left edge typography) ---- */
 .lp-hero-mark{
   position: absolute;
-  left: clamp(8px, 1vw, 22px);
+  right: clamp(8px, 1.2vw, 24px);
   top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  transform-origin: left center;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: right center;
   font-family: var(--font-sans);
-  font-size: 10px;
-  letter-spacing: .42em;
+  font-size: 9.5px;
+  letter-spacing: .38em;
   text-transform: uppercase;
   color: var(--ink-faint);
+  opacity: .55;
   white-space: nowrap;
   z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 14px;
+  pointer-events: none;
 }
 .lp-hero-mark span{ display: inline-flex; align-items: center; gap: 8px; }
 .lp-hero-mark .lp-hero-mark-line{
-  width: 36px; height: 1px;
+  width: 28px; height: 1px;
   background: var(--ink-faint);
-  opacity: .4;
+  opacity: .35;
 }
 
 /* ---- Left column ---- */
@@ -6938,8 +6940,9 @@ body { overscroll-behavior-y: contain; }
 }
 @media(max-width: 600px){
   .lp-hero-phone{
-    top: 18px;
-    right: 16px;
+    /* iOS notch-safe: смещаемся от верхнего края + env(safe-area-inset-top) */
+    top: calc(14px + env(safe-area-inset-top, 0px));
+    right: calc(14px + env(safe-area-inset-right, 0px));
     padding: 6px 11px;
     font-size: 11.5px;
     gap: 7px;
@@ -7178,7 +7181,7 @@ body { overscroll-behavior-y: contain; }
 .lp-hero{ --sp: 0; }
 .lp-hero-content{ transform: translateY(calc(var(--sp) * -40px)); }
 .lp-hero-cascade{ transform: translateY(calc(var(--sp) * -90px)); }
-.lp-hero-mark{ transform: translateY(calc(-50% + var(--sp) * -60px)) rotate(-90deg); }
+.lp-hero-mark{ transform: translateY(calc(-50% + var(--sp) * -60px)) rotate(90deg); }
 .lp-hero-watermark{ transform: translateY(calc(var(--sp) * 60px)); }
 @media(max-width: 980px){
   .lp-hero-content,.lp-hero-cascade,.lp-hero-watermark{ transform: none !important; }
@@ -7282,18 +7285,44 @@ html, body{ overflow-x: clip; }
 }
 
 /* ---- Mobile (старый блок ниже) ---- */
+@media(max-width: 1100px){
+  .lp-hero-mark{ display: none; }
+}
 @media(max-width: 980px){
   .lp-hero-inner{ grid-template-columns: 1fr; gap: 56px; }
-  .lp-hero-mark{ display: none; }
   .lp-hero-cascade{ max-width: 420px; margin: 0 auto; }
 }
 @media(max-width: 600px){
   .lp-hero{
     min-height: 88dvh;
-    padding: clamp(80px, 11vh, 120px) 20px clamp(40px, 6vh, 64px);
-    /* full-bleed уже задан через calc(50% - 50vw) выше — не override'им */
+    /* PERF/UX: top уменьшен, чтобы phone-кнопка не давила на eyebrow.
+       Slowdown of typography для лучшего ритма на мобильном. */
+    padding: clamp(60px, 9vh, 96px) 20px clamp(36px, 5vh, 56px);
   }
-  .lp-hero-inner{ gap: 40px; }
+  .lp-hero-inner{ gap: 36px; }
+  /* Заголовок: чуть меньшая база — длинная фраза "14 дней до установки." не ломается */
+  .lp-hero-title{
+    font-size: clamp(42px, 11vw, 60px);
+    line-height: .96;
+    letter-spacing: -.022em;
+    margin-bottom: clamp(18px, 2.5vh, 26px);
+  }
+  /* Eyebrow поджимаем — мелкий лейбл не должен спорить с phone */
+  .lp-hero-eyebrow{
+    font-size: 10px;
+    letter-spacing: .24em;
+    margin-bottom: clamp(20px, 3vh, 28px);
+    gap: 10px;
+  }
+  .lp-hero-eyebrow::before{ width: 22px; }
+  /* Sub-text: комфортный ridmh + размер для мобильного чтения */
+  .lp-hero-sub{
+    font-size: 14.5px;
+    line-height: 1.62;
+    max-width: 100%;
+    padding-left: 14px;
+    margin-bottom: clamp(28px, 4vh, 36px);
+  }
   .lp-hero-cta{ flex-direction: column; align-items: stretch; gap: 10px; }
   .lp-hero-btn{ justify-content: center; width: 100%; }
   .lp-hero-btn-primary-core{ justify-content: space-between; padding: 14px 14px 14px 24px; }
@@ -7304,6 +7333,14 @@ html, body{ overflow-x: clip; }
   .lp-marquee{ font-size: 18px; margin-bottom: 56px; }
   .lp-marquee-track{ gap: 32px; padding-right: 32px; }
   .lp-marquee-track > span{ gap: 32px; }
+}
+/* Очень узкие экраны (iPhone SE и т.п.) — финальная подгонка */
+@media(max-width: 380px){
+  .lp-hero{ padding-left: 16px; padding-right: 16px; }
+  .lp-hero-title{ font-size: 38px; }
+  .lp-hero-sub{ font-size: 14px; padding-left: 12px; }
+  .lp-hero-cascade{ max-width: 280px; }
+  .lp-hero-phone{ font-size: 11px; padding: 5px 10px; }
 }
 
 /* ---- Hero entrance: stagger fade-up + blur ---- */
@@ -7319,7 +7356,7 @@ html, body{ overflow-x: clip; }
   filter: blur(10px);
   animation: lpHeroIn 1s cubic-bezier(.2,.7,.2,1) forwards;
 }
-.lp-hero-mark{ animation-delay: .05s; transform: translateY(-50%) rotate(-90deg) translateX(-30px); }
+.lp-hero-mark{ animation-delay: .05s; transform: translateY(-50%) rotate(90deg) translateX(30px); }
 .lp-hero-title-line:nth-child(1){ animation-delay: .12s; }
 .lp-hero-title-line:nth-child(2){ animation-delay: .22s; }
 .lp-hero-sub{ animation-delay: .32s; }
@@ -7335,7 +7372,7 @@ html, body{ overflow-x: clip; }
 }
 .lp-hero-mark{ animation-name: lpHeroMarkIn; }
 @keyframes lpHeroMarkIn{
-  to{ opacity: 1; transform: translateY(-50%) rotate(-90deg) translateX(0); filter: blur(0); }
+  to{ opacity: .55; transform: translateY(-50%) rotate(90deg) translateX(0); filter: blur(0); }
 }
 @keyframes lpHeroFade{
   to{ opacity: 1; }
@@ -7599,9 +7636,9 @@ review-lab{
       <span class="lp-hero-phone-num">+7&nbsp;495 151&nbsp;56&nbsp;81</span>
     </a>
     <div class="lp-hero-mark" aria-hidden="true">
-      <span><span class="lp-hero-mark-line"></span>VOL. 26</span>
-      <span>NO. 001</span>
-      <span>ARMORA / STEEL EDITION<span class="lp-hero-mark-line"></span></span>
+      <span><span class="lp-hero-mark-line"></span>С 2014</span>
+      <span>Клин → Москва</span>
+      <span>Ручная сборка<span class="lp-hero-mark-line"></span></span>
     </div>
 
     <div class="lp-hero-inner">
