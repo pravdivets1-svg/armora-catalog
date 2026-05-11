@@ -6768,8 +6768,13 @@ body { overscroll-behavior-y: contain; }
 }
 
 /* ---- Hero tertiary link (low-commitment calc entry) ---- */
+/* На десктопе cascade с 3-мя ценами уже делает работу "посчитать цену" — */
+/* tertiary показываем только на мобиле, где cascade слабее. */
+.lp-hero-link-tertiary{ display: none; }
+@media(max-width: 600px){
+  .lp-hero-link-tertiary{ display: inline-block; }
+}
 .lp-hero-link-tertiary{
-  display: inline-block;
   margin-top: 14px;
   font-family: var(--font-display);
   font-style: italic;
@@ -10815,23 +10820,24 @@ document.addEventListener('click',e=>{
     });
   </script>
   <script>
-    /* Sticky mobile CTA — показываем, когда hero вышел из viewport */
+    /* Sticky mobile CTA — показываем, когда hero-CTA-row ушёл за верхний край viewport.
+       Наблюдаем .lp-hero-cta (компактный target), не весь #lpHero (он 1725px на mobile с review-widget'ом и никогда не "выходит" из viewport на mid-scroll). */
     (function(){
-      var cta = document.getElementById('lpStickyCta');
-      var hero = document.getElementById('lpHero');
-      if(!cta || !hero || !('IntersectionObserver' in window)) return;
+      var sticky = document.getElementById('lpStickyCta');
+      var ctaRow = document.querySelector('.lp-hero-cta');
+      if(!sticky || !ctaRow || !('IntersectionObserver' in window)) return;
       var io = new IntersectionObserver(function(entries){
         entries.forEach(function(e){
           if(e.isIntersecting){
-            cta.classList.remove('show');
-            cta.setAttribute('aria-hidden', 'true');
+            sticky.classList.remove('show');
+            sticky.setAttribute('aria-hidden', 'true');
           } else {
-            cta.classList.add('show');
-            cta.setAttribute('aria-hidden', 'false');
+            sticky.classList.add('show');
+            sticky.setAttribute('aria-hidden', 'false');
           }
         });
-      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-      io.observe(hero);
+      }, { threshold: 0, rootMargin: '-80px 0px 0px 0px' });
+      io.observe(ctaRow);
     })();
   </script>
 </body>
