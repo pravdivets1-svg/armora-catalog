@@ -84,8 +84,8 @@ body{
   position:relative;
 }
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:url('bg.webp') center/cover no-repeat;opacity:1}
-/* Затемняющий overlay поверх bg.webp — крепче чем раньше, чтоб на широких мониторах не светило закатное небо/солнце через прозрачные gap-ы между секциями (max-width контента + 100vw viewport) */
-body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(180deg,rgba(6,7,10,.55) 0%,rgba(6,7,10,.82) 100%)}
+/* Затемняющий overlay поверх bg.webp — bg остаётся как атмосферная текстура, но даже самые яркие участки (sun, sky) не светят через transparent gap'ы между блоками на широких мониторах */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(180deg,rgba(6,7,10,.78) 0%,rgba(6,7,10,.94) 100%)}
 /* Радиал-подсветку под курсором отдельным лёгким слоем — отключаем во время скролла */
 body::before{will-change:auto}
 .cursor-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(900px circle at var(--mx,50%) var(--my,20%),rgba(196,205,214,.10),transparent 55%);opacity:1;transition:opacity .2s}
