@@ -84,7 +84,8 @@ body{
   position:relative;
 }
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:url('bg.webp') center/cover no-repeat;opacity:1}
-body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(180deg,rgba(6,7,10,.20) 0%,rgba(6,7,10,.50) 100%)}
+/* Затемняющий overlay поверх bg.webp — крепче чем раньше, чтоб на широких мониторах не светило закатное небо/солнце через прозрачные gap-ы между секциями (max-width контента + 100vw viewport) */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(180deg,rgba(6,7,10,.55) 0%,rgba(6,7,10,.82) 100%)}
 /* Радиал-подсветку под курсором отдельным лёгким слоем — отключаем во время скролла */
 body::before{will-change:auto}
 .cursor-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(900px circle at var(--mx,50%) var(--my,20%),rgba(196,205,214,.10),transparent 55%);opacity:1;transition:opacity .2s}
@@ -7128,30 +7129,52 @@ body { overscroll-behavior-y: contain; }
 }
 
 /* ---- Hero logo (top-left, absolute in hero) ---- */
+/* SVG-ключ (stroke-based, под общую иконографию страницы) + Manrope wordmark */
 .lp-hero-logo{
   position: absolute;
-  top: clamp(20px, 2.6vh, 30px);
-  left: clamp(20px, 2vw, 32px);
+  top: clamp(22px, 3vh, 36px);
+  left: clamp(24px, 2.4vw, 44px);
   z-index: 4;
   display: inline-flex;
   align-items: center;
+  gap: 12px;
   text-decoration: none;
-  transition: opacity .3s;
+  color: var(--ink);
+  opacity: .94;
+  transition: opacity .35s cubic-bezier(.32,.72,0,1), transform .35s cubic-bezier(.32,.72,0,1);
 }
-.lp-hero-logo img{
-  height: clamp(20px, 2.6vh, 28px);
+.lp-hero-logo:hover{ opacity: 1; transform: translateY(-1px); }
+.lp-hero-logo-mark{
+  height: clamp(34px, 4.4vh, 46px);
   width: auto;
-  display: block;
-  opacity: .92;
-  filter: drop-shadow(0 1px 4px rgba(0,0,0,.5));
+  flex-shrink: 0;
+  color: var(--ink);
+  transform: rotate(-22deg);
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.55));
 }
-.lp-hero-logo:hover img{ opacity: 1; }
+.lp-hero-logo-text{
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: clamp(22px, 2.6vw, 30px);
+  letter-spacing: .16em;
+  color: var(--ink);
+  text-transform: uppercase;
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(0,0,0,.45);
+}
+@media(max-width: 900px){
+  .lp-hero-logo{ top: clamp(18px, 2.4vh, 24px); left: 20px; gap: 9px; }
+  .lp-hero-logo-mark{ height: 30px; }
+  .lp-hero-logo-text{ font-size: 19px; letter-spacing: .14em; }
+}
 @media(max-width: 600px){
   .lp-hero-logo{
     top: calc(14px + env(safe-area-inset-top, 0px));
-    left: calc(14px + env(safe-area-inset-left, 0px));
+    left: calc(16px + env(safe-area-inset-left, 0px));
+    gap: 7px;
   }
-  .lp-hero-logo img{ height: 22px; }
+  .lp-hero-logo-mark{ height: 24px; }
+  .lp-hero-logo-text{ font-size: 15px; letter-spacing: .13em; }
 }
 
 /* ---- Consent checkbox в калькуляторных формах (inline + popup) ---- */
@@ -7864,7 +7887,14 @@ review-lab{
     <div class="lp-hero-lines" aria-hidden="true"></div>
     <div class="lp-hero-watermark" aria-hidden="true">07</div>
     <a class="lp-hero-logo" href="https://armora.ru" target="_blank" rel="noopener" aria-label="ARMORA — на главный сайт">
-      <img src="img/armora-logo.png" alt="ARMORA" width="142" height="30" decoding="async">
+      <svg class="lp-hero-logo-mark" viewBox="0 0 16 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="8" cy="7" r="5.2"/>
+        <circle cx="8" cy="7" r="1.6" fill="currentColor" stroke="none"/>
+        <line x1="8" y1="12.2" x2="8" y2="46"/>
+        <line x1="8" y1="34" x2="13" y2="34"/>
+        <line x1="8" y1="40" x2="11" y2="40"/>
+      </svg>
+      <span class="lp-hero-logo-text">ARMORA</span>
     </a>
     <a class="lp-hero-phone" href="tel:+74951515681" aria-label="Позвонить +7 495 151 56 81">
       <span class="lp-hero-phone-tag">Поднимаем трубку сами.</span>
