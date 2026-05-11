@@ -6733,6 +6733,141 @@ body { overscroll-behavior-y: contain; }
 .lp-hero-trust svg{ width: 13px; height: 13px; stroke: var(--gold); stroke-width: 1.6; fill: none; opacity: .7; }
 .lp-hero-trust .lp-hero-dot{ opacity: .35; }
 
+/* ---- Hero facts: price range / guarantee / timeline ---- */
+.lp-hero-facts{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 6px 0 22px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  line-height: 1.35;
+}
+.lp-hero-facts span{
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.lp-hero-facts strong{
+  font-weight: 600;
+  color: var(--ink-soft);
+  letter-spacing: -.005em;
+}
+.lp-hero-facts em{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 12.5px;
+  opacity: .68;
+  font-weight: 400;
+}
+@media(max-width: 600px){
+  .lp-hero-facts{ font-size: 11.5px; gap: 4px; margin: 4px 0 16px; }
+  .lp-hero-facts em{ font-size: 12px; }
+}
+
+/* ---- Hero tertiary link (low-commitment calc entry) ---- */
+.lp-hero-link-tertiary{
+  display: inline-block;
+  margin-top: 14px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink-faint);
+  text-decoration: none;
+  letter-spacing: -.005em;
+  cursor: pointer;
+  transition: color .35s cubic-bezier(.32,.72,0,1);
+  position: relative;
+}
+.lp-hero-link-tertiary::after{
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  opacity: .22;
+  transform: scaleX(.35);
+  transform-origin: left;
+  transition: transform .5s cubic-bezier(.32,.72,0,1), opacity .35s;
+}
+.lp-hero-link-tertiary:hover,
+.lp-hero-link-tertiary:focus-visible{ color: var(--ink); outline: none; }
+.lp-hero-link-tertiary:hover::after,
+.lp-hero-link-tertiary:focus-visible::after{ transform: scaleX(1); opacity: .55; }
+@media(max-width: 600px){
+  .lp-hero-link-tertiary{ font-size: 13.5px; margin-top: 10px; }
+}
+
+/* ---- Sticky mobile CTA (appears after hero exits viewport) ---- */
+.lp-sticky-cta{ display: none; }
+@media(max-width: 640px){
+  .lp-sticky-cta{
+    display: flex;
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    z-index: 100;
+    gap: 8px;
+    padding: 7px;
+    background: rgba(10, 10, 14, .82);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255,255,255, .08);
+    border-radius: 999px;
+    box-shadow: 0 14px 44px -12px rgba(0,0,0,.7);
+    opacity: 0;
+    transform: translateY(140%);
+    transition: opacity .45s cubic-bezier(.32,.72,0,1), transform .45s cubic-bezier(.32,.72,0,1);
+    pointer-events: none;
+  }
+  .lp-sticky-cta.show{
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .lp-sticky-cta-call{
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+    color: var(--ink-soft);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,.08);
+    text-decoration: none;
+    transition: background .3s, color .3s;
+  }
+  .lp-sticky-cta-call:active{ background: rgba(255,255,255,.12); color: var(--ink); }
+  .lp-sticky-cta-call svg{ width: 18px; height: 18px; }
+  .lp-sticky-cta-main{
+    flex: 1;
+    height: 44px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #0a0a0e;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -.005em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 0 16px;
+    transition: transform .15s ease;
+  }
+  .lp-sticky-cta-main:active{ transform: scale(.97); }
+  .lp-sticky-cta-main svg{ width: 16px; height: 16px; }
+}
+
 /* ====================================================
    Z-AXIS CASCADE: 3 фото дверей справа, parallax по mouse
    ==================================================== */
@@ -7680,6 +7815,11 @@ review-lab{
           <span class="lp-hero-title-line"><em>25 лет — после.</em></span>
         </h1>
         <p class="lp-hero-sub">У нас нет каталога на двести моделей и нет двух одинаковых дверей. Каждая собирается под конкретный проём в нашей мастерской в Клину. От замера до установки в Москве — 14 дней. Без скидок до конца недели, без «единственные в Москве», без подарков за репост. Просто хорошая дверь.</p>
+        <div class="lp-hero-facts" aria-label="Ключевые факты">
+          <span><strong>80 — 180 тыс ₽</strong><em>·&nbsp;большинство наших заказов</em></span>
+          <span><strong>Гарантия 7 лет</strong><em>·&nbsp;расчётный срок службы — 25</em></span>
+          <span><strong>14 дней</strong><em>·&nbsp;замер, производство, монтаж под ключ</em></span>
+        </div>
         <div class="lp-hero-cta">
           <button type="button" class="lp-hero-btn lp-hero-btn-primary" onclick="lpOpenConsult()" data-magnetic>
             <span class="lp-hero-btn-primary-core">
@@ -7694,7 +7834,9 @@ review-lab{
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" width="12" height="12"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9 3 14 8 9 13"/></svg>
           </a>
         </div>
-        
+        <a class="lp-hero-link-tertiary" onclick="openCalc(56); return false;" role="button" tabindex="0">
+          или быстро посчитать цену моей двери →
+        </a>
       </div>
 
       <div class="lp-hero-cascade" id="lpHeroCascade">
@@ -7927,6 +8069,22 @@ review-lab{
   <span>Перейти на сайт</span>
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
 </a>
+
+<!-- STICKY MOBILE CTA: появляется когда hero ушёл из вьюпорта -->
+<div id="lpStickyCta" class="lp-sticky-cta" aria-hidden="true">
+  <a class="lp-sticky-cta-call" href="tel:+74951515681" aria-label="Позвонить +7 495 151 56 81">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </svg>
+  </a>
+  <button class="lp-sticky-cta-main" type="button" onclick="openCalc(56)">
+    <span>Получить расчёт</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="5" y1="12" x2="19" y2="12"/>
+      <polyline points="12 5 19 12 12 19"/>
+    </svg>
+  </button>
+</div>
 
 <!-- FLOATING WISH/CMP hidden — moved to toolbar -->
 
@@ -10655,6 +10813,26 @@ document.addEventListener('click',e=>{
         document.body.appendChild(s);
       }, 1500);
     });
+  </script>
+  <script>
+    /* Sticky mobile CTA — показываем, когда hero вышел из viewport */
+    (function(){
+      var cta = document.getElementById('lpStickyCta');
+      var hero = document.getElementById('lpHero');
+      if(!cta || !hero || !('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){
+            cta.classList.remove('show');
+            cta.setAttribute('aria-hidden', 'true');
+          } else {
+            cta.classList.add('show');
+            cta.setAttribute('aria-hidden', 'false');
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      io.observe(hero);
+    })();
   </script>
 </body>
 </html>
