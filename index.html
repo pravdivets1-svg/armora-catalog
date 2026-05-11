@@ -10941,5 +10941,41 @@ document.addEventListener('click',e=>{
       io.observe(ctaRow);
     })();
   </script>
+  <script>
+    /* iframe-parent height sync.
+       Когда страница загружается в iframe (через Tilda на armora.ru),
+       отправляем contentHeight в parent через postMessage. Tilda-страница
+       подгоняет iframe.style.height под контент → скроллится родительский
+       документ, а не iframe → iOS Safari прячет нижний URL-bar автоматически. */
+    (function(){
+      if (window.self === window.top) return; // не в iframe — выходим
+      function sendHeight(){
+        var h = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight,
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        );
+        try {
+          window.parent.postMessage({source: 'armora-catalog', type: 'height', height: h}, '*');
+        } catch(e) {}
+      }
+      var t;
+      function throttledSend(){
+        clearTimeout(t);
+        t = setTimeout(sendHeight, 120);
+      }
+      window.addEventListener('load', sendHeight);
+      window.addEventListener('resize', throttledSend);
+      // DOM-мутации (модалки, фильтры, calc) меняют высоту — пересылаем
+      if (typeof MutationObserver !== 'undefined') {
+        var mo = new MutationObserver(throttledSend);
+        mo.observe(document.body, {subtree: true, childList: true});
+      }
+      // Поздние догрузки (ReviewLab widget, lazy-images)
+      setTimeout(sendHeight, 1500);
+      setTimeout(sendHeight, 4000);
+    })();
+  </script>
 </body>
 </html>
