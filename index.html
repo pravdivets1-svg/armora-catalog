@@ -6045,6 +6045,96 @@ body{ min-height:100% !important; }
 .v5-inline-cta-last { background: var(--v5-mocha); }
 .v5-inline-cta-last:hover { background: #b88670; }
 
+/* ============================================================
+   ✦ DESKTOP-ONLY: Стабильная позиция кнопки + компактные wide-bars
+   ============================================================ */
+@media(min-width: 768px){
+  /* На десктопе inline-CTA скрыта — её роль выполняет v5-foot-cta справа от цены (sticky bottom) */
+  .v5-inline-cta{ display: none; }
+
+  /* Опции — 2 широкие "колонки" вместо плотной сетки.
+     Карточка превращается в горизонтальный бар. */
+  .v5-opts{
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .v5-opt{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "top  foot"
+      "desc foot";
+    column-gap: 18px;
+    align-items: center;
+    min-height: 78px;
+    padding: 14px 18px 14px 20px;
+    gap: 0;
+  }
+  .v5-opt-top{
+    grid-area: top;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  .v5-opt-desc{
+    grid-area: desc;
+    -webkit-line-clamp: 1;
+    margin: 2px 0 0;
+    font-size: 12.5px;
+  }
+  .v5-opt-foot{
+    grid-area: foot;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    gap: 4px;
+    text-align: right;
+  }
+  .v5-opt-name{ font-size: 16.5px; }
+  .v5-opt-foot-l{ order: 2; }
+  .v5-opt-foot-r{ order: 1; margin: 0; }
+  /* dog-ear корнер инфо-кнопки на bar-карточке смотрится плохо — переопределяем под inline-pill */
+  .v5-opt-info{
+    position: static;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(0,0,0,.06);
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2px;
+    flex-shrink: 0;
+  }
+  .v5-opt-info svg{ width: 11px; height: 11px; }
+
+  /* v5-foot — компактнее на десктопе, размещаем кнопку справа от цены */
+  .v5-foot{
+    padding: 14px 22px 18px;
+    gap: 18px;
+  }
+  .v5-foot-cta{
+    padding: 14px 28px;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  /* Step body — общая компактность */
+  .v5-step{ padding-bottom: 8px; }
+  .v5-acc-body{ padding-top: 4px; }
+}
+
+/* На мобиле foot-cta скрыта — там работает inline-cta как раньше */
+@media(max-width: 767px){
+  .v5-foot-cta{ display: none; }
+}
+
 .v5-toast {
   position: fixed;
   top: max(82px, calc(env(safe-area-inset-top, 0px) + 78px));
@@ -9864,8 +9954,8 @@ window.__renderCalcV5 = function(total, prevTotal){
   if(step.type === 'bundles'){
     html += renderBundlesStep();
     html += `</div>`;
+    // Inline-CTA (видна только на мобиле, на десктопе будет та же кнопка в v5-foot)
     if(isLast){
-      // (на практике bundles не последний шаг, но на всякий случай — inline-форма)
       html += `<button class="v5-inline-cta" onclick="v5OpenLead()">Оставить заявку →</button>`;
     } else {
       html += `<button class="v5-inline-cta" onclick="calcNext()">Продолжить →</button>`;
@@ -9877,6 +9967,7 @@ window.__renderCalcV5 = function(total, prevTotal){
         <div class="v5-foot-info-l">Промежуточный итог</div>
         <div class="v5-foot-info-v" id="v5FootPrice">${total>0?fmtRu(total):'—'}</div>
       </div>
+      ${isLast ? `<button class="v5-foot-cta" onclick="v5OpenLead()">Оставить заявку →</button>` : `<button class="v5-foot-cta" onclick="calcNext()">Продолжить →</button>`}
     </div>`;
     body.innerHTML = html;
     if(total>0 && prevTotal>0 && total!==prevTotal){
@@ -9995,7 +10086,7 @@ window.__renderCalcV5 = function(total, prevTotal){
       </form>
     </div>`;
   } else {
-    // Обычный шаг — большая CTA-кнопка «Продолжить»
+    // Обычный шаг — большая CTA-кнопка «Продолжить» (видна только на мобиле)
     html += `<button class="v5-inline-cta" onclick="calcNext()">Продолжить →</button>`;
   }
 
@@ -10007,6 +10098,7 @@ window.__renderCalcV5 = function(total, prevTotal){
       <div class="v5-foot-info-l">${isLast?'Итого к заказу':'Промежуточный итог'}</div>
       <div class="v5-foot-info-v" id="v5FootPrice">${total>0?fmtRu(total):'—'}</div>
     </div>
+    ${isLast ? '' : `<button class="v5-foot-cta" onclick="calcNext()">Продолжить →</button>`}
   </div>`;
 
   body.innerHTML = html;
