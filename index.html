@@ -10534,6 +10534,12 @@ async function sendLeadToBackend(payload){
       ...optsList
     ].filter(Boolean).join('\n');
 
+    /* Door fields из каталога (если есть выбранная дверь) — для CRM */
+    const door = (typeof CALC !== 'undefined' && CALC.door) ? CALC.door : null;
+    const doorImage = door?.images?.[0]
+      ? new URL(door.images[0], location.href).href
+      : null;
+
     const res = await fetch('https://xn--80aa9aiic.xn--p1ai/api/leads', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
@@ -10543,6 +10549,15 @@ async function sendLeadToBackend(payload){
         estimatedPrice: payload.total || null,
         comment:        comment,
         source:         'catalog',
+        /* Структурированные данные о выбранной двери */
+        doorId:         door?.id        ?? null,
+        doorName:       door?.name      ?? null,
+        doorSeries:     door?.series    ?? null,
+        doorBasePrice:  door?.price     ?? null,
+        doorPurpose:    door?.purpose   ?? null,
+        doorFinish:     door?.finish    ?? null,
+        doorImage:      doorImage,
+        doorTags:       door?.tags      ?? null,
       })
     });
     const data = await res.json().catch(()=>({}));
