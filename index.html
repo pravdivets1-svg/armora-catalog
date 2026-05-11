@@ -6268,7 +6268,8 @@ body { overscroll-behavior-y: contain; }
   .filters-foot {
     display: flex !important;   /* BUG FIX: глобальный display:none не перекрывался — footer был скрыт */
     flex-shrink: 0;
-    padding: 14px 20px;
+    /* iOS Safari bottom-chrome safe-area: bump bottom padding на высоту нижней панели */
+    padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0px));
     border-top: 1px solid rgba(255,255,255,.10);
     background: rgba(12,14,18,.98);
   }
@@ -6821,7 +6822,7 @@ body { overscroll-behavior-y: contain; }
     position: fixed;
     left: 12px;
     right: 12px;
-    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(22px + env(safe-area-inset-bottom, 0px));
     z-index: 100;
     gap: 8px;
     padding: 7px;
@@ -7117,13 +7118,69 @@ body { overscroll-behavior-y: contain; }
     /* iOS notch-safe: смещаемся от верхнего края + env(safe-area-inset-top) */
     top: calc(14px + env(safe-area-inset-top, 0px));
     right: calc(14px + env(safe-area-inset-right, 0px));
-    padding: 7px 12px 6px;
-    gap: 1px;
+    padding: 7px 13px 7px;
+    gap: 2px;
     border-radius: 18px;
   }
-  .lp-hero-phone-tag{ font-size: 10px; }
-  .lp-hero-phone-num{ font-size: 11.5px; }
+  .lp-hero-phone-tag{ font-size: 10.5px; }
+  /* Номер телефона — крупнее на мобиле для читаемости */
+  .lp-hero-phone-num{ font-size: 14px; letter-spacing: -.01em; font-weight: 700; }
 }
+
+/* ---- Hero logo (top-left, absolute in hero) ---- */
+.lp-hero-logo{
+  position: absolute;
+  top: clamp(20px, 2.6vh, 30px);
+  left: clamp(20px, 2vw, 32px);
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity .3s;
+}
+.lp-hero-logo img{
+  height: clamp(20px, 2.6vh, 28px);
+  width: auto;
+  display: block;
+  opacity: .92;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,.5));
+}
+.lp-hero-logo:hover img{ opacity: 1; }
+@media(max-width: 600px){
+  .lp-hero-logo{
+    top: calc(14px + env(safe-area-inset-top, 0px));
+    left: calc(14px + env(safe-area-inset-left, 0px));
+  }
+  .lp-hero-logo img{ height: 22px; }
+}
+
+/* ---- Consent checkbox в калькуляторных формах (inline + popup) ---- */
+.v5-lead-agree{
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--ink-faint);
+  margin: 4px 0 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.v5-lead-agree input{
+  margin-top: 2px;
+  accent-color: var(--gold, #d4cfc4);
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+.v5-lead-agree a{
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.v5-lead-agree a:hover{ color: var(--ink); }
 
 .lp-hero-watermark{
   position: absolute;
@@ -7806,6 +7863,9 @@ review-lab{
     <div class="lp-hero-orb lp-hero-orb-3" aria-hidden="true"></div>
     <div class="lp-hero-lines" aria-hidden="true"></div>
     <div class="lp-hero-watermark" aria-hidden="true">07</div>
+    <a class="lp-hero-logo" href="https://armora.ru" target="_blank" rel="noopener" aria-label="ARMORA — на главный сайт">
+      <img src="img/armora-logo.png" alt="ARMORA" width="142" height="30" decoding="async">
+    </a>
     <a class="lp-hero-phone" href="tel:+74951515681" aria-label="Позвонить +7 495 151 56 81">
       <span class="lp-hero-phone-tag">Поднимаем трубку сами.</span>
       <span class="lp-hero-phone-num">+7&nbsp;495 151&nbsp;56&nbsp;81</span>
@@ -9904,9 +9964,12 @@ window.__renderCalcV5 = function(total, prevTotal){
           <input class="v5-lead-input" id="v5Phone" placeholder="+7 (___) ___-__-__" type="tel" autocomplete="tel" required>
         </div>
         <div class="v5-lead-err" id="v5Err"></div>
+        <label class="v5-lead-agree">
+          <input type="checkbox" id="v5Agree" checked>
+          <span>Соглашаюсь на обработку персональных данных согласно <a href="https://armora.ru/policy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span>
+        </label>
         <button type="submit" class="v5-lead-submit" id="v5Submit">Жду звонка!</button>
         <div class="v5-lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Без спама. Звонок только для согласования времени.</div>
-        <div class="v5-lead-policy">Нажимая кнопку, вы соглашаетесь с <a href="https://armora.ru/policy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</div>
       </form>
     </div>`;
   } else {
@@ -10104,9 +10167,12 @@ function v5OpenLead(){
         <input class="v5-lead-input" id="v5Phone" placeholder="+7 (___) ___-__-__" type="tel" autocomplete="tel" required>
       </div>
       <div class="v5-lead-err" id="v5Err"></div>
+      <label class="v5-lead-agree">
+        <input type="checkbox" id="v5Agree" checked>
+        <span>Соглашаюсь на обработку персональных данных согласно <a href="https://armora.ru/policy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span>
+      </label>
       <button type="submit" class="v5-lead-submit" id="v5Submit">Заказать свою дверь</button>
       <div class="v5-lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Без спама. Звонок только для согласования времени.</div>
-      <div class="v5-lead-policy">Нажимая кнопку, вы соглашаетесь с <a href="https://armora.ru/policy" target="_blank" rel="noopener">политикой конфиденциальности</a>.</div>
     </form>
   </div>`;
   requestAnimationFrame(()=>bg.classList.add('show'));
@@ -10461,11 +10527,13 @@ async function sendLeadToBackend(payload){
 
 function v5SubmitLead(){
   const n=document.getElementById('v5Name'), p=document.getElementById('v5Phone'), errBox=document.getElementById('v5Err');
+  const a=document.getElementById('v5Agree');
   const btn=document.getElementById('v5Submit');
   const name=n.value.trim(), phone=p.value.trim();
   let errs=[];
   if(!name){ n.classList.add('err'); setTimeout(()=>n.classList.remove('err'),450); errs.push('имя'); }
   if(phone.replace(/\D/g,'').length<11){ p.classList.add('err'); setTimeout(()=>p.classList.remove('err'),450); errs.push('корректный телефон'); }
+  if(a && !a.checked){ errs.push('согласие на обработку данных'); }
   if(errs.length){ errBox.textContent='Заполните: '+errs.join(', '); return; }
   errBox.textContent=''; btn.disabled=true; btn.textContent='Отправляем…';
   const total=calcTotal();
