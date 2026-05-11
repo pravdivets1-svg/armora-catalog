@@ -6922,22 +6922,19 @@ body { overscroll-behavior-y: contain; }
   right: clamp(22px, 16vw, 200px);
   z-index: 3;
   display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 8px 14px;
-  border-radius: 999px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 9px 16px 8px;
+  border-radius: 22px;
   background: rgba(255,255,255,.04);
   border: 1px solid rgba(255,255,255,.08);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -.005em;
   color: var(--ink-soft);
   text-decoration: none;
   transition: all .35s cubic-bezier(.32,.72,0,1);
-  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 .lp-hero-phone:hover{
   background: rgba(255,255,255,.08);
@@ -6945,18 +6942,24 @@ body { overscroll-behavior-y: contain; }
   color: var(--ink);
   transform: translateY(-1px);
 }
-.lp-hero-phone-dot{
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--sage, #5ec88f);
-  box-shadow: 0 0 0 0 rgba(94,200,143,.5);
-  animation: lpPhoneDotPulse 2.4s cubic-bezier(.4,0,.2,1) infinite;
-  flex-shrink: 0;
+.lp-hero-phone-tag{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 11.5px;
+  line-height: 1;
+  letter-spacing: .002em;
+  color: var(--ink-faint);
+  opacity: .82;
 }
-@keyframes lpPhoneDotPulse{
-  0%{ box-shadow: 0 0 0 0 rgba(94,200,143,.55); }
-  70%{ box-shadow: 0 0 0 10px rgba(94,200,143,0); }
-  100%{ box-shadow: 0 0 0 0 rgba(94,200,143,0); }
+.lp-hero-phone-num{
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: -.005em;
+  font-variant-numeric: tabular-nums;
+  color: inherit;
 }
 @media(max-width: 900px){
   /* На мобилке .goto-site скрыт — возвращаем телефон в правый край */
@@ -6967,11 +6970,12 @@ body { overscroll-behavior-y: contain; }
     /* iOS notch-safe: смещаемся от верхнего края + env(safe-area-inset-top) */
     top: calc(14px + env(safe-area-inset-top, 0px));
     right: calc(14px + env(safe-area-inset-right, 0px));
-    padding: 6px 11px;
-    font-size: 11.5px;
-    gap: 7px;
+    padding: 7px 12px 6px;
+    gap: 1px;
+    border-radius: 18px;
   }
-  .lp-hero-phone-dot{ width: 6px; height: 6px; }
+  .lp-hero-phone-tag{ font-size: 10px; }
+  .lp-hero-phone-num{ font-size: 11.5px; }
 }
 
 .lp-hero-watermark{
@@ -7656,7 +7660,7 @@ review-lab{
     <div class="lp-hero-lines" aria-hidden="true"></div>
     <div class="lp-hero-watermark" aria-hidden="true">07</div>
     <a class="lp-hero-phone" href="tel:+74951515681" aria-label="Позвонить +7 495 151 56 81">
-      <span class="lp-hero-phone-dot" aria-hidden="true"></span>
+      <span class="lp-hero-phone-tag">Поднимаем трубку сами.</span>
       <span class="lp-hero-phone-num">+7&nbsp;495 151&nbsp;56&nbsp;81</span>
     </a>
     <div class="lp-hero-mark" aria-hidden="true">
