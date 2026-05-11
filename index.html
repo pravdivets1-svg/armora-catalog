@@ -8155,8 +8155,12 @@ review-lab{
 </div>
 </div>
 
-<!-- SYMPTOM SHIELD: перекрываем неизвестную белую полосу внизу viewport (Tilda t396? Yandex Browser? Extension?). Если исчезнет — источник внутри DOM. Если нет — это browser chrome. -->
-<div id="bottomStripShield" aria-hidden="true" style="position:fixed;left:0;right:0;bottom:0;height:18px;background:#06070a;z-index:100002;pointer-events:none"></div>
+<!-- SYMPTOM SHIELD: перекрываем неизвестную белую полосу внизу viewport (источник вне DOM). На мобиле скрыт, чтоб не перекрывать sticky-CTA. -->
+<div id="bottomStripShield" aria-hidden="true"></div>
+<style>
+  #bottomStripShield{position:fixed;left:0;right:0;bottom:0;height:40px;background:#06070a;z-index:100002;pointer-events:none}
+  @media(max-width:767px){#bottomStripShield{display:none}}
+</style>
 
 <!-- TOP-RIGHT: Перейти на сайт -->
 <a id="gotoSite" class="goto-site" href="https://armora.ru" target="_blank" rel="noopener noreferrer" title="Перейти на сайт ARMORA">
