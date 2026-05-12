@@ -5147,17 +5147,17 @@ h2.card-name{margin:0;padding:0}
 .v5-lead-fields{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 @media(max-width: 480px){ .v5-lead-fields{ grid-template-columns: 1fr; } }
 .v5-lead-input{
   background: var(--v5-surface);
   border: 1.5px solid var(--v5-bdr);
-  border-radius: 12px;
-  padding: 14px 16px;
+  border-radius: 11px;
+  padding: 11px 14px;
   font: inherit;
-  font-size: 14.5px;
+  font-size: 14px;
   color: var(--v5-ink);
   width: 100%;
   transition: all .2s;
@@ -5188,38 +5188,38 @@ h2.card-name{margin:0;padding:0}
   background: var(--v5-accent);
   color: #fff;
   border: 0;
-  padding: 16px 24px;
+  padding: 13px 20px;
   border-radius: 999px;
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14.5px;
   cursor: pointer;
-  box-shadow: 0 8px 22px rgba(15,23,42,.28);
+  box-shadow: 0 6px 18px rgba(15,23,42,.22);
   transition: all .2s;
 }
 .v5-lead-submit:hover:not(:disabled){
   background: var(--v5-accent-2);
   transform: translateY(-1px);
-  box-shadow: 0 12px 30px rgba(15,23,42,.36);
+  box-shadow: 0 10px 26px rgba(15,23,42,.30);
 }
 .v5-lead-submit:disabled{ opacity: .65; cursor: wait; }
 .v5-lead-proof{
   text-align: center;
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--v5-ink-mute);
-  margin-top: 12px;
+  margin-top: 8px;
   display: flex; align-items: center; justify-content: center; gap: 6px;
 }
 .v5-lead-proof svg{ width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
 
 /* === Inline lead form (на финальном шаге калькулятора, без popup) === */
 .v5-inline-lead{
-  margin-top: 24px;
+  margin-top: 8px;
   background: var(--v5-surface);
   border: 1.5px solid var(--v5-bdr);
-  border-radius: 22px;
-  padding: 28px 28px 24px;
-  box-shadow: 0 12px 36px -8px rgba(0,0,0,.08);
+  border-radius: 18px;
+  padding: 18px 20px 16px;
+  box-shadow: 0 8px 24px -8px rgba(0,0,0,.06);
   position: relative;
   overflow: hidden;
 }
@@ -5230,41 +5230,45 @@ h2.card-name{margin:0;padding:0}
   pointer-events: none;
 }
 .v5-inline-lead > *{ position: relative; z-index: 1; }
-.v5-inline-lead-hd{ margin-bottom: 18px; }
+.v5-inline-lead-hd{ margin-bottom: 12px; }
 .v5-inline-lead-title{
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 600;
-  font-size: 32px;
-  line-height: 1.1;
+  font-size: 22px;
+  line-height: 1.15;
   letter-spacing: -.012em;
   color: var(--v5-ink);
-  margin: 6px 0 10px;
+  margin: 0 0 4px;
 }
 .v5-inline-lead-desc{
   font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: 13px;
+  line-height: 1.45;
   color: var(--v5-ink-soft);
   max-width: 56ch;
   margin: 0;
 }
 @media(max-width: 600px){
-  .v5-inline-lead{ padding: 22px 18px 18px; border-radius: 18px; }
-  .v5-inline-lead-title{ font-size: 26px; }
-  .v5-inline-lead-desc{ font-size: 13px; }
+  .v5-inline-lead{ padding: 14px 16px 12px; border-radius: 16px; }
+  .v5-inline-lead-title{ font-size: 19px; }
+  .v5-inline-lead-desc{ font-size: 12.5px; }
 }
 
 /* === Final step — price anchor над формой === */
+/* COMPACT final-step: anchor превращён в горизонтальную полоску, экономит ~80px */
 .v5-final-anchor{
-  margin-top: 8px;
-  margin-bottom: 18px;
+  margin: 4px 0 10px;
   background: linear-gradient(135deg, rgba(164,120,100,.07) 0%, rgba(164,120,100,.02) 100%);
   border: 1px solid rgba(164,120,100,.22);
-  border-radius: 18px;
-  padding: 18px 22px 20px;
+  border-radius: 14px;
+  padding: 12px 18px;
   position: relative;
   overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 14px;
 }
 .v5-final-anchor::before{
   content:''; position: absolute; inset: 0;
@@ -5274,32 +5278,33 @@ h2.card-name{margin:0;padding:0}
 .v5-final-anchor > *{ position: relative; z-index: 1; }
 .v5-final-anchor-kicker{
   font-family: var(--font-sans);
-  font-size: 10.5px; font-weight: 700;
-  letter-spacing: .22em; text-transform: uppercase;
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase;
   color: #a47864;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
 }
 .v5-final-anchor-name{
   font-family: var(--font-display);
   font-style: italic; font-weight: 500;
-  font-size: 21px; line-height: 1.2;
+  font-size: 17px; line-height: 1.2;
   color: var(--v5-ink);
-  margin-bottom: 2px;
+  margin: 0;
 }
 .v5-final-anchor-sum{
   font-family: var(--font-display);
   font-style: italic; font-weight: 600;
-  font-size: 44px; line-height: 1;
+  font-size: 30px; line-height: 1;
   letter-spacing: -.02em;
   color: var(--v5-ink);
   font-variant-numeric: tabular-nums;
-  margin: 8px 0 6px;
+  margin: 0;
+  white-space: nowrap;
 }
-.v5-final-anchor-hint{
-  font-family: var(--font-sans);
-  font-size: 12px;
-  color: var(--v5-ink-soft);
-  line-height: 1.5;
+.v5-final-anchor-hint{ display: none; }
+@media(max-width: 480px){
+  .v5-final-anchor{ padding: 10px 14px; gap: 10px; }
+  .v5-final-anchor-sum{ font-size: 26px; }
+  .v5-final-anchor-name{ font-size: 15px; }
 }
 
 /* === Telegram alternative под формой === */
@@ -5319,12 +5324,16 @@ h2.card-name{margin:0;padding:0}
   letter-spacing: .18em; text-transform: uppercase;
   color: var(--v5-ink-mute);
 }
+.v5-lead-alt{
+  margin-top: 14px;
+  padding-top: 14px;
+}
 .v5-lead-tg{
-  display: flex; align-items: center; gap: 14px;
-  padding: 12px 16px;
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px;
   background: rgba(40,156,225,.06);
   border: 1px solid rgba(40,156,225,.22);
-  border-radius: 14px;
+  border-radius: 12px;
   text-decoration: none;
   transition: background .35s cubic-bezier(.32,.72,0,1),
               border-color .35s cubic-bezier(.32,.72,0,1),
@@ -5336,25 +5345,25 @@ h2.card-name{margin:0;padding:0}
   transform: translateY(-1px);
 }
 .v5-lead-tg-icon{
-  width: 38px; height: 38px;
+  width: 30px; height: 30px;
   border-radius: 50%;
   background: linear-gradient(135deg, #2aabee, #229ed9);
   color: #fff;
   display: inline-flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
-.v5-lead-tg-icon svg{ width: 20px; height: 20px; fill: currentColor; }
-.v5-lead-tg-body{ display: flex; flex-direction: column; line-height: 1.3; flex: 1; min-width: 0; }
+.v5-lead-tg-icon svg{ width: 16px; height: 16px; fill: currentColor; }
+.v5-lead-tg-body{ display: flex; flex-direction: column; line-height: 1.25; flex: 1; min-width: 0; }
 .v5-lead-tg-title{
   font-family: var(--font-sans);
-  font-weight: 700; font-size: 14.5px;
+  font-weight: 700; font-size: 13px;
   color: var(--v5-ink);
 }
 .v5-lead-tg-hint{
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--v5-ink-soft);
-  margin-top: 2px;
+  margin-top: 1px;
 }
 .v5-lead-tg-arrow{
   width: 16px; height: 16px;
@@ -5367,17 +5376,17 @@ h2.card-name{margin:0;padding:0}
 
 /* === Collapsible install options on final step === */
 .v5-final-extras{
-  margin-top: 24px;
+  margin-top: 12px;
   border: 1px solid var(--v5-bdr);
-  border-radius: 16px;
+  border-radius: 14px;
   background: rgba(0,0,0,.015);
   overflow: hidden;
 }
 .v5-final-extras > summary{
   list-style: none;
   cursor: pointer;
-  padding: 16px 20px;
-  display: flex; align-items: center; gap: 12px;
+  padding: 11px 16px;
+  display: flex; align-items: center; gap: 10px;
   user-select: none;
 }
 .v5-final-extras > summary::-webkit-details-marker{ display: none; }
@@ -7589,13 +7598,13 @@ body { overscroll-behavior-y: contain; }
 /* ---- Consent checkbox в калькуляторных формах (inline + popup) ---- */
 .v5-lead-agree{
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: flex-start;
   font-family: var(--font-sans);
-  font-size: 11.5px;
-  line-height: 1.5;
+  font-size: 11px;
+  line-height: 1.4;
   color: var(--ink-faint);
-  margin: 4px 0 12px;
+  margin: 2px 0 8px;
   cursor: pointer;
   user-select: none;
 }
@@ -7603,8 +7612,8 @@ body { overscroll-behavior-y: contain; }
   margin-top: 2px;
   accent-color: var(--gold, #d4cfc4);
   flex-shrink: 0;
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
   cursor: pointer;
 }
 .v5-lead-agree a{
