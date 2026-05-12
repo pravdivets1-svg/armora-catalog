@@ -3836,7 +3836,7 @@ h2.card-name{margin:0;padding:0}
 .v5-sticky{
   position: sticky;
   top: 0; z-index: 50;
-  background: rgba(247,244,238,.88);
+  background: rgba(240,241,243,.88);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
   border-bottom: 1px solid var(--v5-bdr);
@@ -3848,7 +3848,7 @@ h2.card-name{margin:0;padding:0}
   box-shadow: 0 1px 0 rgba(15,23,42,.02);
 }
 .v5-sticky.scrolled{
-  background: rgba(247,244,238,.96);
+  background: rgba(240,241,243,.96);
   box-shadow: 0 4px 24px -8px rgba(15,23,42,.12);
   border-bottom-color: var(--v5-bdr-strong);
 }
@@ -4880,7 +4880,7 @@ h2.card-name{margin:0;padding:0}
 .v5-foot{
   position: sticky;
   bottom: 0;
-  background: linear-gradient(to top, var(--v5-bg) 60%, rgba(247,244,238,.6) 90%, transparent);
+  background: linear-gradient(to top, var(--v5-bg) 60%, rgba(240,241,243,.6) 90%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   padding: 18px 28px 22px;
@@ -6668,15 +6668,9 @@ body { overscroll-behavior-y: contain; }
   }
 }
 
-/* ===== BUG FIX: v5 калькулятор — цвета текста на тёмном мобильном фоне ===== */
-/* Mobile CSS задаёт calc-modal фон rgba(15,15,16,.98) ≈ чёрный.
-   v5-step-h2 (#0c0c0c) и v5-step-sub (#484854) — тёмные → невидимы на тёмном фоне. */
-@media(max-width: 1024px){
-  .v5-step-h2 { color: #f0ede8 !important; }
-  .v5-step-sub { color: rgba(240,237,232,.65) !important; }
-  .v5-step-eye { color: var(--v5-mocha, #4a5568) !important; }
-  .v5-step-eye::after { background: linear-gradient(to right, rgba(255,255,255,.12) 0%, transparent 100%) !important; }
-}
+/* Mobile-calc bg теперь cool granite (как на desktop), а не near-black.
+   Тёмный фон на мобилке убран в правиле .calc-modal, [data-v="5"].calc-modal выше —
+   текст наследует desktop-цвета и читается на granite без override. */
 
 /* ===== BUG FIX: скроллбар внутри calc-body — скрываем нативный скроллбар ===== */
 .calc-body::-webkit-scrollbar,
@@ -6825,7 +6819,7 @@ body { overscroll-behavior-y: contain; }
     background: rgba(0,0,0,.88) !important;
   }
   .calc-modal, [data-v="5"].calc-modal {
-    background: rgba(15,15,16,.98) !important;
+    background: rgba(240,241,243,.98) !important;
   }
   .filters {
     background: rgba(12,14,18,.97) !important;
