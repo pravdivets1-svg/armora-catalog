@@ -3823,6 +3823,9 @@ h2.card-name{margin:0;padding:0}
   overflow: hidden !important;
   display: flex !important;
   flex-direction: column !important;
+  /* Auto-resize по контенту: высота не превышает viewport, внутренний скролл */
+  height: auto !important;
+  max-height: min(92vh, 92dvh) !important;
 }
 [data-v="5"]::before, [data-v="5"]::after{ display:none !important; }
 
@@ -8123,6 +8126,11 @@ html, body{ overflow-x: clip; }
   border-radius: 22px;
   width: 100%;
   max-width: 460px;
+  /* Auto-resize по контенту: высота = ровно содержимое, с cap на viewport */
+  height: auto;
+  max-height: min(88vh, 88dvh);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 36px 32px 28px;
   box-shadow: 0 30px 100px -20px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.06);
   transform: scale(.96) translateY(8px);
@@ -9877,6 +9885,49 @@ function unlockBodyScroll(){
 }
 
 /* ============================================================
+   MAGNETIC CTA — кнопки слегка тянутся к курсору (premium micro-interaction).
+   ───────────────────────────────────────────────────────────
+   Используется на главных CTA в формах и хирое. Не работает на touch-устройствах.
+   Биндится один раз на элемент через __magneticBound flag.
+   ============================================================ */
+function bindMagneticCTA(el, opts){
+  if(!el || el.__magneticBound) return;
+  if(matchMedia('(hover: none)').matches) return;
+  el.__magneticBound = true;
+  const strength = (opts && opts.strength) || 0.22;
+  const radius   = (opts && opts.radius)   || 110;
+  const ease     = 'transform .45s cubic-bezier(.32,.72,0,1)';
+  const followEase = 'transform .15s cubic-bezier(.32,.72,0,1)';
+  let raf = 0;
+  el.addEventListener('pointerenter', () => { el.style.transition = followEase; });
+  el.addEventListener('pointermove', (e) => {
+    const r = el.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+    const dist = Math.hypot(dx, dy);
+    if(dist > radius){
+      if(raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => { el.style.transform = ''; });
+      return;
+    }
+    if(raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      el.style.transform = `translate(${(dx * strength).toFixed(2)}px, ${(dy * strength).toFixed(2)}px)`;
+    });
+  });
+  el.addEventListener('pointerleave', () => {
+    if(raf) cancelAnimationFrame(raf);
+    el.style.transition = ease;
+    el.style.transform = '';
+  });
+}
+function rebindMagneticCTAs(root){
+  (root || document).querySelectorAll('[data-magnetic-cta]').forEach(el => bindMagneticCTA(el));
+}
+
+/* ============================================================
    VISUAL VIEWPORT LOCK — для iOS keyboard в iframe.
    ───────────────────────────────────────────────────────────
    iOS keyboard двигает iframe вверх (outer Tilda документ скроллится),
@@ -11128,9 +11179,9 @@ window.__renderCalcV5 = function(total, prevTotal){
     html += `</div>`;
     if(isLast){
       // (на практике bundles не последний шаг, но на всякий случай — inline-форма)
-      html += `<button class="v5-inline-cta" onclick="v5OpenLead()">Оставить заявку →</button>`;
+      html += `<button class="v5-inline-cta" onclick="v5OpenLead()" data-magnetic-cta>Оставить заявку →</button>`;
     } else {
-      html += `<button class="v5-inline-cta" onclick="calcNext()">Продолжить →</button>`;
+      html += `<button class="v5-inline-cta" onclick="calcNext()" data-magnetic-cta>Продолжить →</button>`;
     }
     html += `</div>
     <div class="v5-foot">
@@ -11141,6 +11192,7 @@ window.__renderCalcV5 = function(total, prevTotal){
       </div>
     </div>`;
     body.innerHTML = html;
+    rebindMagneticCTAs(body);
     if(total>0 && prevTotal>0 && total!==prevTotal){
       const priceEl2=document.getElementById('v5Price');
       if(priceEl2){ priceEl2.classList.add('flash'); v5CountUp(priceEl2,prevTotal,total); setTimeout(()=>priceEl2.classList.remove('flash'),700); }
@@ -11282,7 +11334,7 @@ window.__renderCalcV5 = function(total, prevTotal){
           <input type="checkbox" id="v5Agree" checked>
           <span>Соглашаюсь на обработку персональных данных согласно <a href="https://armora.ru/policy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span>
         </label>
-        <button type="submit" class="v5-lead-submit" id="v5Submit">Записаться на бесплатный замер</button>
+        <button type="submit" class="v5-lead-submit" id="v5Submit" data-magnetic-cta>Записаться на бесплатный замер</button>
         <div class="v5-lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Без спама. Звонок только для согласования времени.</div>
       </form>
       <div class="v5-lead-alt">
@@ -11303,7 +11355,7 @@ window.__renderCalcV5 = function(total, prevTotal){
     </div>`;
   } else {
     // Обычный шаг — большая CTA-кнопка «Продолжить»
-    html += `<button class="v5-inline-cta" onclick="calcNext()">Продолжить →</button>`;
+    html += `<button class="v5-inline-cta" onclick="calcNext()" data-magnetic-cta>Продолжить →</button>`;
   }
 
   html += `</div>
@@ -11317,6 +11369,7 @@ window.__renderCalcV5 = function(total, prevTotal){
   </div>`;
 
   body.innerHTML = html;
+  rebindMagneticCTAs(body);
 
   // На финальном шаге — перестановка: форма ВЫШЕ опций, опции монтажа — в свёрнутом аккордеоне
   if(isLast){
@@ -11549,7 +11602,7 @@ function v5OpenLead(){
         <input type="checkbox" id="v5Agree" checked>
         <span>Соглашаюсь на обработку персональных данных согласно <a href="https://armora.ru/policy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span>
       </label>
-      <button type="submit" class="v5-lead-submit" id="v5Submit">Записаться на бесплатный замер</button>
+      <button type="submit" class="v5-lead-submit" id="v5Submit" data-magnetic-cta>Записаться на бесплатный замер</button>
       <div class="v5-lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Без спама. Звонок только для согласования времени.</div>
     </form>
   </div>`;
@@ -11806,12 +11859,13 @@ function lpOpenConsult(){
         <input type="checkbox" id="lpConsultAgree" checked>
         <span>Соглашаюсь на обработку персональных данных согласно <a href="https://armora.ru/policy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span>
       </label>
-      <button type="submit" class="lp-consult-submit" id="lpConsultSubmit">Записаться на&nbsp;замер</button>
+      <button type="submit" class="lp-consult-submit" id="lpConsultSubmit" data-magnetic-cta>Записаться на&nbsp;замер</button>
     </form>
   </div>`;
   requestAnimationFrame(() => bg.classList.add('show'));
   lockBodyScroll();
   setupVisualViewportLock(bg);
+  rebindMagneticCTAs(bg);
   setTimeout(() => {
     const p = document.getElementById('lpConsultPhone');
     if(p) attachPhoneMask(p);
