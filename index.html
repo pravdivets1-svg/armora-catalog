@@ -4287,6 +4287,194 @@ h2.card-name{margin:0;padding:0}
   box-shadow: inset 0 3px 0 rgba(212,168,84,.3), 0 0 0 3px rgba(164,120,100,.15), 0 8px 22px -4px rgba(164,120,100,.2);
 }
 
+/* === Series rich cards — special layout для шага "Серия двери" === */
+.v5-opts[data-step="base"]{
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+.v5-opt-series{
+  min-height: 280px;
+  padding: 22px 22px 16px;
+  gap: 14px !important;
+}
+.v5-opt-series .v5-opt-info{
+  /* dog-ear corner stays — info popup доступен */
+}
+.v5-opt-series.is-rec{
+  border-color: rgba(164,120,100,.4);
+  box-shadow: 0 0 0 1px rgba(164,120,100,.18), 0 4px 14px rgba(164,120,100,.10);
+}
+.v5-opt-series.is-rec:hover{
+  box-shadow: 0 0 0 1px rgba(164,120,100,.32), 0 12px 28px rgba(164,120,100,.18);
+}
+.v5-opt-series.is-rec.sel{
+  border-color: var(--v5-mocha);
+}
+.v5-opt-rec.v5-opt-rec-prime,
+[data-v="5"] .v5-opt-rec.v5-opt-rec-prime{
+  background: linear-gradient(135deg, #c89a3a 0%, #d4a83a 100%) !important;
+  color: #fff !important;
+  padding: 5px 11px !important;
+  font-size: 10.5px !important;
+  letter-spacing: .14em !important;
+  box-shadow: 0 4px 14px rgba(212,168,58,.35) !important;
+}
+.v5-series-head{
+  padding-right: 52px; /* room for dog-ear info icon */
+}
+.v5-series-name{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.05;
+  letter-spacing: -.018em;
+  color: var(--v5-ink);
+  margin: 0 0 6px;
+  transition: color .25s cubic-bezier(.32,.72,0,1);
+}
+.v5-opt-series.sel .v5-series-name{ color: var(--v5-mocha); }
+.v5-series-purpose{
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--v5-ink-soft);
+  margin: 0;
+}
+.v5-series-body{
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 16px;
+  flex: 1;
+  align-items: start;
+}
+.v5-series-steel{
+  background: linear-gradient(180deg, rgba(164,120,100,.10), rgba(164,120,100,.03));
+  border: 1px solid rgba(164,120,100,.28);
+  border-radius: 14px;
+  padding: 16px 6px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.v5-series-steel::before{
+  content:'';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 100%, rgba(164,120,100,.10), transparent 65%);
+  pointer-events: none;
+}
+.v5-series-steel-num{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 38px;
+  line-height: 1;
+  color: var(--v5-mocha);
+  letter-spacing: -.025em;
+  font-variant-numeric: tabular-nums;
+  position: relative;
+  z-index: 1;
+}
+.v5-series-steel-lbl{
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--v5-mocha);
+  margin-top: 6px;
+  position: relative;
+  z-index: 1;
+}
+.v5-series-inc{
+  min-width: 0;
+}
+.v5-series-inc-lbl{
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--v5-ink-soft);
+  margin-bottom: 10px;
+}
+.v5-series-inc-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.v5-series-inc-list li{
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--v5-ink);
+  padding-left: 14px;
+  position: relative;
+}
+.v5-series-inc-list li::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 6px;
+  height: 1px;
+  background: var(--v5-mocha);
+}
+.v5-series-foot{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  margin-top: 4px;
+  border-top: 1px dashed rgba(0,0,0,.08);
+}
+.v5-series-foot-price .v5-opt-price{
+  font-size: 18px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--v5-ink);
+  color: var(--v5-surface);
+}
+.v5-opt-series.sel .v5-series-foot-price .v5-opt-price{
+  background: var(--v5-mocha);
+  color: #fff;
+}
+
+/* Элит — углубление золотого акцента в rich-карточке */
+.v5-opt-series[data-name="Элит"] .v5-series-steel{
+  background: linear-gradient(180deg, rgba(212,168,84,.14), rgba(212,168,84,.04));
+  border-color: rgba(212,168,84,.4);
+}
+.v5-opt-series[data-name="Элит"] .v5-series-steel-num,
+.v5-opt-series[data-name="Элит"] .v5-series-steel-lbl{
+  color: #b8922a;
+}
+.v5-opt-series[data-name="Элит"] .v5-series-inc-list li::before{
+  background: #b8922a;
+}
+
+@media(max-width: 760px){
+  .v5-opts[data-step="base"]{ grid-template-columns: 1fr; }
+  .v5-opt-series{ min-height: auto; padding: 18px 18px 14px; gap: 12px !important; }
+  .v5-series-name{ font-size: 26px; }
+  .v5-series-body{ grid-template-columns: 78px 1fr; gap: 12px; }
+  .v5-series-steel{ padding: 12px 4px 10px; }
+  .v5-series-steel-num{ font-size: 30px; }
+  .v5-series-inc-list li{ font-size: 12px; }
+  .v5-series-foot-price .v5-opt-price{ font-size: 16px; padding: 5px 12px; }
+}
+
 .v5-opt-top{
   display: flex; align-items: flex-start; justify-content: space-between;
   gap: 8px;
@@ -10603,7 +10791,7 @@ window.__renderCalcV5 = function(total, prevTotal){
       <h2 class="v5-step-h2">${step.title}</h2>
       <p class="v5-step-sub">${step.hint}</p>
     </div>
-    <div class="v5-opts">`;
+    <div class="v5-opts" data-step="${step.key}">`;
 
   // === Шаг "bundles" — отдельный рендер карточек пакетов ===
   if(step.type === 'bundles'){
@@ -10694,6 +10882,39 @@ window.__renderCalcV5 = function(total, prevTotal){
     const inclClass = (isExactSeries||isInclExtra||isExtraLockedNow) ? ' v5-opt-incl' : '';
     const lockedCls = (isLocked || isExtraLockedNow) ? ' is-locked' : '';
     const ariaDis = (isLocked || isExtraLockedNow) ? ' aria-disabled="true"' : '';
+
+    /* === Шаг "Серия двери" — rich-карточка с реальными характеристиками === */
+    if(step.key === 'base'){
+      /* Скрываем «Эконом» и «Стандарт» — это не наша линейка */
+      if(o.name === 'Эконом' || o.name === 'Стандарт') return;
+      const incItems = (o.inc||'').split('·').map(s=>s.trim()).filter(Boolean);
+      const incList = incItems.map(it=>`<li>${it}</li>`).join('');
+      const steelTxt = o.steelMm ? `${o.steelMm}` : '—';
+      html+=`<button type="button" class="v5-opt v5-opt-series${sel?' sel':''}${isRec?' is-rec':''}" onclick="${action}" data-name="${nAttr}">
+        ${isRec?'<span class="v5-opt-rec v5-opt-rec-prime">Выбор большинства</span>':''}
+        <span class="v5-opt-info" onclick="event.stopPropagation();v5OpenPop('${kEsc}','${nEsc}')" title="Подробнее"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="5.5" r=".55" fill="currentColor" stroke="none"/><line x1="8" y1="7.5" x2="8" y2="11"/></svg></span>
+        <div class="v5-series-head">
+          <h4 class="v5-series-name">${o.name}</h4>
+          <p class="v5-series-purpose">${o.desc||''}</p>
+        </div>
+        <div class="v5-series-body">
+          <div class="v5-series-steel" aria-label="Толщина стали">
+            <div class="v5-series-steel-num">${steelTxt}</div>
+            <div class="v5-series-steel-lbl">мм стали</div>
+          </div>
+          <div class="v5-series-inc">
+            <div class="v5-series-inc-lbl">Включено в серию</div>
+            <ul class="v5-series-inc-list">${incList}</ul>
+          </div>
+        </div>
+        <div class="v5-series-foot">
+          <div class="v5-series-foot-price">${priceHtml}</div>
+          ${chk}
+        </div>
+      </button>`;
+      return;
+    }
+
     html+=`<button type="button" class="v5-opt${sel?' sel':''}${isMulti?' v5-opt-multi':''}${inclClass}${lockedCls}" onclick="${action}" data-name="${nAttr}"${ariaDis}>
       ${isRec?'<span class="v5-opt-rec">Рекомендуем</span>':''}
       <div class="v5-opt-top">
