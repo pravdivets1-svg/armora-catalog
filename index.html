@@ -9876,6 +9876,44 @@ function unlockBodyScroll(){
   }catch(e){}
 }
 
+/* ============================================================
+   VISUAL VIEWPORT LOCK — для iOS keyboard в iframe.
+   ───────────────────────────────────────────────────────────
+   iOS keyboard двигает iframe вверх (outer Tilda документ скроллится),
+   и наша модалка визуально съезжает. window.visualViewport видит
+   реальную видимую область — мы непрерывно перепозиционируем backdrop
+   относительно visualViewport.offsetTop/Left, height/width.
+   ============================================================ */
+const __vvHandlers = new WeakMap();
+function setupVisualViewportLock(bg){
+  if(!bg || !window.visualViewport) return;
+  const vv = window.visualViewport;
+  const apply = () => {
+    bg.style.top = `${vv.offsetTop}px`;
+    bg.style.left = `${vv.offsetLeft}px`;
+    bg.style.width = `${vv.width}px`;
+    bg.style.height = `${vv.height}px`;
+  };
+  apply();
+  vv.addEventListener('resize', apply);
+  vv.addEventListener('scroll', apply);
+  __vvHandlers.set(bg, apply);
+}
+function releaseVisualViewportLock(bg){
+  if(!bg || !window.visualViewport) return;
+  const vv = window.visualViewport;
+  const apply = __vvHandlers.get(bg);
+  if(apply){
+    vv.removeEventListener('resize', apply);
+    vv.removeEventListener('scroll', apply);
+    __vvHandlers.delete(bg);
+  }
+  bg.style.top = '';
+  bg.style.left = '';
+  bg.style.width = '';
+  bg.style.height = '';
+}
+
 function openCalc(id){
   const d=DOORS.find(x=>x.id===id);
   if(!d)return;
@@ -9888,11 +9926,13 @@ function openCalc(id){
   const bg=document.getElementById('calcBg');
   bg.classList.add('show');bg.setAttribute('aria-hidden','false');
   lockBodyScroll();
+  setupVisualViewportLock(bg);
   renderCalc();
 }
 function closeCalc(){
   const bg=document.getElementById('calcBg');
   bg.classList.remove('show');bg.setAttribute('aria-hidden','true');
+  releaseVisualViewportLock(bg);
   unlockBodyScroll();
 }
 document.addEventListener('keydown',e=>{
@@ -11771,16 +11811,18 @@ function lpOpenConsult(){
   </div>`;
   requestAnimationFrame(() => bg.classList.add('show'));
   lockBodyScroll();
+  setupVisualViewportLock(bg);
   setTimeout(() => {
     const p = document.getElementById('lpConsultPhone');
     if(p) attachPhoneMask(p);
-    // Auto-focus убран: на iOS triggers keyboard в момент scale-анимации pop —
-    // viewport может сдвинуться. Пусть пользователь сам нажмёт на поле.
   }, 280);
 }
 function lpCloseConsult(){
   const bg = document.getElementById('lpConsultBg');
-  if(bg) bg.classList.remove('show');
+  if(bg){
+    bg.classList.remove('show');
+    releaseVisualViewportLock(bg);
+  }
   unlockBodyScroll();
 }
 async function lpSubmitConsult(){
