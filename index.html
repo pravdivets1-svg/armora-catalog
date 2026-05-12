@@ -10956,5 +10956,34 @@ document.addEventListener('click',e=>{
       io.observe(ctaRow);
     })();
   </script>
+  <script>
+    /* iframe-parent height sync (Safari iOS URL bar autohide).
+       МИНИМАЛЬНАЯ версия: только load + 3 delayed retries для late widgets.
+       НЕТ resize listener (parent сам триггерит resize → infinite loop).
+       НЕТ MutationObserver (слишком дорого, мешает анимациям).
+       Early return если scrollHeight не изменился. */
+    (function(){
+      if (window.self === window.top) return; // не в iframe — скип
+      var lastH = 0;
+      function send(){
+        var h = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        );
+        if (h === lastH || h < 100) return;
+        lastH = h;
+        try {
+          window.parent.postMessage(
+            {source: 'armora-catalog', type: 'height', height: h},
+            '*'
+          );
+        } catch(e) {}
+      }
+      window.addEventListener('load', send);
+      setTimeout(send, 1500);
+      setTimeout(send, 4000);
+      setTimeout(send, 8000);
+    })();
+  </script>
 </body>
 </html>
