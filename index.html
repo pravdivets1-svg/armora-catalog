@@ -1783,7 +1783,7 @@ html,body{background:#06070a}
 .svc-list-note svg{
   width: 18px; height: 18px;
   flex-shrink: 0;
-  stroke: #c89684;
+  stroke: #718096;
   stroke-width: 2;
   fill: none;
   margin-top: 1px;
@@ -1874,14 +1874,14 @@ body{overflow-x:hidden !important;overflow-y:visible !important}
 
 /* Accent hero badges */
 .hero-badge.gold{
-  background:linear-gradient(135deg,rgba(212,168,84,.22),rgba(180,132,48,.12)) !important;
-  border-color:rgba(212,168,84,.45) !important;
+  background:linear-gradient(135deg,rgba(148,163,184,.22),rgba(180,132,48,.12)) !important;
+  border-color:rgba(148,163,184,.45) !important;
   color:#f0d080 !important;
-  box-shadow:inset 0 1px 0 rgba(255,230,120,.2),0 4px 20px -6px rgba(180,130,40,.45),0 0 0 1px rgba(212,168,84,.15) !important;
+  box-shadow:inset 0 1px 0 rgba(255,230,120,.2),0 4px 20px -6px rgba(180,130,40,.45),0 0 0 1px rgba(148,163,184,.15) !important;
 }
 .hero-badge.gold svg{stroke:#e8c060 !important}
 .hero-badge.gold strong{color:#fde68a !important}
-.hero-badge.gold:hover{background:linear-gradient(135deg,rgba(212,168,84,.32),rgba(180,132,48,.2)) !important;border-color:rgba(212,168,84,.6) !important}
+.hero-badge.gold:hover{background:linear-gradient(135deg,rgba(148,163,184,.32),rgba(180,132,48,.2)) !important;border-color:rgba(148,163,184,.6) !important}
 .hero-badge.factory{
   background:linear-gradient(135deg,rgba(80,160,220,.2),rgba(40,110,180,.12)) !important;
   border-color:rgba(80,160,220,.42) !important;
@@ -3781,19 +3781,19 @@ h2.card-name{margin:0;padding:0}
    Stepper Lite (4 аккордеона) · Sticky header · Popovers everywhere
    ============================================================ */
 [data-v="5"]{
-  --v5-bg: #f7f4ee;
+  --v5-bg: #f0f1f3;
   --v5-surface: #ffffff;
-  --v5-surface-2: #fbf9f4;
+  --v5-surface-2: #f7f8fa;
   --v5-ink: #15171a;
   --v5-ink-soft: #525861;
   --v5-ink-mute: #8a8f97;
-  --v5-bdr: #e8e3d8;
-  --v5-bdr-strong: #d4cdbe;
+  --v5-bdr: #dde0e6;
+  --v5-bdr-strong: #c2c8d2;
   --v5-accent: #1e293b;
   --v5-accent-2: #0f172a;
   --v5-accent-tint: #eef1f6;
-  --v5-mocha: #a47864;
-  --v5-mocha-tint: #f1ebe6;
+  --v5-mocha: #4a5568;
+  --v5-mocha-tint: #eaedf2;
   --v5-success: #16a34a;
   --v5-shadow-sm: 0 1px 2px rgba(15,23,42,.04), 0 2px 8px rgba(15,23,42,.04);
   --v5-shadow: 0 2px 6px rgba(15,23,42,.06), 0 12px 32px rgba(15,23,42,.08);
@@ -3874,8 +3874,8 @@ h2.card-name{margin:0;padding:0}
   font-weight: 700;
   margin-bottom: 6px;
   display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(164,120,100,.1);
-  border: 1px solid rgba(164,120,100,.18);
+  background: rgba(74,85,104,.1);
+  border: 1px solid rgba(74,85,104,.18);
   border-radius: 999px;
   padding: 4px 12px;
   width: fit-content;
@@ -3946,14 +3946,14 @@ h2.card-name{margin:0;padding:0}
   content:'';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--v5-mocha) 0%, #c89684 100%);
+  background: linear-gradient(135deg, var(--v5-mocha) 0%, #718096 100%);
   opacity: 0;
   transition: opacity .3s;
 }
 .v5-cta span{ position: relative; z-index: 1; }
 .v5-cta:hover{
   transform: translateY(-2px);
-  box-shadow: 0 14px 32px -4px rgba(164,120,100,.5), 0 0 0 1px rgba(164,120,100,.2);
+  box-shadow: 0 14px 32px -4px rgba(74,85,104,.5), 0 0 0 1px rgba(74,85,104,.2);
 }
 .v5-cta:hover::before{ opacity: 1; }
 .v5-cta:active{ transform: translateY(0); }
@@ -4046,7 +4046,7 @@ h2.card-name{margin:0;padding:0}
 .v5-acc.complete .v5-acc-num{
   background: var(--v5-mocha);
   color: #fff;
-  box-shadow: 0 4px 12px rgba(164,120,100,.32);
+  box-shadow: 0 4px 12px rgba(74,85,104,.32);
 }
 .v5-acc.complete .v5-acc-num::after{
   content: '✓';
@@ -4189,7 +4189,7 @@ h2.card-name{margin:0;padding:0}
   content:'';
   position: absolute; inset: 0;
   border-radius: inherit;
-  background: linear-gradient(135deg, transparent 0%, rgba(164,120,100,.08) 100%);
+  background: linear-gradient(135deg, transparent 0%, rgba(74,85,104,.08) 100%);
   opacity: 0;
   transition: opacity .3s;
   pointer-events: none;
@@ -4198,13 +4198,13 @@ h2.card-name{margin:0;padding:0}
   border-color: var(--v5-mocha);
   background: var(--v5-surface);
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px -4px rgba(164,120,100,.18);
+  box-shadow: 0 8px 20px -4px rgba(74,85,104,.18);
 }
 .v5-opt:hover::before{ opacity: 1; }
 .v5-opt.sel{
   border-color: var(--v5-mocha);
-  background: linear-gradient(135deg, rgba(164,120,100,.1) 0%, rgba(180,136,108,.05) 100%);
-  box-shadow: 0 0 0 3px rgba(164,120,100,.15), 0 8px 22px -4px rgba(164,120,100,.2);
+  background: linear-gradient(135deg, rgba(74,85,104,.1) 0%, rgba(100,116,139,.05) 100%);
+  box-shadow: 0 0 0 3px rgba(74,85,104,.15), 0 8px 22px -4px rgba(74,85,104,.2);
   transform: translateY(-2px);
 }
 .v5-opt.sel::before{ opacity: 0; }
@@ -4212,7 +4212,7 @@ h2.card-name{margin:0;padding:0}
 .v5-opt.sel .v5-opt-price{ color: var(--v5-mocha); }
 .v5-opt.sel.flash{ animation: v5flash .7s ease-out; }
 @keyframes v5flash{
-  0%{ background: var(--v5-mocha); border-color: var(--v5-mocha); box-shadow: 0 0 0 10px rgba(164,120,100,.32), 0 12px 28px -4px rgba(164,120,100,.5); transform: translateY(-4px) scale(1.02); }
+  0%{ background: var(--v5-mocha); border-color: var(--v5-mocha); box-shadow: 0 0 0 10px rgba(74,85,104,.32), 0 12px 28px -4px rgba(74,85,104,.5); transform: translateY(-4px) scale(1.02); }
   100%{ background: linear-gradient(135deg, var(--v5-accent-tint) 0%, var(--v5-mocha-tint) 100%); border-color: var(--v5-accent); box-shadow: 0 0 0 4px rgba(30,41,59,.1), 0 8px 20px -4px rgba(15,23,42,.14); transform: translateY(-2px) scale(1); }
 }
 .v5-opt.sel.flash .v5-opt-name,
@@ -4272,19 +4272,19 @@ h2.card-name{margin:0;padding:0}
 
 /* Elite card — gold top accent */
 .v5-opt[data-name="Элит"]{
-  border-top: 2px solid rgba(212,168,84,.5);
-  box-shadow: inset 0 3px 0 rgba(212,168,84,.18), 0 2px 8px rgba(212,168,84,.06);
-  background: linear-gradient(180deg, rgba(212,168,84,.04) 0%, var(--v5-surface-2) 40%);
+  border-top: 2px solid rgba(148,163,184,.5);
+  box-shadow: inset 0 3px 0 rgba(148,163,184,.18), 0 2px 8px rgba(148,163,184,.06);
+  background: linear-gradient(180deg, rgba(148,163,184,.04) 0%, var(--v5-surface-2) 40%);
 }
 .v5-opt[data-name="Элит"] .v5-opt-name{
-  background: linear-gradient(90deg, #b8922a, #d4a83a);
+  background: linear-gradient(90deg, #475569, #d4a83a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .v5-opt[data-name="Элит"].sel{
-  border-top-color: rgba(212,168,84,.75);
-  box-shadow: inset 0 3px 0 rgba(212,168,84,.3), 0 0 0 3px rgba(164,120,100,.15), 0 8px 22px -4px rgba(164,120,100,.2);
+  border-top-color: rgba(148,163,184,.75);
+  box-shadow: inset 0 3px 0 rgba(148,163,184,.3), 0 0 0 3px rgba(74,85,104,.15), 0 8px 22px -4px rgba(74,85,104,.2);
 }
 
 /* === Series rich cards — special layout для шага "Серия двери" === */
@@ -4301,23 +4301,23 @@ h2.card-name{margin:0;padding:0}
   /* dog-ear corner stays — info popup доступен */
 }
 .v5-opt-series.is-rec{
-  border-color: rgba(164,120,100,.4);
-  box-shadow: 0 0 0 1px rgba(164,120,100,.18), 0 4px 14px rgba(164,120,100,.10);
+  border-color: rgba(74,85,104,.4);
+  box-shadow: 0 0 0 1px rgba(74,85,104,.18), 0 4px 14px rgba(74,85,104,.10);
 }
 .v5-opt-series.is-rec:hover{
-  box-shadow: 0 0 0 1px rgba(164,120,100,.32), 0 12px 28px rgba(164,120,100,.18);
+  box-shadow: 0 0 0 1px rgba(74,85,104,.32), 0 12px 28px rgba(74,85,104,.18);
 }
 .v5-opt-series.is-rec.sel{
   border-color: var(--v5-mocha);
 }
 .v5-opt-rec.v5-opt-rec-prime,
 [data-v="5"] .v5-opt-rec.v5-opt-rec-prime{
-  background: linear-gradient(135deg, #c89a3a 0%, #d4a83a 100%) !important;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%) !important;
   color: #fff !important;
   padding: 5px 11px !important;
   font-size: 10.5px !important;
   letter-spacing: .14em !important;
-  box-shadow: 0 4px 14px rgba(212,168,58,.35) !important;
+  box-shadow: 0 4px 14px rgba(37,99,235,.35) !important;
 }
 .v5-series-head{
   padding-right: 52px; /* room for dog-ear info icon */
@@ -4349,8 +4349,8 @@ h2.card-name{margin:0;padding:0}
   align-items: start;
 }
 .v5-series-steel{
-  background: linear-gradient(180deg, rgba(164,120,100,.10), rgba(164,120,100,.03));
-  border: 1px solid rgba(164,120,100,.28);
+  background: linear-gradient(180deg, rgba(74,85,104,.10), rgba(74,85,104,.03));
+  border: 1px solid rgba(74,85,104,.28);
   border-radius: 14px;
   padding: 16px 6px 12px;
   text-align: center;
@@ -4365,7 +4365,7 @@ h2.card-name{margin:0;padding:0}
   content:'';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 100%, rgba(164,120,100,.10), transparent 65%);
+  background: radial-gradient(circle at 50% 100%, rgba(74,85,104,.10), transparent 65%);
   pointer-events: none;
 }
 .v5-series-steel-num{
@@ -4453,15 +4453,15 @@ h2.card-name{margin:0;padding:0}
 
 /* Элит — углубление золотого акцента в rich-карточке */
 .v5-opt-series[data-name="Элит"] .v5-series-steel{
-  background: linear-gradient(180deg, rgba(212,168,84,.14), rgba(212,168,84,.04));
-  border-color: rgba(212,168,84,.4);
+  background: linear-gradient(180deg, rgba(148,163,184,.14), rgba(148,163,184,.04));
+  border-color: rgba(148,163,184,.4);
 }
 .v5-opt-series[data-name="Элит"] .v5-series-steel-num,
 .v5-opt-series[data-name="Элит"] .v5-series-steel-lbl{
-  color: #b8922a;
+  color: #475569;
 }
 .v5-opt-series[data-name="Элит"] .v5-series-inc-list li::before{
-  background: #b8922a;
+  background: #475569;
 }
 
 @media(max-width: 760px){
@@ -4509,12 +4509,12 @@ h2.card-name{margin:0;padding:0}
 }
 .v5-opt-info svg{ width: 13px; height: 13px; stroke: rgba(0,0,0,.3); transition: stroke .25s; }
 .v5-opt-info:hover{
-  background: rgba(164,120,100,.18);
-  border-left-color: rgba(164,120,100,.2);
-  border-bottom-color: rgba(164,120,100,.2);
-  box-shadow: -2px 2px 8px rgba(164,120,100,.12);
+  background: rgba(74,85,104,.18);
+  border-left-color: rgba(74,85,104,.2);
+  border-bottom-color: rgba(74,85,104,.2);
+  box-shadow: -2px 2px 8px rgba(74,85,104,.12);
 }
-.v5-opt-info:hover svg{ stroke: rgba(164,120,100,.75); }
+.v5-opt-info:hover svg{ stroke: rgba(74,85,104,.75); }
 .v5-opt-desc{
   font-size: 12.5px;
   color: var(--v5-ink-soft);
@@ -4571,7 +4571,7 @@ h2.card-name{margin:0;padding:0}
   padding: 4px 10px;
   border-radius: 999px;
   display: inline-flex; align-items: center; gap: 4px;
-  box-shadow: 0 3px 10px rgba(164,120,100,.32);
+  box-shadow: 0 3px 10px rgba(74,85,104,.32);
 }
 .v5-opt-price.incl{
   color: #16a34a;
@@ -4859,7 +4859,7 @@ h2.card-name{margin:0;padding:0}
 .v5-opt-multi.sel .v5-opt-chk{ transform: scale(1.1); border-radius: 6px; }
 .v5-opt-rec{
   position: absolute; top: -10px; left: 14px;
-  background: linear-gradient(135deg, var(--v5-mocha) 0%, #c89684 100%);
+  background: linear-gradient(135deg, var(--v5-mocha) 0%, #718096 100%);
   color: #fff;
   font-size: 10px;
   font-weight: 800;
@@ -4867,7 +4867,7 @@ h2.card-name{margin:0;padding:0}
   text-transform: uppercase;
   padding: 5px 11px;
   border-radius: 999px;
-  box-shadow: 0 4px 12px rgba(164,120,100,.4);
+  box-shadow: 0 4px 12px rgba(74,85,104,.4);
   z-index: 3;
   display: inline-flex; align-items: center; gap: 4px;
 }
@@ -4950,25 +4950,25 @@ h2.card-name{margin:0;padding:0}
   content:'';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--v5-mocha) 0%, #c89684 100%);
+  background: linear-gradient(135deg, var(--v5-mocha) 0%, #718096 100%);
   opacity: 0;
   transition: opacity .35s;
 }
 .v5-foot-cta > *{ position: relative; z-index: 1; }
 .v5-foot-cta:hover{
   transform: translateY(-3px);
-  box-shadow: 0 18px 40px -4px rgba(164,120,100,.55);
+  box-shadow: 0 18px 40px -4px rgba(74,85,104,.55);
 }
 .v5-foot-cta:hover::before{ opacity: 1; }
 .v5-foot-cta.pulse{
   animation: v5pulse 2s ease-in-out infinite;
-  background: linear-gradient(135deg, var(--v5-mocha) 0%, #c89684 100%);
-  box-shadow: 0 12px 32px -4px rgba(164,120,100,.5);
+  background: linear-gradient(135deg, var(--v5-mocha) 0%, #718096 100%);
+  box-shadow: 0 12px 32px -4px rgba(74,85,104,.5);
 }
 .v5-foot-cta.pulse::before{ background: linear-gradient(135deg, var(--v5-accent) 0%, var(--v5-accent-2) 100%); }
 @keyframes v5pulse{
-  0%, 100%{ box-shadow: 0 12px 32px -4px rgba(164,120,100,.5), 0 0 0 0 rgba(164,120,100,.5); }
-  50%{ box-shadow: 0 14px 36px -4px rgba(164,120,100,.6), 0 0 0 14px rgba(164,120,100,0); }
+  0%, 100%{ box-shadow: 0 12px 32px -4px rgba(74,85,104,.5), 0 0 0 0 rgba(74,85,104,.5); }
+  50%{ box-shadow: 0 14px 36px -4px rgba(74,85,104,.6), 0 0 0 14px rgba(74,85,104,0); }
 }
 
 /* === Popovers (option detail) === */
@@ -4977,19 +4977,19 @@ h2.card-name{margin:0;padding:0}
      Дублируем сюда все v5-переменные, иначе var(--v5-*) внутри попапа
      возвращает undefined → background:transparent, иконки и кнопки
      становятся невидимыми. */
-  --v5-bg: #f7f4ee;
+  --v5-bg: #f0f1f3;
   --v5-surface: #ffffff;
-  --v5-surface-2: #fbf9f4;
+  --v5-surface-2: #f7f8fa;
   --v5-ink: #15171a;
   --v5-ink-soft: #525861;
   --v5-ink-mute: #8a8f97;
-  --v5-bdr: #e8e3d8;
-  --v5-bdr-strong: #d4cdbe;
+  --v5-bdr: #dde0e6;
+  --v5-bdr-strong: #c2c8d2;
   --v5-accent: #1e293b;
   --v5-accent-2: #0f172a;
   --v5-accent-tint: #eef1f6;
-  --v5-mocha: #a47864;
-  --v5-mocha-tint: #f1ebe6;
+  --v5-mocha: #4a5568;
+  --v5-mocha-tint: #eaedf2;
   --v5-success: #16a34a;
   --v5-shadow-sm: 0 1px 2px rgba(15,23,42,.04), 0 2px 8px rgba(15,23,42,.04);
   --v5-shadow: 0 2px 6px rgba(15,23,42,.06), 0 12px 32px rgba(15,23,42,.08);
@@ -5226,7 +5226,7 @@ h2.card-name{margin:0;padding:0}
 .v5-inline-lead::before{
   content:'';
   position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(164,120,100,.04) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(74,85,104,.04) 0%, transparent 60%);
   pointer-events: none;
 }
 .v5-inline-lead > *{ position: relative; z-index: 1; }
@@ -5259,8 +5259,8 @@ h2.card-name{margin:0;padding:0}
 /* COMPACT final-step: anchor превращён в горизонтальную полоску, экономит ~80px */
 .v5-final-anchor{
   margin: 4px 0 10px;
-  background: linear-gradient(135deg, rgba(164,120,100,.07) 0%, rgba(164,120,100,.02) 100%);
-  border: 1px solid rgba(164,120,100,.22);
+  background: linear-gradient(135deg, rgba(74,85,104,.07) 0%, rgba(74,85,104,.02) 100%);
+  border: 1px solid rgba(74,85,104,.22);
   border-radius: 14px;
   padding: 12px 18px;
   position: relative;
@@ -5272,7 +5272,7 @@ h2.card-name{margin:0;padding:0}
 }
 .v5-final-anchor::before{
   content:''; position: absolute; inset: 0;
-  background: radial-gradient(circle at 100% 0%, rgba(164,120,100,.10), transparent 55%);
+  background: radial-gradient(circle at 100% 0%, rgba(74,85,104,.10), transparent 55%);
   pointer-events: none;
 }
 .v5-final-anchor > *{ position: relative; z-index: 1; }
@@ -5280,7 +5280,7 @@ h2.card-name{margin:0;padding:0}
   font-family: var(--font-sans);
   font-size: 9.5px; font-weight: 700;
   letter-spacing: .2em; text-transform: uppercase;
-  color: #a47864;
+  color: #4a5568;
   margin-bottom: 2px;
 }
 .v5-final-anchor-name{
@@ -5301,10 +5301,40 @@ h2.card-name{margin:0;padding:0}
   white-space: nowrap;
 }
 .v5-final-anchor-hint{ display: none; }
+.v5-final-anchor-savings{
+  grid-column: 1 / -1;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px;
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(22,163,74,.28);
+}
+.v5-final-anchor-saved-lbl{
+  font-family: var(--font-sans);
+  font-size: 10.5px; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: #15803d;
+}
+.v5-final-anchor-saved-val{
+  font-family: var(--font-display);
+  font-style: italic; font-weight: 600;
+  font-size: 22px; line-height: 1;
+  color: #15803d;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em;
+}
+.v5-final-anchor-saved-detail{
+  flex: 1 1 100%;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  color: var(--v5-ink-soft);
+  line-height: 1.45;
+  letter-spacing: .01em;
+}
 @media(max-width: 480px){
   .v5-final-anchor{ padding: 10px 14px; gap: 10px; }
   .v5-final-anchor-sum{ font-size: 26px; }
   .v5-final-anchor-name{ font-size: 15px; }
+  .v5-final-anchor-saved-val{ font-size: 19px; }
 }
 
 /* === Telegram alternative под формой === */
@@ -5791,7 +5821,7 @@ body{ min-height:100% !important; }
   --v5-accent:      #0c0c0c;
   --v5-accent-2:    #252525;
   --v5-accent-tint: #f0f0ee;
-  --v5-mocha:       #a47864;
+  --v5-mocha:       #4a5568;
   --v5-mocha-tint:  #f5eeea;
   --v5-success:     #16a34a;
 }
@@ -5830,7 +5860,7 @@ body{ min-height:100% !important; }
   border-radius: 999px !important;
 }
 [data-v="5"] .v5-prog-fill {
-  background: linear-gradient(90deg, var(--v5-mocha) 0%, #c49282 100%) !important;
+  background: linear-gradient(90deg, var(--v5-mocha) 0%, #64748b 100%) !important;
   border-radius: 999px !important;
 }
 [data-v="5"] .v5-sticky-close {
@@ -5908,7 +5938,7 @@ body{ min-height:100% !important; }
 [data-v="5"] .v5-acc.complete .v5-acc-num {
   background: var(--v5-mocha) !important;
   color: #fff !important;
-  box-shadow: 0 6px 22px -4px rgba(164,120,100,.38) !important;
+  box-shadow: 0 6px 22px -4px rgba(74,85,104,.38) !important;
 }
 [data-v="5"] .v5-acc.open .v5-acc-num {
   background: var(--v5-ink) !important;
@@ -5988,7 +6018,7 @@ body{ min-height:100% !important; }
 
 /* Flash animation override */
 @keyframes v5r-flash {
-  0%   { box-shadow: 0 0 0 3px var(--v5-mocha), 0 12px 40px -8px rgba(164,120,100,.45); transform: translateY(-4px) scale(1.02); }
+  0%   { box-shadow: 0 0 0 3px var(--v5-mocha), 0 12px 40px -8px rgba(74,85,104,.45); transform: translateY(-4px) scale(1.02); }
   100% { box-shadow: 0 0 0 3px var(--v5-ink), 0 16px 48px -12px rgba(0,0,0,.22); transform: translateY(-2px) scale(1); }
 }
 [data-v="5"] .v5-opt.sel.flash { animation: v5r-flash .7s cubic-bezier(0.32,0.72,0,1) !important; }
@@ -6021,10 +6051,10 @@ body{ min-height:100% !important; }
   transition: background .25s, box-shadow .25s, border-color .25s !important;
 }
 [data-v="5"] .v5-opt-info:hover {
-  background: rgba(164,120,100,.18) !important;
-  border-left-color: rgba(164,120,100,.2) !important;
-  border-bottom-color: rgba(164,120,100,.2) !important;
-  box-shadow: -2px 2px 8px rgba(164,120,100,.12) !important;
+  background: rgba(74,85,104,.18) !important;
+  border-left-color: rgba(74,85,104,.2) !important;
+  border-bottom-color: rgba(74,85,104,.2) !important;
+  box-shadow: -2px 2px 8px rgba(74,85,104,.12) !important;
   transform: none !important;
 }
 
@@ -6070,12 +6100,12 @@ body{ min-height:100% !important; }
 }
 [data-v="5"] .v5-foot-cta.pulse {
   background: var(--v5-mocha) !important;
-  box-shadow: 0 12px 36px -6px rgba(164,120,100,.5) !important;
+  box-shadow: 0 12px 36px -6px rgba(74,85,104,.5) !important;
   animation: v5r-pulse 2s cubic-bezier(0.32,0.72,0,1) infinite !important;
 }
 @keyframes v5r-pulse {
-  0%,100% { box-shadow: 0 12px 36px -6px rgba(164,120,100,.5), 0 0 0 0 rgba(164,120,100,.4); }
-  50%      { box-shadow: 0 14px 40px -6px rgba(164,120,100,.6), 0 0 0 16px rgba(164,120,100,0); }
+  0%,100% { box-shadow: 0 12px 36px -6px rgba(74,85,104,.5), 0 0 0 0 rgba(74,85,104,.4); }
+  50%      { box-shadow: 0 14px 40px -6px rgba(74,85,104,.6), 0 0 0 16px rgba(74,85,104,0); }
 }
 [data-v="5"] .v5-foot-info-v.flash {
   color: var(--v5-mocha) !important;
@@ -6220,7 +6250,7 @@ body{ min-height:100% !important; }
   border-color: #0c0c0c !important;
   transform: rotate(90deg) scale(1.06) !important;
 }
-.v5-pop-kicker  { color: #a47864 !important; }
+.v5-pop-kicker  { color: #4a5568 !important; }
 .v5-pop-title   { color: #0c0c0c !important; font-size: 26px !important; }
 .v5-pop-desc    { color: #484854 !important; }
 .v5-pop-price {
@@ -6306,10 +6336,10 @@ body{ min-height:100% !important; }
 }
 .v5-step-pbar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #a47864 0%, #c49282 60%, #d4a882 100%);
+  background: linear-gradient(90deg, #4a5568 0%, #64748b 60%, #94a3b8 100%);
   border-radius: 999px;
   transition: width .6s cubic-bezier(0.32,0.72,0,1);
-  box-shadow: 0 0 10px rgba(164,120,100,.4), 0 2px 4px rgba(164,120,100,.2);
+  box-shadow: 0 0 10px rgba(74,85,104,.4), 0 2px 4px rgba(74,85,104,.2);
 }
 
 /* Step header block */
@@ -6318,7 +6348,7 @@ body{ min-height:100% !important; }
   font-size: 10px;
   letter-spacing: .26em;
   text-transform: uppercase;
-  color: #a47864;
+  color: #4a5568;
   font-weight: 700;
   margin-bottom: 10px;
   display: flex;
@@ -6374,11 +6404,11 @@ body{ min-height:100% !important; }
   border-radius: 999px;
   margin-left: 6px;
   transition: all .25s cubic-bezier(.32,.72,0,1);
-  background: rgba(164,120,100,.1);
-  border: 1px solid rgba(164,120,100,.2);
+  background: rgba(74,85,104,.1);
+  border: 1px solid rgba(74,85,104,.2);
 }
 .v5-back-link:hover {
-  background: rgba(164,120,100,.2);
+  background: rgba(74,85,104,.2);
   color: var(--v5-ink);
 }
 .v5-kicker { display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; }
@@ -6438,7 +6468,7 @@ body{ min-height:100% !important; }
 }
 .v5-series-quickbuy:hover{
   color: var(--v5-mocha);
-  background: rgba(164,120,100,.06);
+  background: rgba(74,85,104,.06);
   text-decoration-color: var(--v5-mocha);
 }
 @media(max-width: 600px){
@@ -6571,7 +6601,7 @@ body{ min-height:100% !important; }
 .v5-lead-sum-l,
 .v5-pop-btn:not(.primary),
 .v5-success-sub  { color: #484854 !important; -webkit-text-fill-color: #484854 !important; }
-.v5-pop-kicker   { color: #a47864 !important; -webkit-text-fill-color: #a47864 !important; }
+.v5-pop-kicker   { color: #4a5568 !important; -webkit-text-fill-color: #4a5568 !important; }
 .v5-lead-input   {
   color: #0c0c0c !important;
   -webkit-text-fill-color: #0c0c0c !important;
@@ -6644,7 +6674,7 @@ body { overscroll-behavior-y: contain; }
 @media(max-width: 1024px){
   .v5-step-h2 { color: #f0ede8 !important; }
   .v5-step-sub { color: rgba(240,237,232,.65) !important; }
-  .v5-step-eye { color: var(--v5-mocha, #a47864) !important; }
+  .v5-step-eye { color: var(--v5-mocha, #4a5568) !important; }
   .v5-step-eye::after { background: linear-gradient(to right, rgba(255,255,255,.12) 0%, transparent 100%) !important; }
 }
 
@@ -10464,6 +10494,39 @@ function presetFromDoor(d){
   }
 }
 
+/* ============================================================
+   ПОДСЧЁТ ЭКОНОМИИ — для anchor-блока на финальном шаге.
+   Считаем сколько клиент НЕ доплатил благодаря серии/пакету/подарку.
+   Это psychological pricing: 115 400 ₽ выглядит дорого, но
+   «вы сэкономили 22 200 ₽» переводит фокус на ценность.
+   ============================================================ */
+function calcSavings(){
+  let inclusionsValue = 0;
+  ['ext','int','seal','lock','handle'].forEach(k => {
+    inclusionsValue += getStepCredit(k);
+  });
+  const extrasStep = CALC_STEPS.find(s => s.key === 'extras');
+  seriesIncludedExtras().forEach(name => {
+    const opt = extrasStep?.options.find(o => o.name === name);
+    if(opt) inclusionsValue += opt.price;
+  });
+  let giftsValue = 0;
+  CALC.sel.extras.forEach(e => { if(e.isGift) giftsValue += e.price; });
+  let bundleSavings = 0;
+  CALC.activeBundles.forEach(id => {
+    const b = bundleById(id);
+    if(b) bundleSavings += Math.max(0, bundleSeparatelyPrice(b) - bundleEffectivePrice(b));
+  });
+  const comboBonus = CALC.activeBundles.length >= 2 ? 3500 : 0;
+  return {
+    inclusionsValue,
+    giftsValue,
+    bundleSavings,
+    comboBonus,
+    total: inclusionsValue + giftsValue + bundleSavings + comboBonus
+  };
+}
+
 function calcTotal(){
   let t = CALC.sel.base ? CALC.sel.base.price : 0;
   // Шаги-radio: применяем кредит серии — клиент платит max(0, цена − кредит)
@@ -10921,7 +10984,7 @@ window.__renderCalcV5 = function(total, prevTotal){
       <div class="v5-kicker">
         <span>Шаг ${shownIdx} из ${shownTotal}</span>
         ${!isFirst ? `<button class="v5-back-link" onclick="calcPrev()">← Назад</button>` : ''}
-        ${cur >= 1 && !isLast ? `<button class="v5-quick-lead" type="button" onclick="calcQuickLead()" title="Перейти к заявке — менеджер уточнит детали">Готов оставить заявку →</button>` : ''}
+        ${cur >= 1 && !isLast ? `<button class="v5-quick-lead" type="button" onclick="calcQuickLead()" title="Перейти к записи на бесплатный замер">Уже выбрал — позовите замерщика →</button>` : ''}
       </div>
       <div class="v5-title">${CALC.door?.name||'Расчёт двери'}</div>
     </div>
@@ -11017,7 +11080,7 @@ window.__renderCalcV5 = function(total, prevTotal){
     } else if(o.isGift){
       priceHtml=`<span class="v5-opt-price gift">в подарок</span>`;
     } else if(o.price<0){
-      priceHtml=`<span class="v5-opt-price zero" style="background:rgba(164,120,100,.14);color:#a47864">−${Math.abs(o.price).toLocaleString('ru-RU')} ₽</span>`;
+      priceHtml=`<span class="v5-opt-price zero" style="background:rgba(74,85,104,.14);color:#4a5568">−${Math.abs(o.price).toLocaleString('ru-RU')} ₽</span>`;
     } else {
       priceHtml=`<span class="v5-opt-price">+${o.price.toLocaleString('ru-RU')} ₽</span>`;
     }
@@ -11060,8 +11123,8 @@ window.__renderCalcV5 = function(total, prevTotal){
             ${chk}
           </div>
         </button>
-        <button type="button" class="v5-series-quickbuy" onclick="calcQuickBuy('${nEsc}')" title="Выбрать ${nAttr} и сразу перейти к заявке">
-          Купить как есть → оставить заявку
+        <button type="button" class="v5-series-quickbuy" onclick="calcQuickBuy('${nEsc}')" title="Выбрать ${nAttr} и записаться на бесплатный замер">
+          ${o.name} за ${fmtRu(o.price)} → записаться на замер
         </button>
       </div>`;
       return;
@@ -11100,7 +11163,7 @@ window.__renderCalcV5 = function(total, prevTotal){
           <input type="checkbox" id="v5Agree" checked>
           <span>Соглашаюсь на обработку персональных данных согласно <a href="https://armora.ru/policy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span>
         </label>
-        <button type="submit" class="v5-lead-submit" id="v5Submit">Получить смету и звонок</button>
+        <button type="submit" class="v5-lead-submit" id="v5Submit">Записаться на бесплатный замер</button>
         <div class="v5-lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Без спама. Звонок только для согласования времени.</div>
       </form>
       <div class="v5-lead-alt">
@@ -11146,10 +11209,23 @@ window.__renderCalcV5 = function(total, prevTotal){
       anchor.className = 'v5-final-anchor';
       const doorName = (CALC.door && CALC.door.name) || 'Дверь';
       const baseName = (CALC.sel && CALC.sel.base && CALC.sel.base.name) || '';
+      const savings = calcSavings();
+      const savingsBreakdown = [];
+      if(savings.inclusionsValue > 0) savingsBreakdown.push(`включено в серию · ${fmtRu(savings.inclusionsValue)}`);
+      if(savings.bundleSavings > 0) savingsBreakdown.push(`выгода пакета · ${fmtRu(savings.bundleSavings)}`);
+      if(savings.giftsValue > 0) savingsBreakdown.push(`в подарок · ${fmtRu(savings.giftsValue)}`);
+      if(savings.comboBonus > 0) savingsBreakdown.push(`комбо-бонус · ${fmtRu(savings.comboBonus)}`);
+      const savingsHtml = savings.total > 0 ? `
+        <div class="v5-final-anchor-savings">
+          <span class="v5-final-anchor-saved-lbl">Вы экономите</span>
+          <span class="v5-final-anchor-saved-val">−${fmtRu(savings.total)}</span>
+          ${savingsBreakdown.length ? `<span class="v5-final-anchor-saved-detail">${savingsBreakdown.join(' · ')}</span>` : ''}
+        </div>` : '';
       anchor.innerHTML = `
         <div class="v5-final-anchor-kicker">Конфигурация собрана</div>
         <div class="v5-final-anchor-name">${doorName}${baseName ? ' · ' + baseName : ''}</div>
         <div class="v5-final-anchor-sum">${total > 0 ? fmtRu(total) : '—'}</div>
+        ${savingsHtml}
         <div class="v5-final-anchor-hint">Ориентировочная цена. Точная фиксируется в договоре после бесплатного замера.</div>
       `;
 
@@ -11335,8 +11411,8 @@ function v5OpenLead(){
   bg.innerHTML = `<div class="v5-lead-pop">
     <button class="v5-pop-close" onclick="v5CloseLead()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     <div class="v5-pop-kicker">Конфигурация собрана</div>
-    <div class="v5-pop-title">Заказать свою дверь</div>
-    <div class="v5-pop-desc">Менеджер перезвонит за 15 минут, согласует время бесплатного замера и зафиксирует точную цену в договоре. Без обязательств.</div>
+    <div class="v5-pop-title">Записаться на бесплатный замер</div>
+    <div class="v5-pop-desc">Замерщик приедет в удобное время, оценит проём, покажет образцы и зафиксирует точную цену в договоре. Менеджер перезвонит за 15 минут — согласовать визит. Без обязательств.</div>
     <div class="v5-lead-summary">
       <div>
         <div class="v5-lead-sum-l">${CALC.door?.name || 'Дверь'} · ${CALC.sel.base?.name || ''}</div>
@@ -11354,7 +11430,7 @@ function v5OpenLead(){
         <input type="checkbox" id="v5Agree" checked>
         <span>Соглашаюсь на обработку персональных данных согласно <a href="https://armora.ru/policy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span>
       </label>
-      <button type="submit" class="v5-lead-submit" id="v5Submit">Заказать свою дверь</button>
+      <button type="submit" class="v5-lead-submit" id="v5Submit">Записаться на бесплатный замер</button>
       <div class="v5-lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Без спама. Звонок только для согласования времени.</div>
     </form>
   </div>`;
@@ -11741,8 +11817,8 @@ function v5SubmitLead(){
     const successHtml = `
       <div class="v5-success">
         <div class="v5-success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="v5-success-title">Заявка принята, ${name}!</div>
-        <div class="v5-success-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong>, чтобы согласовать удобное время бесплатного замера. Эксперт приедет с образцами и зафиксирует цену в договоре.</div>
+        <div class="v5-success-title">${name}, замерщик уже планирует визит к вам</div>
+        <div class="v5-success-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong>, чтобы согласовать удобное время. Замерщик приедет с образцами, оценит проём и зафиксирует точную цену в договоре. Без обязательств.</div>
         <button class="v5-foot-cta" onclick="closeCalc()">Вернуться в каталог</button>
       </div>`;
     // Inline-форма на финальном шаге?
@@ -11795,8 +11871,8 @@ function submitLead(){
       const wrap=document.createElement('div');
       wrap.className='success';
       wrap.innerHTML=`<div class="s-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="s-title">Заявка принята, <em></em>!</div>
-      <div class="s-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong>, чтобы согласовать удобное время бесплатного замера. Эксперт приедет с образцами и рассчитает точную цену на месте.</div>`;
+      <div class="s-title"><em></em>, замерщик уже планирует визит к вам</div>
+      <div class="s-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong>, чтобы согласовать удобное время. Замерщик приедет с образцами, оценит проём и зафиксирует точную цену в договоре.</div>`;
       wrap.querySelector('.s-title em').textContent = name;
       body.appendChild(wrap);
       document.getElementById('calcNav').innerHTML=`<button class="btn-next" onclick="closeCalc()">Вернуться в каталог</button>`;
