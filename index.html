@@ -3823,9 +3823,11 @@ h2.card-name{margin:0;padding:0}
   overflow: hidden !important;
   display: flex !important;
   flex-direction: column !important;
-  /* Auto-resize по контенту: высота не превышает viewport, внутренний скролл */
+  /* Auto-resize по контенту: высота не превышает viewport, внутренний скролл.
+     Стабильный vh (не dvh) — чтобы при появлении iOS keyboard модалка
+     не сжималась и не «улетала». */
   height: auto !important;
-  max-height: min(92vh, 92dvh) !important;
+  max-height: 92vh !important;
 }
 [data-v="5"]::before, [data-v="5"]::after{ display:none !important; }
 
@@ -8126,9 +8128,11 @@ html, body{ overflow-x: clip; }
   border-radius: 22px;
   width: 100%;
   max-width: 460px;
-  /* Auto-resize по контенту: высота = ровно содержимое, с cap на viewport */
+  /* Auto-resize по контенту: высота = ровно содержимое, с cap на viewport.
+     ВАЖНО: используем vh, НЕ dvh — dvh сжимается при появлении iOS keyboard
+     и модалка визуально «улетает». Стабильный vh = не двигается. */
   height: auto;
-  max-height: min(88vh, 88dvh);
+  max-height: 88vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 36px 32px 28px;
@@ -9816,72 +9820,13 @@ function render(){
 }
 
 /* ============================================================
-   iOS-friendly scroll-lock — заменяет body.overflow:hidden.
-   ───────────────────────────────────────────────────────────
-   Проблема: body.overflow:hidden НЕ блокирует iOS keyboard
-   scroll-into-view логику. Когда input получает focus внутри
-   position:fixed модалки, iOS сдвигает viewport — и при закрытии
-   клавиатуры viewport «застревает» в смещённом состоянии.
-
-   Pattern: position:fixed на body с top:-scrollY. iOS keyboard
-   тогда корректно скроллит ВНУТРИ модалки, не двигая viewport.
+   Body scroll lock — простой паттерн как было до iOS-экспериментов.
    ============================================================ */
-let __scrollLockY = 0;
-let __scrollLockSavedHtml = {};
-let __scrollLockSavedBody = {};
 function lockBodyScroll(){
-  if(document.body.dataset.scrollLocked === '1') return;
-  __scrollLockY = window.scrollY || window.pageYOffset || 0;
-  // CRITICAL для iOS внутри iframe (Tilda):
-  // iOS keyboard scroll-into-input скроллит ВНЕШНИЙ Tilda документ,
-  // что тащит iframe вверх и визуально сдвигает модалку.
-  // Если ЗАЖАТЬ html+body на высоту viewport — iframe content не может быть
-  // выше viewport → outer page не может быть проскроллен из-за iframe.
-  const html = document.documentElement;
-  __scrollLockSavedHtml = { height: html.style.height, overflow: html.style.overflow };
-  __scrollLockSavedBody = {
-    position: document.body.style.position, top: document.body.style.top,
-    left: document.body.style.left, right: document.body.style.right,
-    width: document.body.style.width, height: document.body.style.height,
-    overflow: document.body.style.overflow,
-  };
-  html.style.height = '100vh';
-  html.style.overflow = 'hidden';
-  document.body.style.position = 'fixed';
-  document.body.style.top = `-${__scrollLockY}px`;
-  document.body.style.left = '0';
-  document.body.style.right = '0';
-  document.body.style.width = '100%';
-  document.body.style.height = '100vh';
   document.body.style.overflow = 'hidden';
-  document.body.dataset.scrollLocked = '1';
-  // Bonus: попросим Tilda parent (если есть) тоже заблочить scroll.
-  // Если он не слушает — игнорирует, без побочных эффектов.
-  try{
-    if(window.parent && window.parent !== window){
-      window.parent.postMessage({type:'armora-modal-open', lockScroll:true}, '*');
-    }
-  }catch(e){}
 }
 function unlockBodyScroll(){
-  if(document.body.dataset.scrollLocked !== '1') return;
-  const html = document.documentElement;
-  html.style.height = __scrollLockSavedHtml.height || '';
-  html.style.overflow = __scrollLockSavedHtml.overflow || '';
-  document.body.style.position = __scrollLockSavedBody.position || '';
-  document.body.style.top = __scrollLockSavedBody.top || '';
-  document.body.style.left = __scrollLockSavedBody.left || '';
-  document.body.style.right = __scrollLockSavedBody.right || '';
-  document.body.style.width = __scrollLockSavedBody.width || '';
-  document.body.style.height = __scrollLockSavedBody.height || '';
-  document.body.style.overflow = __scrollLockSavedBody.overflow || '';
-  document.body.dataset.scrollLocked = '';
-  window.scrollTo(0, __scrollLockY);
-  try{
-    if(window.parent && window.parent !== window){
-      window.parent.postMessage({type:'armora-modal-close', lockScroll:false}, '*');
-    }
-  }catch(e){}
+  document.body.style.overflow = '';
 }
 
 /* ============================================================
@@ -9927,44 +9872,6 @@ function rebindMagneticCTAs(root){
   (root || document).querySelectorAll('[data-magnetic-cta]').forEach(el => bindMagneticCTA(el));
 }
 
-/* ============================================================
-   VISUAL VIEWPORT LOCK — для iOS keyboard в iframe.
-   ───────────────────────────────────────────────────────────
-   iOS keyboard двигает iframe вверх (outer Tilda документ скроллится),
-   и наша модалка визуально съезжает. window.visualViewport видит
-   реальную видимую область — мы непрерывно перепозиционируем backdrop
-   относительно visualViewport.offsetTop/Left, height/width.
-   ============================================================ */
-const __vvHandlers = new WeakMap();
-function setupVisualViewportLock(bg){
-  if(!bg || !window.visualViewport) return;
-  const vv = window.visualViewport;
-  const apply = () => {
-    bg.style.top = `${vv.offsetTop}px`;
-    bg.style.left = `${vv.offsetLeft}px`;
-    bg.style.width = `${vv.width}px`;
-    bg.style.height = `${vv.height}px`;
-  };
-  apply();
-  vv.addEventListener('resize', apply);
-  vv.addEventListener('scroll', apply);
-  __vvHandlers.set(bg, apply);
-}
-function releaseVisualViewportLock(bg){
-  if(!bg || !window.visualViewport) return;
-  const vv = window.visualViewport;
-  const apply = __vvHandlers.get(bg);
-  if(apply){
-    vv.removeEventListener('resize', apply);
-    vv.removeEventListener('scroll', apply);
-    __vvHandlers.delete(bg);
-  }
-  bg.style.top = '';
-  bg.style.left = '';
-  bg.style.width = '';
-  bg.style.height = '';
-}
-
 function openCalc(id){
   const d=DOORS.find(x=>x.id===id);
   if(!d)return;
@@ -9977,13 +9884,11 @@ function openCalc(id){
   const bg=document.getElementById('calcBg');
   bg.classList.add('show');bg.setAttribute('aria-hidden','false');
   lockBodyScroll();
-  setupVisualViewportLock(bg);
   renderCalc();
 }
 function closeCalc(){
   const bg=document.getElementById('calcBg');
   bg.classList.remove('show');bg.setAttribute('aria-hidden','true');
-  releaseVisualViewportLock(bg);
   unlockBodyScroll();
 }
 document.addEventListener('keydown',e=>{
@@ -11864,7 +11769,6 @@ function lpOpenConsult(){
   </div>`;
   requestAnimationFrame(() => bg.classList.add('show'));
   lockBodyScroll();
-  setupVisualViewportLock(bg);
   rebindMagneticCTAs(bg);
   setTimeout(() => {
     const p = document.getElementById('lpConsultPhone');
@@ -11873,10 +11777,7 @@ function lpOpenConsult(){
 }
 function lpCloseConsult(){
   const bg = document.getElementById('lpConsultBg');
-  if(bg){
-    bg.classList.remove('show');
-    releaseVisualViewportLock(bg);
-  }
+  if(bg) bg.classList.remove('show');
   unlockBodyScroll();
 }
 async function lpSubmitConsult(){
