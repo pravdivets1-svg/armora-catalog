@@ -8151,6 +8151,584 @@ review-lab{
     </div>
   </section>
 
+  <!-- ============================================================
+       MFG — Editorial Manufactory · "Мастерская в Клину"
+       Quiet Luxury editorial. Hybrid: opening + bento atlas + pull-quote + long-form + spec.
+       ============================================================ -->
+  <style>
+  .mfg{
+    position: relative;
+    max-width: 1280px;
+    margin: 80px auto 40px;
+    padding: 80px 28px 60px;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .mfg::before{
+    content:''; position:absolute; left:28px; right:28px; top:0; height:1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.14) 20%, rgba(255,255,255,.14) 80%, transparent);
+  }
+  .mfg-watermark{
+    position: absolute;
+    top: 40px;
+    right: -24px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(180px, 26vw, 360px);
+    line-height: .85;
+    letter-spacing: -.04em;
+    color: rgba(255,255,255,.035);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    will-change: transform;
+    z-index: 0;
+  }
+  .mfg-open{
+    position: relative;
+    max-width: 760px;
+    margin-bottom: 72px;
+    z-index: 2;
+  }
+  .mfg-eyebrow{
+    display: inline-flex; align-items: center; gap: 14px;
+    font-family: var(--font-sans);
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: .26em; text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+    margin-bottom: 22px;
+  }
+  .mfg-eyebrow-dash{ width: 28px; height: 1px; background: rgba(255,255,255,.45); }
+  .mfg-title{
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -.022em;
+    color: rgba(255,255,255,.98);
+    margin: 0 0 28px;
+  }
+  .mfg-title em{ font-style: italic; font-weight: 500; color: rgba(228,232,238,.82); }
+  .mfg-lead{
+    font-family: var(--font-sans);
+    font-size: 17.5px; line-height: 1.62; font-weight: 400;
+    color: rgba(255,255,255,.78); margin: 0;
+    letter-spacing: -.002em;
+  }
+  .mfg-dropcap{
+    font-family: var(--font-display);
+    font-style: italic; font-weight: 500;
+    float: left;
+    font-size: 88px; line-height: .82;
+    padding: 8px 14px 0 0;
+    color: rgba(255,255,255,.96);
+  }
+  .mfg-atlas{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(0, auto);
+    gap: 14px;
+    margin-bottom: 96px;
+    position: relative;
+    z-index: 2;
+  }
+  /* Double-bezel: outer shell + inner core */
+  .mfg-tile{
+    position: relative;
+    padding: 5px;
+    background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.012));
+    border: 1px solid rgba(255,255,255,.05);
+    border-radius: 28px;
+    display: flex;
+    transition: transform .55s cubic-bezier(.32,.72,0,1),
+                border-color .45s cubic-bezier(.32,.72,0,1),
+                background .45s cubic-bezier(.32,.72,0,1);
+  }
+  .mfg-tile-core{
+    position: relative;
+    flex: 1;
+    background: rgba(20,20,22,.62);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 23px;
+    padding: 22px 20px 22px;
+    overflow: hidden;
+    display: flex; flex-direction: column; gap: 6px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+    transition: background-color .45s cubic-bezier(.32,.72,0,1),
+                box-shadow .45s cubic-bezier(.32,.72,0,1);
+  }
+  .mfg-tile-core::before{
+    content:''; position: absolute; inset:0; border-radius: inherit;
+    background: radial-gradient(420px circle at var(--mx,50%) var(--my,0%), rgba(228,232,238,.10), transparent 55%);
+    opacity: 0; pointer-events: none;
+    transition: opacity .55s cubic-bezier(.32,.72,0,1);
+  }
+  .mfg-tile:hover{
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,.11);
+    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.022));
+  }
+  .mfg-tile:hover .mfg-tile-core{
+    background: rgba(24,24,28,.78);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 24px 60px -18px rgba(0,0,0,.65);
+  }
+  .mfg-tile:hover .mfg-tile-core::before{ opacity: 1; }
+  .mfg-tile-1{ grid-column: span 2; grid-row: span 2; }
+  .mfg-tile-2{ grid-column: span 2; }
+  .mfg-tile-3{ grid-column: span 2; }
+  .mfg-tile-wide{ grid-column: span 4; }
+  .mfg-tile-5{ grid-column: span 2; }
+  .mfg-tile-6{ grid-column: span 3; }
+  .mfg-tile-num{
+    font-family: var(--font-sans);
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: .3em;
+    color: rgba(255,255,255,.4);
+    margin-bottom: 4px;
+  }
+  .mfg-tile-icon{
+    width: 28px; height: 28px;
+    stroke: rgba(228,232,238,.78); stroke-width: 1;
+    fill: none; stroke-linecap: round; stroke-linejoin: round;
+    margin: 6px 0 10px;
+    transition: transform .5s cubic-bezier(.32,.72,0,1), stroke .4s cubic-bezier(.32,.72,0,1);
+  }
+  .mfg-tile:hover .mfg-tile-icon{ stroke: #fff; transform: translateY(-2px) scale(1.06); }
+  .mfg-tile-name{
+    font-family: var(--font-display);
+    font-style: italic; font-weight: 500;
+    font-size: 32px; line-height: 1.08;
+    letter-spacing: -.012em;
+    color: rgba(255,255,255,.96);
+    margin: 0;
+  }
+  .mfg-tile-fact{
+    font-family: var(--font-sans);
+    font-size: 13px; font-weight: 600;
+    color: rgba(228,232,238,.78);
+    letter-spacing: -.002em;
+    margin-top: -2px;
+  }
+  .mfg-tile-desc{
+    font-family: var(--font-sans);
+    font-size: 13.5px; line-height: 1.55; font-weight: 400;
+    color: rgba(255,255,255,.6);
+    margin: 6px 0 0;
+  }
+  .mfg-tile-1 .mfg-tile-name{ font-size: 48px; }
+  .mfg-tile-wide .mfg-tile-name{ font-size: 38px; }
+  .mfg-quote{
+    position: relative;
+    max-width: 1080px;
+    margin: 0 auto 96px;
+    padding: 0;
+    font-family: var(--font-display);
+    font-style: italic; font-weight: 500;
+    font-size: clamp(40px, 5.6vw, 76px);
+    line-height: 1.12;
+    letter-spacing: -.02em;
+    color: rgba(255,255,255,.94);
+    z-index: 2;
+  }
+  .mfg-quote::before, .mfg-quote::after{
+    content:''; display:block; height:1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.18) 30%, rgba(255,255,255,.18) 70%, transparent);
+    margin: 0 0 40px;
+  }
+  .mfg-quote::after{ margin: 40px 0 0; }
+  .mfg-quote em{ font-style: italic; color: rgba(228,232,238,.5); font-weight: 500; }
+  .mfg-quote-mark{
+    font-family: var(--font-display); font-style: italic;
+    color: rgba(228,232,238,.32);
+    display: inline-block;
+    font-size: 1.1em; line-height: 0;
+    vertical-align: -.16em;
+    margin-right: .1em;
+  }
+  .mfg-quote-mark-end{ margin: 0 0 0 .06em; }
+  .mfg-long{
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 60px;
+    max-width: 1080px;
+    margin: 0 auto 64px;
+    z-index: 2;
+  }
+  .mfg-long-body p{
+    font-family: var(--font-sans);
+    font-size: 16.5px; line-height: 1.7; font-weight: 400;
+    color: rgba(255,255,255,.74);
+    margin: 0 0 22px;
+    letter-spacing: -.001em;
+  }
+  .mfg-long-body p:last-child{ margin-bottom: 0; }
+  .mfg-long-body strong{ color: rgba(255,255,255,.92); font-weight: 600; }
+  .mfg-margin{
+    display: flex; flex-direction: column;
+    gap: 40px;
+    padding-top: 4px;
+  }
+  .mfg-margin-item{
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(6px);
+    transition: opacity .9s cubic-bezier(.32,.72,0,1),
+                transform .9s cubic-bezier(.32,.72,0,1),
+                filter .9s cubic-bezier(.32,.72,0,1);
+    padding-left: 16px;
+    border-left: 1px solid rgba(255,255,255,.14);
+  }
+  .mfg-margin-item.is-visible{
+    opacity: 1; transform: translateY(0); filter: blur(0);
+  }
+  .mfg-margin-num{
+    font-family: var(--font-sans);
+    font-size: 9.5px; font-weight: 700;
+    letter-spacing: .32em;
+    color: rgba(255,255,255,.4);
+    margin-bottom: 10px;
+  }
+  .mfg-margin-text{
+    font-family: var(--font-display);
+    font-style: italic; font-weight: 500;
+    font-size: 26px; line-height: 1.18;
+    color: rgba(228,232,238,.88);
+    letter-spacing: -.005em;
+  }
+  .mfg-margin-text span{
+    display: block;
+    font-family: var(--font-sans); font-style: normal;
+    font-size: 12px; font-weight: 500; line-height: 1.45;
+    color: rgba(255,255,255,.5);
+    letter-spacing: 0;
+    margin-top: 8px;
+  }
+  .mfg-spec{
+    max-width: 1080px;
+    margin: 0 auto 64px;
+    padding: 38px 36px 30px;
+    background: rgba(14,16,20,.45);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 22px;
+    position: relative;
+    z-index: 2;
+  }
+  .mfg-spec-eyebrow{
+    font-family: var(--font-sans);
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: .3em; text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+    margin-bottom: 24px;
+  }
+  .mfg-spec-list{ margin:0; padding:0; }
+  .mfg-spec-row{
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    padding: 13px 0;
+    border-top: 1px solid rgba(255,255,255,.05);
+  }
+  .mfg-spec-row:first-child{ border-top: 0; padding-top: 0; }
+  .mfg-spec-row:last-child{ padding-bottom: 0; }
+  .mfg-spec-row dt{
+    font-family: var(--font-sans);
+    font-size: 12.5px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.6);
+    margin: 0;
+  }
+  .mfg-spec-row dd{
+    font-family: var(--font-sans);
+    font-size: 14.5px; line-height: 1.55; font-weight: 500;
+    color: rgba(255,255,255,.82);
+    margin: 0;
+  }
+  .mfg-cta{
+    display: flex; justify-content: center;
+    margin-top: 28px;
+    position: relative;
+    z-index: 2;
+  }
+  .mfg-cta-pill{
+    display: inline-flex; align-items: center; gap: 14px;
+    padding: 10px 10px 10px 28px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.16);
+    color: rgba(255,255,255,.96);
+    font-family: var(--font-sans);
+    font-size: 14.5px; font-weight: 600;
+    letter-spacing: -.005em;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform .5s cubic-bezier(.32,.72,0,1),
+                background .4s cubic-bezier(.32,.72,0,1),
+                border-color .4s cubic-bezier(.32,.72,0,1);
+  }
+  .mfg-cta-pill:hover{
+    background: rgba(255,255,255,.08);
+    border-color: rgba(255,255,255,.28);
+  }
+  .mfg-cta-pill:active{ transform: scale(.98); }
+  .mfg-cta-pill-icon{
+    width: 36px; height: 36px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.08);
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: transform .5s cubic-bezier(.32,.72,0,1), background .4s cubic-bezier(.32,.72,0,1);
+  }
+  .mfg-cta-pill:hover .mfg-cta-pill-icon{
+    background: rgba(255,255,255,.14);
+    transform: translateX(2px) translateY(-1px);
+  }
+  .mfg-cta-pill-icon svg{ width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.8; fill: none; }
+
+  /* Entry reveal */
+  .mfg-tile, .mfg-quote, .mfg-spec, .mfg-cta, .mfg-open, .mfg-long-body p{
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(8px);
+    transition: opacity .9s cubic-bezier(.32,.72,0,1),
+                transform .9s cubic-bezier(.32,.72,0,1),
+                filter .9s cubic-bezier(.32,.72,0,1);
+  }
+  .mfg-tile.is-visible, .mfg-quote.is-visible, .mfg-spec.is-visible,
+  .mfg-cta.is-visible, .mfg-open.is-visible, .mfg-long-body p.is-visible{
+    opacity: 1; transform: translateY(0); filter: blur(0);
+  }
+
+  @media(max-width: 900px){
+    .mfg{ padding: 60px 18px 40px; margin-top: 40px; }
+    .mfg::before{ left: 18px; right: 18px; }
+    .mfg-watermark{ font-size: clamp(120px, 36vw, 200px); top: 60px; right: -10px; }
+    .mfg-title{ font-size: clamp(36px, 9vw, 56px); }
+    .mfg-dropcap{ font-size: 64px; padding: 6px 10px 0 0; }
+    .mfg-lead{ font-size: 16px; line-height: 1.6; }
+    .mfg-atlas{ grid-template-columns: 1fr; gap: 12px; margin-bottom: 64px; }
+    .mfg-tile-1,.mfg-tile-2,.mfg-tile-3,.mfg-tile-wide,.mfg-tile-5,.mfg-tile-6{
+      grid-column: span 1; grid-row: auto;
+    }
+    .mfg-tile-1 .mfg-tile-name{ font-size: 38px; }
+    .mfg-tile-wide .mfg-tile-name{ font-size: 32px; }
+    .mfg-quote{ font-size: clamp(28px, 7vw, 44px); margin-bottom: 64px; }
+    .mfg-quote::before, .mfg-quote::after{ margin: 24px 0; }
+    .mfg-long{ grid-template-columns: 1fr; gap: 32px; }
+    .mfg-margin{ flex-direction: row; flex-wrap: wrap; gap: 20px; padding-top: 0; }
+    .mfg-margin-item{
+      flex: 1 1 calc(50% - 10px);
+      border-left: 0;
+      border-top: 1px solid rgba(255,255,255,.14);
+      padding: 16px 0 0;
+    }
+    .mfg-margin-text{ font-size: 22px; }
+    .mfg-spec{ padding: 28px 22px 22px; }
+    .mfg-spec-row{ grid-template-columns: 1fr; gap: 6px; padding: 14px 0; }
+    .mfg-spec-row dt{ font-size: 11px; }
+    .mfg-spec-row dd{ font-size: 14px; }
+  }
+  @media(max-width: 480px){
+    .mfg-margin-item{ flex: 1 1 100%; }
+  }
+  /* Film grain overlay — fixed-style noise within section */
+  .mfg::after{
+    content:''; position: absolute; inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: .045;
+    mix-blend-mode: overlay;
+    transform: translateZ(0);
+  }
+
+  @media(prefers-reduced-motion: reduce){
+    .mfg-watermark{ transform: none !important; }
+    .mfg-tile, .mfg-quote, .mfg-spec, .mfg-cta, .mfg-open, .mfg-long-body p, .mfg-margin-item{
+      opacity: 1; transform: none; filter: none; transition: none;
+    }
+  }
+  </style>
+
+  <section class="mfg" id="mfg" aria-label="О производстве ARMORA — мастерская в Клину">
+    <div class="mfg-watermark" aria-hidden="true">VII</div>
+
+    <div class="mfg-open">
+      <div class="mfg-eyebrow">
+        <span class="mfg-eyebrow-dash"></span>
+        Глава · О производстве
+      </div>
+      <h2 class="mfg-title">Мастерская <em>в&nbsp;Клину.</em></h2>
+      <p class="mfg-lead"><span class="mfg-dropcap">К</span>аждая дверь ARMORA начинается с тонны холоднокатаной стали из Магнитогорска и заканчивается в петербургской квартире на Петроградке или в подмосковном доме под Истрой. Между этими двумя точками — четырнадцать дней, восемнадцать пар рук и обязательный шаг, который мы никогда не пропускаем.</p>
+    </div>
+
+    <div class="mfg-atlas">
+      <article class="mfg-tile mfg-tile-1">
+        <div class="mfg-tile-core">
+          <div class="mfg-tile-num">01</div>
+          <svg class="mfg-tile-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 10 L29 10 M3 16 L29 16 M3 22 L29 22"/><path d="M7 7 L7 25 M25 7 L25 25"/></svg>
+          <h3 class="mfg-tile-name">Сталь</h3>
+          <div class="mfg-tile-fact">1.8 мм холоднокатаная</div>
+          <p class="mfg-tile-desc">Магнитогорский МК. ГОСТ 16523-97. Каждый лист проходит ручную правку на стенде, отбраковка по геометрии до 4&nbsp;%. Внутрь идёт только то, что мы готовы поставить в собственный дом.</p>
+        </div>
+      </article>
+
+      <article class="mfg-tile mfg-tile-2">
+        <div class="mfg-tile-core">
+          <div class="mfg-tile-num">02</div>
+          <svg class="mfg-tile-icon" viewBox="0 0 32 32" aria-hidden="true"><rect x="7" y="14" width="18" height="13" rx="2"/><path d="M11 14 V10 a5 5 0 0 1 10 0 V14"/><circle cx="16" cy="20.5" r="1.6"/></svg>
+          <h3 class="mfg-tile-name">Замки</h3>
+          <div class="mfg-tile-fact">4 класс взломостойкости</div>
+          <p class="mfg-tile-desc">Apecs, Гардиан, Cisa, Cerber. Два контура, противосъёмные штыри, броненакладки в комплект.</p>
+        </div>
+      </article>
+
+      <article class="mfg-tile mfg-tile-3">
+        <div class="mfg-tile-core">
+          <div class="mfg-tile-num">03</div>
+          <svg class="mfg-tile-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 10 L29 10 M3 16 L29 16 M3 22 L29 22"/><path d="M5 13 q3 -3 6 0 q3 3 6 0 q3 -3 6 0 q3 3 6 0"/></svg>
+          <h3 class="mfg-tile-name">Утеплитель</h3>
+          <div class="mfg-tile-fact">Каменная вата + МДФ</div>
+          <p class="mfg-tile-desc">Базальтовое волокно 60 мм, шумоизоляция до 34 дБ, два контура EPDM-уплотнителя.</p>
+        </div>
+      </article>
+
+      <article class="mfg-tile mfg-tile-wide">
+        <div class="mfg-tile-core">
+          <div class="mfg-tile-num">04</div>
+          <svg class="mfg-tile-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27 L5 5 L27 27 Z"/><path d="M5 14 a9 9 0 0 1 9 13"/></svg>
+          <h3 class="mfg-tile-name">Геометрия</h3>
+          <div class="mfg-tile-fact">Лазер · сварка под защитным газом</div>
+          <p class="mfg-tile-desc">Линия лазерного раскроя 4&nbsp;кВт, точность реза ±0.05 мм. Сварка MIG в среде CO₂ — швы не цветут и не идут чешуёй. Каждая дверь снимается размер в размер: проёмы в Москве редко бывают прямоугольными, и мы это учитываем на этапе чертежа.</p>
+        </div>
+      </article>
+
+      <article class="mfg-tile mfg-tile-5">
+        <div class="mfg-tile-core">
+          <div class="mfg-tile-num">05</div>
+          <svg class="mfg-tile-icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12"/><path d="M16 8 V16 L22 19"/></svg>
+          <h3 class="mfg-tile-name">Сроки</h3>
+          <div class="mfg-tile-fact">14 дней под ключ</div>
+          <p class="mfg-tile-desc">Замер — за 24&nbsp;часа. Производство — 10 рабочих дней. Монтаж — в назначенный день, без переносов.</p>
+        </div>
+      </article>
+
+      <article class="mfg-tile mfg-tile-6">
+        <div class="mfg-tile-core">
+          <div class="mfg-tile-num">06</div>
+          <svg class="mfg-tile-icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="11" cy="13" r="4"/><circle cx="21" cy="13" r="4"/><path d="M4 26 q0 -7 7 -7 t7 7"/><path d="M14 26 q0 -7 7 -7 t7 7"/></svg>
+          <h3 class="mfg-tile-name">Команда</h3>
+          <div class="mfg-tile-fact">18 мастеров · средний стаж 8 лет</div>
+          <p class="mfg-tile-desc">Производство в Клину, площадь 1&nbsp;200&nbsp;м². У каждой двери есть бригадир, и его имя остаётся в наряд-заказе на семь лет вперёд.</p>
+        </div>
+      </article>
+    </div>
+
+    <blockquote class="mfg-quote" aria-label="Главная мысль производства">
+      <span class="mfg-quote-mark" aria-hidden="true">«</span>Стоит долго <em>—</em> потому что делается медленно.<span class="mfg-quote-mark mfg-quote-mark-end" aria-hidden="true">»</span>
+    </blockquote>
+
+    <div class="mfg-long">
+      <div class="mfg-long-body">
+        <p>ARMORA началась в 2014 году с одного фрезерного станка и трёх человек. Сегодня — мастерская в Клину площадью 1&nbsp;200&nbsp;м², восемнадцать постоянных мастеров и собственный участок порошковой окраски с печью длиной 6&nbsp;метров. Мы не выросли в холдинг и не собираемся: задача — не масштаб, а контроль над каждой дверью.</p>
+        <p data-mfg-mark="01">Поэтому мы не покупаем готовые металлические каркасы у субподрядчиков. Не клеим МДФ-панели на ДСП, чтобы сэкономить две тысячи рублей с двери. Не возим заготовки из Китая под видом «премиума». <strong>Сталь — российская, фурнитура — европейская, сборка — наша.</strong> Это медленнее и дороже, но это единственный способ ставить подпись на наряд-заказе и спать спокойно.</p>
+        <p data-mfg-mark="02">Гарантия — семь лет. Расчётный ресурс — двадцать пять. За эти годы в квартире сменятся обои, ламинат, бывает — хозяева. Дверь остаётся. <strong>Хорошая стальная дверь — это не вещь, которую покупают повторно. Её ставят однажды.</strong></p>
+      </div>
+      <aside class="mfg-margin" aria-hidden="true">
+        <div class="mfg-margin-item" data-mfg-mark="01">
+          <div class="mfg-margin-num">01 · экономия</div>
+          <div class="mfg-margin-text">2&nbsp;000&nbsp;₽<span>столько «теряют» производители, отказавшись от подмены материалов на одной двери. Эти деньги — наш стандарт.</span></div>
+        </div>
+        <div class="mfg-margin-item" data-mfg-mark="02">
+          <div class="mfg-margin-num">02 · долговечность</div>
+          <div class="mfg-margin-text">7 / 25<span>гарантия и расчётный срок службы, лет. Дверь переживёт два ремонта в квартире.</span></div>
+        </div>
+        <div class="mfg-margin-item" data-mfg-mark="03">
+          <div class="mfg-margin-num">03 · география</div>
+          <div class="mfg-margin-text">85 км<span>от мастерской в Клину до Тверской. Все ключевые встречи — за один день.</span></div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="mfg-spec">
+      <div class="mfg-spec-eyebrow">Тех. спецификация</div>
+      <dl class="mfg-spec-list">
+        <div class="mfg-spec-row"><dt>Сталь</dt><dd>1.8 мм холоднокатаная, ГОСТ 16523-97 · Магнитогорский металлургический комбинат</dd></div>
+        <div class="mfg-spec-row"><dt>Утеплитель</dt><dd>Базальтовое волокно 60 мм + МДФ 8 мм + лист массива дуба или ясеня по запросу</dd></div>
+        <div class="mfg-spec-row"><dt>Шумоизоляция</dt><dd>до 34 дБ · два контура уплотнителя EPDM</dd></div>
+        <div class="mfg-spec-row"><dt>Замки</dt><dd>4 класс взломостойкости · Apecs, Гардиан, Cisa, Cerber · противосъёмные штыри 4 шт.</dd></div>
+        <div class="mfg-spec-row"><dt>Петли</dt><dd>скрытые регулируемые в 3D · 5 шт. на полотно · нагрузка до 180 кг</dd></div>
+        <div class="mfg-spec-row"><dt>Покрытие</dt><dd>порошковая краска в собственной печи · МДФ-панель · шпон натурального дерева · эмаль</dd></div>
+        <div class="mfg-spec-row"><dt>Производство</dt><dd>г. Клин, Московская область · ул. Захватаева, 4 · мастерская 1&nbsp;200 м²</dd></div>
+        <div class="mfg-spec-row"><dt>Цикл</dt><dd>14 дней под ключ: замер (24 ч) → производство (10 раб. дней) → монтаж в назначенный день</dd></div>
+        <div class="mfg-spec-row"><dt>Гарантия</dt><dd>7 лет полная · расчётный срок службы 25 лет</dd></div>
+        <div class="mfg-spec-row"><dt>География</dt><dd>Москва · Московская область · доставка по России</dd></div>
+      </dl>
+    </div>
+
+    <div class="mfg-cta">
+      <a class="mfg-cta-pill" onclick="lpOpenConsult(); return false;" role="button" tabindex="0">
+        <span>Записать в мастерскую на замер</span>
+        <span class="mfg-cta-pill-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <script>
+  (function(){
+    var mfg = document.querySelector('.mfg');
+    if(!mfg) return;
+    var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* 1. Reveal on enter viewport */
+    var reveal = mfg.querySelectorAll('.mfg-tile, .mfg-quote, .mfg-spec, .mfg-cta, .mfg-open, .mfg-long-body p, .mfg-margin-item');
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(ents){
+        ents.forEach(function(e){
+          if(e.isIntersecting){
+            e.target.classList.add('is-visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '-40px 0px -80px 0px', threshold: 0.04 });
+      reveal.forEach(function(el){ io.observe(el); });
+    } else {
+      reveal.forEach(function(el){ el.classList.add('is-visible'); });
+    }
+
+    /* 2. Tile pointer glow */
+    mfg.querySelectorAll('.mfg-tile').forEach(function(tile){
+      tile.addEventListener('pointermove', function(e){
+        var r = tile.getBoundingClientRect();
+        var mx = ((e.clientX - r.left) / r.width) * 100;
+        var my = ((e.clientY - r.top) / r.height) * 100;
+        tile.style.setProperty('--mx', mx + '%');
+        tile.style.setProperty('--my', my + '%');
+      }, { passive: true });
+    });
+
+    /* 3. Watermark parallax */
+    var wm = mfg.querySelector('.mfg-watermark');
+    if(wm && !reduced){
+      var ticking = false;
+      function update(){
+        var r = mfg.getBoundingClientRect();
+        var vh = window.innerHeight;
+        var p = Math.max(0, Math.min(1, 1 - (r.top + r.height * .5) / vh));
+        var y = (p - .5) * 90;
+        wm.style.transform = 'translateY(' + y.toFixed(1) + 'px)';
+        ticking = false;
+      }
+      window.addEventListener('scroll', function(){
+        if(!ticking){ requestAnimationFrame(update); ticking = true; }
+      }, { passive: true });
+      update();
+    }
+  })();
+  </script>
+
   <div class="app-footer">© 2026 ARMORA · Каталог · Цена индивидуальна и определяется на бесплатном замере · <a href="https://armora.ru/policy" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">Политика конфиденциальности</a></div>
 </div>
 </div>
@@ -8369,7 +8947,7 @@ const DOORS=[
   {id:61, name:'Равенна', series:'Премиум', purpose:'квартира', price:49400, finish:'graphite', glass:'none', handle:'long', flag:'Новинка', popular:50, images:['img/doors/61-1.webp'], tags:['Сталь 1.5 мм','Панель: МДФ','Двойной контур','Замок: 2× Guardian','Фурнитура: Armadillo']},
   {id:62, name:'Тренто', series:'Премиум', purpose:'квартира', price:54400, finish:'graphite', glass:'none', handle:'long', flag:'Рекомендуем', popular:50, images:['img/doors/62-1.webp'], tags:['Сталь 1.8 мм','Панель: МДФ','Двойной контур','Замок: 2× Guardian','Фурнитура: Armadillo']},
   {id:63, name:'Триест', series:'Элит', purpose:'дом', price:74900, finish:'graphite', glass:'none', handle:'long', flag:null, popular:50, images:['img/doors/63-1.webp'], tags:['Сталь 1.8 мм','Панель: Порошковое полимерное покрытие','Тройной контур','Замок: 2× Guardian','Фурнитура: Armadillo','Терморазрыв','Порог из нержавейки']},
-  {id:64, name:'Бергамо', series:'Элит', purpose:'квартира', price:136680, finish:'graphite', glass:'none', handle:'long', flag:'Элит', popular:218, oversize:true, images:['img/doors/64-1.webp'], tags:['Сталь 1.8 мм','Панель: МДФ','Тройной контур','Замок: Биометрический','Фурнитура: Armadillo','Шумоизоляция','Скрытые петли']},
+  {id:64, name:'Избербаш', series:'Элит', purpose:'квартира', price:136680, finish:'graphite', glass:'none', handle:'long', flag:'Элит', popular:218, oversize:true, images:['img/doors/64-1.webp'], tags:['Сталь 1.8 мм','Панель: МДФ','Тройной контур','Замок: Биометрический','Фурнитура: Armadillo','Шумоизоляция','Скрытые петли']},
   {id:65, name:'Перуджа', series:'Премиум', purpose:'квартира', price:51900, finish:'graphite', glass:'none', handle:'long', flag:'Рекомендуем', popular:50, images:['img/doors/65-1.webp'], tags:['Сталь 1.5 мм','Панель: МДФ','Двойной контур','Замок: 2× Guardian','Фурнитура: Armadillo','Шумоизоляция']}
 ];
 
