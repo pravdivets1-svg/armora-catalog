@@ -9807,6 +9807,39 @@ function render(){
   bindReveal();
 }
 
+/* ============================================================
+   iOS-friendly scroll-lock — заменяет body.overflow:hidden.
+   ───────────────────────────────────────────────────────────
+   Проблема: body.overflow:hidden НЕ блокирует iOS keyboard
+   scroll-into-view логику. Когда input получает focus внутри
+   position:fixed модалки, iOS сдвигает viewport — и при закрытии
+   клавиатуры viewport «застревает» в смещённом состоянии.
+
+   Pattern: position:fixed на body с top:-scrollY. iOS keyboard
+   тогда корректно скроллит ВНУТРИ модалки, не двигая viewport.
+   ============================================================ */
+let __scrollLockY = 0;
+function lockBodyScroll(){
+  if(document.body.dataset.scrollLocked === '1') return;
+  __scrollLockY = window.scrollY || window.pageYOffset || 0;
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${__scrollLockY}px`;
+  document.body.style.left = '0';
+  document.body.style.right = '0';
+  document.body.style.width = '100%';
+  document.body.dataset.scrollLocked = '1';
+}
+function unlockBodyScroll(){
+  if(document.body.dataset.scrollLocked !== '1') return;
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.left = '';
+  document.body.style.right = '';
+  document.body.style.width = '';
+  document.body.dataset.scrollLocked = '';
+  window.scrollTo(0, __scrollLockY);
+}
+
 function openCalc(id){
   const d=DOORS.find(x=>x.id===id);
   if(!d)return;
@@ -9818,13 +9851,13 @@ function openCalc(id){
   document.getElementById('calcDoorName').innerHTML=`${d.name} <em style="opacity:.5;font-size:.85em">· ${d.series}</em>`;
   const bg=document.getElementById('calcBg');
   bg.classList.add('show');bg.setAttribute('aria-hidden','false');
-  document.body.style.overflow='hidden';
+  lockBodyScroll();
   renderCalc();
 }
 function closeCalc(){
   const bg=document.getElementById('calcBg');
   bg.classList.remove('show');bg.setAttribute('aria-hidden','true');
-  document.body.style.overflow='';
+  unlockBodyScroll();
 }
 document.addEventListener('keydown',e=>{
   if(e.key!=='Escape')return;
@@ -11701,15 +11734,18 @@ function lpOpenConsult(){
     </form>
   </div>`;
   requestAnimationFrame(() => bg.classList.add('show'));
+  lockBodyScroll();
   setTimeout(() => {
     const p = document.getElementById('lpConsultPhone');
     if(p) attachPhoneMask(p);
-    document.getElementById('lpConsultName')?.focus();
+    // Auto-focus убран: на iOS triggers keyboard в момент scale-анимации pop —
+    // viewport может сдвинуться. Пусть пользователь сам нажмёт на поле.
   }, 280);
 }
 function lpCloseConsult(){
   const bg = document.getElementById('lpConsultBg');
   if(bg) bg.classList.remove('show');
+  unlockBodyScroll();
 }
 async function lpSubmitConsult(){
   const n = document.getElementById('lpConsultName');
