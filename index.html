@@ -132,6 +132,17 @@ html.is-scrolling .slide svg{transition:none !important}
     backdrop-filter:none !important;-webkit-backdrop-filter:none !important
   }
 }
+/* iOS Safari: ВСЕ инпуты с font-size <16px зумят viewport при тапе и
+   ломают layout. Универсальный safety-net на мобильном (≤1024px) —
+   гарантирует 16px на всех типах input/textarea/select. */
+@media(max-width:1024px){
+  input[type="text"], input[type="tel"], input[type="email"],
+  input[type="search"], input[type="password"], input[type="number"],
+  input[type="url"], input[type="date"], input:not([type]),
+  textarea, select{
+    font-size: 16px !important;
+  }
+}
 /* .grain-bg удалён из DOM */
 .dots-bg{position:fixed;inset:0;pointer-events:none;z-index:1;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.05) 1px,transparent 0);background-size:32px 32px}
 /* Floating animated blobs (background) */
@@ -8168,7 +8179,7 @@ html, body{ overflow-x: clip; }
   border-radius: 12px;
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 16px;
   transition: border-color .2s, background .2s;
 }
 .lp-consult-input::placeholder{ color: var(--ink-faint); }
