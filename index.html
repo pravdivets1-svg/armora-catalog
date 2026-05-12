@@ -6374,6 +6374,68 @@ body{ min-height:100% !important; }
 }
 .v5-kicker { display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 
+/* Quick-lead link в шапке — «Готов оставить заявку →» */
+.v5-quick-lead{
+  background: transparent;
+  border: 0;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--v5-success, #16a34a);
+  cursor: pointer;
+  padding: 4px 10px;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: rgba(22,163,74,.10);
+  border: 1px solid rgba(22,163,74,.28);
+  transition: background .25s cubic-bezier(.32,.72,0,1), border-color .25s, transform .25s;
+  white-space: nowrap;
+}
+.v5-quick-lead:hover{
+  background: rgba(22,163,74,.18);
+  border-color: rgba(22,163,74,.5);
+  transform: translateY(-1px);
+}
+@media(max-width: 600px){
+  .v5-quick-lead{ font-size: 9px; padding: 3px 7px; letter-spacing: .12em; }
+}
+
+/* Wrapper для серий — карточка + ссылка quick-buy под ней */
+.v5-opt-series-wrap{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.v5-opt-series-wrap > .v5-opt-series{ flex: 1; }
+.v5-series-quickbuy{
+  background: transparent;
+  border: 0;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--v5-ink-soft);
+  cursor: pointer;
+  padding: 8px 6px;
+  letter-spacing: -.002em;
+  text-align: center;
+  border-radius: 8px;
+  transition: color .25s cubic-bezier(.32,.72,0,1), background .25s;
+  text-decoration: underline;
+  text-decoration-color: rgba(0,0,0,.18);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.v5-series-quickbuy:hover{
+  color: var(--v5-mocha);
+  background: rgba(164,120,100,.06);
+  text-decoration-color: var(--v5-mocha);
+}
+@media(max-width: 600px){
+  .v5-series-quickbuy{ font-size: 11.5px; padding: 6px 4px; }
+}
+
 .v5-inline-cta {
   display: block;
   width: 100%;
@@ -10673,9 +10735,79 @@ function toggleExtra(idx){
   if(i>=0)CALC.sel.extras.splice(i,1);else CALC.sel.extras.push(o);
   renderCalc();
 }
-function calcNext(){if(CALC.cur<CALC_STEPS.length-1){CALC.cur++;renderCalc();}}
-function calcPrev(){if(CALC.cur>0){CALC.cur--;renderCalc();}}
+/* ============================================================
+   SMART-SKIP: шаги, полностью покрытые серией, пропускаются.
+   Снижает 12 шагов до 5-7 для Премиум/Элит. Если пользователь
+   изменил опцию вручную — шаг становится "реальным" и не пропускается.
+   ============================================================ */
+function isStepAutoCovered(stepIdx){
+  const step = CALC_STEPS[stepIdx];
+  if(!step) return false;
+  if(step.key === 'base') return false;        // серия — всегда выбор
+  if(step.type === 'bundles') return false;    // пакеты — всегда показываем
+  if(step.type === 'radio'){
+    const seriesDefault = seriesIncludedOptName(step.key);
+    if(!seriesDefault) return false;
+    const sel = CALC.sel[step.key];
+    if(!sel) return false;
+    return sel.name === seriesDefault;
+  }
+  if(step.key === 'extras'){
+    const incl = seriesIncludedExtras();
+    if(incl.size === 0) return false;
+    const userPicks = CALC.sel.extras.filter(e => !incl.has(e.name));
+    return userPicks.length === 0;
+  }
+  return false;
+}
+function getActiveSteps(){
+  const arr = [];
+  for(let i = 0; i < CALC_STEPS.length; i++){
+    if(!isStepAutoCovered(i)) arr.push(i);
+  }
+  return arr;
+}
+function getActiveStepInfo(){
+  const arr = getActiveSteps();
+  const idx = arr.indexOf(CALC.cur);
+  return { total: arr.length, idx: idx >= 0 ? idx : arr.length - 1 };
+}
+function nextRealStep(fromIdx){
+  for(let i = fromIdx + 1; i < CALC_STEPS.length; i++){
+    if(!isStepAutoCovered(i)) return i;
+  }
+  return CALC_STEPS.length - 1;
+}
+function calcNext(){
+  const next = nextRealStep(CALC.cur);
+  if(next > CALC.cur){ CALC.cur = next; renderCalc(); }
+}
+function calcPrev(){
+  if(CALC.cur > 0){ CALC.cur--; renderCalc(); }
+}
 function goCalcStep(i){if(i>=0&&i<CALC_STEPS.length){CALC.cur=i;renderCalc();}}
+
+/* QUICK-LEAD: пользователь готов оставить заявку прямо сейчас.
+   Прыгаем на финальный шаг с формой — там уже есть price-anchor + поля. */
+function calcQuickLead(){
+  CALC.cur = CALC_STEPS.length - 1;
+  renderCalc();
+  setTimeout(() => {
+    const p = document.getElementById('v5Phone');
+    if(p) p.focus({ preventScroll: false });
+  }, 220);
+}
+
+/* QUICK-BUY: «купить как есть» под карточкой серии. Применяет серию + сразу
+   на форму. Серия должна быть передана явно — каждая карточка зовёт со
+   своим именем, чтобы не было неоднозначности. */
+function calcQuickBuy(seriesName){
+  if(!seriesName) return;
+  const base = CALC_STEPS[0].options.find(o => o.name === seriesName);
+  if(!base) return;
+  v5Select('base', base.name);
+  setTimeout(() => calcQuickLead(), 50);
+}
 function removeExtra(name){
   if(isExtraLocked(name)){
     toast && toast(`«${name}» включено в серию или пакет — снять нельзя`);
@@ -10766,6 +10898,11 @@ window.__renderCalcV5 = function(total, prevTotal){
   const pct = Math.round(((cur + 1) / totalSteps) * 100);
 
   // ── sticky header ──────────────────────────────────────────
+  // Smart-skip учитывается в отображении "Шаг N из M": M — активные шаги для
+  // текущей серии (если Премиум покрывает ext/int/seal/lock/handle — они не в счёт).
+  const activeInfo = (typeof getActiveStepInfo === 'function') ? getActiveStepInfo() : { idx: cur, total: totalSteps };
+  const shownIdx = activeInfo.idx + 1;
+  const shownTotal = activeInfo.total;
   let html = `
   <div class="v5-sticky" id="v5Sticky">
     <button class="v5-back" onclick="closeCalc()" aria-label="Закрыть">
@@ -10773,8 +10910,9 @@ window.__renderCalcV5 = function(total, prevTotal){
     </button>
     <div class="v5-title-block">
       <div class="v5-kicker">
-        <span>Шаг ${cur+1} из ${totalSteps}</span>
+        <span>Шаг ${shownIdx} из ${shownTotal}</span>
         ${!isFirst ? `<button class="v5-back-link" onclick="calcPrev()">← Назад</button>` : ''}
+        ${cur >= 1 && !isLast ? `<button class="v5-quick-lead" type="button" onclick="calcQuickLead()" title="Перейти к заявке — менеджер уточнит детали">Готов оставить заявку →</button>` : ''}
       </div>
       <div class="v5-title">${CALC.door?.name||'Расчёт двери'}</div>
     </div>
@@ -10787,7 +10925,7 @@ window.__renderCalcV5 = function(total, prevTotal){
   <div class="v5-content">
     <div class="v5-step-pbar"><div class="v5-step-pbar-fill" style="width:${pct}%"></div></div>
     <div class="v5-step-hd">
-      <div class="v5-step-eye">Шаг ${String(cur+1).padStart(2,'0')} / ${String(totalSteps).padStart(2,'0')}</div>
+      <div class="v5-step-eye">Шаг ${String(shownIdx).padStart(2,'0')} / ${String(shownTotal).padStart(2,'0')}</div>
       <h2 class="v5-step-h2">${step.title}</h2>
       <p class="v5-step-sub">${step.hint}</p>
     </div>
@@ -10890,28 +11028,33 @@ window.__renderCalcV5 = function(total, prevTotal){
       const incItems = (o.inc||'').split('·').map(s=>s.trim()).filter(Boolean);
       const incList = incItems.map(it=>`<li>${it}</li>`).join('');
       const steelTxt = o.steelMm ? `${o.steelMm}` : '—';
-      html+=`<button type="button" class="v5-opt v5-opt-series${sel?' sel':''}${isRec?' is-rec':''}" onclick="${action}" data-name="${nAttr}">
-        ${isRec?'<span class="v5-opt-rec v5-opt-rec-prime">Выбор большинства</span>':''}
-        <span class="v5-opt-info" onclick="event.stopPropagation();v5OpenPop('${kEsc}','${nEsc}')" title="Подробнее"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="5.5" r=".55" fill="currentColor" stroke="none"/><line x1="8" y1="7.5" x2="8" y2="11"/></svg></span>
-        <div class="v5-series-head">
-          <h4 class="v5-series-name">${o.name}</h4>
-          <p class="v5-series-purpose">${o.desc||''}</p>
-        </div>
-        <div class="v5-series-body">
-          <div class="v5-series-steel" aria-label="Толщина стали">
-            <div class="v5-series-steel-num">${steelTxt}</div>
-            <div class="v5-series-steel-lbl">мм стали</div>
+      html+=`<div class="v5-opt-series-wrap">
+        <button type="button" class="v5-opt v5-opt-series${sel?' sel':''}${isRec?' is-rec':''}" onclick="${action}" data-name="${nAttr}">
+          ${isRec?'<span class="v5-opt-rec v5-opt-rec-prime">Выбор большинства</span>':''}
+          <span class="v5-opt-info" onclick="event.stopPropagation();v5OpenPop('${kEsc}','${nEsc}')" title="Подробнее"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="5.5" r=".55" fill="currentColor" stroke="none"/><line x1="8" y1="7.5" x2="8" y2="11"/></svg></span>
+          <div class="v5-series-head">
+            <h4 class="v5-series-name">${o.name}</h4>
+            <p class="v5-series-purpose">${o.desc||''}</p>
           </div>
-          <div class="v5-series-inc">
-            <div class="v5-series-inc-lbl">Включено в серию</div>
-            <ul class="v5-series-inc-list">${incList}</ul>
+          <div class="v5-series-body">
+            <div class="v5-series-steel" aria-label="Толщина стали">
+              <div class="v5-series-steel-num">${steelTxt}</div>
+              <div class="v5-series-steel-lbl">мм стали</div>
+            </div>
+            <div class="v5-series-inc">
+              <div class="v5-series-inc-lbl">Включено в серию</div>
+              <ul class="v5-series-inc-list">${incList}</ul>
+            </div>
           </div>
-        </div>
-        <div class="v5-series-foot">
-          <div class="v5-series-foot-price">${priceHtml}</div>
-          ${chk}
-        </div>
-      </button>`;
+          <div class="v5-series-foot">
+            <div class="v5-series-foot-price">${priceHtml}</div>
+            ${chk}
+          </div>
+        </button>
+        <button type="button" class="v5-series-quickbuy" onclick="calcQuickBuy('${nEsc}')" title="Выбрать ${nAttr} и сразу перейти к заявке">
+          Купить как есть → оставить заявку
+        </button>
+      </div>`;
       return;
     }
 
