@@ -5067,6 +5067,169 @@ h2.card-name{margin:0;padding:0}
   .v5-inline-lead-desc{ font-size: 13px; }
 }
 
+/* === Final step — price anchor над формой === */
+.v5-final-anchor{
+  margin-top: 8px;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, rgba(164,120,100,.07) 0%, rgba(164,120,100,.02) 100%);
+  border: 1px solid rgba(164,120,100,.22);
+  border-radius: 18px;
+  padding: 18px 22px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.v5-final-anchor::before{
+  content:''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 100% 0%, rgba(164,120,100,.10), transparent 55%);
+  pointer-events: none;
+}
+.v5-final-anchor > *{ position: relative; z-index: 1; }
+.v5-final-anchor-kicker{
+  font-family: var(--font-sans);
+  font-size: 10.5px; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: #a47864;
+  margin-bottom: 8px;
+}
+.v5-final-anchor-name{
+  font-family: var(--font-display);
+  font-style: italic; font-weight: 500;
+  font-size: 21px; line-height: 1.2;
+  color: var(--v5-ink);
+  margin-bottom: 2px;
+}
+.v5-final-anchor-sum{
+  font-family: var(--font-display);
+  font-style: italic; font-weight: 600;
+  font-size: 44px; line-height: 1;
+  letter-spacing: -.02em;
+  color: var(--v5-ink);
+  font-variant-numeric: tabular-nums;
+  margin: 8px 0 6px;
+}
+.v5-final-anchor-hint{
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--v5-ink-soft);
+  line-height: 1.5;
+}
+
+/* === Telegram alternative под формой === */
+.v5-lead-alt{
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px dashed rgba(0,0,0,.12);
+  position: relative;
+}
+.v5-lead-alt-sep{
+  position: absolute;
+  top: -10px; left: 50%; transform: translateX(-50%);
+  background: var(--v5-surface);
+  padding: 0 12px;
+  font-family: var(--font-sans);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--v5-ink-mute);
+}
+.v5-lead-tg{
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 16px;
+  background: rgba(40,156,225,.06);
+  border: 1px solid rgba(40,156,225,.22);
+  border-radius: 14px;
+  text-decoration: none;
+  transition: background .35s cubic-bezier(.32,.72,0,1),
+              border-color .35s cubic-bezier(.32,.72,0,1),
+              transform .35s cubic-bezier(.32,.72,0,1);
+}
+.v5-lead-tg:hover{
+  background: rgba(40,156,225,.10);
+  border-color: rgba(40,156,225,.36);
+  transform: translateY(-1px);
+}
+.v5-lead-tg-icon{
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2aabee, #229ed9);
+  color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.v5-lead-tg-icon svg{ width: 20px; height: 20px; fill: currentColor; }
+.v5-lead-tg-body{ display: flex; flex-direction: column; line-height: 1.3; flex: 1; min-width: 0; }
+.v5-lead-tg-title{
+  font-family: var(--font-sans);
+  font-weight: 700; font-size: 14.5px;
+  color: var(--v5-ink);
+}
+.v5-lead-tg-hint{
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--v5-ink-soft);
+  margin-top: 2px;
+}
+.v5-lead-tg-arrow{
+  width: 16px; height: 16px;
+  color: var(--v5-ink-mute);
+  flex-shrink: 0;
+  transition: transform .35s cubic-bezier(.32,.72,0,1);
+}
+.v5-lead-tg:hover .v5-lead-tg-arrow{ transform: translateX(2px); }
+.v5-lead-tg-arrow svg{ width: 100%; height: 100%; stroke: currentColor; stroke-width: 1.8; fill: none; }
+
+/* === Collapsible install options on final step === */
+.v5-final-extras{
+  margin-top: 24px;
+  border: 1px solid var(--v5-bdr);
+  border-radius: 16px;
+  background: rgba(0,0,0,.015);
+  overflow: hidden;
+}
+.v5-final-extras > summary{
+  list-style: none;
+  cursor: pointer;
+  padding: 16px 20px;
+  display: flex; align-items: center; gap: 12px;
+  user-select: none;
+}
+.v5-final-extras > summary::-webkit-details-marker{ display: none; }
+.v5-final-extras-tit{
+  font-family: var(--font-sans);
+  font-weight: 700; font-size: 14.5px;
+  color: var(--v5-ink);
+}
+.v5-final-extras-hint{
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--v5-ink-soft);
+  flex: 1;
+  margin-left: 4px;
+}
+.v5-final-extras-chev{
+  width: 18px; height: 18px;
+  flex-shrink: 0;
+  transition: transform .35s cubic-bezier(.32,.72,0,1);
+  color: var(--v5-ink-soft);
+}
+.v5-final-extras[open] .v5-final-extras-chev{ transform: rotate(180deg); }
+.v5-final-extras-chev svg{ width: 100%; height: 100%; stroke: currentColor; stroke-width: 1.8; fill: none; }
+.v5-final-extras > .v5-opts{
+  padding: 0 16px 18px;
+  border-top: 1px solid var(--v5-bdr);
+}
+
+@media(max-width: 600px){
+  .v5-final-anchor{ padding: 14px 16px 16px; }
+  .v5-final-anchor-sum{ font-size: 36px; }
+  .v5-final-anchor-name{ font-size: 17px; }
+  .v5-final-extras-hint{ display: none; }
+  .v5-final-extras > summary{ padding: 14px 16px; }
+  .v5-lead-tg{ padding: 10px 12px; gap: 10px; }
+  .v5-lead-tg-icon{ width: 34px; height: 34px; }
+  .v5-lead-tg-title{ font-size: 13.5px; }
+  .v5-lead-tg-hint{ font-size: 11.5px; }
+}
+
 /* Success state */
 .v5-success{
   text-align: center;
@@ -10056,7 +10219,7 @@ function calcTotal(){
   if(CALC.sel.install_pkg) t += CALC.sel.install_pkg.price;
   // Extras: items включённые в серию или бандл = бесплатны
   CALC.sel.extras.forEach(e => {
-    if(CALC.leadInfo && e.isGift) return;
+    if(e.isGift) return;
     if(isIncludedExtra(e.name)) return;
     if(extraCoveredByBundle(e.name)) return;
     t += e.price;
@@ -10080,7 +10243,7 @@ function calcTotal(){
     let unitExtrasSum = 0;
     CALC.sel.extras.forEach(e => {
       if(!e.unitItem) return;
-      if(CALC.leadInfo && e.isGift) return;
+      if(e.isGift) return;
       if(isIncludedExtra(e.name)) return;
       if(extraCoveredByBundle(e.name)) return;
       unitExtrasSum += e.price;
@@ -10353,7 +10516,7 @@ function v5SumPrice(stepKeys){
   stepKeys.forEach(k=>{
     if(k==='extras'){
       CALC.sel.extras.forEach(e=>{
-        if(CALC.leadInfo&&e.isGift) return;
+        if(e.isGift) return;
         if(isIncludedExtra(e.name)) return;
         if(extraCoveredByBundle(e.name)) return;
         p+=e.price;
@@ -10547,20 +10710,12 @@ window.__renderCalcV5 = function(total, prevTotal){
 
   html+=`</div>`;
 
-  // Финальный шаг: вместо CTA-кнопки сразу показываем встроенную форму заявки
+  // Финальный шаг: форма-приоритет сверху, опции монтажа — в свёрнутом аккордеоне ниже
   if(isLast){
     html += `<div class="v5-inline-lead">
       <div class="v5-inline-lead-hd">
-        <div class="v5-pop-kicker">Конфигурация собрана</div>
-        <h3 class="v5-inline-lead-title">Заказать свою дверь</h3>
-        <p class="v5-inline-lead-desc">Менеджер перезвонит за 15 минут, согласует время бесплатного замера. Без обязательств.</p>
-      </div>
-      <div class="v5-lead-summary">
-        <div>
-          <div class="v5-lead-sum-l">${CALC.door?.name || 'Дверь'} · ${CALC.sel.base?.name || ''}</div>
-          <div style="color:var(--v5-ink-soft);font-size:13px;">Ориентировочная стоимость</div>
-        </div>
-        <div class="v5-lead-sum-v" id="v5InlineSum">${total>0?fmtRu(total):'—'}</div>
+        <h3 class="v5-inline-lead-title">Готово. Куда отправить расчёт?</h3>
+        <p class="v5-inline-lead-desc">Перезвоним за 15 минут, согласуем удобное время для бесплатного замера. Пришлём детальную смету и проконсультируем по монтажу. Без обязательств.</p>
       </div>
       <form id="v5LeadForm" onsubmit="event.preventDefault();v5SubmitLead()">
         <div class="v5-lead-fields">
@@ -10572,9 +10727,24 @@ window.__renderCalcV5 = function(total, prevTotal){
           <input type="checkbox" id="v5Agree" checked>
           <span>Соглашаюсь на обработку персональных данных согласно <a href="https://armora.ru/policy" target="_blank" rel="noopener">политике конфиденциальности</a>.</span>
         </label>
-        <button type="submit" class="v5-lead-submit" id="v5Submit">Жду звонка!</button>
+        <button type="submit" class="v5-lead-submit" id="v5Submit">Получить смету и звонок</button>
         <div class="v5-lead-proof"><svg viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>Без спама. Звонок только для согласования времени.</div>
       </form>
+      <div class="v5-lead-alt">
+        <div class="v5-lead-alt-sep">или</div>
+        <a class="v5-lead-tg" href="https://t.me/ArmoraMSK" target="_blank" rel="noopener" onclick="try{ym(109143148,'reachGoal','calc_telegram_click');}catch(e){}">
+          <span class="v5-lead-tg-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M21.94 4.27a1 1 0 0 0-1.32-.93L2.55 10.4a1 1 0 0 0 .03 1.86l4.31 1.51 2.04 6.4a1 1 0 0 0 1.73.34l2.6-2.83 4.45 3.27a1 1 0 0 0 1.58-.62l2.65-15.05a1 1 0 0 0 0-.01zM9.5 14.3l-.32 3.74-1.4-4.4 9.6-6.93-7.88 7.6z"/></svg>
+          </span>
+          <span class="v5-lead-tg-body">
+            <span class="v5-lead-tg-title">Написать в Telegram</span>
+            <span class="v5-lead-tg-hint">Если неудобно по звонку — пришлём смету в чат</span>
+          </span>
+          <span class="v5-lead-tg-arrow" aria-hidden="true">
+            <svg viewBox="0 0 16 16"><line x1="2" y1="8" x2="14" y2="8"/><polyline points="9 3 14 8 9 13"/></svg>
+          </span>
+        </a>
+      </div>
     </div>`;
   } else {
     // Обычный шаг — большая CTA-кнопка «Продолжить»
@@ -10593,8 +10763,44 @@ window.__renderCalcV5 = function(total, prevTotal){
 
   body.innerHTML = html;
 
-  // На финальном шаге сразу повесить маску на телефон
+  // На финальном шаге — перестановка: форма ВЫШЕ опций, опции монтажа — в свёрнутом аккордеоне
   if(isLast){
+    const opts = body.querySelector('.v5-opts');
+    const lead = body.querySelector('.v5-inline-lead');
+    if(opts && lead && opts.parentNode){
+      // 1. Build anchor block (большая цена над формой — снимает sticker shock)
+      const anchor = document.createElement('div');
+      anchor.className = 'v5-final-anchor';
+      const doorName = (CALC.door && CALC.door.name) || 'Дверь';
+      const baseName = (CALC.sel && CALC.sel.base && CALC.sel.base.name) || '';
+      anchor.innerHTML = `
+        <div class="v5-final-anchor-kicker">Конфигурация собрана</div>
+        <div class="v5-final-anchor-name">${doorName}${baseName ? ' · ' + baseName : ''}</div>
+        <div class="v5-final-anchor-sum">${total > 0 ? fmtRu(total) : '—'}</div>
+        <div class="v5-final-anchor-hint">Ориентировочная цена. Точная фиксируется в договоре после бесплатного замера.</div>
+      `;
+
+      // 2. Wrap opts into <details class="v5-final-extras">
+      const details = document.createElement('details');
+      details.className = 'v5-final-extras';
+      const summary = document.createElement('summary');
+      summary.innerHTML = `
+        <span class="v5-final-extras-tit">Выбрать монтаж сейчас</span>
+        <span class="v5-final-extras-hint">Можно решить с менеджером после заявки</span>
+        <span class="v5-final-extras-chev" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </span>
+      `;
+      details.appendChild(summary);
+
+      // 3. Reorder DOM: anchor → lead (form) → details(opts) — all where opts was
+      const parent = opts.parentNode;
+      parent.insertBefore(anchor, opts);   // anchor goes where opts was, opts shifts after
+      parent.insertBefore(lead, opts);     // form right after anchor
+      parent.insertBefore(details, opts);  // details placeholder right after form
+      details.appendChild(opts);           // and now opts moves INTO details
+    }
+
     setTimeout(()=>{
       const p=document.getElementById('v5Phone');
       if(p) attachPhoneMask(p);
