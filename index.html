@@ -883,6 +883,8 @@ html.is-scrolling .slide svg{transition:none !important}
   font-family:var(--font-sans);font-size:14px;font-weight:500;color:var(--ink);outline:none;
   transition:all .22s;
 }
+/* iOS: font-size ≥16px чтобы не было авто-зума при тапе на инпут */
+@media(max-width: 1024px){ .linput{ font-size:16px !important; } }
 .linput::placeholder{color:var(--ink-ghost)}
 .linput:focus{border-color:var(--gold);background:rgba(255,255,255,.85);box-shadow:0 0 0 4px rgba(228,232,238,.12)}
 .linput.err{border-color:var(--error);animation:revealUp .3s}
@@ -5151,6 +5153,9 @@ h2.card-name{margin:0;padding:0}
   margin-bottom: 10px;
 }
 @media(max-width: 480px){ .v5-lead-fields{ grid-template-columns: 1fr; } }
+/* iOS Safari авто-зумит инпуты с font-size < 16px при фокусе и
+   сдвигает viewport. На мобильном принудительно 16px → зума нет. */
+@media(max-width: 1024px){ .v5-lead-input{ font-size: 16px !important; } }
 .v5-lead-input{
   background: var(--v5-surface);
   border: 1.5px solid var(--v5-bdr);
