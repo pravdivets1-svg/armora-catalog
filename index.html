@@ -9819,25 +9819,61 @@ function render(){
    тогда корректно скроллит ВНУТРИ модалки, не двигая viewport.
    ============================================================ */
 let __scrollLockY = 0;
+let __scrollLockSavedHtml = {};
+let __scrollLockSavedBody = {};
 function lockBodyScroll(){
   if(document.body.dataset.scrollLocked === '1') return;
   __scrollLockY = window.scrollY || window.pageYOffset || 0;
+  // CRITICAL для iOS внутри iframe (Tilda):
+  // iOS keyboard scroll-into-input скроллит ВНЕШНИЙ Tilda документ,
+  // что тащит iframe вверх и визуально сдвигает модалку.
+  // Если ЗАЖАТЬ html+body на высоту viewport — iframe content не может быть
+  // выше viewport → outer page не может быть проскроллен из-за iframe.
+  const html = document.documentElement;
+  __scrollLockSavedHtml = { height: html.style.height, overflow: html.style.overflow };
+  __scrollLockSavedBody = {
+    position: document.body.style.position, top: document.body.style.top,
+    left: document.body.style.left, right: document.body.style.right,
+    width: document.body.style.width, height: document.body.style.height,
+    overflow: document.body.style.overflow,
+  };
+  html.style.height = '100vh';
+  html.style.overflow = 'hidden';
   document.body.style.position = 'fixed';
   document.body.style.top = `-${__scrollLockY}px`;
   document.body.style.left = '0';
   document.body.style.right = '0';
   document.body.style.width = '100%';
+  document.body.style.height = '100vh';
+  document.body.style.overflow = 'hidden';
   document.body.dataset.scrollLocked = '1';
+  // Bonus: попросим Tilda parent (если есть) тоже заблочить scroll.
+  // Если он не слушает — игнорирует, без побочных эффектов.
+  try{
+    if(window.parent && window.parent !== window){
+      window.parent.postMessage({type:'armora-modal-open', lockScroll:true}, '*');
+    }
+  }catch(e){}
 }
 function unlockBodyScroll(){
   if(document.body.dataset.scrollLocked !== '1') return;
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.left = '';
-  document.body.style.right = '';
-  document.body.style.width = '';
+  const html = document.documentElement;
+  html.style.height = __scrollLockSavedHtml.height || '';
+  html.style.overflow = __scrollLockSavedHtml.overflow || '';
+  document.body.style.position = __scrollLockSavedBody.position || '';
+  document.body.style.top = __scrollLockSavedBody.top || '';
+  document.body.style.left = __scrollLockSavedBody.left || '';
+  document.body.style.right = __scrollLockSavedBody.right || '';
+  document.body.style.width = __scrollLockSavedBody.width || '';
+  document.body.style.height = __scrollLockSavedBody.height || '';
+  document.body.style.overflow = __scrollLockSavedBody.overflow || '';
   document.body.dataset.scrollLocked = '';
   window.scrollTo(0, __scrollLockY);
+  try{
+    if(window.parent && window.parent !== window){
+      window.parent.postMessage({type:'armora-modal-close', lockScroll:false}, '*');
+    }
+  }catch(e){}
 }
 
 function openCalc(id){
