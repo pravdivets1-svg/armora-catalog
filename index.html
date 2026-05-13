@@ -5164,6 +5164,15 @@ h2.card-name{margin:0;padding:0}
   margin-bottom: 10px;
 }
 @media(max-width: 480px){ .v5-lead-fields{ grid-template-columns: 1fr; } }
+/* MOBILE: компактная форма — только телефон. Имя скрыто (менеджер уточнит при звонке).
+   Меньше времени в клавиатуре → меньше шансов на iframe-shift bug. */
+@media(max-width: 768px){
+  .v5-lead-fields{ grid-template-columns: 1fr !important; }
+  .v5-lead-fields #v5Name{ display: none !important; }
+  .v5-inline-lead-title{ font-size: 18px !important; }
+  .v5-inline-lead-desc{ display: none !important; }
+  .v5-inline-lead-hd{ margin-bottom: 10px !important; }
+}
 /* iOS Safari авто-зумит инпуты с font-size < 16px при фокусе и
    сдвигает viewport. На мобильном принудительно 16px → зума нет. */
 @media(max-width: 1024px){ .v5-lead-input{ font-size: 16px !important; } }
@@ -11909,9 +11918,12 @@ function v5SubmitLead(){
   const n=document.getElementById('v5Name'), p=document.getElementById('v5Phone'), errBox=document.getElementById('v5Err');
   const a=document.getElementById('v5Agree');
   const btn=document.getElementById('v5Submit');
-  const name=n.value.trim(), phone=p.value.trim();
+  // На мобильном поле имени скрыто (компактная форма) — имя уточнит менеджер.
+  const nameHidden = n && getComputedStyle(n).display === 'none';
+  const name = nameHidden ? 'Клиент (уточнить по звонку)' : n.value.trim();
+  const phone = p.value.trim();
   let errs=[];
-  if(!name){ n.classList.add('err'); setTimeout(()=>n.classList.remove('err'),450); errs.push('имя'); }
+  if(!nameHidden && !name){ n.classList.add('err'); setTimeout(()=>n.classList.remove('err'),450); errs.push('имя'); }
   if(phone.replace(/\D/g,'').length<11){ p.classList.add('err'); setTimeout(()=>p.classList.remove('err'),450); errs.push('корректный телефон'); }
   if(a && !a.checked){ errs.push('согласие на обработку данных'); }
   if(errs.length){ errBox.textContent='Заполните: '+errs.join(', '); return; }
