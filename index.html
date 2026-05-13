@@ -8114,6 +8114,17 @@ html, body{ overflow-x: clip; }
   opacity: 0;
   pointer-events: none;
   transition: opacity .25s;
+  /* mobile keyboard fix: при появлении клавиатуры centered модалка
+     перецентрируется → видно как «съезжает». Top-aligned на мобиле — модалка
+     прибита к верху, при клавиатуре не двигается. */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+@media(max-width: 768px){
+  .lp-consult-bg{
+    align-items: flex-start !important;
+    padding: 5vh 16px 20px !important;
+  }
 }
 .lp-consult-bg.show{ opacity: 1; pointer-events: auto; }
 .lp-consult-pop{
