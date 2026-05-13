@@ -9964,14 +9964,27 @@ function closeCalc(){
   bg.classList.remove('show');bg.setAttribute('aria-hidden','true');
   unlockBodyScroll();
   __calcCloseCooldownUntil = Date.now() + 3000;
-  // КРИТИЧНО: чистим URL params. Иначе если iframe перерендерится
-  // (Tilda lazy-load при скролле обратно в viewport, bfcache, etc.),
-  // restoreFromURL() запустится снова, увидит ?door=56&... и АВТОМАТИЧЕСКИ
-  // откроет calc — даже если юзер ничего не нажимал. ЭТО был баг.
+  // Чистим URL params (защита от auto-reopen via restoreFromURL).
   try{ history.replaceState(null, '', location.pathname); }catch(e){}
-  // Также сбрасываем debounce-таймер saveCalcToURL — чтобы он не записал
-  // обратно состояние через 300ms после закрытия.
   try{ clearTimeout(__saveCalcT); }catch(e){}
+  // TEARDOWN: закрываем все вложенные popups если открыты.
+  // closeCalc только убирал .show у calcBg — но v5LeadBg / lpConsultBg могли
+  // остаться видимыми и блокировать UI.
+  const v5Lead = document.getElementById('v5LeadBg');
+  if(v5Lead && v5Lead.classList.contains('show')) v5Lead.classList.remove('show');
+  const lpConsult = document.getElementById('lpConsultBg');
+  if(lpConsult && lpConsult.classList.contains('show')) lpConsult.classList.remove('show');
+  // FORCE UNLOCK: если форма закрыта пока input был в фокусе — focusout
+  // мог не сработать, и scroll lock остаётся в .calc-body / .lp-consult-bg.
+  // Принудительно сбрасываем overflow на этих контейнерах.
+  document.querySelectorAll('.calc-body, .lp-consult-bg').forEach(el => {
+    el.style.removeProperty('overflow');
+    el.style.removeProperty('overflow-y');
+    el.style.removeProperty('overflow-x');
+    el.style.removeProperty('-webkit-overflow-scrolling');
+  });
+  // Сбрасываем флаг calc-context (если был открыт popup из calc)
+  window.__armoraCalcLead = false;
 }
 document.addEventListener('keydown',e=>{
   if(e.key!=='Escape')return;
@@ -11608,6 +11621,13 @@ function v5OpenLead(){
 function v5CloseLead(){
   const bg = document.getElementById('v5LeadBg');
   if(bg){ bg.classList.remove('show'); }
+  // FORCE UNLOCK overflow на scroll containers если форма закрыта пока input в фокусе
+  document.querySelectorAll('.calc-body, .lp-consult-bg').forEach(el => {
+    el.style.removeProperty('overflow');
+    el.style.removeProperty('overflow-y');
+    el.style.removeProperty('overflow-x');
+    el.style.removeProperty('-webkit-overflow-scrolling');
+  });
 }
 /* === Lead delivery ===
    По умолчанию — console.log. Чтобы включить Telegram-бот:
@@ -12323,6 +12343,22 @@ const _origRender=render;
 render=function(){_origRender.apply(this,arguments);syncFabBadges();};
 
 restoreFromURL();
+
+/* iOS / Tilda iframe: bfcache restore.
+   Когда iframe возвращается из bfcache (юзер ушёл на другую вкладку и
+   вернулся), браузер восстанавливает DOM state — но событие pageshow
+   срабатывает с persisted=true. Если в этот момент в URL есть ?door=
+   (например, calc был открыт до ухода), модалка появится снова без
+   действий пользователя. Чистим URL и закрываем calc принудительно. */
+window.addEventListener('pageshow', function(ev){
+  if(ev.persisted){
+    try{ history.replaceState(null, '', location.pathname); }catch(e){}
+    const bg = document.getElementById('calcBg');
+    if(bg && bg.classList.contains('show')){
+      try{ closeCalc(); }catch(e){}
+    }
+  }
+});
 syncFabBadges();
 
 /* === Custom glass dropdown sort === */
