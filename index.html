@@ -12261,11 +12261,22 @@ document.addEventListener('click',e=>{
        МИНИМАЛЬНАЯ версия: только load + 3 delayed retries для late widgets.
        НЕТ resize listener (parent сам триггерит resize → infinite loop).
        НЕТ MutationObserver (слишком дорого, мешает анимациям).
-       Early return если scrollHeight не изменился. */
+       Early return если scrollHeight не изменился.
+       PAUSE: если открыта любая модалка (calcBg.show / lpConsultBg.show /
+       v5LeadBg.show) — не отправляем height. Tilda не должна ресайзить iframe
+       в момент когда пользователь печатает в форме (вызывает «съезжание»). */
     (function(){
       if (window.self === window.top) return; // не в iframe — скип
       var lastH = 0;
+      function isAnyModalOpen(){
+        return !!(
+          document.querySelector('.calc-bg.show')
+          || document.querySelector('.lp-consult-bg.show')
+          || document.querySelector('.v5-pop-bg.show')
+        );
+      }
       function send(){
+        if (isAnyModalOpen()) return; // не трогаем height пока юзер в форме
         var h = Math.max(
           document.body.scrollHeight,
           document.documentElement.scrollHeight
