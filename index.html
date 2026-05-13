@@ -9940,7 +9940,12 @@ function rebindMagneticCTAs(root){
   (root || document).querySelectorAll('[data-magnetic-cta]').forEach(el => bindMagneticCTA(el));
 }
 
+/* Cooldown: после closeCalc 3 секунды игнорируем любые openCalc.
+   Защита от случайного тапа в момент когда юзер закрыл модалку и
+   листает — палец может задеть card-cta / sticky-cta / hero-card. */
+let __calcCloseCooldownUntil = 0;
 function openCalc(id){
+  if(Date.now() < __calcCloseCooldownUntil) return;
   const d=DOORS.find(x=>x.id===id);
   if(!d)return;
   CALC.door=d;
@@ -9958,6 +9963,8 @@ function closeCalc(){
   const bg=document.getElementById('calcBg');
   bg.classList.remove('show');bg.setAttribute('aria-hidden','true');
   unlockBodyScroll();
+  // Защита от случайного re-open пальцем после закрытия (palm-scroll edge case).
+  __calcCloseCooldownUntil = Date.now() + 3000;
 }
 document.addEventListener('keydown',e=>{
   if(e.key!=='Escape')return;
