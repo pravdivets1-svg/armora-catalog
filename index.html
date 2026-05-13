@@ -3823,11 +3823,6 @@ h2.card-name{margin:0;padding:0}
   overflow: hidden !important;
   display: flex !important;
   flex-direction: column !important;
-  /* Auto-resize по контенту: высота не превышает viewport, внутренний скролл.
-     Стабильный vh (не dvh) — чтобы при появлении iOS keyboard модалка
-     не сжималась и не «улетала». */
-  height: auto !important;
-  max-height: 92vh !important;
 }
 [data-v="5"]::before, [data-v="5"]::after{ display:none !important; }
 
@@ -8128,13 +8123,6 @@ html, body{ overflow-x: clip; }
   border-radius: 22px;
   width: 100%;
   max-width: 460px;
-  /* Auto-resize по контенту: высота = ровно содержимое, с cap на viewport.
-     ВАЖНО: используем vh, НЕ dvh — dvh сжимается при появлении iOS keyboard
-     и модалка визуально «улетает». Стабильный vh = не двигается. */
-  height: auto;
-  max-height: 88vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   padding: 36px 32px 28px;
   box-shadow: 0 30px 100px -20px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.06);
   transform: scale(.96) translateY(8px);
