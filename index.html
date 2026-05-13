@@ -11331,7 +11331,7 @@ window.__renderCalcV5 = function(total, prevTotal){
            Эти ссылки открывают НАТИВНЫЕ приложения — клавиатура в iframe не нужна,
            баг физически невозможен. Lead-capture через звонок/чат, а не форму. -->
       <div class="v5-mobile-cta" aria-label="Связаться с менеджером">
-        <a class="v5-mobile-cta-btn v5-mobile-cta-call" href="tel:+74951515681" onclick="try{ym(109143148,'reachGoal','calc_mobile_call');}catch(e){}">
+        <a class="v5-mobile-cta-btn v5-mobile-cta-call" href="tel:+74951515681" onclick="sendCalcIntent('call');try{ym(109143148,'reachGoal','calc_mobile_call');}catch(e){}">
           <span class="v5-mobile-cta-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           </span>
@@ -11340,7 +11340,7 @@ window.__renderCalcV5 = function(total, prevTotal){
             <span class="v5-mobile-cta-num">+7 495 151-56-81</span>
           </span>
         </a>
-        <a class="v5-mobile-cta-btn v5-mobile-cta-tg" href="https://t.me/ArmoraMSK" target="_blank" rel="noopener" onclick="try{ym(109143148,'reachGoal','calc_mobile_telegram');}catch(e){}">
+        <a class="v5-mobile-cta-btn v5-mobile-cta-tg" href="https://t.me/ArmoraMSK" target="_blank" rel="noopener" onclick="sendCalcIntent('telegram');try{ym(109143148,'reachGoal','calc_mobile_telegram');}catch(e){}">
           <span class="v5-mobile-cta-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M21.94 4.27a1 1 0 0 0-1.32-.93L2.55 10.4a1 1 0 0 0 .03 1.86l4.31 1.51 2.04 6.4a1 1 0 0 0 1.73.34l2.6-2.83 4.45 3.27a1 1 0 0 0 1.58-.62l2.65-15.05a1 1 0 0 0 0-.01zM9.5 14.3l-.32 3.74-1.4-4.4 9.6-6.93-7.88 7.6z"/></svg>
           </span>
@@ -11998,6 +11998,43 @@ async function sendLeadToBackend(payload){
     if(!res.ok) console.warn('[ARMORA LEAD] CRM error', res.status, data);
     else console.log('[ARMORA LEAD] OK, lead #' + data.number);
   } catch(err){ console.error('[ARMORA LEAD ERROR]', err); }
+}
+
+/* ============================================================
+   sendCalcIntent — отправка конфигурации в CRM при клике на
+   мобильную кнопку «Позвонить» или «Telegram». Клиент не вводит
+   телефон (вводить негде на мобиле в iframe — клавиатура бажит),
+   поэтому phone заполняем маркером. Менеджер увидит:
+   - полную конфигурацию (как в обычной форме)
+   - intent (call / telegram) — чтобы знать как с клиентом связаться
+   - timestamp
+   После звонка/чата менеджер допишет реальный телефон в CRM.
+   ============================================================ */
+function sendCalcIntent(intent){
+  // intent: 'call' | 'telegram'
+  const total = (typeof calcTotal === 'function') ? calcTotal() : null;
+  const intentLabel = intent === 'telegram'
+    ? 'TELEGRAM — клиент пишет в чат'
+    : 'ЗВОНОК — клиент сейчас наберёт';
+  const namePlaceholder = '⏳ ' + intentLabel;
+  // Анти-дабл: если за последние 5 сек уже слали с тем же intent — skip
+  const key = 'armora_intent_' + intent;
+  try{
+    const last = parseInt(sessionStorage.getItem(key) || '0', 10);
+    if(Date.now() - last < 5000) return;
+    sessionStorage.setItem(key, String(Date.now()));
+  }catch(e){}
+  sendLeadToBackend({
+    name: namePlaceholder,
+    phone: '', // клиент сам выйдет на связь — телефон допишет менеджер
+    total,
+    door: CALC.door?.name,
+    series: CALC.sel.base?.name,
+    sel: CALC.sel,
+    activeBundles: CALC.activeBundles,
+    size: CALC.sel.size,
+    src: 'mobile_' + intent + '_intent'
+  });
 }
 
 function v5SubmitLead(){
