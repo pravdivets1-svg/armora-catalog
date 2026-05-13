@@ -7339,7 +7339,10 @@ body { overscroll-behavior-y: contain; }
     position: fixed;
     left: 12px;
     right: 12px;
-    bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+    /* 22px → 32px: чуть выше от низа экрана.
+       Зона touchstart для swipe-up scroll на мобильном — это нижние ~20-30px.
+       Раньше sticky CTA попадала точно в эту зону → tap при попытке скроллить. */
+    bottom: calc(32px + env(safe-area-inset-bottom, 0px));
     z-index: 100;
     gap: 8px;
     padding: 7px;
@@ -9946,6 +9949,10 @@ function rebindMagneticCTAs(root){
 let __calcCloseCooldownUntil = 0;
 function openCalc(id){
   if(Date.now() < __calcCloseCooldownUntil) return;
+  // Также скрываем sticky CTA пока calc открыт — чтобы при закрытии она
+  // не оказалась под пальцем юзера сразу.
+  const sticky=document.getElementById('lpStickyCta');
+  if(sticky){ sticky.classList.remove('show'); sticky.setAttribute('aria-hidden','true'); }
   const d=DOORS.find(x=>x.id===id);
   if(!d)return;
   CALC.door=d;
@@ -9963,7 +9970,18 @@ function closeCalc(){
   const bg=document.getElementById('calcBg');
   bg.classList.remove('show');bg.setAttribute('aria-hidden','true');
   unlockBodyScroll();
-  __calcCloseCooldownUntil = Date.now() + 3000;
+  // 8 секунд cooldown: достаточно чтобы юзер успел проскроллить от пальца
+  // ВНИЗУ экрана (где sticky CTA) к ВЕРХУ. 3 сек было мало — юзер тапал.
+  __calcCloseCooldownUntil = Date.now() + 8000;
+  // Принудительно прячем sticky CTA и не даём IntersectionObserver
+  // показать её до истечения cooldown (см. observer в конце файла).
+  const sticky2 = document.getElementById('lpStickyCta');
+  if(sticky2){ sticky2.classList.remove('show'); sticky2.setAttribute('aria-hidden','true'); }
+  // После cooldown — если юзер всё ещё за viewport-ом hero — показываем
+  // sticky CTA обратно. Без этого она исчезла бы навсегда после закрытия calc.
+  setTimeout(function(){
+    try{ if(typeof window.__retryStickyCta === 'function') window.__retryStickyCta(); }catch(e){}
+  }, 8050);
   // Чистим URL params (защита от auto-reopen via restoreFromURL).
   try{ history.replaceState(null, '', location.pathname); }catch(e){}
   try{ clearTimeout(__saveCalcT); }catch(e){}
@@ -12451,12 +12469,30 @@ document.addEventListener('click',e=>{
             sticky.classList.remove('show');
             sticky.setAttribute('aria-hidden', 'true');
           } else {
+            // Не показывать пока активен cooldown после закрытия calc —
+            // защита от accidental tap пальцем при скролле вверх.
+            if(typeof __calcCloseCooldownUntil !== 'undefined' && Date.now() < __calcCloseCooldownUntil) return;
+            // Не показывать пока calc открыт — palm-overlap.
+            var calcBg = document.getElementById('calcBg');
+            if(calcBg && calcBg.classList.contains('show')) return;
             sticky.classList.add('show');
             sticky.setAttribute('aria-hidden', 'false');
           }
         });
       }, { threshold: 0, rootMargin: '-80px 0px 0px 0px' });
       io.observe(ctaRow);
+      // После cooldown — повторно проверяем нужно ли показать sticky CTA.
+      // IntersectionObserver не вызывается сам по таймеру — приходится толкать.
+      window.__retryStickyCta = function(){
+        var r = ctaRow.getBoundingClientRect();
+        var inViewport = r.bottom > 80 && r.top < window.innerHeight;
+        if(!inViewport){
+          var calcBg = document.getElementById('calcBg');
+          if(calcBg && calcBg.classList.contains('show')) return;
+          sticky.classList.add('show');
+          sticky.setAttribute('aria-hidden', 'false');
+        }
+      };
     })();
   </script>
   <script>
