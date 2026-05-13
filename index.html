@@ -9949,10 +9949,20 @@ function rebindMagneticCTAs(root){
 let __calcCloseCooldownUntil = 0;
 function openCalc(id){
   if(Date.now() < __calcCloseCooldownUntil) return;
+  // Если calc уже открыт — не дублируем (защита от accidental re-trigger)
+  const bgCheck = document.getElementById('calcBg');
+  if(bgCheck && bgCheck.classList.contains('show')) return;
   // Также скрываем sticky CTA пока calc открыт — чтобы при закрытии она
   // не оказалась под пальцем юзера сразу.
   const sticky=document.getElementById('lpStickyCta');
   if(sticky){ sticky.classList.remove('show'); sticky.setAttribute('aria-hidden','true'); }
+  // СБРОС inert/display от предыдущего закрытия — calc снова интерактивен.
+  if(bgCheck){
+    bgCheck.removeAttribute('inert');
+    bgCheck.style.removeProperty('display');
+    bgCheck.style.removeProperty('visibility');
+    bgCheck.style.removeProperty('pointer-events');
+  }
   const d=DOORS.find(x=>x.id===id);
   if(!d)return;
   CALC.door=d;
@@ -9969,6 +9979,20 @@ function openCalc(id){
 function closeCalc(){
   const bg=document.getElementById('calcBg');
   bg.classList.remove('show');bg.setAttribute('aria-hidden','true');
+  // КРИТИЧНО: жёсткое отключение интерактивности.
+  // CSS pointer-events:none на iOS Safari иногда «не успевает» применяться
+  // если в момент closeCalc туч-сессия активна. Используем inert (W3C атрибут,
+  // полностью убирает элемент из interactive layer и accessibility) + явное
+  // pointer-events:none через inline style с !important.
+  bg.style.setProperty('pointer-events', 'none', 'important');
+  bg.setAttribute('inert', '');
+  // После transition (.3s) — переводим в display:none. Это финальный гарант:
+  // даже если что-то всё ещё пытается тапнуть calc-bg — элемента нет в потоке.
+  setTimeout(function(){
+    if(bg && !bg.classList.contains('show')){
+      bg.style.setProperty('display', 'none', 'important');
+    }
+  }, 400);
   unlockBodyScroll();
   // 8 секунд cooldown: достаточно чтобы юзер успел проскроллить от пальца
   // ВНИЗУ экрана (где sticky CTA) к ВЕРХУ. 3 сек было мало — юзер тапал.
