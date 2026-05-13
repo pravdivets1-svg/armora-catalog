@@ -5164,14 +5164,46 @@ h2.card-name{margin:0;padding:0}
   margin-bottom: 10px;
 }
 @media(max-width: 480px){ .v5-lead-fields{ grid-template-columns: 1fr; } }
-/* MOBILE: компактная форма — только телефон. Имя скрыто (менеджер уточнит при звонке).
-   Меньше времени в клавиатуре → меньше шансов на iframe-shift bug. */
+/* MOBILE: вместо inline-формы — кнопка «Оставить заявку» которая открывает
+   тот же popup что и в hero-блоке. Меньше формы на экране = меньше
+   срабатываний iOS keyboard scroll-shift bug. */
 @media(max-width: 768px){
-  .v5-lead-fields{ grid-template-columns: 1fr !important; }
-  .v5-lead-fields #v5Name{ display: none !important; }
+  #v5LeadForm{ display: none !important; }
+  .v5-lead-alt{ display: none !important; }
   .v5-inline-lead-title{ font-size: 18px !important; }
   .v5-inline-lead-desc{ display: none !important; }
-  .v5-inline-lead-hd{ margin-bottom: 10px !important; }
+  .v5-inline-lead-hd{ margin-bottom: 12px !important; }
+  .v5-calc-popup-cta{ display: block !important; }
+}
+.v5-calc-popup-cta{
+  display: none;
+  margin-top: 4px;
+}
+.v5-calc-popup-btn{
+  display: block;
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 999px;
+  border: 0;
+  background: linear-gradient(135deg, var(--v5-accent) 0%, var(--v5-accent-2) 100%);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -.005em;
+  cursor: pointer;
+  box-shadow: 0 8px 22px -8px rgba(15,23,42,.36);
+  transition: transform .15s ease, box-shadow .25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.v5-calc-popup-btn:active{ transform: scale(.98); }
+.v5-calc-popup-hint{
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  color: var(--v5-ink-mute);
+  text-align: center;
+  margin: 8px 0 0;
+  line-height: 1.5;
 }
 /* iOS Safari авто-зумит инпуты с font-size < 16px при фокусе и
    сдвигает viewport. На мобильном принудительно 16px → зума нет. */
@@ -11265,6 +11297,15 @@ window.__renderCalcV5 = function(total, prevTotal){
         <h3 class="v5-inline-lead-title">Готово. Куда отправить расчёт?</h3>
         <p class="v5-inline-lead-desc">Перезвоним за 15 минут, согласуем удобное время для бесплатного замера. Пришлём детальную смету и проконсультируем по монтажу. Без обязательств.</p>
       </div>
+      <!-- MOBILE: вместо inline-формы — кнопка которая открывает popup как в hero.
+           Popup компактнее inline-формы → меньше места под клавиатуру.
+           Расчёт прилетит в CRM при submit popup'а. -->
+      <div class="v5-calc-popup-cta">
+        <button type="button" class="v5-calc-popup-btn" onclick="openCalcLeadPopup()">
+          Оставить заявку
+        </button>
+        <p class="v5-calc-popup-hint">Расчёт уже сохранён — менеджер увидит конфигурацию.</p>
+      </div>
       <form id="v5LeadForm" onsubmit="event.preventDefault();v5SubmitLead()">
         <div class="v5-lead-fields">
           <input class="v5-lead-input" id="v5Name" placeholder="Ваше имя" type="text" autocomplete="name" required>
@@ -11773,6 +11814,33 @@ function lpScrollToCatalog(){
   if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+/* ============================================================
+   Открыть тот же hero-popup из калькулятора. Кастомизируем заголовок
+   и saved flag — lpSubmitConsult увидит флаг и приложит CALC к лиду.
+   ============================================================ */
+function openCalcLeadPopup(){
+  window.__armoraCalcLead = true;
+  lpOpenConsult();
+  // Кастомизация popup после рендера
+  setTimeout(() => {
+    const title = document.querySelector('.lp-consult-title');
+    const sub = document.querySelector('.lp-consult-sub');
+    const eyebrow = document.querySelector('.lp-consult-eyebrow');
+    const submit = document.getElementById('lpConsultSubmit');
+    if (!title) return;
+    const door = CALC?.door?.name || 'Дверь';
+    const series = CALC?.sel?.base?.name || '';
+    const total = (typeof calcTotal === 'function') ? calcTotal() : null;
+    if (eyebrow) eyebrow.textContent = 'Конфигурация собрана';
+    title.innerHTML = 'Оставьте контакт — пришлём смету';
+    if (sub){
+      const priceTxt = total ? ` · ориентир <strong>${fmtRu(total)}</strong>` : '';
+      sub.innerHTML = `<strong>${door}${series ? ' · ' + series : ''}</strong>${priceTxt}.<br>Перезвоним за&nbsp;15&nbsp;минут, согласуем удобное время бесплатного замера.`;
+    }
+    if (submit) submit.textContent = 'Получить смету';
+  }, 30);
+}
+
 function lpOpenConsult(){
   let bg = document.getElementById('lpConsultBg');
   if(!bg){
@@ -11832,8 +11900,21 @@ async function lpSubmitConsult(){
   errBox.textContent = '';
   btn.disabled = true;
   btn.textContent = 'Отправляем…';
+  // Если popup открыт из калькулятора (флаг __armoraCalcLead) — прикладываем
+  // полную конфигурацию и расчёт. Менеджер видит точно ту дверь.
+  const isFromCalc = !!window.__armoraCalcLead;
+  window.__armoraCalcLead = false;
+  let payload = { name, phone, src: isFromCalc ? 'calc-popup' : 'hero-consult' };
+  if (isFromCalc && typeof CALC !== 'undefined' && CALC.door){
+    payload.total = (typeof calcTotal === 'function') ? calcTotal() : null;
+    payload.door = CALC.door.name;
+    payload.series = CALC.sel?.base?.name;
+    payload.sel = CALC.sel;
+    payload.activeBundles = CALC.activeBundles;
+    payload.size = CALC.sel?.size;
+  }
   try{
-    await sendLeadToBackend({ name, phone, src: 'hero-consult' });
+    await sendLeadToBackend(payload);
   }catch(e){ /* sendLeadToBackend сам логирует */ }
   const bg = document.getElementById('lpConsultBg');
   if(!bg) return;
