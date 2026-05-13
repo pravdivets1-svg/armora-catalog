@@ -11913,9 +11913,17 @@ async function lpSubmitConsult(){
     payload.activeBundles = CALC.activeBundles;
     payload.size = CALC.sel?.size;
   }
+  let result = { ok: false };
   try{
-    await sendLeadToBackend(payload);
+    result = await sendLeadToBackend(payload);
   }catch(e){ /* sendLeadToBackend сам логирует */ }
+  if(result && result.ok === false){
+    // CRM отклонил — показываем ошибку в форме
+    btn.disabled = false;
+    btn.textContent = isFromCalc ? 'Получить смету' : 'Записаться на замер';
+    errBox.textContent = result.error || 'Не удалось отправить заявку. Попробуйте через минуту.';
+    return;
+  }
   const bg = document.getElementById('lpConsultBg');
   if(!bg) return;
   bg.querySelector('.lp-consult-pop').innerHTML = `
@@ -11990,9 +11998,16 @@ async function sendLeadToBackend(payload){
       })
     });
     const data = await res.json().catch(()=>({}));
-    if(!res.ok) console.warn('[ARMORA LEAD] CRM error', res.status, data);
-    else console.log('[ARMORA LEAD] OK, lead #' + data.number);
-  } catch(err){ console.error('[ARMORA LEAD ERROR]', err); }
+    if(!res.ok){
+      console.warn('[ARMORA LEAD] CRM error', res.status, data);
+      return { ok: false, status: res.status, error: data.error || ('HTTP ' + res.status) };
+    }
+    console.log('[ARMORA LEAD] OK, lead #' + data.number);
+    return { ok: true, number: data.number };
+  } catch(err){
+    console.error('[ARMORA LEAD ERROR]', err);
+    return { ok: false, status: 0, error: 'Сеть недоступна. Проверьте интернет.' };
+  }
 }
 
 function v5SubmitLead(){
@@ -12011,25 +12026,31 @@ function v5SubmitLead(){
   errBox.textContent=''; btn.disabled=true; btn.textContent='Отправляем…';
   const total=calcTotal();
   CALC.leadInfo={name,phone,total,door:CALC.door?.name};
-  sendLeadToBackend({name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel,activeBundles:CALC.activeBundles,size:CALC.sel.size,src:'v5'});
-  setTimeout(()=>{
-    const successHtml = `
-      <div class="v5-success">
-        <div class="v5-success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="v5-success-title">${name}, замерщик уже планирует визит к вам</div>
-        <div class="v5-success-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong>, чтобы согласовать удобное время. Замерщик приедет с образцами, оценит проём и зафиксирует точную цену в договоре. Без обязательств.</div>
-        <button class="v5-foot-cta" onclick="closeCalc()">Вернуться в каталог</button>
-      </div>`;
-    // Inline-форма на финальном шаге?
-    const inline = document.querySelector('.v5-inline-lead');
-    if(inline){ inline.innerHTML = successHtml; inline.scrollIntoView({behavior:'smooth', block:'center'}); return; }
-    // Иначе — старый popup-режим
-    const bg=document.getElementById('v5LeadBg');
-    if(!bg) return;
-    bg.querySelector('.v5-lead-pop').innerHTML = `
-      <button class="v5-pop-close" onclick="v5CloseLead();closeCalc()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      ${successHtml}`;
-  }, 600);
+  sendLeadToBackend({name,phone,total,door:CALC.door?.name,series:CALC.sel.base?.name,sel:CALC.sel,activeBundles:CALC.activeBundles,size:CALC.sel.size,src:'v5'}).then(result => {
+    if(result && result.ok === false){
+      // CRM отклонил (rate limit / валидация / сервер недоступен)
+      btn.disabled = false;
+      btn.textContent = 'Записаться на бесплатный замер';
+      errBox.textContent = result.error || 'Не удалось отправить заявку. Попробуйте через минуту.';
+      return;
+    }
+    setTimeout(()=>{
+      const successHtml = `
+        <div class="v5-success">
+          <div class="v5-success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="v5-success-title">${name}, замерщик уже планирует визит к вам</div>
+          <div class="v5-success-sub">Менеджер ARMORA перезвонит в течение <strong>15 минут</strong>, чтобы согласовать удобное время. Замерщик приедет с образцами, оценит проём и зафиксирует точную цену в договоре. Без обязательств.</div>
+          <button class="v5-foot-cta" onclick="closeCalc()">Вернуться в каталог</button>
+        </div>`;
+      const inline = document.querySelector('.v5-inline-lead');
+      if(inline){ inline.innerHTML = successHtml; inline.scrollIntoView({behavior:'smooth', block:'center'}); return; }
+      const bg=document.getElementById('v5LeadBg');
+      if(!bg) return;
+      bg.querySelector('.v5-lead-pop').innerHTML = `
+        <button class="v5-pop-close" onclick="v5CloseLead();closeCalc()" aria-label="Закрыть"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        ${successHtml}`;
+    }, 100);
+  });
 }
 
 
