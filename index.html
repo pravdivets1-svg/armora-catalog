@@ -12268,6 +12268,63 @@ document.addEventListener('click',e=>{
     })();
   </script>
   <script>
+    /* ============================================================
+       FORM SCROLL LOCK — запрещаем модалкам сдвигаться/скроллиться,
+       когда пользователь фокусится на инпуте формы.
+       ───────────────────────────────────────────────────────────
+       ПОЛЬЗОВАТЕЛЬ: «запрети ей смещаться и освобождать место под клавиатуру».
+       На мобиле когда тапаешь input — браузер ВНУТРЕННЕ скроллит ближайший
+       scroll-container (.calc-body или .lp-consult-bg), чтобы input был выше
+       клавиатуры. Контент сверху уезжает, СНИЗУ становится видно полотно
+       фона = «белое полотно».
+       Решение: при focus сохраняем scrollTop, overflow: hidden, активно
+       перехватываем любой scroll event и возвращаем scrollTop. Form НЕ
+       двигается. Клавиатура накрывает нижнюю часть — это accept.
+       ============================================================ */
+    (function(){
+      const SELECTORS = '.v5-lead-input, .lp-consult-input';
+      const lockMap = new WeakMap();
+      function findScrollContainer(input){
+        // Сначала ближайший scroll-container — calc-body внутри calc-modal,
+        // .lp-consult-bg — для hero-form.
+        return input.closest('.calc-body, .lp-consult-bg');
+      }
+      function lock(input){
+        const sc = findScrollContainer(input);
+        if (!sc || lockMap.has(sc)) return;
+        const savedTop = sc.scrollTop;
+        const savedOverflow = sc.style.overflow;
+        const onScroll = () => { sc.scrollTop = savedTop; };
+        sc.style.overflow = 'hidden';
+        sc.addEventListener('scroll', onScroll, { passive: true });
+        lockMap.set(sc, { savedTop, savedOverflow, onScroll });
+      }
+      function unlock(input){
+        const sc = findScrollContainer(input);
+        if (!sc || !lockMap.has(sc)) return;
+        const data = lockMap.get(sc);
+        sc.style.overflow = data.savedOverflow;
+        sc.removeEventListener('scroll', data.onScroll);
+        lockMap.delete(sc);
+      }
+      document.addEventListener('focusin', e => {
+        if (e.target.matches && e.target.matches(SELECTORS)) lock(e.target);
+      });
+      document.addEventListener('focusout', e => {
+        if (e.target.matches && e.target.matches(SELECTORS)){
+          // Если фокус переходит на другой инпут той же формы — НЕ снимаем lock
+          // (focusin сразу зальочит снова, но без скачка скролла).
+          setTimeout(() => {
+            const active = document.activeElement;
+            if (!active || !active.matches || !active.matches(SELECTORS)){
+              unlock(e.target);
+            }
+          }, 0);
+        }
+      });
+    })();
+  </script>
+  <script>
     /* iframe-parent height sync (Safari iOS URL bar autohide).
        МИНИМАЛЬНАЯ версия: только load + 3 delayed retries для late widgets.
        НЕТ resize listener (parent сам триггерит resize → infinite loop).
