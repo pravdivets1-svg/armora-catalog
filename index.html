@@ -9963,8 +9963,15 @@ function closeCalc(){
   const bg=document.getElementById('calcBg');
   bg.classList.remove('show');bg.setAttribute('aria-hidden','true');
   unlockBodyScroll();
-  // Защита от случайного re-open пальцем после закрытия (palm-scroll edge case).
   __calcCloseCooldownUntil = Date.now() + 3000;
+  // КРИТИЧНО: чистим URL params. Иначе если iframe перерендерится
+  // (Tilda lazy-load при скролле обратно в viewport, bfcache, etc.),
+  // restoreFromURL() запустится снова, увидит ?door=56&... и АВТОМАТИЧЕСКИ
+  // откроет calc — даже если юзер ничего не нажимал. ЭТО был баг.
+  try{ history.replaceState(null, '', location.pathname); }catch(e){}
+  // Также сбрасываем debounce-таймер saveCalcToURL — чтобы он не записал
+  // обратно состояние через 300ms после закрытия.
+  try{ clearTimeout(__saveCalcT); }catch(e){}
 }
 document.addEventListener('keydown',e=>{
   if(e.key!=='Escape')return;
