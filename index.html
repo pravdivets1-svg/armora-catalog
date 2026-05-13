@@ -9819,13 +9819,41 @@ function render(){
 }
 
 /* ============================================================
-   Body scroll lock — простой паттерн как было до iOS-экспериментов.
+   Body scroll lock — МАКСИМАЛЬНЫЙ режим:
+   body fixed + height=window.innerHeight в pixels.
+   Iframe content не может быть выше viewport → outer Tilda нечего скроллить.
    ============================================================ */
+let __scrollLockY = 0;
 function lockBodyScroll(){
-  document.body.style.overflow = 'hidden';
+  if (document.body.dataset.locked === '1') return;
+  __scrollLockY = window.scrollY || window.pageYOffset || 0;
+  const h = window.innerHeight;
+  const html = document.documentElement;
+  html.style.setProperty('overflow', 'hidden', 'important');
+  html.style.setProperty('height', h + 'px', 'important');
+  document.body.style.setProperty('overflow', 'hidden', 'important');
+  document.body.style.setProperty('position', 'fixed', 'important');
+  document.body.style.setProperty('top', `-${__scrollLockY}px`, 'important');
+  document.body.style.setProperty('left', '0', 'important');
+  document.body.style.setProperty('right', '0', 'important');
+  document.body.style.setProperty('width', '100%', 'important');
+  document.body.style.setProperty('height', h + 'px', 'important');
+  document.body.dataset.locked = '1';
 }
 function unlockBodyScroll(){
-  document.body.style.overflow = '';
+  if (document.body.dataset.locked !== '1') return;
+  const html = document.documentElement;
+  html.style.removeProperty('overflow');
+  html.style.removeProperty('height');
+  document.body.style.removeProperty('overflow');
+  document.body.style.removeProperty('position');
+  document.body.style.removeProperty('top');
+  document.body.style.removeProperty('left');
+  document.body.style.removeProperty('right');
+  document.body.style.removeProperty('width');
+  document.body.style.removeProperty('height');
+  document.body.dataset.locked = '';
+  window.scrollTo(0, __scrollLockY);
 }
 
 /* ============================================================
@@ -12293,18 +12321,30 @@ document.addEventListener('click',e=>{
         const sc = findScrollContainer(input);
         if (!sc || lockMap.has(sc)) return;
         const savedTop = sc.scrollTop;
-        const savedOverflow = sc.style.overflow;
         const onScroll = () => { sc.scrollTop = savedTop; };
-        sc.style.overflow = 'hidden';
+        // КРИТИЧНО: stylesheet задаёт overflow-y: auto !important.
+        // Inline style без !important ПРОИГРЫВАЕТ каскаду. Используем setProperty с 'important'.
+        sc.style.setProperty('overflow', 'hidden', 'important');
+        sc.style.setProperty('overflow-y', 'hidden', 'important');
+        sc.style.setProperty('overflow-x', 'hidden', 'important');
+        sc.style.setProperty('-webkit-overflow-scrolling', 'auto', 'important');
         sc.addEventListener('scroll', onScroll, { passive: true });
-        lockMap.set(sc, { savedTop, savedOverflow, onScroll });
+        // Также блочим window scroll (на случай если браузер скроллит docroot)
+        const winY = window.scrollY;
+        const onWinScroll = () => { window.scrollTo(0, winY); };
+        window.addEventListener('scroll', onWinScroll, { passive: true });
+        lockMap.set(sc, { savedTop, onScroll, onWinScroll });
       }
       function unlock(input){
         const sc = findScrollContainer(input);
         if (!sc || !lockMap.has(sc)) return;
         const data = lockMap.get(sc);
-        sc.style.overflow = data.savedOverflow;
+        sc.style.removeProperty('overflow');
+        sc.style.removeProperty('overflow-y');
+        sc.style.removeProperty('overflow-x');
+        sc.style.removeProperty('-webkit-overflow-scrolling');
         sc.removeEventListener('scroll', data.onScroll);
+        window.removeEventListener('scroll', data.onWinScroll);
         lockMap.delete(sc);
       }
       document.addEventListener('focusin', e => {
