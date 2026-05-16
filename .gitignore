@@ -22,10 +22,15 @@ survey.html
 # Build / source files (we deploy only static)
 download-photos.js
 sync-catalog.js
-package.json
 doors-editor.html
 PROJECT.md
 FILLING-WORKFLOW.md
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
 
 # Backups
 *.backup.html
