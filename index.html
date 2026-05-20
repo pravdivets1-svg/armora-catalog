@@ -9178,7 +9178,7 @@ review-lab{
         <div class="mfg-spec-row"><dt>Покрытие</dt><dd>порошковая краска в собственной печи · МДФ-панель · шпон натурального дерева · эмаль</dd></div>
         <div class="mfg-spec-row"><dt>Производство</dt><dd>г. Клин, Московская область · ул. Захватаева, 4 · мастерская 1&nbsp;200 м²</dd></div>
         <div class="mfg-spec-row"><dt>Цикл</dt><dd>14 дней под ключ: замер (24 ч) → производство (10 раб. дней) → монтаж в назначенный день</dd></div>
-        <div class="mfg-spec-row"><dt>Гарантия</dt><dd>7 лет на короб и полотно · бесплатный выезд мастера по Москве и МО · реакция на заявку 24 часа · расчётный срок службы 25 лет</dd></div>
+        <div class="mfg-spec-row"><dt>Гарантия</dt><dd>7 лет на короб и полотно · 2 года на отделку из влагостойкой фанеры, МДФ или порошкового покрытия · бесплатный выезд по Москве и МО, реакция 24 часа · расчётный ресурс 25 лет</dd></div>
         <div class="mfg-spec-row"><dt>География</dt><dd>Москва · Московская область · доставка по России</dd></div>
       </dl>
     </div>
@@ -9246,7 +9246,182 @@ review-lab{
   })();
   </script>
 
-  <div class="app-footer">© 2026 ARMORA · Каталог · Цена индивидуальна и определяется на бесплатном замере · <a href="https://armora.ru/policy" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">Политика конфиденциальности</a></div>
+  <!-- ===== ГАРАНТИЯ ===== -->
+  <style>
+  .wrt-section{padding:80px 24px 56px;color:var(--ink);position:relative;contain:layout}
+  @media(max-width:767px){.wrt-section{padding:52px 16px 32px}}
+  .wrt-head{max-width:760px;margin:0 auto 32px}
+  .wrt-kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 14px;font-weight:600}
+  .wrt-title{font-size:clamp(28px,4.6vw,46px);line-height:1.12;font-weight:700;margin:0 0 18px;letter-spacing:-.01em;color:var(--ink)}
+  .wrt-title em{font-style:normal;color:var(--gold);font-weight:700}
+  .wrt-sub{font-size:16px;line-height:1.55;color:var(--ink-soft);margin:0}
+  .wrt-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 auto 24px;max-width:1080px}
+  @media(max-width:767px){.wrt-tiles{grid-template-columns:1fr;gap:10px}}
+  .wrt-tile{background:rgba(20,20,22,.6);border:1px solid var(--bdr);border-radius:20px;padding:24px;backdrop-filter:blur(8px);transition:border-color .2s,transform .2s}
+  .wrt-tile:hover{border-color:var(--bdr-h);transform:translateY(-2px)}
+  .wrt-tile-num{font-size:48px;font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--ink);margin-bottom:12px;display:flex;align-items:baseline;gap:6px}
+  .wrt-tile-num span{font-size:16px;font-weight:500;color:var(--ink-faint);letter-spacing:0}
+  .wrt-tile-name{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px;line-height:1.3}
+  .wrt-tile-note{font-size:13px;color:var(--ink-faint);line-height:1.5}
+  .wrt-scenario{display:flex;gap:6px;max-width:760px;margin:0 auto 14px;padding:4px;background:rgba(20,20,22,.6);border:1px solid var(--bdr);border-radius:14px}
+  .wrt-tab{flex:1;padding:11px 16px;background:transparent;border:none;border-radius:10px;color:var(--ink-faint);font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s,color .2s;text-align:center}
+  .wrt-tab:hover{color:var(--ink)}
+  .wrt-tab.is-active{background:rgba(255,255,255,.06);color:var(--ink)}
+  @media(max-width:520px){.wrt-tab{font-size:12.5px;padding:10px 6px}}
+  .wrt-scenario-content{max-width:760px;margin:0 auto 28px;background:rgba(20,20,22,.6);border:1px solid var(--bdr);border-radius:18px;padding:22px;backdrop-filter:blur(8px)}
+  .wrt-scenario-content[hidden]{display:none}
+  .wrt-checklist{display:flex;flex-direction:column;gap:10px}
+  .wrt-check{padding:12px 14px 12px 46px;background:rgba(255,255,255,.02);border:1px solid var(--bdr);border-radius:12px;font-size:14.5px;line-height:1.45;color:var(--ink-soft);position:relative}
+  .wrt-check::before{content:'';position:absolute;left:14px;top:14px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;line-height:1}
+  .wrt-check-yes::before{content:'✓';background:#1a7f3c;color:#fff}
+  .wrt-check-must::before{content:'!';background:var(--gold);color:#0a0a0a}
+  .wrt-check-rec::before{content:'~';background:#5a4a1a;color:var(--gold)}
+  .wrt-check-no::before{content:'✕';background:#7f1a1a;color:#fff}
+  .wrt-acc{max-width:760px;margin:0 auto 28px;display:flex;flex-direction:column;gap:8px}
+  .wrt-acc-item{background:rgba(20,20,22,.6);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;transition:border-color .2s}
+  .wrt-acc-item[open]{border-color:var(--bdr-h)}
+  .wrt-acc-item summary{padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:15px;font-weight:600;color:var(--ink)}
+  .wrt-acc-item summary::-webkit-details-marker{display:none}
+  .wrt-acc-arrow{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.04);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:300;color:var(--ink-faint);transition:transform .25s,background .2s,color .2s,border-color .2s;flex-shrink:0;line-height:1}
+  .wrt-acc-item[open] .wrt-acc-arrow{transform:rotate(45deg);background:var(--gold);color:#0a0a0a;border-color:var(--gold)}
+  .wrt-acc-body{padding:0 20px 18px;font-size:14px;line-height:1.6;color:var(--ink-soft)}
+  .wrt-acc-body p{margin:0 0 10px}
+  .wrt-acc-body p:last-child{margin:0}
+  .wrt-acc-body ul{margin:6px 0 0;padding:0 0 0 20px}
+  .wrt-acc-body li{margin:4px 0}
+  .wrt-cta{max-width:760px;margin:0 auto;text-align:center;padding:24px;background:rgba(20,20,22,.4);border:1px solid var(--bdr);border-radius:18px}
+  .wrt-cta p{font-size:14px;color:var(--ink-faint);margin:0 0 16px;line-height:1.55}
+  .wrt-cta-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .wrt-cta-pill{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:700;font-size:14.5px;text-decoration:none;transition:transform .15s,filter .15s,background .15s;cursor:pointer}
+  .wrt-cta-pill--primary{background:var(--gold);color:#0a0a0a}
+  .wrt-cta-pill--ghost{background:transparent;color:var(--ink);border:1px solid var(--bdr-h)}
+  .wrt-cta-pill:hover{transform:translateY(-1px);filter:brightness(1.05)}
+  </style>
+  <section class="wrt-section" id="warranty" aria-labelledby="wrtTitle">
+    <div class="wrt-head">
+      <div class="wrt-kicker">Гарантия</div>
+      <h2 class="wrt-title" id="wrtTitle">7 лет на металл, <em>2 года на отделку</em>. Без скрытых «при условии».</h2>
+      <p class="wrt-sub">Отвечаем за то, что делаем сами. Металл — это конструктив, на него реально 7 лет. Отделка — только тех материалов, которые объективно держат срок. Никаких платных «расширенных пакетов».</p>
+    </div>
+
+    <div class="wrt-tiles">
+      <div class="wrt-tile">
+        <div class="wrt-tile-num">7<span>лет</span></div>
+        <div class="wrt-tile-name">Короб и полотно</div>
+        <div class="wrt-tile-note">Металл, сварка, геометрия. Производственный брак и потеря формы.</div>
+      </div>
+      <div class="wrt-tile">
+        <div class="wrt-tile-num">2<span>года</span></div>
+        <div class="wrt-tile-name">Отделка из влагостойких материалов</div>
+        <div class="wrt-tile-note">Влагостойкая фанера, влагостойкий МДФ, порошковое полимерное покрытие.</div>
+      </div>
+      <div class="wrt-tile">
+        <div class="wrt-tile-num">24<span>часа</span></div>
+        <div class="wrt-tile-name">Реакция мастера</div>
+        <div class="wrt-tile-note">Выезд бесплатно весь срок. Москва и Московская область.</div>
+      </div>
+    </div>
+
+    <div class="wrt-scenario" role="tablist" aria-label="Сценарий установки">
+      <button type="button" class="wrt-tab is-active" data-scenario="indoor" role="tab" aria-selected="true" aria-controls="wrtPanelIndoor">В тамбуре / помещении</button>
+      <button type="button" class="wrt-tab" data-scenario="outdoor" role="tab" aria-selected="false" aria-controls="wrtPanelOutdoor">На улице / на крыльце</button>
+    </div>
+
+    <div class="wrt-scenario-content" data-scenario-content="indoor" id="wrtPanelIndoor" role="tabpanel">
+      <div class="wrt-checklist">
+        <div class="wrt-check wrt-check-yes">Полная базовая гарантия — без дополнительных условий</div>
+        <div class="wrt-check wrt-check-yes">Подходит любая отделка из каталога</div>
+        <div class="wrt-check wrt-check-yes">Стандартный комплект уплотнителей и фурнитуры</div>
+      </div>
+    </div>
+
+    <div class="wrt-scenario-content" data-scenario-content="outdoor" id="wrtPanelOutdoor" role="tabpanel" hidden>
+      <div class="wrt-checklist">
+        <div class="wrt-check wrt-check-must">Козырёк обязателен — вылет не меньше ширины дверного полотна. Без козырька гарантия не действует.</div>
+        <div class="wrt-check wrt-check-rec">Рекомендуем терморазрыв + влагостойкую фанеру или порошковое покрытие. Эта комбинация даёт полную базовую гарантию вне помещения.</div>
+        <div class="wrt-check wrt-check-no">Нельзя ставить: ПВХ, винилискожа, ламинат, обычный МДФ, 3D-панель. На улице эти отделки снимают гарантию даже с короба.</div>
+      </div>
+    </div>
+
+    <div class="wrt-acc">
+      <details class="wrt-acc-item">
+        <summary><span>Что покрывает 7-летняя гарантия на короб и полотно</span><span class="wrt-acc-arrow" aria-hidden="true">+</span></summary>
+        <div class="wrt-acc-body">
+          <p>Производственный брак металлоконструкции: коррозия (при соблюдении условий установки), потеря геометрии, нарушение сварных швов, провисание полотна.</p>
+          <p>Не путать с естественным износом замков, фурнитуры и уплотнителей — на эти компоненты действуют гарантии их производителей.</p>
+        </div>
+      </details>
+      <details class="wrt-acc-item">
+        <summary><span>Какие отделки входят в 2-летнюю гарантию</span><span class="wrt-acc-arrow" aria-hidden="true">+</span></summary>
+        <div class="wrt-acc-body">
+          <p>В гарантию на отделку входит производственный брак (отслоение, делам, выгорание сверх нормы, трещины) только этих материалов:</p>
+          <ul>
+            <li>Влагостойкая фанера</li>
+            <li>Влагостойкий МДФ</li>
+            <li>Порошковое полимерное покрытие</li>
+          </ul>
+          <p>Остальные отделки (винилискожа, ламинат, ПВХ, обычная МДФ, 3D-панель) — без гарантии на слой покрытия. Гарантия на короб и полотно при этом сохраняется при соблюдении условий эксплуатации.</p>
+        </div>
+      </details>
+      <details class="wrt-acc-item">
+        <summary><span>Что НЕ покрывается ни одним из сроков</span><span class="wrt-acc-arrow" aria-hidden="true">+</span></summary>
+        <div class="wrt-acc-body">
+          <ul>
+            <li>Естественный износ покрытия: царапины, потёртости от ежедневной эксплуатации.</li>
+            <li>Механические повреждения, удары, последствия попыток взлома.</li>
+            <li>Стихийные бедствия.</li>
+            <li>Нарушение условий: отсутствие козырька при уличной установке, невыполнение ежегодной обработки уплотнителей по памятке.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="wrt-acc-item">
+        <summary><span>Как обратиться по гарантии</span><span class="wrt-acc-arrow" aria-hidden="true">+</span></summary>
+        <div class="wrt-acc-body">
+          <p>Каналы — телефон или Telegram. Реакция в течение 24 часов, мастер согласует визит. Выезд по Москве и Московской области бесплатный весь срок гарантии.</p>
+          <p>Подтверждающий документ — бумажный гарантийный талон с разделами «Условия эксплуатации» и «Памятка по обслуживанию», который выдаётся в день установки.</p>
+        </div>
+      </details>
+      <details class="wrt-acc-item">
+        <summary><span>Что будет после 7 лет</span><span class="wrt-acc-arrow" aria-hidden="true">+</span></summary>
+        <div class="wrt-acc-body">
+          <p>Пост-гарантийный сервис: ремонт по прайс-листу, диагностика и техподдержка сохраняются. Расчётный ресурс двери — 25 лет, поэтому большую часть жизни она проводит уже за пределами гарантии, но не за пределами нашей поддержки.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="wrt-cta">
+      <p>Полные условия — в бумажном гарантийном талоне, который выдаётся в день установки. Если возник вопрос по гарантии — позвоните или напишите в Telegram.</p>
+      <div class="wrt-cta-buttons">
+        <a href="tel:+74951515681" class="wrt-cta-pill wrt-cta-pill--primary">Позвонить</a>
+        <a href="https://t.me/ArmoraMSK" target="_blank" rel="noopener" class="wrt-cta-pill wrt-cta-pill--ghost">Написать в Telegram</a>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function(){
+    var section = document.getElementById('warranty');
+    if(!section) return;
+    var tabs = section.querySelectorAll('.wrt-tab');
+    var panels = section.querySelectorAll('.wrt-scenario-content');
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        var target = tab.getAttribute('data-scenario');
+        tabs.forEach(function(t){
+          var active = t === tab;
+          t.classList.toggle('is-active', active);
+          t.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        panels.forEach(function(p){
+          var show = p.getAttribute('data-scenario-content') === target;
+          if(show) p.removeAttribute('hidden');
+          else p.setAttribute('hidden','');
+        });
+      });
+    });
+  })();
+  </script>
+
+  <div class="app-footer">© 2026 ARMORA · Каталог · Цена индивидуальна и определяется на бесплатном замере · <a href="#warranty" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">Гарантия</a> · <a href="https://armora.ru/policy" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">Политика конфиденциальности</a></div>
 </div>
 </div>
 
