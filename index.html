@@ -9178,7 +9178,7 @@ review-lab{
         <div class="mfg-spec-row"><dt>Покрытие</dt><dd>порошковая краска в собственной печи · МДФ-панель · шпон натурального дерева · эмаль</dd></div>
         <div class="mfg-spec-row"><dt>Производство</dt><dd>г. Клин, Московская область · ул. Захватаева, 4 · мастерская 1&nbsp;200 м²</dd></div>
         <div class="mfg-spec-row"><dt>Цикл</dt><dd>14 дней под ключ: замер (24 ч) → производство (10 раб. дней) → монтаж в назначенный день</dd></div>
-        <div class="mfg-spec-row"><dt>Гарантия</dt><dd>7 лет полная · расчётный срок службы 25 лет</dd></div>
+        <div class="mfg-spec-row"><dt>Гарантия</dt><dd>7 лет на короб и полотно · бесплатный выезд мастера по Москве и МО · реакция на заявку 24 часа · расчётный срок службы 25 лет</dd></div>
         <div class="mfg-spec-row"><dt>География</dt><dd>Москва · Московская область · доставка по России</dd></div>
       </dl>
     </div>
@@ -12372,7 +12372,7 @@ function downloadEstimate(){
       (b.exclusives||[]).forEach(e => lines.push('     эксклюзив: '+e.name));
     });
   }
-  lines.push('═══════════════════════════════','ИТОГО (ориентир): '+total.toLocaleString('ru-RU')+' ₽','','Точная цена — после бесплатного замера.','Гарантия 10 лет · Производство в Клину');
+  lines.push('═══════════════════════════════','ИТОГО (ориентир): '+total.toLocaleString('ru-RU')+' ₽','','Точная цена — после бесплатного замера.','Гарантия 7 лет на короб и полотно · Производство в Клину');
   const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download='ARMORA_smeta_'+CALC.door.name+'_'+Date.now()+'.txt';
